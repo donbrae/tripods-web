@@ -1,0 +1,376 @@
+/*
+ * HTML5 Boilerplate
+ *
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+
+a {
+    color: #00e;
+}
+
+a:visited {
+    color: #551a8b;
+}
+
+a:hover {
+    color: #06e;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+
+textarea {
+    resize: vertical;
+}
+
+/* ==========================================================================
+   Game Specific
+   ========================================================================== */
+
+body {
+    background-color: #0f0f0f;
+    font-family: "Arial Rounded MT", Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3 {
+    margin: 0.3em 0 0 0;
+    font-weight: bold;
+}
+
+h1, h2, h3, p {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+h1 {
+    font-size: 1.1em;
+    color: #c2c2c2;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1em;
+    color: #a7a7a7;
+    text-align: left;
+}
+
+.message h2 {
+    text-align: center;
+}
+
+span.button {
+    color: #222;
+    background-color: white;
+    padding: 6px;
+    margin: 0 5px;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+span.button:hover {
+    cursor: pointer;
+}
+
+.outer-container {
+    min-height: 500px;
+    width: 100%;
+    position: absolute;
+    margin: 0 auto;
+    cursor: default;
+}
+
+.container, .layer {
+    width: 305px;
+    height: 305px;
+}
+
+.info-panel {
+    width: 305px;
+    height: 50px;
+    position: relative;
+}
+
+.info-panel h2 {
+    margin: 0;
+}
+
+.container, .info-panel {
+    padding: 0;
+    margin: 0 auto;
+    position: relative;
+}
+
+.container {
+    background: url(../img/game/grid.svg) #fff no-repeat;
+    margin-top: 10px;
+}
+
+/* iPhone portrait */
+@media (max-width: 480px) {
+
+}
+
+.layer {
+    float: left;
+    position: absolute;
+}
+
+.layer-active {
+    z-index: 100;
+}
+
+.mask-left, .mask-right, .mask-top, .mask-bottom {
+    position: absolute;
+    z-index: 2500;
+    background-color: #0f0f0f;
+}
+
+.mask-left, .mask-right {
+    width: 10px;
+}
+
+.mask-top, .mask-bottom {
+    width: 100%;
+    height: 10px;
+}
+
+.mask-top {
+    top: -10px;
+}
+
+.mask-left {
+    float: left;
+    height: 100%;    
+    left: -10px;   
+}
+
+.mask-right {
+    float: right;
+    height: 100%;
+    right: -10px;  
+}
+
+.mask-bottom {
+    position: relative;
+}
+
+.background-blue {
+    background: #e8f4f8;
+}
+
+.background-white {
+    background: #fff;
+}
+
+.opacity-half {
+    opacity: 0.5;
+}
+
+.layer > svg {
+    float: left;
+    position: absolute;
+    width: 38px;
+    height: 38px;
+}
+
+svg.control:hover {
+    cursor: pointer;
+}
+
+.foot {
+    z-index: 1000;
+}
+
+.layer-active {
+    display: none;
+}
+
+.message {
+    min-height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 3000;
+    background-color: #000;
+    color: white;
+    text-align: center;
+    padding-top: 100px;
+}
+
+.hide {
+    display: none;
+}
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+
+/* Prevent callout */
+
+.nocallout {
+    -webkit-touch-callout: none;
+}
+
+.pressed {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* A hack for HTML5 contenteditable attribute on mobile */
+
+textarea[contenteditable] {
+    -webkit-appearance: none;
+}
+
+/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if
+   they have been set as display: none */
+
+.gifhidden {
+    position: absolute;
+    left: -100%;
+}
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0;
+    direction: ltr;
+    display: block;
+    overflow: hidden;
+    text-align: left;
+    text-indent: -999em;
+}
+
+.ir br {
+    display: none;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+
+.invisible {
+    visibility: hidden;
+}
+
+/**
+ * Clearfix helper
+ * Used to contain floats: h5bp.com/q
+ */
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 800px) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+       only screen and (min-resolution: 144dpi) {
+    /* Style adjustments for viewports that meet the condition */
+}

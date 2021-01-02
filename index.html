@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]>    <html class="no-js iem7"> <![endif]-->
+<!--[if (gt IEMobile 7)|!(IEMobile)]><!--> <html class="no-js disable-select"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+        <meta http-equiv="cleartype" content="on">
+
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/touch/apple-touch-icon-114x114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/touch/apple-touch-icon-72x72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="img/touch/apple-touch-icon-57x57-precomposed.png">
+        <link rel="shortcut icon" href="img/touch/apple-touch-icon.png">
+
+        <!-- Tile icon for Win8 (144x144 + tile color) -->
+        <meta name="msapplication-TileImage" content="img/touch/apple-touch-icon-144x144-precomposed.png">
+        <meta name="msapplication-TileColor" content="#222222">
+
+
+        <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta name="apple-mobile-web-app-title" content="">
+
+        <!-- This script prevents links from opening in Mobile Safari. https://gist.github.com/1042026 -->
+        <!--
+        <script>(function(a,b,c){if(c in b&&b[c]){var d,e=a.location,f=/^(a|html)$/i;a.addEventListener("click",function(a){d=a.target;while(!f.test(d.nodeName))d=d.parentNode;"href"in d&&(d.href.indexOf("http")||~d.href.indexOf(e.host))&&(a.preventDefault(),e.href=d.href)},!1)}})(document,window.navigator,"standalone")</script>
+        -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <!-- <script src="js/vendor/modernizr-2.6.2.min.js"></script> -->
+    </head>
+    <body>
+        <!-- Add your site or application content here -->
+        <div class="message hide"><h2>You completed the level in <span></span> moves.</h2><p><span class="button replay">Replay</span><span class="button next-level">Next Level</span></p></div>
+        
+        <div class="outer-container" style="display: none;">   
+
+            <h1>TRIPODS</h1>
+
+            <div class="container">
+                <div class="mask-top"></div>
+                <div class="mask-left"></div>
+                <div class="mask-right"></div>                
+                <div class="layer0 layer background-white opacity-half">
+                </div>
+            </div>
+            <div class="mask-bottom"></div>
+            <div class="info-panel">
+                <h2 class="level">Level: <span></span></h2>
+                <h2 class="score">Moves: <span>0</span></h2>
+            </div>
+        </div>
+
+        <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.0.3.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery.hammer.min.js"></script>
+        <script src="js/vendor/jquery.easing.1.3.js"></script>
+
+        <!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script> -->
+        <!-- <script src="js/helper.js"></script> -->
+
+        <!-- TRIPODS JS modules -->
+        <script src="js/game/init.js"></script>
+        <script src="js/game/add_elements.js"></script>
+        <script src="js/game/events.js"></script>
+        <script src="js/game/mvt.js"></script>
+        <script src="js/game/game_state.js"></script>
+        <script src="js/game/levels.js"></script>
+        <script src="js/game/level_builder.js"></script>
+        <script src="js/game/general_functions.js"></script>
+
+        <script>
+            // MBP.hideUrlBar();
+            TRIPODS.init();
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<svg width="305" height="305" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern patternUnits="userSpaceOnUse" height="8" width="8" id="smallGrid">
+      <path stroke-width="0.5" stroke="#46676f" fill="none" d="m8,0l-8,0l0,8"/>
+    </pattern>
+    <pattern patternUnits="userSpaceOnUse" height="38" width="38" id="grid">
+      <rect fill="none" height="38" width="38"/>
+      <path stroke="#46676f" stroke-width="1" fill="none" d="m38,0l-38,0l0,38"/>
+    </pattern>
+   <!--  <filter id="grid_blur">
+      <feGaussianBlur stdDeviation="1.8" in="SourceGraphic"/>
+    </filter> -->
+  </defs>
+  <g>
+    <title>
+      Layer 1
+    </title>
+    <rect externalResourcesRequired="false" fill="url(#grid)" height="100%" width="100%"/>
+  </g>
+</svg>
