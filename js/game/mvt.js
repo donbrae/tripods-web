@@ -14,10 +14,11 @@ TRIPODS.mvt = (function (mod) {
   };
 
   submod.getMeasurements = function () {
-    this.measurements.container_offset_l = $('.container').offset().left;
-    this.measurements.container_offset_t = $('.container').offset().top;
-    this.measurements.container_width = $('.container').width();
-    this.measurements.container_height = $('.container').height();
+    const container_rect = document.getElementById("container").getBoundingClientRect();
+    this.measurements.container_offset_l = container_rect.left;
+    this.measurements.container_offset_t = container_rect.top;
+    this.measurements.container_width = container_rect.width;
+    this.measurements.container_height = container_rect.height;
     this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][0][0].length;
     this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level][0].length;
   }
@@ -362,10 +363,15 @@ TRIPODS.mvt = (function (mod) {
         });
       },
 
+
+      /**
+       * @param {String} foot - ID of element
+       * @param {Number} count
+       */
       checkWhichFeetShouldPivot = function (foot, count) {
 
-        var left = parseFloat($(foot).css('left')),
-          top = parseFloat($(foot).css('top')),
+        var left = parseFloat(getComputedStyle(document.getElementById(foot))["left"]),
+          top = parseFloat(getComputedStyle(document.getElementById(foot))["top"]),
           anim_params,
           foot_new_position_left, foot_new_position_top;
 
@@ -388,7 +394,7 @@ TRIPODS.mvt = (function (mod) {
           }
 
           foot_move_data.push({
-            foot: foot,
+            foot: `#${foot}`,
             move: 1,
             count: count,
             anim_params: anim_params,
@@ -403,7 +409,7 @@ TRIPODS.mvt = (function (mod) {
 
         } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
           foot_move_data.push({
-            foot: foot,
+            foot: `#${foot}`,
             move: 0,
             count: count
           });
@@ -429,9 +435,9 @@ TRIPODS.mvt = (function (mod) {
     }, 100);
 
     // Which feet should move?
-    checkWhichFeetShouldPivot('#foot1', count_foot1);
-    checkWhichFeetShouldPivot('#foot2', count_foot2);
-    checkWhichFeetShouldPivot('#foot3', count_foot3);
+    checkWhichFeetShouldPivot('foot1', count_foot1);
+    checkWhichFeetShouldPivot('foot2', count_foot2);
+    checkWhichFeetShouldPivot('foot3', count_foot3);
 
     if (!block_collide_via_pivot) startPivot(finishPivot); // If no block go pivot
     else if (block_collide_via_pivot) startPivot(abortPivot); // Don't pivot
@@ -456,10 +462,10 @@ TRIPODS.mvt = (function (mod) {
       other_foot_coords = [], // Coords of other two feet
       axis_to_check, // When swiping horizontally or vertically
       angle,
-      left = parseFloat($foot.css('left')),
-      top = parseFloat($foot.css('top')),
-      pivot_left = parseFloat($('.pivitor').css('left')),
-      pivot_top = parseFloat($('.pivitor').css('top')),
+      left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]),
+      top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]),
+      pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]),
+      pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]),
       swipe_diagonally = 0,
       swipe_angle,
 
