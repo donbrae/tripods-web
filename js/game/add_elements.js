@@ -1,117 +1,117 @@
 var TRIPODS = (function (mod) {
 
-	// Private obj
+  // Private obj
 
-	var $container = $('.container'),
-	control_padding = TRIPODS.ui_attributes.control_padding,
+  var $container = $('.container'),
+    control_padding = TRIPODS.ui_attributes.control_padding,
 
-	_addElement = function(el, $layer_element, left, top) {
+    _addElement = function (el, $layer_element, left, top) {
 
-		if (el) { // If not null
+      if (el) { // If not null
 
-			var $svg = $('<svg></svg>');
+        var $svg = $('<svg></svg>');
 
-			if (typeof(el.defs) !== 'undefined') { // Add any defs to SVG element
-				$svg.html('<defs>' + el.defs + '</defs>');
-			}
-			
-			if (typeof(el.classes) !== 'undefined') { // Add any classes to SVG element
-				$svg.addClass(el.classes);
-			}
+        if (typeof (el.defs) !== 'undefined') { // Add any defs to SVG element
+          $svg.html('<defs>' + el.defs + '</defs>');
+        }
 
-			if (typeof(el.id) !== 'undefined') { // Add any unique id SVG element
-				$svg.attr('id', el.id);
-			}
+        if (typeof (el.classes) !== 'undefined') { // Add any classes to SVG element
+          $svg.addClass(el.classes);
+        }
 
-			$svg.append('<' + el.shape + '></' + el.shape + '>');
+        if (typeof (el.id) !== 'undefined') { // Add any unique id SVG element
+          $svg.attr('id', el.id);
+        }
 
-			if (typeof(el.attributes) !== 'undefined') { // Add attributes to SVG shape
-				$.each(el.attributes, function(key, value) {
-					$svg.find(el.shape).attr(key, value);
-				});
-			}
+        $svg.append('<' + el.shape + '></' + el.shape + '>');
 
-			if (el.name === 'pivitor') {
-				top += 5;
-			}
+        if (typeof (el.attributes) !== 'undefined') { // Add attributes to SVG shape
+          $.each(el.attributes, function (key, value) {
+            $svg.find(el.shape).attr(key, value);
+          });
+        }
 
-			$svg.css({'top': top + 'px', 'left': left + 'px'});
+        if (el.name === 'pivitor') {
+          top += 5;
+        }
 
-			$layer_element.append($svg[0].outerHTML); // Add SVG shape
-		}
-	},
+        $svg.css({ 'top': top + 'px', 'left': left + 'px' });
 
-	_addLayer = function() {
-		$container.append('<div class="layer"></div>');
-		return $container.children('.layer:last');
-	},
-	
-	_addControlTouchPadding = function() { // Adds 'padding' so swipes will be better detected
-		var new_side, shunt, side, left, top, shape_pos, $this;
+        $layer_element.append($svg[0].outerHTML); // Add SVG shape
+      }
+    },
 
-		$('.control').each(function() {
-			$this = $(this);
+    _addLayer = function () {
+      $container.append('<div class="layer"></div>');
+      return $container.children('.layer:last');
+    },
 
-			// Amend SVG object
-			side = parseFloat($this.css('width'));
-			left = parseFloat($this.css('left'));
-			top = parseFloat($this.css('top'));
+    _addControlTouchPadding = function () { // Adds 'padding' so swipes will be better detected
+      var new_side, shunt, side, left, top, shape_pos, $this;
 
-			new_side = side + control_padding * 2;
-			shunt = (new_side - side) / 2;
+      $('.control').each(function () {
+        $this = $(this);
 
-			$this.css({ width: new_side + 'px', height: new_side + 'px' });
-			$this.css({ top: top - shunt + 'px', left: left - shunt + 'px' });
+        // Amend SVG object
+        side = parseFloat($this.css('width'));
+        left = parseFloat($this.css('left'));
+        top = parseFloat($this.css('top'));
 
-			// Amend actual SVG shape
-			shape_pos = parseFloat($this.children(':first').attr('cx'));
-			$this.children(':first')
-				.attr('cx', shape_pos + control_padding)
-				.attr('cy', shape_pos + control_padding);
+        new_side = side + control_padding * 2;
+        shunt = (new_side - side) / 2;
 
-		});
-	}
+        $this.css({ width: new_side + 'px', height: new_side + 'px' });
+        $this.css({ top: top - shunt + 'px', left: left - shunt + 'px' });
 
-	// Public obj
-	
-	mod.addElements = function() {
+        // Amend actual SVG shape
+        shape_pos = parseFloat($this.children(':first').attr('cx'));
+        $this.children(':first')
+          .attr('cx', shape_pos + control_padding)
+          .attr('cy', shape_pos + control_padding);
 
-		var left = 0, top = 0, // Counters
-		$layer_element,
+      });
+    }
 
-		isBlock = function(obj) {
-			if (obj && typeof obj.block !== 'undefined' && obj.block === 1) return true;
-		}
+  // Public obj
 
-		$.each(mod.levels[mod.game_state.level], function() { // Each layer
+  mod.addElements = function () {
 
-			top = 0;
-			$layer_element = _addLayer();
+    var left = 0, top = 0, // Counters
+      $layer_element,
 
-			$.each(this, function() { // Each row
+      isBlock = function (obj) {
+        if (obj && typeof obj.block !== 'undefined' && obj.block === 1) return true;
+      }
 
-				left = 0;
-				$.each(this, function() { // Each square
+    $.each(mod.levels[mod.game_state.level], function () { // Each layer
 
-					if (isBlock(mod.config.linking[this])) { // If this is a blocker element
+      top = 0;
+      $layer_element = _addLayer();
 
-						mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-							left: left - control_padding, 
-							top: top - control_padding
-						});
-					}
+      $.each(this, function () { // Each row
 
-					_addElement(mod.config.linking[this], $layer_element, left, top);
-					left += mod.ui_attributes.el_side;
-				});
+        left = 0;
+        $.each(this, function () { // Each square
 
-				top += mod.ui_attributes.el_side;				
-			});
-		});
+          if (isBlock(mod.config.linking[this])) { // If this is a blocker element
 
-		_addControlTouchPadding();
-	}	
+            mod.game_state.block_coords.push({ // Store coords (allow for control padding)
+              left: left - control_padding,
+              top: top - control_padding
+            });
+          }
 
-	return mod;
+          _addElement(mod.config.linking[this], $layer_element, left, top);
+          left += mod.ui_attributes.el_side;
+        });
+
+        top += mod.ui_attributes.el_side;
+      });
+    });
+
+    _addControlTouchPadding();
+  }
+
+  return mod;
 
 }(TRIPODS || {}));
