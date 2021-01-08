@@ -25,19 +25,17 @@ TRIPODS.mvt = (function (mod) {
 
   // Works out where each foot should be in the foot_pivot_sequence
   submod.calculatePivotState = function () {
-    var $a_foot = submod.getAFoot(),
-      foot_id = $a_foot.attr('id'),
-      foot_num = foot_id.split('foot')[1];
-    a_foot_ctr_pt = TRIPODS.fun.getCenterPoint($a_foot),
+    var a_foot = submod.getAFoot(),
+      foot_id = a_foot.getAttribute('id'),
+      a_foot_ctr_pt = TRIPODS.fun.getCenterPoint(a_foot),
       other_feet = [],
+      foot1_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot1")),
+      foot2_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot2")),
+      foot3_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot3"));
 
-      foot1_ctr = TRIPODS.fun.getCenterPoint($('#foot1')),
-      foot2_ctr = TRIPODS.fun.getCenterPoint($('#foot2')),
-      foot3_ctr = TRIPODS.fun.getCenterPoint($('#foot3'));
-
-    $('.foot').each(function () {
-      if ($(this).attr('id') !== $a_foot.attr('id')) {
-        other_feet.push(TRIPODS.fun.getCenterPoint($(this)));
+    document.getElementsByClassName("foot").forEach(el => {
+      if (el.getAttribute('id') !== a_foot.getAttribute('id')) {
+        other_feet.push(TRIPODS.fun.getCenterPoint(el));
       }
     });
 
@@ -172,25 +170,24 @@ TRIPODS.mvt = (function (mod) {
   // Work out which foot is at the 'A' point of the triangle
   submod.getAFoot = function () {
 
-    var $foot,
+    var foot,
 
-      compareToOtherFeet = function ($foot) {
+      compareToOtherFeet = function (foot) {
 
         var angles = [],
           a_found; // Flag. Where 'a' is 'top' point of isosceles triangle
 
-        $('.foot').each(function () { // For each of the other two feet
-
-          if ($(this).attr('id') !== $foot.attr('id')) {
-            angles.push(TRIPODS.fun.getAngleEl($foot, $(this)));
+        document.getElementsByClassName("foot").forEach(el => { // For each of the other two feet
+          if (el.getAttribute("id") !== foot.getAttribute("id")) {
+            angles.push(TRIPODS.fun.getAngleEl(foot, el));
           }
         });
 
         a_found = 1;
 
         // Compare the two angles
-        $.each(angles, function () {
-          angle = parseFloat(this);
+        angles.forEach(element => {
+          let angle = parseFloat(el);
 
           if (angle === 0 || angle === 90 || angle === 180 || angle === -90) {
             a_found = 0;
@@ -199,7 +196,7 @@ TRIPODS.mvt = (function (mod) {
         });
 
         if (a_found) {
-          $a_foot = $foot; // Set A-point foot
+          a_foot = foot; // Set A-point foot // > Why is this being set as a global variable?
           return true;
         } else {
           return false;
@@ -207,14 +204,14 @@ TRIPODS.mvt = (function (mod) {
       }
 
     // Get A point of triangle
-    $('.foot').each(function () {
-      if (compareToOtherFeet($(this))) { // If 'A' foot
-        $foot = $(this);
+    document.getElementsByClassName("foot").forEach(el => {
+      if (compareToOtherFeet(el)) { // If 'A' foot
+        foot = el;
         return false;
       }
     });
 
-    return $foot;
+    return foot;
   }
 
   // Reposition pivot control after pivot
@@ -453,10 +450,11 @@ TRIPODS.mvt = (function (mod) {
       e.gesture.stopDetect(); return false;
     }
 
-    var $foot = $('#' + e.currentTarget.id),
+    var foot = document.getElementById(e.currentTarget.id), // Non-jQuery
+      $foot = $('#' + e.currentTarget.id),
       foot_id, // Id of swiped foot
       $a_foot = submod.getAFoot(), // Foot at position A
-      foot_coords = TRIPODS.fun.getCenterPoint($foot), // Coords of swiped foot
+      foot_coords = TRIPODS.fun.getCenterPoint(foot), // Coords of swiped foot
       angle_swiped_and_A, // Angle between swiped foot and foot at position A
       angles = [], // Angles between swiped foot and other two feet
       other_foot_coords = [], // Coords of other two feet
@@ -544,10 +542,10 @@ TRIPODS.mvt = (function (mod) {
       foot_id = $foot.attr('id');
 
       // Get angle between swiped foot and other two feet
-      $('.foot').each(function () {
-        if ($(this).attr('id') !== foot_id) {
-          angles.push(TRIPODS.fun.getAngleEl($foot, $(this)));
-          other_foot_coords.push(TRIPODS.fun.getCenterPoint($(this)));
+      document.getElementsByClassName("foot").forEach(el => {
+        if (el.getAttribute("id") !== foot_id) {
+          angles.push(TRIPODS.fun.getAngleEl(foot, el));
+          other_foot_coords.push(TRIPODS.fun.getCenterPoint(el));
         }
       });
 

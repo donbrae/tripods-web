@@ -1,4 +1,4 @@
-TRIPODS.fun = (function () {
+TRIPODS.utils = (function () {
 
   var submod = {};
 
@@ -18,18 +18,18 @@ TRIPODS.fun = (function () {
   }
 
   // Get center point of element
-  submod.getCenterPoint = function ($element) {
-    var offset = $element.offset(),
-      center_x = offset.left + $element.width() / 2,
-      center_y = offset.top + $element.height() / 2;
+  submod.getCenterPoint = function (el) {
+    var offset = el.getBoundingClientRect(),
+      center_x = offset.left + document.body.scrollLeft + parseFloat(getComputedStyle(el, null).width.replace("px", "")) / 2,
+      center_y = offset.top + document.body.scrollTop + parseFloat(getComputedStyle(el, null).height.replace("px", "")) / 2;
 
     return { x: center_x, y: center_y };
   }
 
   // Calculate distance between two elements
-  submod.getLineDistanceEl = function ($obj1, $obj2) {
-    var center_point_1 = this.getCenterPoint($obj1),
-      center_point_2 = this.getCenterPoint($obj2);
+  submod.getLineDistanceEl = function (obj1, obj2) {
+    var center_point_1 = this.getCenterPoint(obj1),
+      center_point_2 = this.getCenterPoint(obj2);
 
     return this.getLineDistance(center_point_1, center_point_2);
   }
@@ -43,11 +43,27 @@ TRIPODS.fun = (function () {
   }
 
   // Calculate angle in degrees between two elements
-  submod.getAngleEl = function ($obj1, $obj2) {
-    var obj1_coords = this.getCenterPoint($obj1),
-      obj2_coords = this.getCenterPoint($obj2);
+  submod.getAngleEl = function (obj1, obj2) {
+    var obj1_coords = this.getCenterPoint(obj1),
+      obj2_coords = this.getCenterPoint(obj2);
 
     return this.getAngle(obj1_coords.x, obj1_coords.y, obj2_coords.x, obj2_coords.y);
+  }
+
+  submod.extend = function (out) {
+    out = out || {};
+
+    for (var i = 1; i < arguments.length; i++) {
+      if (!arguments[i])
+        continue;
+
+      for (var key in arguments[i]) {
+        if (arguments[i].hasOwnProperty(key))
+          out[key] = arguments[i][key];
+      }
+    }
+
+    return out;
   }
 
   return submod;

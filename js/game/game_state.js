@@ -29,10 +29,10 @@ TRIPODS.game_state = (function () {
   submod.getWinCoords = function () { // Store target center points
 
     landing_other_center.length = 0;
-    landing_1_center = TRIPODS.fun.getCenterPoint($('.landing_1'));
+    landing_1_center = TRIPODS.utils.getCenterPoint(document.getElementsByClassName("landing_1"));
 
-    $('.landing-other').each(function () {
-      landing_other_center.push(TRIPODS.fun.getCenterPoint($(this)));
+    document.getElementsByClassName("landing-other").forEach(element => {
+      landing_other_center.push(TRIPODS.utils.getCenterPoint(element));
     });
   }
 
@@ -40,14 +40,14 @@ TRIPODS.game_state = (function () {
 
     var feet_on_target = [];
 
-    foot_1_center = TRIPODS.fun.getCenterPoint($('#foot1'));
+    foot_1_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot1"));
 
     if (foot_1_center.x === landing_1_center.x && foot_1_center.y === landing_1_center.y) { // If foot 1 is on its target spot
 
       feet_on_target.push('foot1');
 
-      foot_2_center = TRIPODS.fun.getCenterPoint($('#foot2'));
-      foot_3_center = TRIPODS.fun.getCenterPoint($('#foot3'));
+      foot_2_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
+      foot_3_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
 
       // Check whether another foot is on target
       $.each(landing_other_center, function () {

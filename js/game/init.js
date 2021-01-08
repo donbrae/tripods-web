@@ -91,17 +91,16 @@ var TRIPODS = (function (mod) {
 
   mod.init = function () {
     var _extendConfig = function () { // Adds additional inheriting properties to config obj
-
       // foot2
-      mod.config.svg_elements.foot2 = $.extend({}, mod.config.svg_elements.foot1, mod.config.svg_elements.foot2);
-      mod.config.svg_elements.foot2.attributes = $.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot2.attributes);
+      mod.config.svg_elements.foot2 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1, mod.config.svg_elements.foot2);
+      mod.config.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot2.attributes);
 
       // foot3
-      mod.config.svg_elements.foot3 = $.extend({}, mod.config.svg_elements.foot2, mod.config.svg_elements.foot3);
+      mod.config.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot2, mod.config.svg_elements.foot3);
 
       // landing_other
-      mod.config.svg_elements.landing_other = $.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_other);
-      mod.config.svg_elements.landing_other.attributes = $.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_other.attributes);
+      mod.config.svg_elements.landing_other = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_other);
+      mod.config.svg_elements.landing_other.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_other.attributes);
       mod.config.svg_elements.landing_other.classes = 'landing-other';
 
       // Landing colors
