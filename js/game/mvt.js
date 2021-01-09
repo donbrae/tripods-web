@@ -27,15 +27,15 @@ TRIPODS.mvt = (function (mod) {
     submod.calculatePivotState = function () {
         var a_foot = submod.getAFoot(),
             foot_id = a_foot.getAttribute('id'),
-            a_foot_ctr_pt = TRIPODS.fun.getCenterPoint(a_foot),
+            a_foot_ctr_pt = TRIPODS.utils.getCenterPoint(a_foot),
             other_feet = [],
-            foot1_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot1")),
-            foot2_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot2")),
-            foot3_ctr = TRIPODS.fun.getCenterPoint(document.getElementById("foot3"));
+            foot1_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")),
+            foot2_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")),
+            foot3_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
 
-        document.getElementsByClassName("foot").forEach(el => {
+        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             if (el.getAttribute('id') !== a_foot.getAttribute('id')) {
-                other_feet.push(TRIPODS.fun.getCenterPoint(el));
+                other_feet.push(TRIPODS.utils.getCenterPoint(el));
             }
         });
 
@@ -177,16 +177,15 @@ TRIPODS.mvt = (function (mod) {
                 var angles = [],
                     a_found; // Flag. Where 'a' is 'top' point of isosceles triangle
 
-                document.getElementsByClassName("foot").forEach(el => { // For each of the other two feet
-                    if (el.getAttribute("id") !== foot.getAttribute("id")) {
-                        angles.push(TRIPODS.fun.getAngleEl(foot, el));
-                    }
+                Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) { // For each of the other two feet
+                    if (el.getAttribute("id") !== foot.getAttribute("id"))
+                        angles.push(TRIPODS.utils.getAngleEl(foot, el));
                 });
 
                 a_found = 1;
 
                 // Compare the two angles
-                angles.forEach(element => {
+                angles.forEach(el => {
                     let angle = parseFloat(el);
 
                     if (angle === 0 || angle === 90 || angle === 180 || angle === -90) {
@@ -204,7 +203,7 @@ TRIPODS.mvt = (function (mod) {
             }
 
         // Get A point of triangle
-        document.getElementsByClassName("foot").forEach(el => {
+        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             if (compareToOtherFeet(el)) { // If 'A' foot
                 foot = el;
                 return false;
@@ -228,7 +227,7 @@ TRIPODS.mvt = (function (mod) {
         };
 
         $a_foot = submod.getAFoot(); // Get foot at 'A' point of triangle
-        foot_pivot_angle = parseInt(TRIPODS.fun.getAngleEl($a_foot, $('.pivitor'))); // Get angle between it and pivitor
+        foot_pivot_angle = parseInt(TRIPODS.utils.getAngleEl($a_foot, $('.pivitor'))); // Get angle between it and pivitor
 
         $a_foot_l = parseFloat($a_foot.css('left'));
         $a_foot_t = parseFloat($a_foot.css('top'));
@@ -454,7 +453,7 @@ TRIPODS.mvt = (function (mod) {
             $foot = $('#' + e.currentTarget.id),
             foot_id, // Id of swiped foot
             $a_foot = submod.getAFoot(), // Foot at position A
-            foot_coords = TRIPODS.fun.getCenterPoint(foot), // Coords of swiped foot
+            foot_coords = TRIPODS.utils.getCenterPoint(foot), // Coords of swiped foot
             angle_swiped_and_A, // Angle between swiped foot and foot at position A
             angles = [], // Angles between swiped foot and other two feet
             other_foot_coords = [], // Coords of other two feet
@@ -542,10 +541,10 @@ TRIPODS.mvt = (function (mod) {
             foot_id = $foot.attr('id');
 
             // Get angle between swiped foot and other two feet
-            document.getElementsByClassName("foot").forEach(el => {
+            Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
                 if (el.getAttribute("id") !== foot_id) {
-                    angles.push(TRIPODS.fun.getAngleEl(foot, el));
-                    other_foot_coords.push(TRIPODS.fun.getCenterPoint(el));
+                    angles.push(TRIPODS.utils.getAngleEl(foot, el));
+                    other_foot_coords.push(TRIPODS.utils.getCenterPoint(el));
                 }
             });
 
@@ -558,7 +557,7 @@ TRIPODS.mvt = (function (mod) {
             // Which direction to swipe in
             if (swipe_diagonally) {
 
-                angle_swiped_and_A = parseInt(TRIPODS.fun.getAngleEl($foot, $a_foot));
+                angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl($foot, $a_foot));
 
                 if (angle_swiped_and_A === -116) { // NW
                     left -= (cell_len * 3);

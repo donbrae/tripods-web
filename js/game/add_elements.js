@@ -11,8 +11,11 @@ var TRIPODS = (function (mod) {
             if (el.defs !== undefined) // Add any defs to SVG element
                 svg.insertAdjacentHTML("afterbegin", `<defs>${el.defs}</defs>`);
 
-            if (el.classes !== undefined)// Add any classes to SVG element
-                svg.classList.add(el.classes);
+            if (el.classes !== undefined) { // Add any classes to SVG element
+                el.classes.split(" ").forEach(item => {
+                    svg.classList.add(item);
+                });
+            }
 
             if (el.id !== undefined) // Add any unique id SVG element
                 svg.setAttribute("id", el.id);
@@ -21,8 +24,7 @@ var TRIPODS = (function (mod) {
 
             if (el.attributes !== undefined) { // Add attributes to SVG shape
                 Object.keys(el.attributes).forEach(function (key) {
-                    console.log(key, foo[key]);
-                    svg.querySelectorAll(el.shape)[0].setAttribute[key] = el.attributes[key];
+                    svg.querySelectorAll(el.shape)[0].setAttribute(key, el.attributes[key]);
                 });
             }
 
@@ -31,14 +33,14 @@ var TRIPODS = (function (mod) {
             svg.style.top = `${top}px`;
             svg.style.left = `${left}px`;
 
-            layer_element.insertAdjacentHTML("beforeend", svg[0].outerHTML); // Add SVG shape
+            layer_element[0].insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
         }
     };
 
     function _addLayer() {
         const container = document.getElementsByClassName("container")[0];
         container.insertAdjacentHTML("beforeend", "<div class=\"layer\"></div>");
-        return container.querySelectorAll(".layer:last");
+        return container.querySelectorAll(".layer:last-child");
     };
 
     function _addControlTouchPadding() { // Adds 'padding' so swipes will be better detected
@@ -61,10 +63,10 @@ var TRIPODS = (function (mod) {
             el.style.left = `${left - shunt}px`;
 
             // Amend actual SVG shape
-            let shape_pos = parseFloat(el.querySelectorAll(":first").getAttribute("cx"));
+            let shape_pos = parseFloat(el.querySelectorAll(":first-child")[0].getAttribute("cx"));
 
-            el.querySelectorAll(":first").setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
-            el.querySelectorAll(":first").setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
+            el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
+            el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
         });
     }
 

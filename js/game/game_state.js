@@ -29,10 +29,10 @@ TRIPODS.game_state = (function () {
     submod.getWinCoords = function () { // Store target center points
 
         landing_other_center.length = 0;
-        landing_1_center = TRIPODS.utils.getCenterPoint(document.getElementsByClassName("landing_1"));
+        landing_1_center = TRIPODS.utils.getCenterPoint(document.getElementsByClassName("landing_1")[0]);
 
-        document.getElementsByClassName("landing-other").forEach(element => {
-            landing_other_center.push(TRIPODS.utils.getCenterPoint(element));
+        Array.prototype.forEach.call(document.getElementsByClassName("landing-other"), function (el) {
+            landing_other_center.push(TRIPODS.utils.getCenterPoint(el));
         });
     }
 
