@@ -1,107 +1,100 @@
 var TRIPODS = (function (mod) {
 
-    // Private obj
+    // Private functions
 
-    var $container = $('.container'),
-        control_padding = TRIPODS.ui_attributes.control_padding,
+    function _addElement(el, layer_element, left, top) {
 
-        _addElement = function (el, $layer_element, left, top) {
+        if (el) { // If not null
 
-            if (el) { // If not null
+            const svg = document.createElement("svg");
 
-                var $svg = $('<svg></svg>');
+            if (el.defs !== undefined) // Add any defs to SVG element
+                svg.insertAdjacentHTML("afterbegin", `<defs>${el.defs}</defs>`);
 
-                if (typeof (el.defs) !== 'undefined') { // Add any defs to SVG element
-                    $svg.html('<defs>' + el.defs + '</defs>');
-                }
+            if (el.classes !== undefined)// Add any classes to SVG element
+                svg.classList.add(el.classes);
 
-                if (typeof (el.classes) !== 'undefined') { // Add any classes to SVG element
-                    $svg.addClass(el.classes);
-                }
+            if (el.id !== undefined) // Add any unique id SVG element
+                svg.setAttribute("id", el.id);
 
-                if (typeof (el.id) !== 'undefined') { // Add any unique id SVG element
-                    $svg.attr('id', el.id);
-                }
+            svg.insertAdjacentHTML("beforeend", `<${el.shape}></${el.shape}>`);
 
-                $svg.append('<' + el.shape + '></' + el.shape + '>');
-
-                if (typeof (el.attributes) !== 'undefined') { // Add attributes to SVG shape
-                    $.each(el.attributes, function (key, value) {
-                        $svg.find(el.shape).attr(key, value);
-                    });
-                }
-
-                if (el.name === 'pivitor') {
-                    top += 5;
-                }
-
-                $svg.css({ 'top': top + 'px', 'left': left + 'px' });
-
-                $layer_element.append($svg[0].outerHTML); // Add SVG shape
+            if (el.attributes !== undefined) { // Add attributes to SVG shape
+                Object.keys(el.attributes).forEach(function (key) {
+                    console.log(key, foo[key]);
+                    svg.querySelectorAll(el.shape)[0].setAttribute[key] = el.attributes[key];
+                });
             }
-        },
 
-        _addLayer = function () {
-            $container.append('<div class="layer"></div>');
-            return $container.children('.layer:last');
-        },
+            if (el.name === "pivitor") top += 5;
 
-        _addControlTouchPadding = function () { // Adds 'padding' so swipes will be better detected
-            var new_side, shunt, side, left, top, shape_pos, $this;
+            svg.style.top = `${top}px`;
+            svg.style.left = `${left}px`;
 
-            $('.control').each(function () {
-                $this = $(this);
-
-                // Amend SVG object
-                side = parseFloat($this.css('width'));
-                left = parseFloat($this.css('left'));
-                top = parseFloat($this.css('top'));
-
-                new_side = side + control_padding * 2;
-                shunt = (new_side - side) / 2;
-
-                $this.css({ width: new_side + 'px', height: new_side + 'px' });
-                $this.css({ top: top - shunt + 'px', left: left - shunt + 'px' });
-
-                // Amend actual SVG shape
-                shape_pos = parseFloat($this.children(':first').attr('cx'));
-                $this.children(':first')
-                    .attr('cx', shape_pos + control_padding)
-                    .attr('cy', shape_pos + control_padding);
-
-            });
+            layer_element.insertAdjacentHTML("beforeend", svg[0].outerHTML); // Add SVG shape
         }
+    };
 
-    // Public obj
+    function _addLayer() {
+        const container = document.getElementsByClassName("container")[0];
+        container.insertAdjacentHTML("beforeend", "<div class=\"layer\"></div>");
+        return container.querySelectorAll(".layer:last");
+    };
+
+    function _addControlTouchPadding() { // Adds 'padding' so swipes will be better detected
+
+        const elements = document.querySelectorAll(".control");
+
+        Array.prototype.forEach.call(elements, function (el) {
+
+            // Amend SVG object
+            let side = parseFloat(getComputedStyle(el)["width"]);
+            let left = parseFloat(getComputedStyle(el)["left"]);
+            let top = parseFloat(getComputedStyle(el)["top"]);
+
+            let new_side = side + TRIPODS.ui_attributes.control_padding * 2;
+            let shunt = (new_side - side) / 2;
+
+            el.style.width = `${new_side}px`;
+            el.style.height = `${new_side}px`;
+            el.style.top = `${top - shunt}px`;
+            el.style.left = `${left - shunt}px`;
+
+            // Amend actual SVG shape
+            let shape_pos = parseFloat(el.querySelectorAll(":first").getAttribute("cx"));
+
+            el.querySelectorAll(":first").setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
+            el.querySelectorAll(":first").setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
+        });
+    }
+
+    // Public functions
 
     mod.addElements = function () {
 
-        var left = 0, top = 0, // Counters
-            $layer_element,
+        function isBlock(obj) {
+            if (obj && obj.block !== undefined && obj.block === 1)
+                return true;
+            else
+                return false;
+        }
 
-            isBlock = function (obj) {
-                if (obj && typeof obj.block !== 'undefined' && obj.block === 1) return true;
-            }
+        mod.levels[mod.game_state.level].forEach(layer => { // Each layer
+            let top = 0;
+            let layer_element = _addLayer();
 
-        $.each(mod.levels[mod.game_state.level], function () { // Each layer
-
-            top = 0;
-            $layer_element = _addLayer();
-
-            $.each(this, function () { // Each row
-
-                left = 0;
-                $.each(this, function () { // Each square
-
-                    if (isBlock(mod.config.linking[this])) { // If this is a blocker element
+            layer.forEach(row => { // Each row
+                let left = 0;
+                row.forEach(square => { // Each square
+                    if (isBlock(mod.config.linking[square])) { // If this is a blocker element
 
                         mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-                            left: left - control_padding,
-                            top: top - control_padding
+                            left: left - TRIPODS.ui_attributes.control_padding,
+                            top: top - TRIPODS.ui_attributes.control_padding
                         });
                     }
 
-                    _addElement(mod.config.linking[this], $layer_element, left, top);
+                    _addElement(mod.config.linking[square], layer_element, left, top);
                     left += mod.ui_attributes.el_side;
                 });
 
