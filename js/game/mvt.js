@@ -13,6 +13,8 @@ TRIPODS.mvt = (function (mod) {
         }
     };
 
+    let count_foot1, count_foot2, count_foot3;
+
     submod.getMeasurements = function () {
         const container_rect = document.getElementById("container").getBoundingClientRect();
         this.measurements.container_offset_l = container_rect.left;
@@ -42,62 +44,62 @@ TRIPODS.mvt = (function (mod) {
         if (other_feet[0].y === other_feet[1].y) {	// If other feet are at same position on y axis
             if (other_feet[0].y > a_foot_ctr_pt.y) { // 'A' foot in pos. 0
 
-                updatePivotCounter('#' + foot_id, 0); // Set 'A' foot to position 0
+                updatePivotCounter(foot_id, 0); // Set 'A' foot to position 0
 
                 // Set the other two feet
-                if (foot_id === 'foot1') {
+                if (foot_id === "foot1") {
                     if (foot3_ctr.x < foot2_ctr.x) {
-                        updatePivotCounter('#foot2', 4);
-                        updatePivotCounter('#foot3', 8);
+                        updatePivotCounter("foot2", 4);
+                        updatePivotCounter("foot3", 8);
                     } else if (foot3_ctr.x > foot2_ctr.x) {
-                        updatePivotCounter('#foot2', 8);
-                        updatePivotCounter('#foot3', 4);
+                        updatePivotCounter("foot2", 8);
+                        updatePivotCounter("foot3", 4);
                     }
-                } else if (foot_id === 'foot2') {
+                } else if (foot_id === "foot2") {
                     if (foot1_ctr.x < foot3_ctr.x) {
-                        updatePivotCounter('#foot1', 8);
-                        updatePivotCounter('#foot3', 4);
+                        updatePivotCounter("foot1", 8);
+                        updatePivotCounter("foot3", 4);
                     } else if (foot1_ctr.x > foot3_ctr.x) {
-                        updatePivotCounter('#foot1', 4);
-                        updatePivotCounter('#foot3', 8);
+                        updatePivotCounter("foot1", 4);
+                        updatePivotCounter("foot3", 8);
                     }
-                } else if (foot_id === 'foot3') {
+                } else if (foot_id === "foot3") {
                     if (foot2_ctr.x < foot1_ctr.x) {
-                        updatePivotCounter('#foot1', 4);
-                        updatePivotCounter('#foot2', 8);
+                        updatePivotCounter("foot1", 4);
+                        updatePivotCounter("foot2", 8);
                     } else if (foot2_ctr.x > foot1_ctr.x) {
-                        updatePivotCounter('#foot1', 8);
-                        updatePivotCounter('#foot2', 4);
+                        updatePivotCounter("foot1", 8);
+                        updatePivotCounter("foot2", 4);
                     }
                 }
 
             } else { // A foot in pos. 6
 
-                updatePivotCounter('#' + foot_id, 6);
+                updatePivotCounter(foot_id, 6);
 
-                if (foot_id === 'foot1') {
+                if (foot_id === "foot1") {
                     if (foot3_ctr.x < foot2_ctr.x) {
-                        updatePivotCounter('#foot2', 2);
-                        updatePivotCounter('#foot3', 10);
+                        updatePivotCounter("foot2", 2);
+                        updatePivotCounter("foot3", 10);
                     } else if (foot3_ctr.x > foot2_ctr.x) {
-                        updatePivotCounter('#foot2', 10);
-                        updatePivotCounter('#foot3', 2);
+                        updatePivotCounter("foot2", 10);
+                        updatePivotCounter("foot3", 2);
                     }
-                } else if (foot_id === 'foot2') {
+                } else if (foot_id === "foot2") {
                     if (foot1_ctr.x < foot3_ctr.x) {
-                        updatePivotCounter('#foot1', 10);
-                        updatePivotCounter('#foot3', 2);
+                        updatePivotCounter("foot1", 10);
+                        updatePivotCounter("foot3", 2);
                     } else if (foot1_ctr.x > foot3_ctr.x) {
-                        updatePivotCounter('#foot1', 2);
-                        updatePivotCounter('#foot3', 10);
+                        updatePivotCounter("foot1", 2);
+                        updatePivotCounter("foot3", 10);
                     }
-                } else if (foot_id === 'foot3') {
+                } else if (foot_id === "foot3") {
                     if (foot2_ctr.x < foot1_ctr.x) {
-                        updatePivotCounter('#foot1', 2);
-                        updatePivotCounter('#foot2', 10);
+                        updatePivotCounter("foot1", 2);
+                        updatePivotCounter("foot2", 10);
                     } else if (foot2_ctr.x > foot1_ctr.x) {
-                        updatePivotCounter('#foot1', 10);
-                        updatePivotCounter('#foot2', 2);
+                        updatePivotCounter("foot1", 10);
+                        updatePivotCounter("foot2", 2);
                     }
                 }
             }
@@ -106,61 +108,61 @@ TRIPODS.mvt = (function (mod) {
             if (other_feet[0].x > a_foot_ctr_pt.x) {
 
                 // Pos. 8
-                updatePivotCounter('#' + foot_id, 9);
+                updatePivotCounter(foot_id, 9);
 
-                if (foot_id === 'foot1') {
+                if (foot_id === "foot1") {
                     if (foot3_ctr.y < foot2_ctr.y) {
-                        updatePivotCounter('#foot2', 5);
-                        updatePivotCounter('#foot3', 1);
+                        updatePivotCounter("foot2", 5);
+                        updatePivotCounter("foot3", 1);
                     } else if (foot3_ctr.y > foot2_ctr.y) {
-                        updatePivotCounter('#foot2', 1);
-                        updatePivotCounter('#foot3', 5);
+                        updatePivotCounter("foot2", 1);
+                        updatePivotCounter("foot3", 5);
                     }
-                } else if (foot_id === 'foot2') {
+                } else if (foot_id === "foot2") {
                     if (foot1_ctr.y < foot3_ctr.y) {
-                        updatePivotCounter('#foot1', 1);
-                        updatePivotCounter('#foot3', 5);
+                        updatePivotCounter("foot1", 1);
+                        updatePivotCounter("foot3", 5);
                     } else if (foot1_ctr.y > foot3_ctr.y) {
-                        updatePivotCounter('#foot1', 5);
-                        updatePivotCounter('#foot3', 1);
+                        updatePivotCounter("foot1", 5);
+                        updatePivotCounter("foot3", 1);
                     }
-                } else if (foot_id === 'foot3') {
+                } else if (foot_id === "foot3") {
                     if (foot2_ctr.y < foot1_ctr.y) {
-                        updatePivotCounter('#foot1', 5);
-                        updatePivotCounter('#foot2', 1);
+                        updatePivotCounter("foot1", 5);
+                        updatePivotCounter("foot2", 1);
                     } else if (foot2_ctr.y > foot1_ctr.y) {
-                        updatePivotCounter('#foot1', 1);
-                        updatePivotCounter('#foot2', 5);
+                        updatePivotCounter("foot1", 1);
+                        updatePivotCounter("foot2", 5);
                     }
                 }
             } else {
 
                 // Pos. 3
-                updatePivotCounter('#' + foot_id, 3);
+                updatePivotCounter(foot_id, 3);
 
-                if (foot_id === 'foot1') {
+                if (foot_id === "foot1") {
                     if (foot3_ctr.y < foot2_ctr.y) {
-                        updatePivotCounter('#foot2', 7);
-                        updatePivotCounter('#foot3', 11);
+                        updatePivotCounter("foot2", 7);
+                        updatePivotCounter("foot3", 11);
                     } else if (foot3_ctr.y > foot2_ctr.y) {
-                        updatePivotCounter('#foot2', 11);
-                        updatePivotCounter('#foot3', 7);
+                        updatePivotCounter("foot2", 11);
+                        updatePivotCounter("foot3", 7);
                     }
-                } else if (foot_id === 'foot2') {
+                } else if (foot_id === "foot2") {
                     if (foot1_ctr.y < foot3_ctr.y) {
-                        updatePivotCounter('#foot1', 11);
-                        updatePivotCounter('#foot3', 7);
+                        updatePivotCounter("foot1", 11);
+                        updatePivotCounter("foot3", 7);
                     } else if (foot1_ctr.y > foot3_ctr.y) {
-                        updatePivotCounter('#foot1', 7);
-                        updatePivotCounter('#foot3', 11);
+                        updatePivotCounter("foot1", 7);
+                        updatePivotCounter("foot3", 11);
                     }
-                } else if (foot_id === 'foot3') {
+                } else if (foot_id === "foot3") {
                     if (foot2_ctr.y < foot1_ctr.y) {
-                        updatePivotCounter('#foot1', 7);
-                        updatePivotCounter('#foot2', 11);
+                        updatePivotCounter("foot1", 7);
+                        updatePivotCounter("foot2", 11);
                     } else if (foot2_ctr.y > foot1_ctr.y) {
-                        updatePivotCounter('#foot1', 11);
-                        updatePivotCounter('#foot2', 7);
+                        updatePivotCounter("foot1", 11);
+                        updatePivotCounter("foot2", 7);
                     }
                 }
             }
@@ -195,7 +197,7 @@ TRIPODS.mvt = (function (mod) {
                 });
 
                 if (a_found) {
-                    a_foot = foot; // Set A-point foot // > Why is this being set as a global variable?
+                    // a_foot = foot; // Set A-point foot // > Why is this being set as a global variable?
                     return true;
                 } else {
                     return false;
@@ -291,13 +293,13 @@ TRIPODS.mvt = (function (mod) {
     // Update counter for each foot to keep track of where it is in the foot_pivot_sequence
     updatePivotCounter = function (foot, val) {
         switch (foot) {
-            case '#foot1':
+            case "foot1":
                 count_foot1 = val;
                 break;
-            case '#foot2':
+            case "foot2":
                 count_foot2 = val;
                 break;
-            case '#foot3':
+            case "foot3":
                 count_foot3 = val;
         }
     }
@@ -431,9 +433,9 @@ TRIPODS.mvt = (function (mod) {
         }, 100);
 
         // Which feet should move?
-        checkWhichFeetShouldPivot('foot1', count_foot1);
-        checkWhichFeetShouldPivot('foot2', count_foot2);
-        checkWhichFeetShouldPivot('foot3', count_foot3);
+        checkWhichFeetShouldPivot("foot1", count_foot1);
+        checkWhichFeetShouldPivot("foot2", count_foot2);
+        checkWhichFeetShouldPivot("foot3", count_foot3);
 
         if (!block_collide_via_pivot) startPivot(finishPivot); // If no block go pivot
         else if (block_collide_via_pivot) startPivot(abortPivot); // Don't pivot
