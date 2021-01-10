@@ -81,6 +81,13 @@ var TRIPODS = (function (mod) {
                     '<feGaussianBlur stdDeviation="1.9" in="SourceGraphic"/>' +
                     '</filter>'
             }
+        },
+        animation: {
+            feet: {
+                properties: ["left", "top"], // array
+                timing_function: "linear",
+                duration: 120 // milliseconds
+            }
         }
     }
 

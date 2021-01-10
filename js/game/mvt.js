@@ -323,9 +323,15 @@ TRIPODS.mvt = (function (mod) {
 
             finishPivot = function (obj) {
                 if (obj.move) {
-                    document.getElementById(obj.foot).velocity(obj.anim_params, 150, 'linear', function () {
-                        postPivot(obj.foot, obj.count);
+                    const foot = document.getElementById(obj.foot);
+
+                    Object.keys(obj.anim_params).forEach(function (key) {
+                        foot.style[key] = `${obj.anim_params[key]}px`;
                     });
+
+                    setTimeout(function() {
+                        postPivot(obj.foot, obj.count);
+                    }, mod.config.animation.feet.duration);
                 } else postPivot(obj.foot, obj.count);
             },
 
@@ -513,7 +519,7 @@ TRIPODS.mvt = (function (mod) {
             else if (left && !top) obj = { left: left };
             else if (left && top) obj = { left: left, top: top };
 
-            document.getElementsByClassName("pivitor").velocity(obj, 300, function () {
+            document.getElementsByClassName("pivitor")[0].velocity(obj, 300, function () {
                 TRIPODS.game_state.ignore_user_input = 0;
             });
         };

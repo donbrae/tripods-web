@@ -33,6 +33,20 @@ var TRIPODS = (function (mod) {
             svg.style.top = `${top}px`;
             svg.style.left = `${left}px`;
 
+            // Add CSS animations
+            if (el.classes && el.classes.indexOf("foot") > -1) { // Feet
+                const animation = mod.config.animation.feet;
+                const transition = [];
+
+                [].concat(animation.properties).forEach(property => { // E.g. 'left'
+                    transition.push(
+                        `${property} ${animation.timing_function} ${animation.duration / 1000}s`
+                    );
+                });
+
+                svg.style.transition = transition.join(", ");
+            }
+
             layer_element[0].insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
         }
     };
