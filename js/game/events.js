@@ -2,7 +2,7 @@ TRIPODS.events = (function () {
 
     var submod = {
         state: {
-            hold: 0
+            // hold: 0
         }
     };
 
@@ -12,61 +12,65 @@ TRIPODS.events = (function () {
 
         if (!TRIPODS.game_state.initialised) {
 
-            var interval;
+            // Replay button
+            const replay = document.querySelector('.replay');
+            replay.addEventListener("touchend", TRIPODS.level_builder.reset, false);
+            replay.addEventListener("click", TRIPODS.level_builder.reset, false);
 
-            // Changes to Hammer defaults
-            Hammer.gestures.Hold.defaults.hold_timeout = 600;
-            Hammer.gestures.Swipe.defaults.swipe_velocity = 0.1;
-
-            // Touch pivitor
-            $(document).hammer().on('touch swipe', '.pivitor', function (e) {
-                TRIPODS.mvt.pivot(e);
-            });
-
-            // Pivotor hold
-            $(document).hammer().on('hold', '.pivitor', function (e) {
-                submod.state.hold = 1;
-                submod.state.hold_interval = setInterval(function () { // Pivot automatically
-                    TRIPODS.mvt.pivot(e);
-                }, 100);
-            });
-
-            // Pivot release during hold
-            $(document).hammer().on('release', '.pivitor', function (e) {
-                var timeout = setTimeout(function () {
-                    submod.state.hold = 0;
-                }, 500); // Timeout for TRIPODS.info_panel.updateMoveCounter()
-
-                clearInterval(submod.state.hold_interval);
-            });
-
-            // Level-end buttons
-            $(document).hammer().on('touch', '.replay', function (e) {
-                TRIPODS.level_builder.reset();
-            });
-
-            $(document).hammer().on('touch', '.next-level', function (e) {
+            // 'Next level' button
+            const next_level = document.querySelector('.next-level');
+            function nextLevel() {
                 TRIPODS.game_state.level++; // Increment level
                 TRIPODS.level_builder.reset();
-            });
+            }
+            next_level.addEventListener("touchend", nextLevel, false);
+            next_level.addEventListener("click", nextLevel, false);
 
-            // Prevent dragging on other elements
-            $(document).hammer().on('drag', '.container:not(.control), .outer-container, .message', function (e) {
-                e.gesture.preventDefault();
-            });
+            // // Changes to Hammer defaults
+            // Hammer.gestures.Hold.defaults.hold_timeout = 600;
+            // Hammer.gestures.Swipe.defaults.swipe_velocity = 0.1;
+
+            // // Pivotor hold
+            // $(document).hammer().on('hold', '.pivitor', function (e) {
+            //     submod.state.hold = 1;
+            //     submod.state.hold_interval = setInterval(function () { // Pivot automatically
+            //         TRIPODS.mvt.pivot(e);
+            //     }, 100);
+            // });
+
+            // // Pivot release during hold
+            // $(document).hammer().on('release', '.pivitor', function (e) {
+            //     setTimeout(function () {
+            //         submod.state.hold = 0;
+            //     }, 500); // Timeout for TRIPODS.info_panel.updateMoveCounter()
+
+            //     clearInterval(submod.state.hold_interval);
+            // });
+
+            // // Prevent dragging on other elements
+            // $(document).hammer().on('drag', '.container:not(.control), .outer-container, .message', function (e) {
+            //     e.gesture.preventDefault();
+            // });
 
             // Window resize
-            $(window).on('resize', function () {
+            window.addEventListener('resize', function () {
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
+                console.log("resize");
             });
         }
 
-        // Swipe (listener for swipe needs to be added on creation of each new level)
-        $('.foot').hammer().on('swipe touch', function (e) {
-            TRIPODS.mvt.swipe(e);
-        });
+        // Pivotor UI element
+        var pivitor = document.querySelector('.pivitor');
+        pivitor.addEventListener("touchend", TRIPODS.mvt.pivot, false); // Touch
+        pivitor.addEventListener("click", TRIPODS.mvt.pivot, false); // Mouse pointer
 
+        // Swipe
+        var feet = document.querySelectorAll('.foot');
+        Array.prototype.forEach.call(feet, function (foot) {
+            foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
+            foot.addEventListener("click", TRIPODS.mvt.swipe, false);
+        });
     };
 
     return submod;

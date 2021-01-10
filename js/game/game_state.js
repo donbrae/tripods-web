@@ -9,7 +9,7 @@ TRIPODS.game_state = (function () {
         block_coords: []
     },
 
-        $moves_span = $('h2.score span'),
+        moves_span = document.querySelector("h2.score span"),
         foot_1_center, foot_2_center, foot_3_center, landing_1_center,
         landing_other_center = [];
 
@@ -17,12 +17,13 @@ TRIPODS.game_state = (function () {
         submod.moves++;
 
         if (TRIPODS.events.state.hold) { // If the pivot is being held, don't bother fading
-            $moves_span.text(submod.moves);
+            moves_span.innerText = submod.moves;
         } else if (!TRIPODS.events.state.hold) {
-            $moves_span.fadeOut(90, function () {
-                $(this).text(submod.moves).fadeIn(20);
-                submod.pivot_hold = 0;
-            });
+            // > fade out moves_span
+            moves_span.innerText = submod.moves;
+            // > fade in moves_span
+            submod.pivot_hold = 0;
+
         }
     }
 
@@ -67,12 +68,13 @@ TRIPODS.game_state = (function () {
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
-        $('.layer-active').animate({ opacity: '0.1' }, 600, function () {
-            $(this).animate({ opacity: '1' }, 900, function () {
-                submod.ignore_user_input = 0;
-                TRIPODS.level_builder.showSuccessMessage();
-            });
-        });
+        const active_layer = document.getElementsByClassName("layer-active")[0];
+        active_layer.style.opacity = 0.1;
+        setTimeout(function () {
+            active_layer.style.opacity = 1;
+            submod.ignore_user_input = 0;
+            TRIPODS.level_builder.showSuccessMessage();
+        }, 600);
     }
 
     return submod;

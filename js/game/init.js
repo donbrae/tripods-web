@@ -14,7 +14,7 @@ var TRIPODS = (function (mod) {
                     cx: '19.5',
                     cy: '19.5',
                     r: '15',
-                    fill: '#e08524'
+                    fill: '#ff006e'
                 }
             },
             foot2: { // Inherits from foot1
@@ -45,7 +45,7 @@ var TRIPODS = (function (mod) {
                     y: '0',
                     width: '38',
                     height: '38',
-                    fill: '#46676f'
+                    fill: '#3a86ff'
                 }
             },
             landing_foot1: { // Inherits color from foot1
@@ -58,7 +58,7 @@ var TRIPODS = (function (mod) {
                     r: '14',
                     cy: '19.5',
                     cx: '19.5',
-                    opacity: '0.6'
+                    opacity: '0.75'
                 }
             },
             landing_other: {}, // Inherits from landing_foot1

@@ -10,9 +10,11 @@ TRIPODS.level_builder = (function () {
 
         if (!TRIPODS.game_state.initialised) TRIPODS.game_state.initialised = 1; // Set initialised flag
 
-        $('.layer-active').animate({ opacity: '0.1' }, 500, 'easeInOutBack', function () { // Draw attention to tripod
-            $(this).animate({ opacity: '1' }, 400, 'easeInOutBack');
-        });
+        const active_layer = document.getElementsByClassName("layer-active")[0];
+        active_layer.style.opacity = 0.1;
+        setTimeout(function () {
+            active_layer.style.opacity = 1;
+        }, 500);
     }
 
     submod.addUI = function () {
