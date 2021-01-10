@@ -218,30 +218,29 @@ TRIPODS.mvt = (function (mod) {
     // Reposition pivot control after pivot
     submod.repositionPivot = function () {
 
-        var $a_foot, $a_foot_l, $a_foot_t, foot_pivot_angle, foot_css,
-            $pivot = $('.pivitor');
+        const pivot = document.getElementsByClassName("pivitor")[0];
 
-        shuntPivot = function (left, top) {
-            $pivot.animate({
+        function shuntPivot(left, top) {
+            pivot.velocity({
                 left: left,
                 top: top
             }, 100);
         };
 
-        $a_foot = submod.getAFoot(); // Get foot at 'A' point of triangle
-        foot_pivot_angle = parseInt(TRIPODS.utils.getAngleEl($a_foot, $('.pivitor'))); // Get angle between it and pivitor
+        const a_foot = submod.getAFoot(); // Get foot at 'A' point of triangle
+        const foot_pivot_angle = parseInt(TRIPODS.utils.getAngleEl(a_foot, pivot)); // Get angle between it and pivitor
 
-        $a_foot_l = parseFloat($a_foot.css('left'));
-        $a_foot_t = parseFloat($a_foot.css('top'));
+        const a_foot_l = parseFloat(getComputedStyle(a_foot)["left"]);
+        const a_foot_t = parseFloat(getComputedStyle(a_foot)["top"]);
 
         // Move pivitor depending on angle
-        if (foot_pivot_angle === 0 || foot_pivot_angle === 7) shuntPivot($a_foot_l + 43, $a_foot_t);
-        else if (foot_pivot_angle === -82) shuntPivot($a_foot_l, $a_foot_t - 43);
-        else if (foot_pivot_angle === -172) shuntPivot($a_foot_l - 43, $a_foot_t);
-        else if (foot_pivot_angle === 97) shuntPivot($a_foot_l, $a_foot_t + 43);
-        else if (foot_pivot_angle === -90) shuntPivot($a_foot_l, $a_foot_t - 43);
-        else if (foot_pivot_angle === 90) shuntPivot($a_foot_l, $a_foot_t + 43);
-        else if (foot_pivot_angle === 172 || foot_pivot_angle === 180) shuntPivot($a_foot_l - 43, $a_foot_t);
+        if (foot_pivot_angle === 0 || foot_pivot_angle === 7) shuntPivot(a_foot_l + 43, a_foot_t);
+        else if (foot_pivot_angle === -82) shuntPivot(a_foot_l, a_foot_t - 43);
+        else if (foot_pivot_angle === -172) shuntPivot(a_foot_l - 43, a_foot_t);
+        else if (foot_pivot_angle === 97) shuntPivot(a_foot_l, a_foot_t + 43);
+        else if (foot_pivot_angle === -90) shuntPivot(a_foot_l, a_foot_t - 43);
+        else if (foot_pivot_angle === 90) shuntPivot(a_foot_l, a_foot_t + 43);
+        else if (foot_pivot_angle === 172 || foot_pivot_angle === 180) shuntPivot(a_foot_l - 43, a_foot_t);
     }
 
     // Private objects
@@ -260,8 +259,6 @@ TRIPODS.mvt = (function (mod) {
         null,
         ['left', '+']
     ],
-
-        foot_rad = TRIPODS.ui_attributes.el_side / 2,
         orig_pos_x, orig_pos_y,
 
         boundary_check, block_collide,
@@ -279,15 +276,16 @@ TRIPODS.mvt = (function (mod) {
         },
 
         elementCollision = function (left, top) {
-            var block_coords = TRIPODS.game_state.block_coords,
-                collide = 0;
+            const block_coords = TRIPODS.game_state.block_coords;
+            let collide = false;
 
-            $.each(block_coords, function () {
-                if (this.left === left && this.top === top) collide = 1;
-            });
+            for (let i = 0; i < block_coords.length; i++) {
+                const item = block_coords[i];
+                if (item.left === left && item.top === top) collide = true;
+                break;
+            }
 
-            if (collide) return true;
-            else return false;
+            return collide;
         }
 
     // Update counter for each foot to keep track of where it is in the foot_pivot_sequence
@@ -325,7 +323,7 @@ TRIPODS.mvt = (function (mod) {
 
             finishPivot = function (obj) {
                 if (obj.move) {
-                    $(obj.foot).animate(obj.anim_params, 240, 'easeInOutBack', function () {
+                    document.getElementById(obj.foot).velocity(obj.anim_params, 150, 'linear', function () {
                         postPivot(obj.foot, obj.count);
                     });
                 } else postPivot(obj.foot, obj.count);
@@ -340,8 +338,8 @@ TRIPODS.mvt = (function (mod) {
                     if (obj.anim_params.left === obj.orig_coords.left) anim_obj.top = obj.orig_coords.top + (obj.anim_params.top - obj.orig_coords.top) / 4; // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shudder
                     else if (obj.anim_params.top === obj.orig_coords.top) anim_obj.left = obj.orig_coords.left + (obj.anim_params.left - obj.orig_coords.left) / 4;
 
-                    $(obj.foot).animate(anim_obj, 100, 'linear', function () {
-                        $(obj.foot).animate(obj.orig_coords, 100, 'linear', function () {
+                    obj.foot.velocity(anim_obj, 100, 'linear', function () {
+                        obj.foot.velocity(obj.orig_coords, 100, 'linear', function () {
                             pivot_foot_count++;
                         });
                     });
@@ -351,13 +349,12 @@ TRIPODS.mvt = (function (mod) {
             startPivot = function (callback) {
                 TRIPODS.game_state.ignore_user_input = 1;
 
-                $.each(foot_move_data, function () {
-
+                foot_move_data.forEach(item => {
                     // Amend count
-                    if (this.count === 11) this.count = 0;
-                    else this.count++;
+                    if (item.count === 11) item.count = 0;
+                    else item.count++;
 
-                    if (typeof callback !== 'undefined' && typeof callback === 'function') callback(this);
+                    if (typeof (callback) == "function") callback(item);
                 });
             },
 
@@ -392,7 +389,7 @@ TRIPODS.mvt = (function (mod) {
                     }
 
                     foot_move_data.push({
-                        foot: `#${foot}`,
+                        foot: foot, // Element ID
                         move: 1,
                         count: count,
                         anim_params: anim_params,
@@ -407,7 +404,7 @@ TRIPODS.mvt = (function (mod) {
 
                 } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
                     foot_move_data.push({
-                        foot: `#${foot}`,
+                        foot: foot, // Element ID
                         move: 0,
                         count: count
                     });
@@ -451,96 +448,87 @@ TRIPODS.mvt = (function (mod) {
             e.gesture.stopDetect(); return false;
         }
 
-        var foot = document.getElementById(e.currentTarget.id), // Non-jQuery
-            $foot = $('#' + e.currentTarget.id),
-            foot_id, // Id of swiped foot
-            $a_foot = submod.getAFoot(), // Foot at position A
-            foot_coords = TRIPODS.utils.getCenterPoint(foot), // Coords of swiped foot
-            angle_swiped_and_A, // Angle between swiped foot and foot at position A
-            angles = [], // Angles between swiped foot and other two feet
-            other_foot_coords = [], // Coords of other two feet
-            axis_to_check, // When swiping horizontally or vertically
-            angle,
-            left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]),
-            top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]),
-            pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]),
-            pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]),
-            swipe_diagonally = 0,
-            swipe_angle,
+        const foot = document.getElementById(e.currentTarget.id); // Non-jQuery
+        const pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]);
+        const pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]);
+        let swipe_angle;
 
-            animateBoundaryIntersect = function (left, top) {
-                $foot.animate({
-                    left: left,
-                    top: top
-                }, 200, 'easeOutBack', function () {
-                    bounceBack();
-                });
-            },
+        function animateBoundaryIntersect(left, top) {
+            foot.velocity({
+                left: left,
+                top: top
+            }, 200, 'easeOutBack', function () {
+                bounceBack();
+            });
+        };
 
-            bounceBack = function () {
-                $foot.animate({
+        function bounceBack() {
+            foot.velocity({
+                left: orig_pos_x,
+                top: orig_pos_y
+            }, 200, 'easeOutBounce', function () {
+                TRIPODS.game_state.ignore_user_input = 0;
+            });
+        };
+
+        function abortSwipe() {
+            setTimeout(function () {
+                foot.velocity({
                     left: orig_pos_x,
                     top: orig_pos_y
-                }, 200, 'easeOutBounce', function () {
+                }, 300, 'easeOutBounce', function () {
                     TRIPODS.game_state.ignore_user_input = 0;
                 });
-            },
+            }, 50);
+        };
 
-            abortSwipe = function () {
-                var t = setTimeout(function () {
-                    $foot.animate({
-                        left: orig_pos_x,
-                        top: orig_pos_y
-                    }, 300, 'easeOutBounce', function () {
-                        TRIPODS.game_state.ignore_user_input = 0;
-                    });
-                }, 50);
-            },
+        // Finish swipe movement
+        function finishSwipe() {
+            foot.style.zIndex = 1000; // Reset z-index
+            TRIPODS.game_state.ignore_user_input = 0;
+            submod.calculatePivotState();
+            submod.repositionPivot();
+            TRIPODS.game_state.updateMoveCounter();
+            TRIPODS.game_state.checkWin();
+        };
 
-            // Finish swipe movement
-            finishSwipe = function () {
-                $foot.css('z-index', 1000); // Reset z-index
+        // Move the swiped foot
+        function startSwipe(left, top, easing, ms, callback) {
+            TRIPODS.game_state.ignore_user_input = 1;
+
+            foot.velocity({
+                left: left,
+                top: top
+            }, ms, easing, function () {
+                if (callback === "function") callback();	// Call either finishSwipe or bouncBack
+            });
+        };
+
+        function shiftPivot(left, top) { // Initial adjustment of pivot (happens simultaneously with foot move)
+            var obj;
+
+            TRIPODS.game_state.ignore_user_input = 1;
+
+            if (!left && top) obj = { top: top };
+            else if (left && !top) obj = { left: left };
+            else if (left && top) obj = { left: left, top: top };
+
+            document.getElementsByClassName("pivitor").velocity(obj, 300, function () {
                 TRIPODS.game_state.ignore_user_input = 0;
-                submod.calculatePivotState();
-                submod.repositionPivot();
-                TRIPODS.game_state.updateMoveCounter();
-                TRIPODS.game_state.checkWin();
-            },
-
-            // Move the swiped foot
-            startSwipe = function (left, top, easing, ms, callback) {
-                TRIPODS.game_state.ignore_user_input = 1;
-
-                $foot.animate({
-                    left: left,
-                    top: top
-                }, ms, easing, function () {
-                    if (typeof callback !== 'undefined' && typeof callback === 'function') callback.call();	// Call either finishSwipe or bouncBack
-                });
-            },
-
-            shiftPivot = function (left, top) { // Initial adjustment of pivot (happens simultaneously with foot move)
-                var obj;
-
-                TRIPODS.game_state.ignore_user_input = 1;
-
-                if (!left && top) obj = { top: top };
-                else if (left && !top) obj = { left: left };
-                else if (left && top) obj = { left: left, top: top };
-
-                $('.pivitor').animate(obj, 300, function () {
-                    TRIPODS.game_state.ignore_user_input = 0;
-                });
-            };
+            });
+        };
 
         if (e.type === 'touch' && !TRIPODS.game_state.ignore_user_input) { // Store coords on first touch
-            orig_pos_x = parseInt($foot.css('left'));
-            orig_pos_y = parseInt($foot.css('top'));
+            orig_pos_x = parseInt(getComputedStyle(foot)["left"]);
+            orig_pos_y = parseInt(getComputedStyle(foot)["top"]);
         }
 
         if (e.type === 'swipe') {
 
-            foot_id = $foot.attr('id');
+            const foot_id = foot.getAttribute("id"); // ID of swiped foot
+            const angles = []; // Angles between swiped foot and other two feet
+            const other_foot_coords = []; // Coords of other two feet
+            let swipe_diagonally = false;
 
             // Get angle between swiped foot and other two feet
             Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
@@ -551,15 +539,17 @@ TRIPODS.mvt = (function (mod) {
             });
 
             // Compare the two angles
-            $.each(angles, function () {
-                angle = parseFloat(this);
-                if (angle === 0 || angle === 90 || angle === 180 || angle === -90) swipe_diagonally = 1;
+            angles.forEach(item => {
+                let angle = parseFloat(item);
+                if (angle === 0 || angle === 90 || angle === 180 || angle === -90) swipe_diagonally = true;
             });
 
             // Which direction to swipe in
             if (swipe_diagonally) {
 
-                angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl($foot, $a_foot));
+                const angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl(foot, submod.getAFoot())); // Angle between swiped foot and foot at position A
+                let left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]);
+                let top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]);
 
                 if (angle_swiped_and_A === -116) { // NW
                     left -= (cell_len * 3);
@@ -612,9 +602,13 @@ TRIPODS.mvt = (function (mod) {
                 }
 
             } else if (!swipe_diagonally) {
+                let axis_to_check; // When swiping horizontally or vertically
+
                 // Check whether two other feet are aligned horizontally or vertically
                 if (other_foot_coords[0].y === other_foot_coords[1].y) axis_to_check = 'y';
                 else if (other_foot_coords[0].x === other_foot_coords[1].x) axis_to_check = 'x';
+
+                const foot_coords = TRIPODS.utils.getCenterPoint(foot); // Coords of swiped foot
 
                 if (axis_to_check === 'x') {
                     if (other_foot_coords[0].x < foot_coords.x) { // West
@@ -656,31 +650,35 @@ TRIPODS.mvt = (function (mod) {
 
                 TRIPODS.game_state.ignore_user_input = 1;
 
+                const a_foot = submod.getAFoot(); // Foot at position A
+                const a_foot_left = parseFloat(getComputedStyle(a_foot)["left"]);
+                const a_foot_top = parseFloat(getComputedStyle(a_foot)["top"]);
+
                 // Animate depending on which wall was hit and at which angle
                 if (boundary_check === 'bottom' && swipe_angle === 's') {
                     animateBoundaryIntersect(orig_pos_x, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
                 } else if (boundary_check === 'bottom' && swipe_angle === 'ssw') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) + cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
+                    animateBoundaryIntersect(a_foot_left + cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
                 } else if (boundary_check === 'bottom' && swipe_angle === 'sse') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) - cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
+                    animateBoundaryIntersect(a_foot_left - cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
                 } else if (boundary_check === 'top' && swipe_angle === 'n') {
                     animateBoundaryIntersect(orig_pos_x, -control_padding);
                 } else if (boundary_check === 'top' && swipe_angle === 'nne') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) - cell_len / 1.5, -control_padding);
+                    animateBoundaryIntersect(a_foot_left - cell_len / 1.5, -control_padding);
                 } else if (boundary_check === 'top' && swipe_angle === 'nnw') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) + cell_len / 1.5, -control_padding);
+                    animateBoundaryIntersect(a_foot_left + cell_len / 1.5, -control_padding);
                 } else if (boundary_check === 'left' && swipe_angle === 'w') {
                     animateBoundaryIntersect(-control_padding, orig_pos_y);
                 } else if (boundary_check === 'left' && swipe_angle === 'sw') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) - cell_len, parseFloat($a_foot.css('top')) - cell_len * 0.7);
+                    animateBoundaryIntersect(a_foot_left - cell_len, a_foot_top - cell_len * 0.7);
                 } else if (boundary_check === 'left' && swipe_angle === 'nw') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) - cell_len, parseFloat($a_foot.css('top')) + cell_len * 0.8);
+                    animateBoundaryIntersect(a_foot_left - cell_len, a_foot_top + cell_len * 0.8);
                 } else if (boundary_check === 'right' && swipe_angle === 'e') {
                     animateBoundaryIntersect(cell_len * (submod.measurements.cells_in_row - 1) - control_padding, orig_pos_y);
                 } else if (boundary_check === 'right' && swipe_angle === 'se') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) + cell_len, parseFloat($a_foot.css('top')) - cell_len * 0.7);
+                    animateBoundaryIntersect(a_foot_left + cell_len, a_foot_top - cell_len * 0.7);
                 } else if (boundary_check === 'right' && swipe_angle === 'ne') {
-                    animateBoundaryIntersect(parseFloat($a_foot.css('left')) + cell_len, parseFloat($a_foot.css('top')) + cell_len * 0.8);
+                    animateBoundaryIntersect(a_foot_left + cell_len, a_foot_top + cell_len * 0.8);
                 }
 
                 e.gesture.stopDetect();
@@ -688,7 +686,7 @@ TRIPODS.mvt = (function (mod) {
                 return false;
             }
 
-            $foot.css('z-index', 2000); // Bring foot to top
+            foot.style.zIndex = 2000; // Bring foot to top
 
             if (block_collide) {
                 startSwipe(left, top, 'linear', 150, abortSwipe);
