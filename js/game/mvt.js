@@ -1,3 +1,5 @@
+// Before refactor: https://github.com/donbrae/tripods-web/blob/5521e55afc7269226db453759c4b6242813f03e6/js/game/mvt.js
+
 TRIPODS.mvt = (function (mod) {
 
     // Public obj
@@ -329,7 +331,7 @@ TRIPODS.mvt = (function (mod) {
                         foot.style[key] = `${obj.anim_params[key]}px`;
                     });
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         postPivot(obj.foot, obj.count);
                     }, mod.config.animation.feet.duration);
                 } else postPivot(obj.foot, obj.count);
@@ -455,37 +457,34 @@ TRIPODS.mvt = (function (mod) {
         }
 
         const foot = document.getElementById(e.currentTarget.id); // Non-jQuery
-        const pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]);
-        const pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]);
-        let swipe_angle;
 
         function animateBoundaryIntersect(left, top) {
-            foot.velocity({
-                left: left,
-                top: top
-            }, 200, 'easeOutBack', function () {
-                bounceBack();
-            });
+
+            foot.style.left = `${left}px`;
+            foot.style.top = `${top}px`;
+
+            setTimeout(bounceBack, mod.config.animation.feet.duration * 1.67);
         };
 
         function bounceBack() {
-            foot.velocity({
-                left: orig_pos_x,
-                top: orig_pos_y
-            }, 200, 'easeOutBounce', function () {
+
+            foot.style.left = `${orig_pos_x}px`;
+            foot.style.top = `${orig_pos_y}px`;
+
+            setTimeout(function() {
                 TRIPODS.game_state.ignore_user_input = 0;
-            });
+            }, mod.config.animation.feet.duration * 1.67);
         };
 
         function abortSwipe() {
             setTimeout(function () {
-                foot.velocity({
-                    left: orig_pos_x,
-                    top: orig_pos_y
-                }, 300, 'easeOutBounce', function () {
+                foot.style.left = `${orig_pos_x}px`;
+                foot.style.top = `${orig_pos_y}px`;
+
+                setTimeout(function () {
                     TRIPODS.game_state.ignore_user_input = 0;
-                });
-            }, 50);
+                }, mod.config.animation.feet.duration * 2.5);
+            }, mod.config.animation.feet.duration * 0.42);
         };
 
         // Finish swipe movement
@@ -499,15 +498,15 @@ TRIPODS.mvt = (function (mod) {
         };
 
         // Move the swiped foot
-        function startSwipe(left, top, easing, ms, callback) {
+        function startSwipe(left, top, ms, callback) {
             TRIPODS.game_state.ignore_user_input = 1;
 
-            foot.velocity({
-                left: left,
-                top: top
-            }, ms, easing, function () {
-                if (callback === "function") callback();	// Call either finishSwipe or bouncBack
-            });
+            foot.style.left = `${left}px`;
+            foot.style.top = `${top}px`;
+
+            setTimeout(function () {
+                if (typeof (callback) == "function") callback(); // Call either finishSwipe() or bouncBack()
+            }, ms);
         };
 
         function shiftPivot(left, top) { // Initial adjustment of pivot (happens simultaneously with foot move)
@@ -534,7 +533,12 @@ TRIPODS.mvt = (function (mod) {
             const foot_id = foot.getAttribute("id"); // ID of swiped foot
             const angles = []; // Angles between swiped foot and other two feet
             const other_foot_coords = []; // Coords of other two feet
+            let left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]);
+            let top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]);
+            let pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]);
+            let pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]);
             let swipe_diagonally = false;
+            let swipe_angle;
 
             // Get angle between swiped foot and other two feet
             Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
@@ -554,8 +558,6 @@ TRIPODS.mvt = (function (mod) {
             if (swipe_diagonally) {
 
                 const angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl(foot, submod.getAFoot())); // Angle between swiped foot and foot at position A
-                let left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]);
-                let top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]);
 
                 if (angle_swiped_and_A === -116) { // NW
                     left -= (cell_len * 3);
@@ -695,9 +697,9 @@ TRIPODS.mvt = (function (mod) {
             foot.style.zIndex = 2000; // Bring foot to top
 
             if (block_collide) {
-                startSwipe(left, top, 'linear', 150, abortSwipe);
+                startSwipe(left, top, mod.config.animation.feet.duration * 1.25, abortSwipe);
             } else {
-                startSwipe(left, top, 'easeOutBack', 300, finishSwipe);
+                startSwipe(left, top, mod.config.animation.feet.duration * 2.5, finishSwipe);
                 shiftPivot(pivot_left, pivot_top);
             }
         }
