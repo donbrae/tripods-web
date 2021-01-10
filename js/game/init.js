@@ -83,7 +83,7 @@ var TRIPODS = (function (mod) {
             }
         },
         animation: {
-            feet: {
+            default: {
                 properties: ["left", "top"], // array
                 timing_function: "linear",
                 duration: 120 // milliseconds

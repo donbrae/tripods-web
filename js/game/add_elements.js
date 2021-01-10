@@ -34,8 +34,8 @@ var TRIPODS = (function (mod) {
             svg.style.left = `${left}px`;
 
             // Add CSS animations
-            if (el.classes && el.classes.indexOf("foot") > -1) { // Feet
-                const animation = mod.config.animation.feet;
+            if (el.classes && el.classes.indexOf("control") > -1) { // || el.classes.indexOf("foot") > -1 Feet or pivot element
+                const animation = mod.config.animation.default;
                 const transition = [];
 
                 [].concat(animation.properties).forEach(property => { // E.g. 'left'
