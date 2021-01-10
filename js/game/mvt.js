@@ -42,8 +42,10 @@ TRIPODS.mvt = (function (mod) {
 
         for (let i = 0; i < block_coords.length; i++) {
             const item = block_coords[i];
-            if (item.left === left && item.top === top) collide = true;
-            break;
+            if (item.left === left && item.top === top) {
+                collide = true;
+                break;
+            }
         }
 
         return collide;
@@ -313,7 +315,6 @@ TRIPODS.mvt = (function (mod) {
             e.gesture.stopDetect(); return false;
         }
 
-
         let pivot_foot_count = 0;
         const foot_move_data = [];
         let block_collide_via_pivot = false;
@@ -341,26 +342,30 @@ TRIPODS.mvt = (function (mod) {
 
             if (obj.move) {
 
-                var anim_obj = {};
+                const anim_obj = {};
+                const foot = document.getElementById(obj.foot);
 
                 if (obj.anim_params.left === obj.orig_coords.left) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shudder
                     anim_obj.top = obj.orig_coords.top + (obj.anim_params.top - obj.orig_coords.top) / 4;
                 else if (obj.anim_params.top === obj.orig_coords.top)
                     anim_obj.left = obj.orig_coords.left + (obj.anim_params.left - obj.orig_coords.left) / 4;
 
-                // Object.keys(obj.anim_params).forEach(function (key) {
-                //     foot.style[key] = `${obj.anim_params[key]}px`;
-                // });
-
-                // setTimeout(function () {
-                //     postPivot(obj.foot, obj.count);
-                // }, mod.config.animation.default.duration);
-
-                obj.foot.velocity(anim_obj, 100, 'linear', function () {
-                    obj.foot.velocity(obj.orig_coords, 100, 'linear', function () {
-                        pivot_foot_count++;
-                    });
+                // Move relevant feet slightly
+                Object.keys(anim_obj).forEach(function (key) {
+                    foot.style[key] = `${anim_obj[key]}px`;
                 });
+
+                setTimeout(function () {
+                    // Move relevant feet back
+                    Object.keys(obj.orig_coords).forEach(function (key) {
+                        foot.style[key] = `${obj.orig_coords[key]}px`;
+                    });
+
+                    setTimeout(function () {
+                        pivot_foot_count++;
+                    }, mod.config.animation.default.duration * 0.83);
+
+                }, mod.config.animation.default.duration * 0.83);
             } else pivot_foot_count++;
         };
 
@@ -384,7 +389,7 @@ TRIPODS.mvt = (function (mod) {
 
             var left = parseFloat(getComputedStyle(document.getElementById(foot))["left"]),
                 top = parseFloat(getComputedStyle(document.getElementById(foot))["top"]),
-                anim_params,
+                anim_params, // Where feet will move to if the move is valid (e.g. doesn't encounter blocker UI element)
                 foot_new_position_left, foot_new_position_top;
 
             if (foot_pivot_sequence[count] !== null) { // If foot should move
