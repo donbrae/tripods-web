@@ -21,38 +21,51 @@ TRIPODS.level_builder = (function () {
         TRIPODS.addElements(); // Add elements to grid
         TRIPODS.events.addEventListeners(); // Add event handlers
 
-        $('h2.level span').text(TRIPODS.game_state.level + 1); // Add level
-        $('h2.score span').text(TRIPODS.game_state.moves); // Add number of moves
+        document.querySelector('h2.level span').innerText = TRIPODS.game_state.level + 1; // Add level
+        document.querySelector('h2.score span').innerText = TRIPODS.game_state.moves; // Add number of moves
 
-        $('.container').children('.layer:last').addClass('layer-active'); // Add 'layer-active' class to top layer
-        $('.message').fadeOut(function () {
-            $('.outer-container').fadeIn(function () {
-                $('.layer-active').fadeIn(200, function () { // Show active layer
-                    submod.runLevel();
-                });
-            });
-        });
+        const last_layer = document.querySelector(".container > .layer:last-of-type");
+        last_layer.classList.add("layer-active", "opacity-0"); // Add 'layer-active' class to top layer
+        last_layer.style.display = "none";
+
+        document.querySelector(".message").classList.add("hide");
+        document.querySelector(".outer-container").classList.remove("opacity-0");
+
+        setTimeout(function () {
+            last_layer.style.display = "inherit";
+            setTimeout(function() {
+                last_layer.classList.remove("opacity-0");
+                setTimeout(submod.runLevel, 500);
+            }, 300);
+        }, 3);
     }
 
     submod.reset = function () {
 
-        $('.outer-container').fadeOut(function () {
+        document.querySelector(".outer-container").classList.add("opacity-0");
+
+        setTimeout(function() {
             TRIPODS.game_state.moves = 0; // Reset move count
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
             TRIPODS.game_state.level_win = 0;
 
-            $('.layer:not(.layer0)').remove();
+            Array.prototype.forEach.call(document.querySelectorAll(".layer:not(.layer0)"), function (el) {
+                el.parentNode.removeChild(el);
+            });
 
             submod.addUI();
-        });
+        }, 500);
     }
 
     submod.showSuccessMessage = function () {
-        var t = setTimeout(function () {
-            $('.message h2 span').text(TRIPODS.game_state.moves); // Print number of moves
+        setTimeout(function () {
+            document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves; // Print number of moves
 
-            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1) $('.next-level').remove();
-            $('.message').fadeIn();
+            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1) {
+                const next_level = document.querySelector(".next-level");
+                next_level.parentNode.removeChild(next_level);
+            }
+            document.querySelector(".message").style.display = "inherit";
         }, 500);
     }
 

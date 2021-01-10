@@ -47,14 +47,14 @@ var TRIPODS = (function (mod) {
                 svg.style.transition = transition.join(", ");
             }
 
-            layer_element[0].insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
+            layer_element.insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
         }
     };
 
     function _addLayer() {
         const container = document.getElementsByClassName("container")[0];
         container.insertAdjacentHTML("beforeend", "<div class=\"layer\"></div>");
-        return container.querySelectorAll(".layer:last-child");
+        return container.querySelector(".layer:last-of-type");
     };
 
     function _addControlTouchPadding() { // Adds 'padding' so swipes will be better detected

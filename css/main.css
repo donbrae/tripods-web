@@ -224,10 +224,6 @@ svg.control:hover {
     z-index: 1000;
 }
 
-.layer-active {
-    display: none;
-}
-
 .message {
     min-height: 100%;
     width: 100%;
@@ -269,6 +265,10 @@ textarea[contenteditable] {
 .gifhidden {
     position: absolute;
     left: -100%;
+}
+
+.opacity-0 {
+    opacity: 0;
 }
 
 /*

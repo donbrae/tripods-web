@@ -51,9 +51,9 @@ TRIPODS.game_state = (function () {
             foot_3_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
 
             // Check whether another foot is on target
-            $.each(landing_other_center, function () {
-                if (this.x === foot_2_center.x && this.y === foot_2_center.y) feet_on_target.push('foot2');
-                else if (this.x === foot_3_center.x && this.y === foot_3_center.y) feet_on_target.push('foot3');
+            landing_other_center.forEach(item => {
+                if (item.x === foot_2_center.x && item.y === foot_2_center.y) feet_on_target.push('foot2');
+                else if (item.x === foot_3_center.x && item.y === foot_3_center.y) feet_on_target.push('foot3');
             });
 
             if (feet_on_target.length === 3) { // If all feet are on target
