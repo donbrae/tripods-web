@@ -344,7 +344,7 @@ TRIPODS.mvt = (function (mod) {
                 const anim_obj = {};
                 const foot = document.getElementById(obj.foot);
 
-                if (obj.anim_params.left === obj.orig_coords.left) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shudder
+                if (obj.anim_params.left === obj.orig_coords.left) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shoogle
                     anim_obj.top = obj.orig_coords.top + (obj.anim_params.top - obj.orig_coords.top) / 4;
                 else if (obj.anim_params.top === obj.orig_coords.top)
                     anim_obj.left = obj.orig_coords.left + (obj.anim_params.left - obj.orig_coords.left) / 4;
@@ -369,7 +369,7 @@ TRIPODS.mvt = (function (mod) {
         };
 
         function startPivot(callback) {
-            TRIPODS.game_state.ignore_user_input = 1;
+            TRIPODS.game_state.ignore_user_input = true;
 
             foot_move_data.forEach(item => {
                 // Amend count
@@ -443,15 +443,17 @@ TRIPODS.mvt = (function (mod) {
                 TRIPODS.game_state.updateMoveCounter();
                 TRIPODS.game_state.checkWin();
 
-                TRIPODS.game_state.ignore_user_input = 0;
+                TRIPODS.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
             } else if (pivot_foot_count === 3 && block_collide_via_pivot) {
-                TRIPODS.game_state.ignore_user_input = 0;
+                setTimeout(function() {
+                    TRIPODS.game_state.ignore_user_input = false;
+                }, 25); // Slight delay to allow shoogle animation to finish, otherwise collision will not be detected in checkWhichFeetShouldPivot()
                 clearInterval(pivot_check);
             }
         }, 100);
 
-        // Which feet should move?
+        // Which feet should moseve?
         checkWhichFeetShouldPivot("foot1", count_foot1);
         checkWhichFeetShouldPivot("foot2", count_foot2);
         checkWhichFeetShouldPivot("foot3", count_foot3);
@@ -488,7 +490,7 @@ TRIPODS.mvt = (function (mod) {
             foot.style.top = `${orig_pos_y}px`;
 
             setTimeout(function () {
-                TRIPODS.game_state.ignore_user_input = 0;
+                TRIPODS.game_state.ignore_user_input = false;
             }, mod.config.animation.default.duration * 1.67);
         };
 
@@ -498,7 +500,7 @@ TRIPODS.mvt = (function (mod) {
                 foot.style.top = `${orig_pos_y}px`;
 
                 setTimeout(function () {
-                    TRIPODS.game_state.ignore_user_input = 0;
+                    TRIPODS.game_state.ignore_user_input = false;
                 }, mod.config.animation.default.duration * 2.5);
             }, mod.config.animation.default.duration * 0.42);
         };
@@ -506,7 +508,7 @@ TRIPODS.mvt = (function (mod) {
         // Finish swipe movement
         function finishSwipe() {
             foot.style.zIndex = 1000; // Reset z-index
-            TRIPODS.game_state.ignore_user_input = 0;
+            TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
             TRIPODS.game_state.updateMoveCounter();
@@ -515,7 +517,7 @@ TRIPODS.mvt = (function (mod) {
 
         // Move the swiped foot
         function startSwipe(left, top, ms, callback) {
-            TRIPODS.game_state.ignore_user_input = 1;
+            TRIPODS.game_state.ignore_user_input = true;
 
             foot.style.left = `${left}px`;
             foot.style.top = `${top}px`;
@@ -676,7 +678,7 @@ TRIPODS.mvt = (function (mod) {
 
         if (boundary_check) { // If swiped off the board
 
-            TRIPODS.game_state.ignore_user_input = 1;
+            TRIPODS.game_state.ignore_user_input = true;
 
             const a_foot = submod.getAFoot(); // Foot at position A
             const a_foot_left = parseFloat(getComputedStyle(a_foot)["left"]);

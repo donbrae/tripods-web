@@ -3,7 +3,7 @@ TRIPODS.game_state = (function () {
     var submod = {
         initialised: 0,
         moves: 0,
-        ignore_user_input: 0, // E.g. when foot move is being animated
+        ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
         level_win: 0,
         block_coords: []
@@ -72,7 +72,7 @@ TRIPODS.game_state = (function () {
         active_layer.style.opacity = 0.1;
         setTimeout(function () {
             active_layer.style.opacity = 1;
-            submod.ignore_user_input = 0;
+            submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
         }, 600);
     }
