@@ -3,10 +3,10 @@ TRIPODS.level_builder = (function () {
     var submod = {};
 
     submod.runLevel = function () {
+        TRIPODS.mvt.repositionPivot();
         TRIPODS.mvt.getMeasurements(); // Set UI measurements
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
-        TRIPODS.mvt.repositionPivot();
 
         if (!TRIPODS.game_state.initialised) TRIPODS.game_state.initialised = 1; // Set initialised flag
 
