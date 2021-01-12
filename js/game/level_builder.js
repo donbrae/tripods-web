@@ -25,25 +25,18 @@ TRIPODS.level_builder = (function () {
         document.querySelector('h2.score span').innerText = TRIPODS.game_state.moves; // Add number of moves
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
-        last_layer.classList.add("layer-active", "opacity-0"); // Add 'layer-active' class to top layer
+        last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
         last_layer.style.display = "none";
 
         document.querySelector(".message").classList.add("hide");
-        document.querySelector(".outer-container").classList.remove("opacity-0");
 
         setTimeout(function () {
             last_layer.style.display = "inherit";
-            setTimeout(function() {
-                last_layer.classList.remove("opacity-0");
-                setTimeout(submod.runLevel, 500);
-            }, 300);
+            setTimeout(submod.runLevel, 500);
         }, 3);
     }
 
     submod.reset = function () {
-
-        document.querySelector(".outer-container").classList.add("opacity-0");
-
         setTimeout(function() {
             TRIPODS.game_state.moves = 0; // Reset move count
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
@@ -54,7 +47,7 @@ TRIPODS.level_builder = (function () {
             });
 
             submod.addUI();
-        }, 500);
+        }, 120);
     }
 
     submod.showSuccessMessage = function () {
@@ -65,7 +58,7 @@ TRIPODS.level_builder = (function () {
                 const next_level = document.querySelector(".next-level");
                 next_level.parentNode.removeChild(next_level);
             }
-            document.querySelector(".message").style.display = "inherit";
+            document.querySelector(".message").classList.remove("hide");
         }, 500);
     }
 
