@@ -95,9 +95,7 @@ var TRIPODS = (function (mod) {
                 return false;
         }
 
-        const level_count = mod.levels[mod.game_state.level].length;
-
-        mod.levels[mod.game_state.level].forEach((layer, i) => { // Each layer
+        mod.levels[mod.game_state.level].forEach(layer => { // Each layer
             let top = 0;
             let layer_element = _addLayer();
 
@@ -118,10 +116,6 @@ var TRIPODS = (function (mod) {
 
                 top += mod.ui_attributes.el_side;
             });
-
-            if (i === level_count - 1) {
-                _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor. // > See submod.repositionPivot()
-            }
         });
 
         _addControlTouchPadding();

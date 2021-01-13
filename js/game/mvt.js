@@ -280,7 +280,7 @@ TRIPODS.mvt = (function (mod) {
         return foot;
     }
 
-    // Reposition pivot control after pivot. // > Refactor as per LiveCode `on repositionPivot` (LiveCode function getAngleBetweenPoints() = getAngle() here)
+    // Reposition pivot control after pivot
     submod.repositionPivot = function () {
 
         const pivot = document.getElementsByClassName("pivitor")[0];
