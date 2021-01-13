@@ -88,34 +88,51 @@ var TRIPODS = (function (mod) {
 
     mod.addElements = function () {
 
-        function isBlock(obj) {
-            if (obj && obj.block !== undefined && obj.block === 1)
-                return true;
-            else
-                return false;
-        }
+        // Layer 1
+        let top = 0;
+        let layer_element = _addLayer();
+        mod.levels[mod.game_state.level].forEach(row => { // Each row
+            let left = 0;
+            row.forEach(square => { // Each square
+                if (square === 4) { // If this is a blocker element
+                    mod.game_state.block_coords.push({ // Store coords (allow for control padding)
+                        left: left - TRIPODS.ui_attributes.control_padding,
+                        top: top - TRIPODS.ui_attributes.control_padding
+                    });
+                }
 
-        mod.levels[mod.game_state.level].forEach(layer => { // Each layer
-            let top = 0;
-            let layer_element = _addLayer();
-
-            layer.forEach(row => { // Each row
-                let left = 0;
-                row.forEach(square => { // Each square
-                    if (isBlock(mod.config.linking[square])) { // If this is a blocker element
-
-                        mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-                            left: left - TRIPODS.ui_attributes.control_padding,
-                            top: top - TRIPODS.ui_attributes.control_padding
-                        });
-                    }
-
+                if (
+                    square === 0 || // Empty square
+                    square === 4 || // Blocker
+                    square === 5 || // Landing 1
+                    square === 6 // Landing other
+                ) {
                     _addElement(mod.config.linking[square], layer_element, left, top);
-                    left += mod.ui_attributes.el_side;
-                });
+                }
 
-                top += mod.ui_attributes.el_side;
+                left += mod.ui_attributes.el_side;
             });
+            top += mod.ui_attributes.el_side;
+        });
+
+        // Layer 2
+        top = 0;
+        layer_element = _addLayer();
+        mod.levels[mod.game_state.level].forEach(row => {
+            let left = 0;
+            row.forEach(square => {
+                if (
+                    square === 1 || // Foot 1
+                    square === 2 || // Foot 2
+                    square === 3 || // Foot 3
+                    square === 7 // Pivitor
+                ) {
+                    _addElement(mod.config.linking[square], layer_element, left, top);
+                }
+
+                left += mod.ui_attributes.el_side;
+            });
+            top += mod.ui_attributes.el_side;
         });
 
         _addControlTouchPadding();
