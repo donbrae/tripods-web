@@ -122,8 +122,7 @@ var TRIPODS = (function (mod) {
                 mod.config.svg_elements.foot3, // 3
                 mod.config.svg_elements.block, // 4
                 mod.config.svg_elements.landing_foot1, // 5
-                mod.config.svg_elements.landing_other, // 6
-                mod.config.svg_elements.pivitor, // 7
+                mod.config.svg_elements.landing_other // 6
             ]
         };
 

@@ -124,8 +124,7 @@ var TRIPODS = (function (mod) {
                 if (
                     square === 1 || // Foot 1
                     square === 2 || // Foot 2
-                    square === 3 || // Foot 3
-                    square === 7 // Pivitor
+                    square === 3 // Foot 3
                 ) {
                     _addElement(mod.config.linking[square], layer_element, left, top);
                 }
@@ -134,6 +133,8 @@ var TRIPODS = (function (mod) {
             });
             top += mod.ui_attributes.el_side;
         });
+
+        _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor. // > See submod.repositionPivot()
 
         _addControlTouchPadding();
     }
