@@ -28,13 +28,16 @@ var TRIPODS = (function (mod) {
                 });
             }
 
-            if (el.name === "pivitor") top += 5;
+            if (el.name === "pivitor") {
+                top += 5;
+                svg.style.opacity = 0;
+            }
 
             svg.style.top = `${top}px`;
             svg.style.left = `${left}px`;
 
             // Add CSS animations
-            if (el.classes && el.classes.indexOf("control") > -1) { // || el.classes.indexOf("foot") > -1 Feet or pivot element
+            if (el.classes && el.classes.indexOf("foot") > -1) { // Feet or pivot element
                 const animation = mod.config.animation.default;
                 const transition = [];
 
@@ -134,7 +137,7 @@ var TRIPODS = (function (mod) {
             top += mod.ui_attributes.el_side;
         });
 
-        _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor. // > See submod.repositionPivot()
+        _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
 
         _addControlTouchPadding();
     }

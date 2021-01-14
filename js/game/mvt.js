@@ -298,97 +298,89 @@ TRIPODS.mvt = (function (mod) {
         const side = mod.ui_attributes.el_side;
         const shunt = 4; // px
 
-        function replacePX(string) {
-            return parseFloat(string.replace("px", ""));
-        }
-
         // Clockwise arrangement 1, 2, 3
         if (angle_1_2 === 63 && angle_1_3 === 117) { // Position 1
             pivot_x = foot1.style.left;
-            pivot_y = `${replacePX(foot1.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot1).top) + side + shunt}px`;
         } else if (angle_1_2 === 90 && angle_1_3 === 153) { // Position 2
             pivot_y = foot3.style.top;
-            pivot_x = `${replacePX(foot3.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot3).left) + side + shunt}px`;
         } else if (angle_1_2 === 117 && angle_1_3 === 180) { // Position 3
             pivot_x = foot2.style.left;
-            pivot_y = `${replacePX(foot2.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot2).top) - side - shunt}px`;
         } else if (angle_1_2 === 153 && angle_1_3 === - 153) { // Position 4
             pivot_y = foot1.style.top;
-            pivot_x = `${replacePX(foot1.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot1).left) - side - shunt}px`;
         } else if (angle_1_2 === 180 && angle_1_3 === - 117) { // Position 5
             pivot_x = foot3.style.left;
-            pivot_y = `${replacePX(foot3.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot3).top) + side + shunt}px`;
         } else if (angle_1_2 === - 153 && angle_1_3 === - 90) { // Position 6
             pivot_y = foot2.style.top;
-            pivot_x = `${replacePX(foot2.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot2).left) + side + shunt}px`;
         } else if (angle_1_2 === - 117 && angle_1_3 === - 63) { // Position 7
             pivot_x = foot1.style.left;
-            pivot_y = `${replacePX(foot1.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot1).top) - side - shunt}px`;
         } else if (angle_1_2 === - 90 && angle_1_3 === - 27) { // Position 8
             pivot_y = foot3.style.top;
-            pivot_x = `${replacePX(foot3.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot3).left) - side - shunt}px`;
         } else if (angle_1_2 === - 63 && angle_1_3 === 0) { // Position 9
             pivot_x = foot2.style.left;
-            pivot_y = `${replacePX(foot2.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot2).top) + side + shunt}px`;
         } else if (angle_1_2 === - 27 && angle_1_3 === 27) { // Position 10
             pivot_y = foot1.style.top;
-            pivot_x = `${replacePX(foot1.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot1).left) + side + shunt}px`;
         } else if (angle_1_2 === 0 && angle_1_3 === 63) { // Position 11
             pivot_x = foot3.style.left;
-            pivot_y = `${replacePX(foot3.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot3).top) - side - shunt}px`;
         } else if (angle_1_2 === 27 && angle_1_3 === 90) { // Position 12
             pivot_y = foot2.style.top;
-            pivot_x = `${replacePX(foot2.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot2).left) - side - shunt}px`;
         } else if (angle_1_3 === 63 && angle_1_2 === 117) { // Position 1 (clockwise 1, 3, 2)
             console.log("DERP");
             pivot_x = foot1.style.left;
-            pivot_y = `${replacePX(foot1.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot1).top) + side + shunt}px`;
         } else if (angle_1_3 === 90 && angle_1_2 === 153) { // Position 2
             pivot_y = foot2.style.top;
-            pivot_x = `${replacePX(foot2.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot2).left) + side + shunt}px`;
         } else if (angle_1_3 === 117 && angle_1_2 === 180) { // Position 3
             pivot_x = foot3.style.left;
-            pivot_y = `${replacePX(foot3.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot3).top) - side - shunt}px`;
         } else if (angle_1_3 === 153 && angle_1_2 === - 153) { // Position 4
             pivot_y = foot1.style.top;
-            pivot_x = `${replacePX(foot1.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot1).left) - side - shunt}px`;
         } else if (angle_1_3 === 180 && angle_1_2 === - 117) { // Position 5
             pivot_x = foot2.style.left;
-            pivot_y = `${replacePX(foot2.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot2).top) + side + shunt}px`;
         } else if (angle_1_3 === - 153 && angle_1_2 === - 90) { // Position 6
             pivot_y = foot3.style.top;
-            pivot_x = `${replacePX(foot3.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot3).left) + side + shunt}px`;
         } else if (angle_1_3 === - 117 && angle_1_2 === - 63) { // Position 7
             pivot_x = foot1.style.left;
-            pivot_y = `${replacePX(foot1.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot1).top) - side - shunt}px`;
         } else if (angle_1_3 === - 90 && angle_1_2 === - 27) { // Position 8
             pivot_y = foot2.style.top;
-            pivot_x = `${replacePX(foot2.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot2).left) - side - shunt}px`;
         } else if (angle_1_3 === - 63 && angle_1_2 === 0) { // Position 9
             pivot_x = foot3.style.left;
-            pivot_y = `${replacePX(foot3.style.top) + side + shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot3).top) + side + shunt}px`;
         } else if (angle_1_3 === - 27 && angle_1_2 === 27) { // Position 10
             pivot_y = foot1.style.top;
-            pivot_x = `${replacePX(foot1.style.left) + side + shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot1).left) + side + shunt}px`;
         } else if (angle_1_3 === 0 && angle_1_2 === 63) { // Position 11
             pivot_x = foot2.style.left;
-            pivot_y = `${replacePX(foot2.style.top) - side - shunt}px`;
+            pivot_y = `${parseInt(getComputedStyle(foot2).top) - side - shunt}px`;
         } else if (angle_1_3 === 27 && angle_1_2 === 90) { // Position 12
             pivot_y = foot3.style.top;
-            pivot_x = `${replacePX(foot3.style.left) - side - shunt}px`;
+            pivot_x = `${parseInt(getComputedStyle(foot3).left) - side - shunt}px`;
         } else {
             // > Just a bit of defensive programming for the pivot to stay still if none of the above conditions is met(so pivot_x and pivot_y have a value)
-            console.log("MERP");
+            pivot_x = pivot.style.left;
+            pivot_y = pivot.style.top;
         }
-
-        // console.log(document.getElementById("foot1").style.left);
-        // console.log(document.getElementById("foot1").style.top);
-
-        console.log(pivot_x);
-        console.log(pivot_y);
 
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
+        pivot.style.opacity = 1;
     }
 
     // Pivot
@@ -559,7 +551,7 @@ TRIPODS.mvt = (function (mod) {
             return false;
         }
 
-        const foot = document.getElementById(e.currentTarget.id); // Non-jQuery
+        const foot = document.getElementById(e.currentTarget.id);
 
         function animateBoundaryIntersect(left, top) {
 
@@ -612,27 +604,6 @@ TRIPODS.mvt = (function (mod) {
             }, ms);
         };
 
-        function shiftPivot(left, top) { // Initial adjustment of pivot (happens simultaneously with foot move)
-            TRIPODS.game_state.ignore_user_input = true;
-
-            const pivotor = document.getElementsByClassName("pivitor")[0];
-
-            if (!left && top)
-                anim_params = { top: top };
-            else if (left && !top)
-                anim_params = { left: left };
-            else if (left && top)
-                anim_params = { left: left, top: top };
-
-            Object.keys(anim_params).forEach(function (key) {
-                pivotor.style[key] = `${anim_params[key]}px`;
-            });
-
-            setTimeout(function () {
-                TRIPODS.game_state.ignore_user_input = false;
-            }, mod.config.animation.default.duration * 2.5);
-        };
-
         // Store coords of elements before any elements are moved
         orig_pos_x = parseInt(getComputedStyle(foot)["left"]);
         orig_pos_y = parseInt(getComputedStyle(foot)["top"]);
@@ -642,8 +613,6 @@ TRIPODS.mvt = (function (mod) {
         const other_foot_coords = []; // Coords of other two feet
         let left = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["left"]);
         let top = parseFloat(getComputedStyle(document.getElementById(e.currentTarget.id))["top"]);
-        let pivot_left = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["left"]);
-        let pivot_top = parseFloat(getComputedStyle(document.querySelector(".pivitor"))["top"]);
         let swipe_diagonally = false;
         let swipe_angle;
 
@@ -669,50 +638,34 @@ TRIPODS.mvt = (function (mod) {
             if (angle_swiped_and_A === -116) { // NW
                 left -= (cell_len * 3);
                 top -= (cell_len * 2);
-                pivot_left -= cell_len;
-                pivot_top -= control_padding;
                 swipe_angle = 'nw';
             } else if (angle_swiped_and_A === -153) { // NNW
                 left -= (cell_len * 2);
                 top -= (cell_len * 3);
-                pivot_left -= control_padding;
-                pivot_top -= cell_len;
                 swipe_angle = 'nnw';
             } else if (angle_swiped_and_A === -63) { // NE
                 left += (cell_len * 3);
                 top -= (cell_len * 2);
-                pivot_left += cell_len;
-                pivot_top -= control_padding;
                 swipe_angle = 'ne';
             } else if (angle_swiped_and_A === -26) { // NNE
                 left += (cell_len * 2);
                 top -= (cell_len * 3);
-                pivot_left += control_padding;
-                pivot_top -= cell_len;
                 swipe_angle = 'nne';
             } else if (angle_swiped_and_A === 116) { // SW
                 left -= (cell_len * 3);
                 top += (cell_len * 2);
-                pivot_left -= cell_len;
-                pivot_top += control_padding;
                 swipe_angle = 'sw';
             } else if (angle_swiped_and_A === 153) { // SSW
                 left -= (cell_len * 2);
                 top += (cell_len * 3);
-                pivot_left -= control_padding;
-                pivot_top += cell_len;
                 swipe_angle = 'ssw';
             } else if (angle_swiped_and_A === 63) { // SE
                 left += (cell_len * 3);
                 top += (cell_len * 2);
-                pivot_left += cell_len;
-                pivot_top += control_padding;
                 swipe_angle = 'se';
             } else if (angle_swiped_and_A === 26) { // SSE
                 left += (cell_len * 2);
                 top += (cell_len * 3);
-                pivot_left += control_padding;
-                pivot_top += cell_len;
                 swipe_angle = 'sse';
             }
 
@@ -729,28 +682,20 @@ TRIPODS.mvt = (function (mod) {
                 if (other_foot_coords[0].x < foot_coords.x) { // West
                     left -= (cell_len * 4);
                     top = top;
-                    pivot_left -= cell_len * 2 + control_padding;
-                    pivot_top = null;
                     swipe_angle = 'w';
                 } else { // East
                     left += (cell_len * 4);
                     top = top;
-                    pivot_left += cell_len * 2 - control_padding;
-                    pivot_top = null;
                     swipe_angle = 'e';
                 }
             } else if (axis_to_check === 'y') {
                 if (other_foot_coords[0].y < foot_coords.y) { // North
                     left = left;
                     top -= (cell_len * 4);
-                    pivot_left = null;
-                    pivot_top -= cell_len * 2;
                     swipe_angle = 'n';
                 } else { // South
                     left = left;
                     top += (cell_len * 4);
-                    pivot_left = null;
-                    pivot_top += cell_len * 2;
                     swipe_angle = 's';
                 }
             }
@@ -807,7 +752,7 @@ TRIPODS.mvt = (function (mod) {
             startSwipe(left, top, mod.config.animation.default.duration * 1.25, abortSwipe);
         } else {
             startSwipe(left, top, mod.config.animation.default.duration * 2.5, finishSwipe);
-            shiftPivot(pivot_left, pivot_top);
+            document.querySelector(".pivitor").style.opacity = 0;
         }
     }
 

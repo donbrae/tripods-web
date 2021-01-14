@@ -224,6 +224,10 @@ svg.control:hover {
     z-index: 1000;
 }
 
+.pivitor {
+    transition: opacity linear .2s;
+}
+
 .message {
     min-height: 100%;
     width: 100%;
