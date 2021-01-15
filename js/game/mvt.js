@@ -86,8 +86,8 @@ TRIPODS.mvt = (function (mod) {
         this.measurements.container_offset_t = container_rect.top;
         this.measurements.container_width = container_rect.width;
         this.measurements.container_height = container_rect.height;
-        this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][0].length;
-        this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length;
+        this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
+        this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
     }
 
     // Works out where each foot should be in the foot_pivot_sequence
@@ -336,7 +336,6 @@ TRIPODS.mvt = (function (mod) {
             pivot_y = foot2.style.top;
             pivot_x = `${parseInt(getComputedStyle(foot2).left) - side - shunt}px`;
         } else if (angle_1_3 === 63 && angle_1_2 === 117) { // Position 1 (clockwise 1, 3, 2)
-            console.log("DERP");
             pivot_x = foot1.style.left;
             pivot_y = `${parseInt(getComputedStyle(foot1).top) + side + shunt}px`;
         } else if (angle_1_3 === 90 && angle_1_2 === 153) { // Position 2

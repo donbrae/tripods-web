@@ -13,23 +13,16 @@ var TRIPODS = (function (mod) {
                 attributes: { // Shape attributes
                     cx: '19.5',
                     cy: '19.5',
-                    r: '15',
-                    fill: '#ff006e'
+                    r: '15'
                 }
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
-                id: 'foot2',
-                attributes: {
-                    fill: '#222'
-                }
+                id: 'foot2'
             },
             foot3: { // Inherits from foot1
                 name: 'foot3',
-                id: 'foot3',
-                attributes: {
-                    fill: '#00ff91'
-                }
+                id: 'foot3'
             },
             /*damager: {
               name: 'damager',
@@ -70,7 +63,6 @@ var TRIPODS = (function (mod) {
             landing_foot3: { // Inherits from foot 1, and color from foot3
                 name: 'landing_foot3',
             },
-            landing_other: {}, // Inherits from landing_foot1 // > DELETE
             pivitor: {
                 control: 1,
                 name: 'pivitor',
@@ -125,17 +117,6 @@ var TRIPODS = (function (mod) {
             mod.config.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot3);
             mod.config.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot3.attributes);
             mod.config.svg_elements.landing_foot3.classes = 'landing-3';
-
-            // landing_other // > DELETE
-            mod.config.svg_elements.landing_other = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_other);
-            mod.config.svg_elements.landing_other.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_other.attributes);
-            mod.config.svg_elements.landing_other.classes = 'landing-other';
-
-            // Landing colors
-            mod.config.svg_elements.landing_foot1.attributes.stroke = mod.config.svg_elements.foot1.attributes.fill;
-            mod.config.svg_elements.landing_foot2.attributes.stroke = mod.config.svg_elements.foot2.attributes.fill;
-            mod.config.svg_elements.landing_foot3.attributes.stroke = mod.config.svg_elements.foot3.attributes.fill;
-            mod.config.svg_elements.landing_other.attributes.stroke = mod.config.svg_elements.foot2.attributes.fill; // > DELETE
 
             // Links elements to arrangement
             mod.config.linking = [

@@ -94,50 +94,95 @@ var TRIPODS = (function (mod) {
         // Layer 1
         let top = 0;
         let layer_element = _addLayer();
+        let three_specific_landing_spots = false; // Each of the three feet has a specific landing spot
 
-        mod.levels[mod.game_state.level].forEach(row => { // Each row
-            let left = 0;
-            row.forEach(square => { // Each square
-                if (square === 4) { // If this is a blocker element
-                    mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-                        left: left - TRIPODS.ui_attributes.control_padding,
-                        top: top - TRIPODS.ui_attributes.control_padding
-                    });
-                }
+        mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
+            if (i) { // First row contains colour data
+                let left = 0;
+                row.forEach(square => { // Each square
+                    if (square === 4) { // If this is a blocker element
+                        mod.game_state.block_coords.push({ // Store coords (allow for control padding)
+                            left: left - TRIPODS.ui_attributes.control_padding,
+                            top: top - TRIPODS.ui_attributes.control_padding
+                        });
+                    }
 
-                // (See mod.config.linking)
-                if (
-                    square === 0 || // Empty square
-                    square === 4 || // Blocker
-                    square === 5 || // Landing 1
-                    square === 6 || // Landing 2
-                    square === 7 // Landing 3
-                ) {
-                    _addElement(mod.config.linking[square], layer_element, left, top);
-                }
+                    // (See mod.config.linking)
+                    if (
+                        square === 0 || // Empty square
+                        square === 4 || // Blocker
+                        square === 5 || // Landing 1
+                        square === 6 || // Landing 2
+                        square === 7 // Landing 3
+                    ) {
 
-                left += mod.ui_attributes.el_side;
-            });
-            top += mod.ui_attributes.el_side;
+                        if (square === 7)
+                            three_specific_landing_spots = true;
+
+                        // Append landing spot colours to relevant elements
+                        if (mod.config.linking[square] && mod.config.linking[square].attributes && (square === 5 || square === 6 || square === 7)) {
+                            let stroke;
+                            switch (square) {
+                                case 5:
+                                    stroke = mod.levels[mod.game_state.level][0][0];
+                                    break;
+                                case 6:
+                                    stroke = mod.levels[mod.game_state.level][0][1];
+                                    break;
+                                case 7:
+                                    stroke = mod.levels[mod.game_state.level][0][2];
+                                    break;
+                            }
+
+                            mod.config.linking[square].attributes.stroke = stroke;
+                        }
+                        _addElement(mod.config.linking[square], layer_element, left, top);
+                    }
+
+                    left += mod.ui_attributes.el_side;
+                });
+                top += mod.ui_attributes.el_side;
+            }
         });
 
         // Layer 2
         top = 0;
         layer_element = _addLayer();
-        mod.levels[mod.game_state.level].forEach(row => {
-            let left = 0;
-            row.forEach(square => {
-                if (
-                    square === 1 || // Foot 1
-                    square === 2 || // Foot 2
-                    square === 3 // Foot 3
-                ) {
-                    _addElement(mod.config.linking[square], layer_element, left, top);
-                }
+        mod.levels[mod.game_state.level].forEach((row, i) => {
+            if (i) {
+                let left = 0;
+                row.forEach(square => {
+                    if (
+                        square === 1 || // Foot 1
+                        square === 2 || // Foot 2
+                        square === 3 // Foot 3
+                    ) {
+                        let fill;
+                        switch (square) {
+                            case 1:
+                                fill = mod.levels[mod.game_state.level][0][0];
+                                break;
+                            case 2:
+                                fill = mod.levels[mod.game_state.level][0][1];
+                                break;
+                            case 3:
+                                if (three_specific_landing_spots)
+                                    fill = mod.levels[mod.game_state.level][0][2];
+                                else
+                                    fill = mod.levels[mod.game_state.level][0][1]; // Foot 3 should match foot 2
 
-                left += mod.ui_attributes.el_side;
-            });
-            top += mod.ui_attributes.el_side;
+                                break;
+                        }
+
+                        mod.config.linking[square].attributes.fill = fill;
+
+                        _addElement(mod.config.linking[square], layer_element, left, top);
+                    }
+
+                    left += mod.ui_attributes.el_side;
+                });
+                top += mod.ui_attributes.el_side;
+            }
         });
 
         _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor

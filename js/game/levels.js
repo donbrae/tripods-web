@@ -3,9 +3,10 @@ var TRIPODS = (function (mod) {
     // Arrangement of elements on grid for each level
     mod.levels = [
         [
+            ["#ff006e", "#222", null], // Foot 1, foot 2, foot 3 colours
             [0, 0, 0, 0, 5, 0, 0, 0],
             [0, 0, 6, 0, 0, 0, 0, 0],
-            [0, 0, 0, 0, 7, 0, 0, 0],
+            [0, 0, 0, 0, 6, 0, 0, 0],
             [0, 1, 0, 0, 0, 0, 0, 4],
             [0, 0, 0, 3, 0, 0, 0, 4],
             [0, 2, 4, 4, 4, 0, 0, 0],
