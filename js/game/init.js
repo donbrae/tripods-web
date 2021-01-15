@@ -53,9 +53,9 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'landing_1',
                 attributes: {
-                    'stroke-width': '2.4',
+                    'stroke-width': '2.7',
                     'fill-opacity': '0',
-                    r: '14',
+                    r: '15',
                     cy: '19.5',
                     cx: '19.5',
                     opacity: '0.75'
@@ -68,17 +68,18 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'control pivitor',
                 attributes: {
-                    'stroke-width': '2',
-                    stroke: '#999',
-                    'fill-opacity': '0',
+                    'stroke-width': 6,
+                    stroke: '#dddddd',
+                    'fill-opacity': .3,
                     r: '5',
                     cx: '29',
                     cy: '28',
                     filter: 'url(#pivot_blur)',
-                    opacity: '0.65'
+                    opacity: '0.65',
+                    class: 'pulse'
                 },
-                defs: '<filter height="200%" width="200%" y="-50%" x="-50%" id="pivot_blur">' +
-                    '<feGaussianBlur stdDeviation="1.9" in="SourceGraphic"/>' +
+                defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
+                    '<feGaussianBlur stdDeviation="2.8" in="SourceGraphic"/>' +
                     '</filter>'
             }
         },

@@ -226,6 +226,7 @@ svg.control:hover {
 
 .pivitor {
     transition: opacity linear .2s;
+    z-index: 1250;
 }
 
 .message {
@@ -274,6 +275,27 @@ textarea[contenteditable] {
 .opacity-0 {
     opacity: 0;
     transition: opacity linear .3s;
+}
+
+.pulse {
+    display: inline-block;
+    /* animation: change-color 1.85s cubic-bezier(0.75, 0.29, 1, 1) infinite; */
+    animation-name: pulse-color;
+    animation-duration: 1.2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    /* transition: stroke .075s linear; */
+}
+
+@keyframes pulse-color {
+    20% {
+        stroke: #a8a8a8;
+    }
+
+    75% {
+        stroke: #dddddd;
+    }
 }
 
 /*

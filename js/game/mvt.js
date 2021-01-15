@@ -296,7 +296,7 @@ TRIPODS.mvt = (function (mod) {
         let pivot_y; // As above, but for y
 
         const side = mod.ui_attributes.el_side;
-        const shunt = 4; // px
+        const shunt = 6; // px
 
         // Clockwise arrangement 1, 2, 3
         if (angle_1_2 === 63 && angle_1_3 === 117) { // Position 1
