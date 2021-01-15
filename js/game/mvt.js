@@ -86,8 +86,8 @@ TRIPODS.mvt = (function (mod) {
         this.measurements.container_offset_t = container_rect.top;
         this.measurements.container_width = container_rect.width;
         this.measurements.container_height = container_rect.height;
-        this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][0][0].length;
-        this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level][0].length;
+        this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][0].length;
+        this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length;
     }
 
     // Works out where each foot should be in the foot_pivot_sequence
