@@ -226,7 +226,6 @@ svg.control:hover {
 
 .pivitor {
     transition: opacity linear .2s;
-    z-index: 1250;
 }
 
 .message {

@@ -6,12 +6,15 @@ TRIPODS.game_state = (function () {
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
         level_win: 0,
-        block_coords: []
+        block_coords: [],
+        three_color: false // Are all three feet different colours?
     },
 
         moves_span = document.querySelector("h2.score span"),
-        foot_1_center, foot_2_center, foot_3_center, landing_1_center,
-        landing_other_center = [];
+        landing_1, // Landing 1 center
+        landing_2, // Landing 2 center
+        landing_3, // Landing 3 center
+        landing_other_center = []; // > DELETE
 
     submod.updateMoveCounter = function () {
         submod.moves++;
@@ -29,9 +32,13 @@ TRIPODS.game_state = (function () {
 
     submod.getWinCoords = function () { // Store target center points
 
-        landing_other_center.length = 0;
-        landing_1_center = TRIPODS.utils.getCenterPoint(document.getElementsByClassName("landing_1")[0]);
+        landing_1 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
+        landing_2 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-2"));
+        landing_3 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-3"));
 
+        landing_other_center.length = 0; // > DELETE
+
+        // > DELETE
         Array.prototype.forEach.call(document.getElementsByClassName("landing-other"), function (el) {
             landing_other_center.push(TRIPODS.utils.getCenterPoint(el));
         });
@@ -39,27 +46,33 @@ TRIPODS.game_state = (function () {
 
     submod.checkWin = function () {
 
-        var feet_on_target = [];
+        let win = false;
+        const foot_1 = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
+        const foot_2 = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
+        const foot_3 = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
 
-        foot_1_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot1"));
-
-        if (foot_1_center.x === landing_1_center.x && foot_1_center.y === landing_1_center.y) { // If foot 1 is on its target spot
-
-            feet_on_target.push('foot1');
-
-            foot_2_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
-            foot_3_center = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
-
-            // Check whether another foot is on target
-            landing_other_center.forEach(item => {
-                if (item.x === foot_2_center.x && item.y === foot_2_center.y) feet_on_target.push('foot2');
-                else if (item.x === foot_3_center.x && item.y === foot_3_center.y) feet_on_target.push('foot3');
-            });
-
-            if (feet_on_target.length === 3) { // If all feet are on target
-                onWin();
-            }
+        function landed(foot, landing) {
+            return foot.x === landing.x && foot.y === landing.y
         }
+
+        if (
+            submod.three_color &&
+            landed(foot_1, landing_1) &&
+            landed(foot_2, landing_2) &&
+            landed(foot_3, landing_3)
+        ) {
+            win = true;
+        } else if (
+            !submod.three_color &&
+            landed(foot_1, landing_1) && // Foot 1 is on landing 1
+            (landed(foot_2, landing_2) || landed(foot_2, landing_3)) &&
+            (landed(foot_3, landing_3) || landed(foot_3, landing_2))
+        ) {
+            win = true;
+        }
+
+        if (win) // If all feet are on target
+            onWin();
     }
 
     var onWin = function () { // Function to run on win

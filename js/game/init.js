@@ -24,9 +24,12 @@ var TRIPODS = (function (mod) {
                     fill: '#222'
                 }
             },
-            foot3: { // Inherits from foot2
+            foot3: { // Inherits from foot1
                 name: 'foot3',
                 id: 'foot3',
+                attributes: {
+                    fill: '#00ff91'
+                }
             },
             /*damager: {
               name: 'damager',
@@ -51,7 +54,7 @@ var TRIPODS = (function (mod) {
             landing_foot1: { // Inherits color from foot1
                 name: 'landing_foot1',
                 shape: 'circle',
-                classes: 'landing_1',
+                classes: 'landing-1',
                 attributes: {
                     'stroke-width': '2.7',
                     'fill-opacity': '0',
@@ -61,7 +64,13 @@ var TRIPODS = (function (mod) {
                     opacity: '0.75'
                 }
             },
-            landing_other: {}, // Inherits from landing_foot1
+            landing_foot2: { // Inherits from foot 1, and color from foot2
+                name: 'landing_foot2',
+            },
+            landing_foot3: { // Inherits from foot 1, and color from foot3
+                name: 'landing_foot3',
+            },
+            landing_other: {}, // Inherits from landing_foot1 // > DELETE
             pivitor: {
                 control: 1,
                 name: 'pivitor',
@@ -94,7 +103,7 @@ var TRIPODS = (function (mod) {
 
     mod.ui_attributes = {
         el_side: 38,
-        control_padding: 10
+        control_padding: 8
     };
 
     mod.init = function () {
@@ -104,16 +113,29 @@ var TRIPODS = (function (mod) {
             mod.config.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot2.attributes);
 
             // foot3
-            mod.config.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot2, mod.config.svg_elements.foot3);
+            mod.config.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1, mod.config.svg_elements.foot3);
+            mod.config.svg_elements.foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot3.attributes);
 
-            // landing_other
+            // landing_foot2
+            mod.config.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot2);
+            mod.config.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot2.attributes);
+            mod.config.svg_elements.landing_foot2.classes = 'landing-2';
+
+            // landing_foot3
+            mod.config.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot3);
+            mod.config.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot3.attributes);
+            mod.config.svg_elements.landing_foot3.classes = 'landing-3';
+
+            // landing_other // > DELETE
             mod.config.svg_elements.landing_other = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_other);
             mod.config.svg_elements.landing_other.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_other.attributes);
             mod.config.svg_elements.landing_other.classes = 'landing-other';
 
             // Landing colors
             mod.config.svg_elements.landing_foot1.attributes.stroke = mod.config.svg_elements.foot1.attributes.fill;
-            mod.config.svg_elements.landing_other.attributes.stroke = mod.config.svg_elements.foot2.attributes.fill;
+            mod.config.svg_elements.landing_foot2.attributes.stroke = mod.config.svg_elements.foot2.attributes.fill;
+            mod.config.svg_elements.landing_foot3.attributes.stroke = mod.config.svg_elements.foot3.attributes.fill;
+            mod.config.svg_elements.landing_other.attributes.stroke = mod.config.svg_elements.foot2.attributes.fill; // > DELETE
 
             // Links elements to arrangement
             mod.config.linking = [
@@ -123,7 +145,8 @@ var TRIPODS = (function (mod) {
                 mod.config.svg_elements.foot3, // 3
                 mod.config.svg_elements.block, // 4
                 mod.config.svg_elements.landing_foot1, // 5
-                mod.config.svg_elements.landing_other // 6
+                mod.config.svg_elements.landing_foot2, // 6
+                mod.config.svg_elements.landing_foot3 // 7
             ]
         };
 
