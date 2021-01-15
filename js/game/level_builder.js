@@ -53,11 +53,10 @@ TRIPODS.level_builder = (function () {
     submod.showSuccessMessage = function () {
         setTimeout(function () {
             document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves; // Print number of moves
-
-            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1) {
-                const next_level = document.querySelector(".next-level");
+            const next_level = document.querySelector(".next-level");
+            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level)
                 next_level.parentNode.removeChild(next_level);
-            }
+
             document.querySelector(".message").classList.remove("hide");
         }, 500);
     }
