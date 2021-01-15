@@ -94,7 +94,6 @@ var TRIPODS = (function (mod) {
         // Layer 1
         let top = 0;
         let layer_element = _addLayer();
-        mod.game_state.three_color = false;
 
         mod.levels[mod.game_state.level].forEach(row => { // Each row
             let left = 0;
@@ -116,9 +115,6 @@ var TRIPODS = (function (mod) {
                 ) {
                     _addElement(mod.config.linking[square], layer_element, left, top);
                 }
-
-                if (square === 7)
-                    mod.game_state.three_color = true;
 
                 left += mod.ui_attributes.el_side;
             });

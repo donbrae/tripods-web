@@ -6,15 +6,15 @@ TRIPODS.game_state = (function () {
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
         level_win: 0,
-        block_coords: [],
-        three_color: false // Are all three feet different colours?
+        block_coords: []
     },
 
         moves_span = document.querySelector("h2.score span"),
-        landing_1, // Landing 1 center
-        landing_2, // Landing 2 center
-        landing_3, // Landing 3 center
-        landing_other_center = []; // > DELETE
+        landing_1_xy, // Landing 1 center
+        landing_2_xy, // Landing 2 center
+        landing_3_xy; // Landing 3 center
+
+    const landing_2_3 = []; // When there are only two colours
 
     submod.updateMoveCounter = function () {
         submod.moves++;
@@ -32,41 +32,44 @@ TRIPODS.game_state = (function () {
 
     submod.getWinCoords = function () { // Store target center points
 
-        landing_1 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
-        landing_2 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-2"));
-        landing_3 = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-3"));
+        landing_2_3.length = 0;
 
-        landing_other_center.length = 0; // > DELETE
+        landing_1_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
 
-        // > DELETE
-        Array.prototype.forEach.call(document.getElementsByClassName("landing-other"), function (el) {
-            landing_other_center.push(TRIPODS.utils.getCenterPoint(el));
-        });
+        const landing_3 = document.querySelector(".landing-3");
+
+        if (landing_3) {
+            landing_2_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-2"));
+            landing_3_xy = TRIPODS.utils.getCenterPoint(landing_3);
+        } else {
+            Array.prototype.forEach.call(document.querySelectorAll(".landing-2"), function (el) {
+                landing_2_3.push(TRIPODS.utils.getCenterPoint(el));
+            });
+        }
     }
 
     submod.checkWin = function () {
 
         let win = false;
-        const foot_1 = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
-        const foot_2 = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
-        const foot_3 = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
+        const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
+        const foot_2_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
+        const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
             return foot.x === landing.x && foot.y === landing.y
         }
 
         if (
-            submod.three_color &&
-            landed(foot_1, landing_1) &&
-            landed(foot_2, landing_2) &&
-            landed(foot_3, landing_3)
+            !landing_2_3.length && // Each of the three feet is a unique colour
+            landed(foot_1_xy, landing_1_xy) &&
+            landed(foot_2_xy, landing_2_xy) &&
+            landed(foot_3_xy, landing_3_xy)
         ) {
             win = true;
-        } else if (
-            !submod.three_color &&
-            landed(foot_1, landing_1) && // Foot 1 is on landing 1
-            (landed(foot_2, landing_2) || landed(foot_2, landing_3)) &&
-            (landed(foot_3, landing_3) || landed(foot_3, landing_2))
+        } else if (landing_2_3.length && // Feets 2 and 3 can be on either landing spot
+            landed(foot_1_xy, landing_1_xy) && // Foot 1 is on landing 1
+            (landed(foot_2_xy, landing_2_3[0]) || landed(foot_2_xy, landing_2_3[1])) &&
+            (landed(foot_3_xy, landing_2_3[1]) || landed(foot_3_xy, landing_2_3[0]))
         ) {
             win = true;
         }
