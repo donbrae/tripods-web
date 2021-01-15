@@ -1,20 +1,20 @@
 TRIPODS.game_state = (function () {
 
-    var submod = {
+    const submod = {
         initialised: 0,
         moves: 0,
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
         level_win: 0,
         block_coords: []
-    },
+    };
 
-        moves_span = document.querySelector("h2.score span"),
-        landing_1_xy, // Landing 1 center
-        landing_2_xy, // Landing 2 center
-        landing_3_xy; // Landing 3 center
-
+    const moves_span = document.querySelector("h2.score span");
     const landing_2_3 = []; // When there are only two colours
+
+    let landing_1_xy; // Landing 1 center
+    let landing_2_xy; // Landing 2 center
+    let landing_3_xy; // Landing 3 center
 
     submod.updateMoveCounter = function () {
         submod.moves++;
@@ -78,7 +78,7 @@ TRIPODS.game_state = (function () {
             onWin();
     }
 
-    var onWin = function () { // Function to run on win
+    function onWin() { // Function to run on win
 
         submod.level_win = 1;
 

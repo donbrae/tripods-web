@@ -92,13 +92,13 @@ TRIPODS.mvt = (function (mod) {
 
     // Works out where each foot should be in the foot_pivot_sequence
     submod.calculatePivotState = function () {
-        var a_foot = submod.getAFoot(),
-            foot_id = a_foot.getAttribute('id'),
-            a_foot_ctr_pt = TRIPODS.utils.getCenterPoint(a_foot),
-            other_feet = [],
-            foot1_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")),
-            foot2_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")),
-            foot3_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
+        const a_foot = submod.getAFoot();
+        const foot_id = a_foot.getAttribute('id');
+        const a_foot_ctr_pt = TRIPODS.utils.getCenterPoint(a_foot);
+        const other_feet = [];
+        const foot1_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot1"));
+        const foot2_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
+        const foot3_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
 
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             if (el.getAttribute('id') !== a_foot.getAttribute('id')) {
@@ -237,37 +237,29 @@ TRIPODS.mvt = (function (mod) {
     // Work out which foot is at the 'A' point of the triangle
     submod.getAFoot = function () {
 
-        var foot,
+        let foot;
 
-            compareToOtherFeet = function (foot) {
+        function compareToOtherFeet(foot) {
 
-                var angles = [],
-                    a_found; // Flag. Where 'a' is 'top' point of isosceles triangle
+            const angles = [];
+            let is_foot_a = true; // Flag. Where 'a' is 'top' point of isosceles triangle
 
-                Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) { // For each of the other two feet
-                    if (el.getAttribute("id") !== foot.getAttribute("id"))
-                        angles.push(TRIPODS.utils.getAngleEl(foot, el));
-                });
+            Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) { // For each of the other two feet
+                if (el.getAttribute("id") !== foot.getAttribute("id"))
+                    angles.push(TRIPODS.utils.getAngleEl(foot, el));
+            });
 
-                a_found = 1;
-
-                // Compare the two angles
-                angles.forEach(el => {
-                    let angle = parseFloat(el);
-
-                    if (angle === 0 || angle === 90 || angle === 180 || angle === -90) {
-                        a_found = 0;
-                        return false;
-                    }
-                });
-
-                if (a_found) {
-                    // a_foot = foot; // Set A-point foot // > Why is this being set as a global variable?
-                    return true;
-                } else {
-                    return false;
+            // Compare the two angles
+            for (let i = 0; i < angles.length; i++) {
+                const angle = angles[i];
+                if (angle === 0 || angle === 90 || angle === 180 || angle === -90) {
+                    is_foot_a = false;
+                    break
                 }
             }
+
+            return is_foot_a;
+        }
 
         // Get A point of triangle
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
@@ -462,14 +454,16 @@ TRIPODS.mvt = (function (mod) {
          */
         function checkWhichFeetShouldPivot(foot, count) {
 
-            var left = parseFloat(getComputedStyle(document.getElementById(foot))["left"]),
-                top = parseFloat(getComputedStyle(document.getElementById(foot))["top"]),
-                anim_params, // Where feet will move to if the move is valid (e.g. doesn't encounter blocker UI element)
-                foot_new_position_left, foot_new_position_top;
+            const left = parseFloat(getComputedStyle(document.getElementById(foot))["left"]);
+            const top = parseFloat(getComputedStyle(document.getElementById(foot))["top"]);
 
             if (foot_pivot_sequence[count] !== null) { // If foot should move
 
+                let anim_params; // Where feet will move to if the move is valid (e.g. doesn't encounter blocker UI element)
+
                 if (foot_pivot_sequence[count][0] === 'left') {
+
+                    let foot_new_position_left;
 
                     // Get new foot coords
                     if (foot_pivot_sequence[count][1] === '-') foot_new_position_left = left - TRIPODS.ui_attributes.el_side;
@@ -478,6 +472,8 @@ TRIPODS.mvt = (function (mod) {
                     anim_params = { 'left': foot_new_position_left, top: top }; // Store parameters for animation
 
                 } else if (foot_pivot_sequence[count][0] === 'top') {
+
+                    let foot_new_position_top;
 
                     if (foot_pivot_sequence[count][1] === '-') foot_new_position_top = top - TRIPODS.ui_attributes.el_side;
                     else if (foot_pivot_sequence[count][1] === '+') foot_new_position_top = top + TRIPODS.ui_attributes.el_side;

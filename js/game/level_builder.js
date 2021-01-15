@@ -1,6 +1,6 @@
 TRIPODS.level_builder = (function () {
 
-    var submod = {};
+    const submod = {};
 
     submod.runLevel = function () {
         TRIPODS.mvt.repositionPivot();

@@ -1,6 +1,6 @@
 TRIPODS.events = (function () {
 
-    var submod = {
+    const submod = {
         state: {
             // hold: 0
         }
@@ -61,12 +61,12 @@ TRIPODS.events = (function () {
         }
 
         // Pivotor UI element
-        var pivitor = document.querySelector('.pivitor');
+        const pivitor = document.querySelector('.pivitor');
         pivitor.addEventListener("touchend", TRIPODS.mvt.pivot, false); // Touch
         pivitor.addEventListener("click", TRIPODS.mvt.pivot, false); // Mouse pointer
 
         // Swipe
-        var feet = document.querySelectorAll('.foot');
+        const feet = document.querySelectorAll('.foot');
         Array.prototype.forEach.call(feet, function (foot) {
             foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
             foot.addEventListener("click", TRIPODS.mvt.swipe, false);
