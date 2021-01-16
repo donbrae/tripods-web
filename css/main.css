@@ -143,7 +143,8 @@ span.button:hover {
 }
 
 .container {
-    background: url(../img/game/grid.svg) #fff no-repeat;
+    /* background: url(../img/game/grid.svg) #fff no-repeat; */
+    background-color: #fff;
     margin-top: 10px;
 }
 

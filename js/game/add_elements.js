@@ -91,11 +91,35 @@ var TRIPODS = (function (mod) {
 
     mod.addElements = function () {
 
-        // Layer 1
+        // > Layer 0 (grid)
+        // > If square === 0 add svg_elements.elements.empty
+
+        // Layer 0 (grid)
         let top = 0;
         let layer_element = _addLayer();
+        mod.levels[mod.game_state.level].forEach((row, i) => {
+            if (i) {
+                let left = 0;
+                row.forEach(square => {
+                    if (
+                        square === 0 || // Empty grid square
+                        square === 1 || // Foot 1
+                        square === 2 || // Foot 2
+                        square === 3 // Foot 3
+                    )
+                        _addElement(mod.config.svg_elements.grid, layer_element, left, top);
+
+                    left += mod.ui_attributes.el_side;
+                });
+                top += mod.ui_attributes.el_side;
+            }
+        });
+
         let three_specific_landing_spots = false; // Each of the three feet has a specific landing spot
 
+        // Layer 1 (blockers, landing spots)
+        top = 0;
+        layer_element = _addLayer();
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i) { // First row contains colour data
                 let left = 0;
@@ -109,7 +133,6 @@ var TRIPODS = (function (mod) {
 
                     // (See mod.config.linking)
                     if (
-                        square === 0 || // Empty square
                         square === 4 || // Blocker
                         square === 5 || // Landing 1
                         square === 6 || // Landing 2
@@ -145,7 +168,7 @@ var TRIPODS = (function (mod) {
             }
         });
 
-        // Layer 2
+        // Layer 2 (interactive UI elements)
         top = 0;
         layer_element = _addLayer();
         mod.levels[mod.game_state.level].forEach((row, i) => {

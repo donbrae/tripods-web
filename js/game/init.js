@@ -4,6 +4,20 @@ var TRIPODS = (function (mod) {
         // SVG elements for placement on grid
         svg_elements: {
             empty: null,
+            grid: {
+                name: 'empty',
+                shape: 'circle',
+                classes: 'grid',
+                attributes: {
+                    'stroke-width': '1',
+                    'fill-opacity': '0',
+                    stroke: '#ddd',
+                    r: '16',
+                    cy: '19.5',
+                    cx: '19.5',
+                    // opacity: '0.75'
+                }
+            },
             foot1: {
                 control: 1,
                 name: 'foot1',
@@ -13,7 +27,7 @@ var TRIPODS = (function (mod) {
                 attributes: { // Shape attributes
                     cx: '19.5',
                     cy: '19.5',
-                    r: '15'
+                    r: '16'
                 }
             },
             foot2: { // Inherits from foot1
@@ -51,7 +65,7 @@ var TRIPODS = (function (mod) {
                 attributes: {
                     'stroke-width': '2.7',
                     'fill-opacity': '0',
-                    r: '15',
+                    r: '16',
                     cy: '19.5',
                     cx: '19.5',
                     opacity: '0.75'
