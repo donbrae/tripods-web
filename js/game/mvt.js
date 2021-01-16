@@ -24,10 +24,9 @@ TRIPODS.mvt = (function (mod) {
     let block_collide;
 
     const control_padding = TRIPODS.ui_attributes.control_padding;
-    const cell_len = TRIPODS.ui_attributes.el_side;
 
     // Foot hits one of the four walls
-    function boundaryIntersected(left, top) {
+    function boundaryIntersected(left, top, cell_len) {
         if (left < -control_padding) return 'left'; // Hits left container boundary
         else if (left > cell_len * (submod.measurements.cells_in_row - 1) - control_padding) return 'right';
         else if (top < -control_padding) return 'top';
@@ -287,8 +286,8 @@ TRIPODS.mvt = (function (mod) {
         let pivot_x; // `left` style attribute of where pivot should be (x)
         let pivot_y; // As above, but for y
 
-        const side = mod.ui_attributes.el_side;
-        const shunt = 6; // px
+        const side = mod.ui_attributes.svg_xy;
+        const shunt = Math.round(mod.ui_attributes.svg_xy / 6); // px
 
         // Clockwise arrangement 1, 2, 3
         if (angle_1_2 === 63 && angle_1_3 === 117) { // Position 1
@@ -466,8 +465,8 @@ TRIPODS.mvt = (function (mod) {
                     let foot_new_position_left;
 
                     // Get new foot coords
-                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_left = left - TRIPODS.ui_attributes.el_side;
-                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_left = left + TRIPODS.ui_attributes.el_side;
+                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_left = left - TRIPODS.ui_attributes.svg_xy;
+                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_left = left + TRIPODS.ui_attributes.svg_xy;
 
                     anim_params = { 'left': foot_new_position_left, top: top }; // Store parameters for animation
 
@@ -475,8 +474,8 @@ TRIPODS.mvt = (function (mod) {
 
                     let foot_new_position_top;
 
-                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_top = top - TRIPODS.ui_attributes.el_side;
-                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_top = top + TRIPODS.ui_attributes.el_side;
+                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_top = top - TRIPODS.ui_attributes.svg_xy;
+                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_top = top + TRIPODS.ui_attributes.svg_xy;
 
                     anim_params = { 'top': foot_new_position_top, left: left };
                 }
@@ -546,6 +545,7 @@ TRIPODS.mvt = (function (mod) {
             return false;
         }
 
+        const cell_len = TRIPODS.ui_attributes.svg_xy;
         const foot = document.getElementById(e.currentTarget.id);
 
         function animateBoundaryIntersect(left, top) {
@@ -698,7 +698,7 @@ TRIPODS.mvt = (function (mod) {
 
         // Check whether boundary has been intersected
 
-        const boundary_check = boundaryIntersected(left, top);
+        const boundary_check = boundaryIntersected(left, top, cell_len);
         block_collide = elementCollision(left, top);
 
         if (boundary_check) { // If swiped off the board

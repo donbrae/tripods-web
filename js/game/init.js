@@ -8,14 +8,10 @@ var TRIPODS = (function (mod) {
                 name: 'empty',
                 shape: 'circle',
                 classes: 'grid',
-                attributes: {
+                attributes: { // r, cx and cy set dynamically
                     'stroke-width': '1',
                     'fill-opacity': '0',
-                    stroke: '#ddd',
-                    r: '16',
-                    cy: '19.5',
-                    cx: '19.5',
-                    // opacity: '0.75'
+                    stroke: '#ddd'
                 }
             },
             foot1: {
@@ -24,11 +20,7 @@ var TRIPODS = (function (mod) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: 'control foot',
-                attributes: { // Shape attributes
-                    cx: '19.5',
-                    cy: '19.5',
-                    r: '16'
-                }
+                attributes: {} // fill, r, cx and cy set dynamically
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
@@ -50,11 +42,9 @@ var TRIPODS = (function (mod) {
                 block: 1,
                 name: 'block',
                 shape: 'rect',
-                attributes: {
+                attributes: { // width and height set dynamically
                     x: '0',
                     y: '0',
-                    width: '38',
-                    height: '38',
                     fill: '#3a86ff'
                 }
             },
@@ -62,12 +52,9 @@ var TRIPODS = (function (mod) {
                 name: 'landing_foot1',
                 shape: 'circle',
                 classes: 'landing-1',
-                attributes: {
-                    'stroke-width': '2.9',
+                attributes: { // r, cx and cy set dynamically
+                    'stroke-width': '4',
                     'fill-opacity': '0',
-                    r: '16',
-                    cy: '19.5',
-                    cx: '19.5',
                     opacity: '0.75'
                 }
             },
@@ -82,19 +69,14 @@ var TRIPODS = (function (mod) {
                 name: 'pivitor',
                 shape: 'circle',
                 classes: 'control pivitor',
-                attributes: {
-                    'stroke-width': 6,
-                    stroke: '#dddddd',
-                    'fill-opacity': .3,
-                    r: '5',
-                    cx: '29',
-                    cy: '28',
+                attributes: { // r, cx and cy set dynamically
+                    fill: '#dddddd',
+                    'fill-opacity': .75,
                     filter: 'url(#pivot_blur)',
-                    opacity: '0.65',
                     class: 'pulse'
                 },
                 defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
-                    '<feGaussianBlur stdDeviation="2.8" in="SourceGraphic"/>' +
+                    '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
                     '</filter>'
             }
         },
@@ -104,12 +86,13 @@ var TRIPODS = (function (mod) {
                 timing_function: "linear",
                 duration: 120 // milliseconds
             }
-        }
+        },
+        svg_xy_max: 500
     }
 
     mod.ui_attributes = {
-        el_side: 38,
-        control_padding: 8
+        svg_xy: null,
+        control_padding: 8 // (px)
     };
 
     mod.init = function () {

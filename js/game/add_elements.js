@@ -9,7 +9,7 @@ var TRIPODS = (function (mod) {
             const svg = document.createElement("svg");
 
             if (el.defs !== undefined) // Add any defs to SVG element
-                svg.insertAdjacentHTML("afterbegin", `<defs>${el.defs}</defs>`);
+                svg.insertAdjacentHTML("beforeend", `<defs>${el.defs}</defs>`); // beforeend required for later resizing to work
 
             if (el.classes !== undefined) { // Add any classes to SVG element
                 el.classes.split(" ").forEach(item => {
@@ -20,7 +20,7 @@ var TRIPODS = (function (mod) {
             if (el.id !== undefined) // Add any unique id SVG element
                 svg.setAttribute("id", el.id);
 
-            svg.insertAdjacentHTML("beforeend", `<${el.shape}></${el.shape}>`);
+            svg.insertAdjacentHTML("afterbegin", `<${el.shape}></${el.shape}>`); // afterbegin required for later resizing to work
 
             if (el.attributes !== undefined) { // Add attributes to SVG shape
                 Object.keys(el.attributes).forEach(function (key) {
@@ -54,9 +54,9 @@ var TRIPODS = (function (mod) {
         }
     };
 
-    function _addLayer() {
+    function _addLayer(id) {
         const container = document.getElementsByClassName("container")[0];
-        container.insertAdjacentHTML("beforeend", "<div class=\"layer\"></div>");
+        container.insertAdjacentHTML("beforeend", `<div class="layer" id="${id}"></div>`);
         return container.querySelector(".layer:last-of-type");
     };
 
@@ -91,12 +91,15 @@ var TRIPODS = (function (mod) {
 
     mod.addElements = function () {
 
-        // > Layer 0 (grid)
-        // > If square === 0 add svg_elements.elements.empty
+        mod.ui_attributes.svg_xy = Math.round(window.innerWidth / mod.levels[mod.game_state.level].length);
+
+        if (window.innerWidth > mod.config.svg_xy_max) {
+            mod.ui_attributes.svg_xy = Math.round(mod.config.svg_xy_max / mod.levels[mod.game_state.level].length);
+        }
 
         // Layer 0 (grid)
         let top = 0;
-        let layer_element = _addLayer();
+        let layer_element = _addLayer("grid");
         mod.levels[mod.game_state.level].forEach((row, i) => {
             if (i) {
                 let left = 0;
@@ -109,32 +112,17 @@ var TRIPODS = (function (mod) {
                     )
                         _addElement(mod.config.svg_elements.grid, layer_element, left, top);
 
-                    left += mod.ui_attributes.el_side;
+                    left += mod.ui_attributes.svg_xy;
                 });
-                top += mod.ui_attributes.el_side;
+                top += mod.ui_attributes.svg_xy;
             }
-        });
-
-        // Set grid area dimensions
-        let dimension = parseFloat(getComputedStyle(layer_element.querySelector(".grid")).width) * mod.levels[mod.game_state.level][1].length; // Grid height and width
-
-        Array.prototype.forEach.call(document.querySelectorAll(".container"), el => {
-            el.style.width = `${dimension}px`;
-            el.style.height = `${dimension}px`;
-        });
-        Array.prototype.forEach.call(document.querySelectorAll(".layer"), el => {
-            el.style.width = `${dimension}px`;
-            el.style.height = `${dimension}px`;
-        });
-        Array.prototype.forEach.call(document.querySelector(".outer-container").children, el => {
-            el.style.width = `${dimension}px`;
         });
 
         let three_specific_landing_spots = false; // Each of the three feet has a specific landing spot
 
         // Layer 1 (blockers, landing spots)
         top = 0;
-        layer_element = _addLayer();
+        layer_element = _addLayer("blockers-landing-spots");
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i) { // First row contains colour data
                 let left = 0;
@@ -177,15 +165,15 @@ var TRIPODS = (function (mod) {
                         _addElement(mod.config.linking[square], layer_element, left, top);
                     }
 
-                    left += mod.ui_attributes.el_side;
+                    left += mod.ui_attributes.svg_xy;
                 });
-                top += mod.ui_attributes.el_side;
+                top += mod.ui_attributes.svg_xy;
             }
         });
 
         // Layer 2 (interactive UI elements)
         top = 0;
-        layer_element = _addLayer();
+        layer_element = _addLayer("interactive");
         mod.levels[mod.game_state.level].forEach((row, i) => {
             if (i) {
                 let left = 0;
@@ -217,13 +205,47 @@ var TRIPODS = (function (mod) {
                         _addElement(mod.config.linking[square], layer_element, left, top);
                     }
 
-                    left += mod.ui_attributes.el_side;
+                    left += mod.ui_attributes.svg_xy;
                 });
-                top += mod.ui_attributes.el_side;
+                top += mod.ui_attributes.svg_xy;
             }
         });
 
         _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
+
+        // Set grid area dimensions
+        let dimension = mod.ui_attributes.svg_xy * mod.levels[mod.game_state.level][1].length; // Grid height and width
+
+        Array.prototype.forEach.call(document.querySelectorAll(".container"), el => {
+            el.style.width = `${dimension}px`;
+            el.style.height = `${dimension}px`;
+        });
+
+        Array.prototype.forEach.call(document.querySelectorAll(".layer"), el => {
+            el.style.width = `${dimension}px`;
+            el.style.height = `${dimension}px`;
+            console.log(mod.ui_attributes.svg_xy);
+            Array.prototype.forEach.call(el.querySelectorAll("svg"), svg => {
+                svg.style.width = `${mod.ui_attributes.svg_xy}px`;
+                svg.style.height = `${mod.ui_attributes.svg_xy}px`;
+                if (svg.children[0].nodeName === "circle") {
+                    svg.children[0].setAttribute("cx", mod.ui_attributes.svg_xy / 2);
+                    svg.children[0].setAttribute("cy", mod.ui_attributes.svg_xy / 2);
+                    if (svg.classList.contains("pivitor")) { // Pivotor
+                        svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 5);
+                    } else {
+                        svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 2.375);
+                    }
+
+                } else if (svg.children[0].nodeName === "rect") {
+                    svg.children[0].setAttribute("width", mod.ui_attributes.svg_xy);
+                    svg.children[0].setAttribute("height", mod.ui_attributes.svg_xy);
+                }
+            });
+        });
+        Array.prototype.forEach.call(document.querySelector(".outer-container").children, el => {
+            el.style.width = `${dimension}px`;
+        });
 
         _addControlTouchPadding();
     }

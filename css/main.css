@@ -214,8 +214,6 @@ span.button:hover {
 .layer > svg {
     float: left;
     position: absolute;
-    width: 38px;
-    height: 38px;
 }
 
 svg.control:hover {
@@ -290,12 +288,12 @@ textarea[contenteditable] {
 }
 
 @keyframes pulse-color {
-    20% {
-        stroke: #a8a8a8;
+    30% {
+        fill: #414141;
     }
 
-    75% {
-        stroke: #dddddd;
+    60% {
+        fill: #a0a0a0;
     }
 }
 
