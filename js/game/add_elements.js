@@ -64,7 +64,7 @@ var TRIPODS = (function (mod) {
 
         const elements = document.querySelectorAll(".control");
 
-        Array.prototype.forEach.call(elements, function (el) {
+        Array.prototype.forEach.call(elements, el => {
 
             // Amend SVG object
             let side = parseFloat(getComputedStyle(el)["width"]);
@@ -113,6 +113,21 @@ var TRIPODS = (function (mod) {
                 });
                 top += mod.ui_attributes.el_side;
             }
+        });
+
+        // Set grid area dimensions
+        let dimension = parseFloat(getComputedStyle(layer_element.querySelector(".grid")).width) * mod.levels[mod.game_state.level][1].length; // Grid height and width
+
+        Array.prototype.forEach.call(document.querySelectorAll(".container"), el => {
+            el.style.width = `${dimension}px`;
+            el.style.height = `${dimension}px`;
+        });
+        Array.prototype.forEach.call(document.querySelectorAll(".layer"), el => {
+            el.style.width = `${dimension}px`;
+            el.style.height = `${dimension}px`;
+        });
+        Array.prototype.forEach.call(document.querySelector(".outer-container").children, el => {
+            el.style.width = `${dimension}px`;
         });
 
         let three_specific_landing_spots = false; // Each of the three feet has a specific landing spot

@@ -63,7 +63,7 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'landing-1',
                 attributes: {
-                    'stroke-width': '2.7',
+                    'stroke-width': '2.9',
                     'fill-opacity': '0',
                     r: '16',
                     cy: '19.5',

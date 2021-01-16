@@ -88,6 +88,7 @@ h1 {
     font-size: 1.1em;
     color: #c2c2c2;
     text-align: center;
+    margin: 0 auto;
 }
 
 h2 {
@@ -121,7 +122,7 @@ span.button:hover {
     cursor: default;
 }
 
-.container, .layer {
+.container, .layer { /* Default size */
     width: 305px;
     height: 305px;
 }
