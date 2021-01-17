@@ -84,13 +84,36 @@ TRIPODS.game_state = (function () {
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
+        function addRainbowEffect() {
+            document.querySelector(".landing-1 > circle").classList.add("rainbow");
+            setTimeout(function () {
+                document.querySelector(".landing-2 > circle").classList.add("rainbow");
+                setTimeout(function () {
+                    document.querySelector(".landing-3 > circle").classList.add("rainbow");
+                }, 100);
+            }, 100);
+        }
+
+        function removeRainbowEffect() {
+            document.querySelector(".landing-1 > circle").classList.add("rainbow");
+            document.querySelector(".landing-2 > circle").classList.remove("rainbow");
+            document.querySelector(".landing-3 > circle").classList.remove("rainbow");
+        }
+
         const active_layer = document.getElementsByClassName("layer-active")[0];
-        active_layer.style.opacity = 0.1;
+        active_layer.style.opacity = 0;
+        TRIPODS.utils.fadeOut(".pivitor");
+        // document.querySelector(".pivitor").style.opacity = 0;
+        addRainbowEffect();
         setTimeout(function () {
-            active_layer.style.opacity = 1;
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
-        }, 600);
+            setTimeout(function() {
+                TRIPODS.utils.fadeIn(".pivitor");
+                active_layer.style.opacity = 1;
+                removeRainbowEffect();
+            }, 1000);
+        }, 1250);
     }
 
     return submod;

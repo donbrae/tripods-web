@@ -222,13 +222,14 @@ svg.control:hover {
 
 .foot {
     z-index: 1000;
+    transition: opacity linear .1s;
 }
 
 .pivitor {
     transition: opacity linear .2s;
 }
 
-.message {
+.full-screen {
     min-height: 100%;
     width: 100%;
     position: fixed;
@@ -241,6 +242,14 @@ svg.control:hover {
 
 .hide {
     display: none;
+}
+
+.fade {
+    transition: opacity ease-out .3s; /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
+}
+
+.fade:not(.show) {
+    opacity: 0;
 }
 
 /* ==========================================================================
@@ -277,7 +286,7 @@ textarea[contenteditable] {
 }
 
 .pulse {
-    display: inline-block;
+    /* display: inline-block; */
     /* animation: change-color 1.85s cubic-bezier(0.75, 0.29, 1, 1) infinite; */
     animation-name: pulse-color;
     animation-duration: 1.2s;
@@ -294,6 +303,41 @@ textarea[contenteditable] {
 
     60% {
         fill: #a0a0a0;
+    }
+}
+
+.rainbow {
+    animation-name: cycle-colors;
+    animation-duration: 1.85s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    transition: color .075s linear;
+}
+
+@keyframes cycle-colors {
+    15% {
+        stroke: #ff331c;
+    }
+
+    30% {
+        stroke: #fffc36;
+    }
+
+    45% {
+        stroke: #00f92f;
+    }
+
+    60% {
+        stroke: #002bfb;
+    }
+
+    75% {
+        stroke: #ff40fc;
+    }
+
+    90% {
+        stroke: #00fbfe;
     }
 }
 

@@ -87,10 +87,6 @@ var TRIPODS = (function (mod) {
         });
     }
 
-    function adjustLandingStroke() {
-
-    }
-
     // Public functions
 
     mod.addElements = function () {
@@ -128,8 +124,13 @@ var TRIPODS = (function (mod) {
         top = 0;
         layer_element = _addLayer("blockers-landing-spots");
 
-        // Adjust control padding
-        mod.ui_attributes.control_padding = Math.round(mod.ui_attributes.control_padding * (mod.ui_attributes.svg_xy / 36));
+        // Store initial stroke-width of landing feet
+        if (!mod.ui_attributes.landing_stroke_width) {
+            mod.ui_attributes.landing_stroke_width = mod.config.svg_elements.landing_foot1.attributes["stroke-width"];
+        }
+
+        // Adjust control padding for this level
+        mod.ui_attributes.control_padding = Math.round(mod.config.control_padding * (mod.ui_attributes.svg_xy / 36));
 
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i) { // First row contains colour data
@@ -169,7 +170,7 @@ var TRIPODS = (function (mod) {
                             }
 
                             mod.config.linking[square].attributes.stroke = stroke;
-                            mod.config.linking[square].attributes["stroke-width"] = (mod.config.linking[square].attributes["stroke-width"] * (mod.ui_attributes.svg_xy / 36).toFixed(2));
+                            mod.config.linking[square].attributes["stroke-width"] = (mod.ui_attributes.landing_stroke_width * (mod.ui_attributes.svg_xy / 36).toFixed(2));
                         }
                         _addElement(mod.config.linking[square], layer_element, left, top);
                     }

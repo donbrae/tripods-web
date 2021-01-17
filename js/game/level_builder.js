@@ -14,6 +14,12 @@ TRIPODS.level_builder = (function () {
         active_layer.style.opacity = 0.1;
         setTimeout(function () {
             active_layer.style.opacity = 1;
+            setTimeout(function () {
+                active_layer.style.opacity = 0.1;
+                setTimeout(function () {
+                    active_layer.style.opacity = 1;
+                }, 500);
+            }, 500);
         }, 500);
     }
 
@@ -26,12 +32,16 @@ TRIPODS.level_builder = (function () {
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
-        last_layer.style.display = "none";
+        // last_layer.classList.add("hide");
 
-        document.querySelector(".message").classList.add("hide");
+        setTimeout(function() {
+            TRIPODS.utils.fadeOut(".blank-overlay"); // On launch
+            TRIPODS.utils.fadeOut(".message"); // Level win
+        }, 150);
 
         setTimeout(function () {
-            last_layer.style.display = "inherit";
+            TRIPODS.utils.fadeIn(".container > .layer:last-of-type");
+            // last_layer.style.display = "inherit";
             setTimeout(submod.runLevel, 500);
         }, 3);
     }
@@ -42,7 +52,7 @@ TRIPODS.level_builder = (function () {
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
             TRIPODS.game_state.level_win = 0;
 
-            Array.prototype.forEach.call(document.querySelectorAll(".layer:not(.layer0)"), function (el) {
+            Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
                 el.parentNode.removeChild(el);
             });
 
@@ -57,7 +67,7 @@ TRIPODS.level_builder = (function () {
             if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level)
                 next_level.parentNode.removeChild(next_level);
 
-            document.querySelector(".message").classList.remove("hide");
+            TRIPODS.utils.fadeIn(".message");
         }, 500);
     }
 

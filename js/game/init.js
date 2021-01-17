@@ -53,7 +53,7 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'landing-1',
                 attributes: { // r, cx and cy set dynamically
-                    'stroke-width': 4, // Used as input for later calculation. The value here is round about what it should be for an iPhone 5/SE
+                    'stroke-width': 4, // Used as input for later calculation. Original value stored in mod.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
                     'fill-opacity': 0,
                     opacity: '0.75'
                 }
@@ -87,12 +87,14 @@ var TRIPODS = (function (mod) {
                 duration: 120 // milliseconds
             }
         },
-        svg_xy_max: 500
+        svg_xy_max: 500,
+        control_padding: 8 // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
     }
 
     mod.ui_attributes = {
-        svg_xy: null,
-        control_padding: 8 // (px) Adjusted dynamically. The default value here is round about what it should be for an iPhone 5/SE
+        svg_xy: 0,
+        control_padding: 0,
+        landing_stroke_width: 0 // Original value for reference. Keep default as 0
     };
 
     mod.init = function () {

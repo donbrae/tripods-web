@@ -63,6 +63,24 @@ TRIPODS.utils = (function () {
         return out;
     }
 
+    submod.fadeIn = function (selector, callback) {
+        document.querySelector(selector).classList.remove("hide");
+        setTimeout(function () {
+            document.querySelector(selector).classList.add("show");
+            setTimeout(function () {
+                if (typeof (callback) == "function") callback();
+            }, 310);
+        }, 100); // Slight delay so the change in opacity works
+    }
+
+    submod.fadeOut = function (selector, callback) {
+        document.querySelector(selector).classList.remove("show");
+        setTimeout(function () {
+            document.querySelector(selector).classList.add("hide");
+            if (typeof (callback) == "function") callback();
+        }, 310);
+    }
+
     return submod;
 
 }());
