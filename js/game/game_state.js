@@ -120,6 +120,18 @@ TRIPODS.game_state = (function () {
         TRIPODS.utils.fadeOut(".pivitor");
         // document.querySelector(".pivitor").style.opacity = 0;
         addRainbowEffect();
+        // confetti({
+        //     particleCount: 100,
+        //     spread: 360,
+        //     startVelocity: 20,
+        //     useWorker: true,
+        //     colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
+        //     disableForReducedMotion: true,
+        //     origin: {
+        //         x: TRIPODS.utils.getCenterPoint(document.querySelector(".pivitor")).x / window.innerWidth * 100 / 100,
+        //         y: TRIPODS.utils.getCenterPoint(document.querySelector(".pivitor")).y / window.innerHeight * 100 / 100
+        //     }
+        // });
         setTimeout(function () {
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
@@ -128,7 +140,7 @@ TRIPODS.game_state = (function () {
                 active_layer.style.opacity = 1;
                 removeRainbowEffect();
             }, 1000);
-        }, 1250);
+        }, 1750);
     }
 
     return submod;

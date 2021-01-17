@@ -130,9 +130,16 @@ var TRIPODS = (function (mod) {
             ]
         };
 
+        function _initConfettiCanvas() {
+            const canvas = document.getElementById('confetti-canvas');
+
+            canvas.confetti = canvas.confetti || confetti.create(canvas, { resize: true });
+        }
+
         _extendConfig();
 
         mod.level_builder.addUI(); // Add UI elements
+        _initConfettiCanvas();
     }
 
     return mod;

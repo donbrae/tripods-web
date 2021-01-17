@@ -117,7 +117,7 @@ span.button:hover {
 .outer-container {
     min-height: 500px;
     width: 100%;
-    position: absolute;
+    position: relative;
     margin: 0 auto;
     cursor: default;
 }
