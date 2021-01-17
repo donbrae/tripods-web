@@ -23,10 +23,10 @@ TRIPODS.mvt = (function (mod) {
     let orig_pos_y;
     let block_collide;
 
-    const control_padding = TRIPODS.ui_attributes.control_padding;
-
     // Foot hits one of the four walls
     function boundaryIntersected(left, top, cell_len) {
+        const control_padding = TRIPODS.ui_attributes.control_padding;
+
         if (left < -control_padding) return 'left'; // Hits left container boundary
         else if (left > cell_len * (submod.measurements.cells_in_row - 1) - control_padding) return 'right';
         else if (top < -control_padding) return 'top';
@@ -708,6 +708,7 @@ TRIPODS.mvt = (function (mod) {
             const a_foot = submod.getAFoot(); // Foot at position A
             const a_foot_left = parseFloat(getComputedStyle(a_foot)["left"]);
             const a_foot_top = parseFloat(getComputedStyle(a_foot)["top"]);
+            const control_padding = TRIPODS.ui_attributes.control_padding;
 
             // Animate depending on which wall was hit and at which angle
             if (boundary_check === 'bottom' && swipe_angle === 's') {
