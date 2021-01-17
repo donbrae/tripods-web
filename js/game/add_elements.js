@@ -60,7 +60,7 @@ var TRIPODS = (function (mod) {
         return container.querySelector(".layer:last-of-type");
     };
 
-    function _addControlTouchPadding() { // Adds 'padding' so swipes will be better detected
+    function _addControlTouchPadding() { // Adds 'padding' so taps/swipe will be better detected
 
         const elements = document.querySelectorAll(".control");
 
@@ -85,6 +85,10 @@ var TRIPODS = (function (mod) {
             el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
             el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
         });
+    }
+
+    function adjustLandingStroke() {
+
     }
 
     // Public functions
@@ -123,14 +127,18 @@ var TRIPODS = (function (mod) {
         // Layer 1 (blockers, landing spots)
         top = 0;
         layer_element = _addLayer("blockers-landing-spots");
+
+        // Adjust control padding
+        mod.ui_attributes.control_padding = Math.round(mod.ui_attributes.control_padding * (mod.ui_attributes.svg_xy / 36));
+
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i) { // First row contains colour data
                 let left = 0;
                 row.forEach(square => { // Each square
                     if (square === 4) { // If this is a blocker element
                         mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-                            left: left - TRIPODS.ui_attributes.control_padding,
-                            top: top - TRIPODS.ui_attributes.control_padding
+                            left: left - mod.ui_attributes.control_padding,
+                            top: top - mod.ui_attributes.control_padding
                         });
                     }
 
@@ -150,7 +158,7 @@ var TRIPODS = (function (mod) {
                             let stroke;
                             switch (square) {
                                 case 5:
-                                    stroke = mod.levels[mod.game_state.level][0][0];
+                                    stroke = mod.levels[mod.game_state.level][0][0]; // Colour
                                     break;
                                 case 6:
                                     stroke = mod.levels[mod.game_state.level][0][1];
@@ -161,6 +169,7 @@ var TRIPODS = (function (mod) {
                             }
 
                             mod.config.linking[square].attributes.stroke = stroke;
+                            mod.config.linking[square].attributes["stroke-width"] = (mod.config.linking[square].attributes["stroke-width"] * (mod.ui_attributes.svg_xy / 36).toFixed(2));
                         }
                         _addElement(mod.config.linking[square], layer_element, left, top);
                     }
@@ -224,7 +233,6 @@ var TRIPODS = (function (mod) {
         Array.prototype.forEach.call(document.querySelectorAll(".layer"), el => {
             el.style.width = `${dimension}px`;
             el.style.height = `${dimension}px`;
-            console.log(mod.ui_attributes.svg_xy);
             Array.prototype.forEach.call(el.querySelectorAll("svg"), svg => {
                 svg.style.width = `${mod.ui_attributes.svg_xy}px`;
                 svg.style.height = `${mod.ui_attributes.svg_xy}px`;

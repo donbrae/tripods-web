@@ -9,8 +9,8 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'grid',
                 attributes: { // r, cx and cy set dynamically
-                    'stroke-width': '1',
-                    'fill-opacity': '0',
+                    'stroke-width': 1,
+                    'fill-opacity': 0,
                     stroke: '#ddd'
                 }
             },
@@ -39,12 +39,12 @@ var TRIPODS = (function (mod) {
               }
             },*/
             block: {
-                block: 1,
+                block: true,
                 name: 'block',
                 shape: 'rect',
                 attributes: { // width and height set dynamically
-                    x: '0',
-                    y: '0',
+                    x: 0,
+                    y: 0,
                     fill: '#3a86ff'
                 }
             },
@@ -53,8 +53,8 @@ var TRIPODS = (function (mod) {
                 shape: 'circle',
                 classes: 'landing-1',
                 attributes: { // r, cx and cy set dynamically
-                    'stroke-width': '4',
-                    'fill-opacity': '0',
+                    'stroke-width': 4, // Used as input for later calculation. The value here is round about what it should be for an iPhone 5/SE
+                    'fill-opacity': 0,
                     opacity: '0.75'
                 }
             },
@@ -65,7 +65,7 @@ var TRIPODS = (function (mod) {
                 name: 'landing_foot3',
             },
             pivitor: {
-                control: 1,
+                control: true,
                 name: 'pivitor',
                 shape: 'circle',
                 classes: 'control pivitor',
@@ -92,7 +92,7 @@ var TRIPODS = (function (mod) {
 
     mod.ui_attributes = {
         svg_xy: null,
-        control_padding: 8 // (px)
+        control_padding: 8 // (px) Adjusted dynamically. The default value here is round about what it should be for an iPhone 5/SE
     };
 
     mod.init = function () {
