@@ -12,19 +12,22 @@ TRIPODS.events = (function () {
 
         if (!TRIPODS.game_state.initialised) {
 
-            // Replay button
-            const replay = document.querySelector('.replay');
-            replay.addEventListener("touchend", TRIPODS.level_builder.reset, false);
-            replay.addEventListener("click", TRIPODS.level_builder.reset, false);
+            let replay = document.querySelector('.replay'); // Replay button
+            let next_level = document.querySelector('.next-level'); // 'Next level' button
 
-            // 'Next level' button
-            const next_level = document.querySelector('.next-level');
             function nextLevel() {
                 TRIPODS.game_state.level++; // Increment level
+                console.log("LEVEL UP");
                 TRIPODS.level_builder.reset();
             }
-            next_level.addEventListener("touchend", nextLevel, false);
-            next_level.addEventListener("click", nextLevel, false);
+
+            if (navigator.maxTouchPoints) {
+                replay.addEventListener("touchend", TRIPODS.level_builder.reset, false);
+                next_level.addEventListener("touchend", nextLevel, false);
+            } else {
+                replay.addEventListener("click", TRIPODS.level_builder.reset, false);
+                next_level.addEventListener("click", nextLevel, false);
+            }
 
             // // Changes to Hammer defaults
             // Hammer.gestures.Hold.defaults.hold_timeout = 600;

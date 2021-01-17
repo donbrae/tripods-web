@@ -86,18 +86,33 @@ TRIPODS.game_state = (function () {
 
         function addRainbowEffect() {
             document.querySelector(".landing-1 > circle").classList.add("rainbow");
-            setTimeout(function () {
-                document.querySelector(".landing-2 > circle").classList.add("rainbow");
+            if (document.querySelector(".landing-3 > circle")) {
                 setTimeout(function () {
-                    document.querySelector(".landing-3 > circle").classList.add("rainbow");
+                    document.querySelector(".landing-2 > circle").classList.add("rainbow");
+                    setTimeout(function () {
+                        document.querySelector(".landing-3 > circle").classList.add("rainbow");
+                    }, 100);
                 }, 100);
-            }, 100);
+            } else {
+                Array.prototype.forEach.call(document.querySelectorAll(".landing-2 > circle"), el => {
+                    setTimeout(function () {
+                        el.classList.add("rainbow");
+                    }, 100);
+                });
+            }
         }
 
         function removeRainbowEffect() {
             document.querySelector(".landing-1 > circle").classList.add("rainbow");
-            document.querySelector(".landing-2 > circle").classList.remove("rainbow");
-            document.querySelector(".landing-3 > circle").classList.remove("rainbow");
+            if (document.querySelector(".landing-3 > circle")) {
+                document.querySelector(".landing-2 > circle").classList.remove("rainbow");
+                document.querySelector(".landing-3 > circle").classList.remove("rainbow");
+            } else {
+                Array.prototype.forEach.call(document.querySelectorAll(".landing-2 > circle"), el => {
+                    el.classList.remove("rainbow");
+                });
+            }
+
         }
 
         const active_layer = document.getElementsByClassName("layer-active")[0];
@@ -108,7 +123,7 @@ TRIPODS.game_state = (function () {
         setTimeout(function () {
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
-            setTimeout(function() {
+            setTimeout(function () {
                 TRIPODS.utils.fadeIn(".pivitor");
                 active_layer.style.opacity = 1;
                 removeRainbowEffect();
