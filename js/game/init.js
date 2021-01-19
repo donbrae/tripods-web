@@ -38,14 +38,17 @@ var TRIPODS = (function (mod) {
                 fill: '#955050'
               }
             },*/
-            block: {
+            block: { // https://iconmonstr.com/cube-3-svg/
                 block: true,
                 name: 'block',
-                shape: 'rect',
+                shape: 'path',
+                viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
-                    x: 0,
-                    y: 0,
-                    fill: '#3a86ff'
+                    fill: "#3a86ff",
+                    d: "M12 0l-11 6v12.131l11 5.869 11-5.869v-12.066l-11-6.065zm7.91 6.646l-7.905 4.218-7.872-4.294 7.862-4.289 7.915 4.365zm-6.91 14.554v-8.6l8-4.269v8.6l-8 4.269z",
+                    // x: 0,
+                    // y: 0,
+                    // fill: '#3a86ff'
                 }
             },
             landing_foot1: { // Inherits color from foot1
@@ -66,20 +69,26 @@ var TRIPODS = (function (mod) {
                 name: 'landing_foot3',
                 classes: [], // `classes` property requires at least a blank array
             },
-            pivitor: {
+            pivitor: { // https://iconmonstr.com/redo-3-svg/
                 control: true,
                 name: 'pivitor',
-                shape: 'circle',
+                shape: 'path',
                 classes: ['control', 'pivitor'],
-                attributes: { // r, cx and cy set dynamically
-                    fill: '#dddddd',
-                    'fill-opacity': .75,
-                    filter: 'url(#pivot_blur)',
-                    class: 'pulse'
-                },
-                defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
-                    '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
-                    '</filter>'
+                viewBox: "-13 -14 50 50",
+                attributes: {
+                    d: "M4.115 5.515c4.617-4.618 12.056-4.676 16.756-.195l2.129-2.258v7.938h-7.484l2.066-2.191c-2.819-2.706-7.297-2.676-10.074.1-2.992 2.993-2.664 7.684.188 10.319l-3.314 3.5c-4.716-4.226-5.257-12.223-.267-17.213z",
+                    class: "pulse",
+                    fill: "#222",
+                }
+                // attributes: { // r, cx and cy set dynamically
+                //     fill: '#dddddd',
+                //     'fill-opacity': .75,
+                //     filter: 'url(#pivot_blur)',
+                //     class: 'pulse'
+                // },
+                // defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
+                //     '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
+                //     '</filter>'
             }
         },
         animation: {

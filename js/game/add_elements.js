@@ -17,6 +17,9 @@ var TRIPODS = (function (mod) {
                 });
             }
 
+            if (el.viewBox !== undefined) // SVG viewBox attribute
+                svg.setAttribute("viewBox", el.viewBox);
+
             if (el.id !== undefined) // Add any unique id SVG element
                 svg.setAttribute("id", el.id);
 
@@ -81,9 +84,12 @@ var TRIPODS = (function (mod) {
 
             // Amend actual SVG shape
             let shape_pos = parseFloat(el.querySelectorAll(":first-child")[0].getAttribute("cx"));
+            console.log(!isNaN(shape_pos));
 
-            el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
-            el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
+            if (!isNaN(shape_pos)) {
+                el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
+                el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
+            }
         });
     }
 
