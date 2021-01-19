@@ -85,7 +85,7 @@ TRIPODS.game_state = (function () {
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
-            let delay = 60;
+            let delay = 100;
             Array.prototype.forEach.call(document.querySelectorAll(".landing"), el => {
                 setTimeout(function () {
                     el.querySelector(":first-child").classList.add("rainbow"); // SVG shape
@@ -103,7 +103,7 @@ TRIPODS.game_state = (function () {
                         }
                     });
                 }, delay);
-                delay += 60;
+                delay += 100;
             });
         }
 

@@ -67,15 +67,17 @@ textarea {
 
 body {
     background-color: #000;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Open Sans,Helvetica Neue;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     margin: 0.3em 0 0 0;
     font-weight: bold;
 }
 
-h1, h2, h3, p {
+#container {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -86,14 +88,14 @@ h1, h2, h3, p {
 
 h1 {
     font-size: 1.1em;
-    color: #c2c2c2;
+    color: #f4f4f4;
     text-align: center;
     margin: 0 auto;
 }
 
 h2 {
     font-size: 1em;
-    color: #a7a7a7;
+    color: #f4f4f4;
     text-align: left;
 }
 
@@ -101,17 +103,37 @@ h2 {
     text-align: center;
 }
 
-span.button {
-    color: #222;
-    background-color: white;
-    padding: 6px;
-    margin: 0 5px;
-    font-weight: bold;
-    font-size: 1.1em;
+button {
+    display: inline-block;
+    border: none;
+    padding: .7rem 1.2rem;
+    margin: 0;
+    text-decoration: none;
+    background: #3a86ff;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-right: 1rem;
+    text-align: center;
+    transition: background 250ms ease-in-out,
+        transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
-span.button:hover {
-    cursor: pointer;
+button:hover,
+button:focus {
+    background: #2377ff;
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+button:active {
+    transform: scale(0.98);
 }
 
 .outer-container {
@@ -120,16 +142,25 @@ span.button:hover {
     position: relative;
     margin: 0 auto;
     cursor: default;
+    padding-top: 8px;
 }
 
-.container, .layer { /* Default size */
+.container,
+.layer {
+    /* Default size */
     width: 305px;
     height: 305px;
+}
+
+.info-panel,
+.container {
+    margin: 0 auto;
 }
 
 .info-panel {
     width: 305px;
     height: 50px;
+    margin-top: 10px;
     position: relative;
 }
 
@@ -137,9 +168,8 @@ span.button:hover {
     margin: 0;
 }
 
-.container, .info-panel {
+.container {
     padding: 0;
-    margin: 0 auto;
     position: relative;
 }
 
@@ -150,9 +180,7 @@ span.button:hover {
 }
 
 /* iPhone portrait */
-@media (max-width: 480px) {
-
-}
+@media (max-width: 480px) {}
 
 .layer {
     float: left;
@@ -164,54 +192,7 @@ span.button:hover {
     transition: opacity linear .4s;
 }
 
-.mask-left, .mask-right, .mask-top, .mask-bottom {
-    position: absolute;
-    z-index: 2500;
-    background-color: #000;
-}
-
-.mask-left, .mask-right {
-    width: 10px;
-}
-
-.mask-top, .mask-bottom {
-    width: 100%;
-    height: 10px;
-}
-
-.mask-top {
-    top: -10px;
-}
-
-.mask-left {
-    float: left;
-    height: 100%;
-    left: -10px;
-}
-
-.mask-right {
-    float: right;
-    height: 100%;
-    right: -10px;
-}
-
-.mask-bottom {
-    position: relative;
-}
-
-.background-blue {
-    background: #e8f4f8;
-}
-
-.background-white {
-    background: #fff;
-}
-
-.opacity-half {
-    opacity: 0.5;
-}
-
-.layer > svg {
+.layer>svg {
     float: left;
     position: absolute;
 }
@@ -245,39 +226,12 @@ svg.control:hover {
 }
 
 .fade {
-    transition: opacity ease-out .3s; /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
+    transition: opacity ease-out .3s;
+    /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
 }
 
 .fade:not(.show) {
     opacity: 0;
-}
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/* Prevent callout */
-
-.nocallout {
-    -webkit-touch-callout: none;
-}
-
-.pressed {
-    background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* A hack for HTML5 contenteditable attribute on mobile */
-
-textarea[contenteditable] {
-    -webkit-appearance: none;
-}
-
-/* A workaround for S60 3.x and 5.0 devices which do not animated gif images if
-   they have been set as display: none */
-
-.gifhidden {
-    position: absolute;
-    left: -100%;
 }
 
 .opacity-0 {
@@ -339,109 +293,4 @@ textarea[contenteditable] {
     90% {
         stroke: #00fbfe;
     }
-}
-
-/*
- * Image replacement
- */
-
-.ir {
-    background-color: transparent;
-    background-repeat: no-repeat;
-    border: 0;
-    direction: ltr;
-    display: block;
-    overflow: hidden;
-    text-align: left;
-    text-indent: -999em;
-}
-
-.ir br {
-    display: none;
-}
-
-/*
- * Hide from both screenreaders and browsers: h5bp.com/u
- */
-
-.hidden {
-    display: none !important;
-    visibility: hidden;
-}
-
-/*
- * Hide only visually, but have it available for screenreaders: h5bp.com/v
- */
-
-.visuallyhidden {
-    border: 0;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-}
-
-/*
- * Extends the .visuallyhidden class to allow the element to be focusable
- * when navigated to via the keyboard: h5bp.com/p
- */
-
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-    clip: auto;
-    height: auto;
-    margin: 0;
-    overflow: visible;
-    position: static;
-    width: auto;
-}
-
-/*
- * Hide visually and from screenreaders, but maintain layout
- */
-
-.invisible {
-    visibility: hidden;
-}
-
-/**
- * Clearfix helper
- * Used to contain floats: h5bp.com/q
- */
-
-.clearfix:before,
-.clearfix:after {
-    content: "";
-    display: table;
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/*
- * For IE 6/7 only
- * Include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   Theses examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 800px) {
-    /* Style adjustments for viewports that meet the condition */
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (min-resolution: 144dpi) {
-    /* Style adjustments for viewports that meet the condition */
 }
