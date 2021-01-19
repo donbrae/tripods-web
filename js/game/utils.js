@@ -20,7 +20,7 @@ TRIPODS.utils = (function () {
     // Get center point of element
     submod.getCenterPoint = function (el) {
         const offset = el.getBoundingClientRect();
-        const center_x = offset.left + document.body.scrollLeft + parseFloat(getComputedStyle(el, null).width.replace("px", "")) / 2;
+        const center_x = offset.left + document.body.scrollLeft + parseFloat(getComputedStyle(el, null).width.replace("px", "")) / 2; // > do we need to replace 'px'?
         const center_y = offset.top + document.body.scrollTop + parseFloat(getComputedStyle(el, null).height.replace("px", "")) / 2;
 
         return { x: center_x, y: center_y };

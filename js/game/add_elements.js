@@ -12,7 +12,7 @@ var TRIPODS = (function (mod) {
                 svg.insertAdjacentHTML("beforeend", `<defs>${el.defs}</defs>`); // beforeend required for later resizing to work
 
             if (el.classes !== undefined) { // Add any classes to SVG element
-                el.classes.split(" ").forEach(item => {
+                [].concat(el.classes).forEach(item => {
                     svg.classList.add(item);
                 });
             }

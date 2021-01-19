@@ -84,61 +84,46 @@ TRIPODS.game_state = (function () {
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
-        function addRainbowEffect() {
-            document.querySelector(".landing-1 > circle").classList.add("rainbow");
-            if (document.querySelector(".landing-3 > circle")) {
+        function addWinEffect() {
+            let delay = 60;
+            Array.prototype.forEach.call(document.querySelectorAll(".landing"), el => {
                 setTimeout(function () {
-                    document.querySelector(".landing-2 > circle").classList.add("rainbow");
-                    setTimeout(function () {
-                        document.querySelector(".landing-3 > circle").classList.add("rainbow");
-                    }, 100);
-                }, 100);
-            } else {
-                Array.prototype.forEach.call(document.querySelectorAll(".landing-2 > circle"), el => {
-                    setTimeout(function () {
-                        el.classList.add("rainbow");
-                    }, 100);
-                });
-            }
+                    el.querySelector(":first-child").classList.add("rainbow"); // SVG shape
+
+                    confetti({
+                        particleCount: 75,
+                        spread: 360,
+                        startVelocity: 20,
+                        useWorker: true,
+                        colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
+                        disableForReducedMotion: true,
+                        origin: {
+                            x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
+                            y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
+                        }
+                    });
+                }, delay);
+                delay += 60;
+            });
         }
 
-        function removeRainbowEffect() {
-            document.querySelector(".landing-1 > circle").classList.add("rainbow");
-            if (document.querySelector(".landing-3 > circle")) {
-                document.querySelector(".landing-2 > circle").classList.remove("rainbow");
-                document.querySelector(".landing-3 > circle").classList.remove("rainbow");
-            } else {
-                Array.prototype.forEach.call(document.querySelectorAll(".landing-2 > circle"), el => {
-                    el.classList.remove("rainbow");
-                });
-            }
-
+        function removeWinEffect() {
+            Array.prototype.forEach.call(document.querySelectorAll(".landing > :first-child"), el => {
+                el.classList.remove("rainbow");
+            });
         }
 
         const active_layer = document.getElementsByClassName("layer-active")[0];
         active_layer.style.opacity = 0;
         TRIPODS.utils.fadeOut(".pivitor");
-        // document.querySelector(".pivitor").style.opacity = 0;
-        addRainbowEffect();
-        // confetti({
-        //     particleCount: 100,
-        //     spread: 360,
-        //     startVelocity: 20,
-        //     useWorker: true,
-        //     colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
-        //     disableForReducedMotion: true,
-        //     origin: {
-        //         x: TRIPODS.utils.getCenterPoint(document.querySelector(".pivitor")).x / window.innerWidth * 100 / 100,
-        //         y: TRIPODS.utils.getCenterPoint(document.querySelector(".pivitor")).y / window.innerHeight * 100 / 100
-        //     }
-        // });
+        addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn(".pivitor");
                 active_layer.style.opacity = 1;
-                removeRainbowEffect();
+                removeWinEffect();
             }, 1000);
         }, 1750);
     }

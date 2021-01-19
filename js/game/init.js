@@ -19,7 +19,7 @@ var TRIPODS = (function (mod) {
                 name: 'foot1',
                 id: 'foot1',
                 shape: 'circle',
-                classes: 'control foot',
+                classes: ['control', 'foot'],
                 attributes: {} // fill, r, cx and cy set dynamically
             },
             foot2: { // Inherits from foot1
@@ -51,7 +51,7 @@ var TRIPODS = (function (mod) {
             landing_foot1: { // Inherits color from foot1
                 name: 'landing_foot1',
                 shape: 'circle',
-                classes: 'landing-1',
+                classes: [], // `classes` property requires at least a blank array
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 4, // Used as input for later calculation. Original value stored in mod.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
                     'fill-opacity': 0,
@@ -60,15 +60,17 @@ var TRIPODS = (function (mod) {
             },
             landing_foot2: { // Inherits from foot 1, and color from foot2
                 name: 'landing_foot2',
+                classes: [], // `classes` property requires at least a blank array
             },
             landing_foot3: { // Inherits from foot 1, and color from foot3
                 name: 'landing_foot3',
+                classes: [], // `classes` property requires at least a blank array
             },
             pivitor: {
                 control: true,
                 name: 'pivitor',
                 shape: 'circle',
-                classes: 'control pivitor',
+                classes: ['control', 'pivitor'],
                 attributes: { // r, cx and cy set dynamically
                     fill: '#dddddd',
                     'fill-opacity': .75,
@@ -110,12 +112,14 @@ var TRIPODS = (function (mod) {
             // landing_foot2
             mod.config.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot2);
             mod.config.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot2.attributes);
-            mod.config.svg_elements.landing_foot2.classes = 'landing-2';
 
             // landing_foot3
             mod.config.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot3);
             mod.config.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot3.attributes);
-            mod.config.svg_elements.landing_foot3.classes = 'landing-3';
+
+            mod.config.svg_elements.landing_foot1.classes.push("landing", "landing-1");
+            mod.config.svg_elements.landing_foot2.classes.push("landing", "landing-2");
+            mod.config.svg_elements.landing_foot3.classes.push("landing", "landing-3");
 
             // Links elements to arrangement
             mod.config.linking = [
