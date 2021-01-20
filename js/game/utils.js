@@ -1,5 +1,7 @@
 TRIPODS.utils = (function () {
 
+    "use strict";
+
     const submod = {};
 
     // Calculate distance between two points

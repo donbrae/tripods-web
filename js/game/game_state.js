@@ -1,5 +1,7 @@
 TRIPODS.game_state = (function () {
 
+    "use strict";
+
     const submod = {
         initialised: 0,
         moves: 0,

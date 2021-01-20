@@ -1,5 +1,7 @@
 TRIPODS.level_builder = (function () {
 
+    "use strict";
+
     const submod = {};
 
     submod.runLevel = function () {

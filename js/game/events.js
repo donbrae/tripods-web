@@ -1,5 +1,7 @@
 TRIPODS.events = (function () {
 
+    "use strict";
+
     const submod = {
         state: {
             // hold: 0

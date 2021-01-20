@@ -1,6 +1,8 @@
 var TRIPODS = (function (mod) {
 
-    mod.config = {
+    "use strict";
+
+    mod.cfg = {
         // SVG elements for placement on grid
         svg_elements: {
             empty: null,
@@ -111,35 +113,35 @@ var TRIPODS = (function (mod) {
     mod.init = function () {
         function _extendConfig() { // Adds additional inheriting properties to config obj
             // foot2
-            mod.config.svg_elements.foot2 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1, mod.config.svg_elements.foot2);
-            mod.config.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot2.attributes);
+            mod.cfg.svg_elements.foot2 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1, mod.cfg.svg_elements.foot2);
+            mod.cfg.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1.attributes, mod.cfg.svg_elements.foot2.attributes);
 
             // foot3
-            mod.config.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1, mod.config.svg_elements.foot3);
-            mod.config.svg_elements.foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.foot1.attributes, mod.config.svg_elements.foot3.attributes);
+            mod.cfg.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1, mod.cfg.svg_elements.foot3);
+            mod.cfg.svg_elements.foot3.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1.attributes, mod.cfg.svg_elements.foot3.attributes);
 
             // landing_foot2
-            mod.config.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot2);
-            mod.config.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot2.attributes);
+            mod.cfg.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1, mod.cfg.svg_elements.landing_foot2);
+            mod.cfg.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1.attributes, mod.cfg.svg_elements.landing_foot2.attributes);
 
             // landing_foot3
-            mod.config.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1, mod.config.svg_elements.landing_foot3);
-            mod.config.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.config.svg_elements.landing_foot1.attributes, mod.config.svg_elements.landing_foot3.attributes);
+            mod.cfg.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1, mod.cfg.svg_elements.landing_foot3);
+            mod.cfg.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1.attributes, mod.cfg.svg_elements.landing_foot3.attributes);
 
-            mod.config.svg_elements.landing_foot1.classes.push("landing", "landing-1");
-            mod.config.svg_elements.landing_foot2.classes.push("landing", "landing-2");
-            mod.config.svg_elements.landing_foot3.classes.push("landing", "landing-3");
+            mod.cfg.svg_elements.landing_foot1.classes.push("landing", "landing-1");
+            mod.cfg.svg_elements.landing_foot2.classes.push("landing", "landing-2");
+            mod.cfg.svg_elements.landing_foot3.classes.push("landing", "landing-3");
 
             // Links elements to arrangement
-            mod.config.linking = [
-                mod.config.svg_elements.empty, // 0
-                mod.config.svg_elements.foot1, // 1
-                mod.config.svg_elements.foot2, // 2
-                mod.config.svg_elements.foot3, // 3
-                mod.config.svg_elements.block, // 4
-                mod.config.svg_elements.landing_foot1, // 5
-                mod.config.svg_elements.landing_foot2, // 6
-                mod.config.svg_elements.landing_foot3 // 7
+            mod.cfg.linking = [
+                mod.cfg.svg_elements.empty, // 0
+                mod.cfg.svg_elements.foot1, // 1
+                mod.cfg.svg_elements.foot2, // 2
+                mod.cfg.svg_elements.foot3, // 3
+                mod.cfg.svg_elements.block, // 4
+                mod.cfg.svg_elements.landing_foot1, // 5
+                mod.cfg.svg_elements.landing_foot2, // 6
+                mod.cfg.svg_elements.landing_foot3 // 7
             ]
         };
 

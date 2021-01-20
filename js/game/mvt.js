@@ -2,7 +2,18 @@
 
 TRIPODS.mvt = (function (mod) {
 
-    // Private objects
+    "use strict";
+
+    const submod = {
+        measurements: {
+            container_offset_l: '',
+            container_offset_t: '',
+            container_width: '',
+            container_height: '',
+            cells_in_row: '',
+            cells_in_column: ''
+        }
+    };
 
     const foot_pivot_sequence = [
         ['left', '+'],
@@ -22,6 +33,8 @@ TRIPODS.mvt = (function (mod) {
     let orig_pos_x;
     let orig_pos_y;
     let block_collide;
+
+    let count_foot1, count_foot2, count_foot3;
 
     // Foot hits one of the four walls
     function boundaryIntersected(left, top, cell_len) {
@@ -63,21 +76,6 @@ TRIPODS.mvt = (function (mod) {
                 count_foot3 = val;
         }
     }
-
-    // Public obj
-
-    let submod = {
-        measurements: {
-            container_offset_l: '',
-            container_offset_t: '',
-            container_width: '',
-            container_height: '',
-            cells_in_row: '',
-            cells_in_column: ''
-        }
-    };
-
-    let count_foot1, count_foot2, count_foot3;
 
     submod.getMeasurements = function () {
         const container_rect = document.getElementById("container").getBoundingClientRect();
@@ -400,7 +398,7 @@ TRIPODS.mvt = (function (mod) {
 
                 setTimeout(function () {
                     postPivot(obj.foot, obj.count);
-                }, mod.config.animation.default.duration);
+                }, mod.cfg.animation.default.duration);
             } else postPivot(obj.foot, obj.count);
         };
 
@@ -429,9 +427,9 @@ TRIPODS.mvt = (function (mod) {
 
                     setTimeout(function () {
                         pivot_foot_count++;
-                    }, mod.config.animation.default.duration * 0.83);
+                    }, mod.cfg.animation.default.duration * 0.83);
 
-                }, mod.config.animation.default.duration * 0.83);
+                }, mod.cfg.animation.default.duration * 0.83);
             } else pivot_foot_count++;
         };
 
@@ -553,7 +551,7 @@ TRIPODS.mvt = (function (mod) {
             foot.style.left = `${left}px`;
             foot.style.top = `${top}px`;
 
-            setTimeout(bounceBack, mod.config.animation.default.duration * 1.67);
+            setTimeout(bounceBack, mod.cfg.animation.default.duration * 1.67);
         };
 
         function bounceBack() {
@@ -563,7 +561,7 @@ TRIPODS.mvt = (function (mod) {
 
             setTimeout(function () {
                 TRIPODS.game_state.ignore_user_input = false;
-            }, mod.config.animation.default.duration * 1.67);
+            }, mod.cfg.animation.default.duration * 1.67);
         };
 
         function abortSwipe() {
@@ -573,8 +571,8 @@ TRIPODS.mvt = (function (mod) {
 
                 setTimeout(function () {
                     TRIPODS.game_state.ignore_user_input = false;
-                }, mod.config.animation.default.duration * 2.5);
-            }, mod.config.animation.default.duration * 0.42);
+                }, mod.cfg.animation.default.duration * 2.5);
+            }, mod.cfg.animation.default.duration * 0.42);
         };
 
         // Finish swipe movement
@@ -745,9 +743,9 @@ TRIPODS.mvt = (function (mod) {
         foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
-            startSwipe(left, top, mod.config.animation.default.duration * 1.25, abortSwipe);
+            startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
         } else {
-            startSwipe(left, top, mod.config.animation.default.duration * 2.5, finishSwipe);
+            startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
             document.querySelector(".pivitor").style.opacity = 0;
         }
     }

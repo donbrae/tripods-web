@@ -1,5 +1,7 @@
 var TRIPODS = (function (mod) {
 
+    "use strict";
+
     // Private functions
 
     function _addElement(el, layer_element, left, top) {
@@ -41,7 +43,7 @@ var TRIPODS = (function (mod) {
 
             // Add CSS animations
             if (el.classes && el.classes.indexOf("foot") > -1) { // Feet or pivot element
-                const animation = mod.config.animation.default;
+                const animation = mod.cfg.animation.default;
                 const transition = [];
 
                 [].concat(animation.properties).forEach(property => { // E.g. 'left'
@@ -99,8 +101,8 @@ var TRIPODS = (function (mod) {
 
         mod.ui_attributes.svg_xy = Math.round(window.innerWidth / mod.levels[mod.game_state.level].length);
 
-        if (window.innerWidth > mod.config.svg_xy_max) {
-            mod.ui_attributes.svg_xy = Math.round(mod.config.svg_xy_max / mod.levels[mod.game_state.level].length);
+        if (window.innerWidth > mod.cfg.svg_xy_max) {
+            mod.ui_attributes.svg_xy = Math.round(mod.cfg.svg_xy_max / mod.levels[mod.game_state.level].length);
         }
 
         // Layer 0 (grid)
@@ -116,7 +118,7 @@ var TRIPODS = (function (mod) {
                         square === 2 || // Foot 2
                         square === 3 // Foot 3
                     )
-                        _addElement(mod.config.svg_elements.grid, layer_element, left, top);
+                        _addElement(mod.cfg.svg_elements.grid, layer_element, left, top);
 
                     left += mod.ui_attributes.svg_xy;
                 });
@@ -132,11 +134,11 @@ var TRIPODS = (function (mod) {
 
         // Store initial stroke-width of landing feet
         if (!mod.ui_attributes.landing_stroke_width) {
-            mod.ui_attributes.landing_stroke_width = mod.config.svg_elements.landing_foot1.attributes["stroke-width"];
+            mod.ui_attributes.landing_stroke_width = mod.cfg.svg_elements.landing_foot1.attributes["stroke-width"];
         }
 
         // Adjust control padding for this level
-        mod.ui_attributes.control_padding = Math.round(mod.config.control_padding * (mod.ui_attributes.svg_xy / 36));
+        mod.ui_attributes.control_padding = Math.round(mod.cfg.control_padding * (mod.ui_attributes.svg_xy / 36));
 
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i) { // First row contains colour data
@@ -149,7 +151,7 @@ var TRIPODS = (function (mod) {
                         });
                     }
 
-                    // (See mod.config.linking)
+                    // (See mod.cfg.linking)
                     if (
                         square === 4 || // Blocker
                         square === 5 || // Landing 1
@@ -161,7 +163,7 @@ var TRIPODS = (function (mod) {
                             three_specific_landing_spots = true;
 
                         // Append landing spot colours to relevant elements
-                        if (mod.config.linking[square] && mod.config.linking[square].attributes && (square === 5 || square === 6 || square === 7)) {
+                        if (mod.cfg.linking[square] && mod.cfg.linking[square].attributes && (square === 5 || square === 6 || square === 7)) {
                             let stroke;
                             switch (square) {
                                 case 5:
@@ -175,10 +177,10 @@ var TRIPODS = (function (mod) {
                                     break;
                             }
 
-                            mod.config.linking[square].attributes.stroke = stroke;
-                            mod.config.linking[square].attributes["stroke-width"] = (mod.ui_attributes.landing_stroke_width * (mod.ui_attributes.svg_xy / 36).toFixed(2));
+                            mod.cfg.linking[square].attributes.stroke = stroke;
+                            mod.cfg.linking[square].attributes["stroke-width"] = (mod.ui_attributes.landing_stroke_width * (mod.ui_attributes.svg_xy / 36).toFixed(2));
                         }
-                        _addElement(mod.config.linking[square], layer_element, left, top);
+                        _addElement(mod.cfg.linking[square], layer_element, left, top);
                     }
 
                     left += mod.ui_attributes.svg_xy;
@@ -216,9 +218,9 @@ var TRIPODS = (function (mod) {
                                 break;
                         }
 
-                        mod.config.linking[square].attributes.fill = fill;
+                        mod.cfg.linking[square].attributes.fill = fill;
 
-                        _addElement(mod.config.linking[square], layer_element, left, top);
+                        _addElement(mod.cfg.linking[square], layer_element, left, top);
                     }
 
                     left += mod.ui_attributes.svg_xy;
@@ -227,7 +229,7 @@ var TRIPODS = (function (mod) {
             }
         });
 
-        _addElement(mod.config.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
+        _addElement(mod.cfg.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
 
         // Set grid area dimensions
         let dimension = mod.ui_attributes.svg_xy * mod.levels[mod.game_state.level][1].length; // Grid height and width
