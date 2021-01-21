@@ -520,7 +520,7 @@ TRIPODS.mvt = (function (mod) {
                 }, 25); // Slight delay to allow shoogle animation to finish, otherwise collision will not be detected in checkWhichFeetShouldPivot()
                 clearInterval(pivot_check);
             }
-        }, 100);
+        }, mod.cfg.animation.default.duration);
 
         // Which feet should moseve?
         checkWhichFeetShouldPivot("foot1", count_foot1);
