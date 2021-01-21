@@ -1,4 +1,4 @@
-TRIPODS.level_builder = (function () {
+TRIPODS.level_builder = (function (mod) {
 
     "use strict";
 
@@ -20,6 +20,11 @@ TRIPODS.level_builder = (function () {
                 active_layer.style.opacity = 0.1;
                 setTimeout(function () {
                     active_layer.style.opacity = 1;
+                    if (TRIPODS.tutorial[mod.game_state.level]) {
+                        console.log("There is a tutorial");
+                        document.getElementById("interactive").insertAdjacentHTML("beforeend", `<label class="tap">Tap</lable>`);
+                        mod.game_state.tutorial_running = true;
+                    }
                 }, 500);
             }, 500);
         }, 500);
@@ -52,7 +57,8 @@ TRIPODS.level_builder = (function () {
         setTimeout(function() {
             TRIPODS.game_state.moves = 0; // Reset move count
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
-            TRIPODS.game_state.level_win = 0;
+            TRIPODS.game_state.level_win = false;
+            TRIPODS.game_state.tutorial_running = false;
 
             Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
                 el.parentNode.removeChild(el);
@@ -75,4 +81,4 @@ TRIPODS.level_builder = (function () {
 
     return submod;
 
-}());
+}(TRIPODS || {}));

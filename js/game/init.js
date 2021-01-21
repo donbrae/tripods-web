@@ -98,6 +98,11 @@ var TRIPODS = (function (mod) {
                 properties: ["left", "top"], // array
                 timing_function: "linear",
                 duration: 120 // milliseconds
+            },
+            pivot: {
+                properties: ["left", "top", "opacity"], // array
+                timing_function: "linear",
+                duration: 120
             }
         },
         svg_xy_max: 500,

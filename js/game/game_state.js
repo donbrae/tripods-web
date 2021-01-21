@@ -7,8 +7,9 @@ TRIPODS.game_state = (function () {
         moves: 0,
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
-        level_win: 0,
-        block_coords: []
+        level_win: false,
+        block_coords: [],
+        tutorial_running: false
     };
 
     const moves_span = document.querySelector("h2.score span");
@@ -82,7 +83,7 @@ TRIPODS.game_state = (function () {
 
     function onWin() { // Function to run on win
 
-        submod.level_win = 1;
+        submod.level_win = true;
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 

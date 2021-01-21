@@ -368,7 +368,10 @@ TRIPODS.mvt = (function (mod) {
 
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
-        pivot.style.opacity = 1;
+
+        setTimeout(function () {
+            pivot.style.opacity = 1;
+        }, mod.cfg.animation.default.duration * 1.3);
     }
 
     // Pivot

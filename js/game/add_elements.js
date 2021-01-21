@@ -41,18 +41,30 @@ var TRIPODS = (function (mod) {
             svg.style.top = `${top}px`;
             svg.style.left = `${left}px`;
 
-            // Add CSS animations
-            if (el.classes && el.classes.indexOf("foot") > -1) { // Feet or pivot element
-                const animation = mod.cfg.animation.default;
-                const transition = [];
+            // Add CSS animations/transitions
+            if (el.classes) {
+                let has_animation = false;
+                let animation;
 
-                [].concat(animation.properties).forEach(property => { // E.g. 'left'
-                    transition.push(
-                        `${property} ${animation.timing_function} ${animation.duration / 1000}s`
-                    );
-                });
+                if (el.classes.indexOf("foot") > -1) { // Feet
+                    animation = mod.cfg.animation.default;
+                    has_animation = true;
+                } else if (el.classes.indexOf("pivitor") > -1) { // Pivot
+                    animation = mod.cfg.animation.pivot;
+                    has_animation = true;
+                }
 
-                svg.style.transition = transition.join(", ");
+                if (has_animation) {
+                    const transition = [];
+
+                    [].concat(animation.properties).forEach(property => { // E.g. 'left'
+                        transition.push(
+                            `${property} ${animation.timing_function} ${animation.duration / 1000}s`
+                        );
+                    });
+
+                    svg.style.transition = transition.join(", ");
+                }
             }
 
             layer_element.insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
