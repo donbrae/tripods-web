@@ -84,19 +84,6 @@ var TRIPODS = (function (mod) {
                     fill: "#222",
                 }
             },
-            // tap: { // https://iconmonstr.com/arrow-49-svg/
-            //     control: true,
-            //     name: "tap",
-            //     id: "tap",
-            //     classes: ["hide", "fade"],
-            //     shape: "path",
-            //     viewBox: "4 6 17 15",
-            //     attributes: {
-            //         fill: "#fffa8c",
-            //         d: "M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z",
-            //     }
-            // },
-
             tap: { // https://iconmonstr.com/arrow-49-svg/
                 name: "tap",
                 id: "tap",
@@ -108,7 +95,32 @@ var TRIPODS = (function (mod) {
                     fill: "#fffa8c",
                     d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
                 }
-            }
+            },
+            // tap: { // https://iconmonstr.com/arrow-49-svg/
+            //     name: "tap",
+            //     id: "tap",
+            //     // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
+            //     classes: ["hide", "fade"],
+            //     viewBox: "0 0 20.7 14.6",
+            //     shapes: [
+            //         {
+            //             shape: "path",
+            //             attributes: {
+            //                 fill: "#fffa8c",
+            //                 d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
+            //             }
+            //         },
+            //         {
+            //             shape: "text",
+            //             attributes: {
+            //                 x: 2,
+            //                 y: 9.5,
+            //                 fill: "#222",
+            //                 "font-size": "10px"
+            //             }
+            //         }
+            //     ],
+            // }
         },
         animation: {
             default: {
