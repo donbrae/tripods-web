@@ -65,7 +65,7 @@ TRIPODS.events = (function () {
         }
 
         // Pivotor UI element
-        const pivitor = document.querySelector('.pivitor');
+        const pivitor = document.getElementById('pivitor');
         pivitor.addEventListener("touchend", TRIPODS.mvt.pivot, false); // Touch
         pivitor.addEventListener("click", TRIPODS.mvt.pivot, false); // Mouse pointer
 

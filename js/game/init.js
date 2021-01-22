@@ -74,13 +74,35 @@ var TRIPODS = (function (mod) {
             pivitor: { // https://iconmonstr.com/redo-3-svg/
                 control: true,
                 name: 'pivitor',
+                id: 'pivitor',
                 shape: 'path',
-                classes: ['control', 'pivitor'],
+                classes: 'control',
                 viewBox: "-13 -14 50 50",
                 attributes: {
                     d: "M4.115 5.515c4.617-4.618 12.056-4.676 16.756-.195l2.129-2.258v7.938h-7.484l2.066-2.191c-2.819-2.706-7.297-2.676-10.074.1-2.992 2.993-2.664 7.684.188 10.319l-3.314 3.5c-4.716-4.226-5.257-12.223-.267-17.213z",
                     class: "pulse",
                     fill: "#222",
+                }
+                // attributes: { // r, cx and cy set dynamically
+                //     fill: '#dddddd',
+                //     'fill-opacity': .75,
+                //     filter: 'url(#pivot_blur)',
+                //     class: 'pulse'
+                // },
+                // defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
+                //     '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
+                //     '</filter>'
+            },
+            tap: {
+                control: true,
+                name: "tap",
+                id: "tap",
+                classes: ["hide", "fade"],
+                shape: "path",
+                viewBox: "4 6 17 15",
+                attributes: {
+                    fill: "#fffa8c",
+                    d: "M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z",
                 }
                 // attributes: { // r, cx and cy set dynamically
                 //     fill: '#dddddd',

@@ -12,6 +12,10 @@ TRIPODS.level_builder = (function (mod) {
 
         if (!TRIPODS.game_state.initialised) TRIPODS.game_state.initialised = 1; // Set initialised flag
 
+        if (TRIPODS.tutorials.levels[mod.game_state.level]) {
+            mod.game_state.tutorial_running = true;
+        }
+
         const active_layer = document.getElementsByClassName("layer-active")[0];
         active_layer.style.opacity = 0.1;
         setTimeout(function () {
@@ -20,11 +24,8 @@ TRIPODS.level_builder = (function (mod) {
                 active_layer.style.opacity = 0.1;
                 setTimeout(function () {
                     active_layer.style.opacity = 1;
-                    if (TRIPODS.tutorial[mod.game_state.level]) {
-                        console.log("There is a tutorial");
-                        document.getElementById("interactive").insertAdjacentHTML("beforeend", `<label class="tap">Tap</lable>`);
-                        mod.game_state.tutorial_running = true;
-                    }
+                    if (mod.game_state.tutorial_running)
+                        mod.tutorials.placeTutorial();
                 }, 500);
             }, 500);
         }, 500);
@@ -35,13 +36,13 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.events.addEventListeners(); // Add event handlers
 
         document.querySelector('h2.level span').innerText = TRIPODS.game_state.level + 1; // Add level
-        document.querySelector('h2.score span').innerText = TRIPODS.game_state.moves; // Add number of moves
+        document.querySelector('h2.score span').innerText = TRIPODS.game_state.moves_made.length; // Add number of moves
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
         // last_layer.classList.add("hide");
 
-        setTimeout(function() {
+        setTimeout(function () {
             TRIPODS.utils.fadeOut(".blank-overlay"); // On launch
             TRIPODS.utils.fadeOut(".message"); // Level win
         }, 150);
@@ -54,11 +55,12 @@ TRIPODS.level_builder = (function (mod) {
     }
 
     submod.reset = function () {
-        setTimeout(function() {
-            TRIPODS.game_state.moves = 0; // Reset move count
+        setTimeout(function () {
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
             TRIPODS.game_state.level_win = false;
             TRIPODS.game_state.tutorial_running = false;
+            TRIPODS.game_state.moves_made.length = 0; // Empty array
+            TRIPODS.game_state.element_tapped = "";
 
             Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
                 el.parentNode.removeChild(el);
@@ -70,7 +72,7 @@ TRIPODS.level_builder = (function (mod) {
 
     submod.showSuccessMessage = function () {
         setTimeout(function () {
-            document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves; // Print number of moves
+            document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves_made.length; // Print number of moves
             const next_level = document.querySelector(".next-level");
             if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level)
                 next_level.parentNode.removeChild(next_level);

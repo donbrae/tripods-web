@@ -4,12 +4,13 @@ TRIPODS.game_state = (function () {
 
     const submod = {
         initialised: 0,
-        moves: 0,
+        moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
         level_win: false,
         block_coords: [],
-        tutorial_running: false
+        tutorial_running: false,
+        element_tapped: "" // Selector of most recent element tapped
     };
 
     const moves_span = document.querySelector("h2.score span");
@@ -20,13 +21,14 @@ TRIPODS.game_state = (function () {
     let landing_3_xy; // Landing 3 center
 
     submod.updateMoveCounter = function () {
-        submod.moves++;
+
+        TRIPODS.game_state.moves_made.push(TRIPODS.game_state.element_tapped);
 
         if (TRIPODS.events.state.hold) { // If the pivot is being held, don't bother fading
-            moves_span.innerText = submod.moves;
+            moves_span.innerText = submod.moves_made.length;
         } else if (!TRIPODS.events.state.hold) {
             // > fade out moves_span
-            moves_span.innerText = submod.moves;
+            moves_span.innerText = submod.moves_made.length;
             // > fade in moves_span
             submod.pivot_hold = 0;
 
@@ -118,13 +120,13 @@ TRIPODS.game_state = (function () {
 
         const active_layer = document.getElementsByClassName("layer-active")[0];
         active_layer.style.opacity = 0;
-        TRIPODS.utils.fadeOut(".pivitor");
+        TRIPODS.utils.fadeOut("#pivitor");
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
-                TRIPODS.utils.fadeIn(".pivitor");
+                TRIPODS.utils.fadeIn("#pivitor");
                 active_layer.style.opacity = 1;
                 removeWinEffect();
             }, 1000);

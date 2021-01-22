@@ -77,6 +77,17 @@ TRIPODS.mvt = (function (mod) {
         }
     }
 
+    function moveSuccess() {
+
+        TRIPODS.game_state.updateMoveCounter();
+        TRIPODS.game_state.checkWin();
+
+        if (TRIPODS.game_state.tutorial_running && TRIPODS.tutorials.checkFollow())
+            TRIPODS.tutorials.placeTutorial();
+        else if (TRIPODS.game_state.tutorial_running)
+            TRIPODS.tutorials.finish();
+    }
+
     submod.getMeasurements = function () {
         const container_rect = document.getElementById("container").getBoundingClientRect();
         this.measurements.container_offset_l = container_rect.left;
@@ -272,7 +283,7 @@ TRIPODS.mvt = (function (mod) {
     // > Refactor as per LiveCode `on repositionPivot` (LiveCode function getAngleBetweenPoints() = getAngle() here)
     submod.repositionPivot = function () {
 
-        const pivot = document.getElementsByClassName("pivitor")[0];
+        const pivot = document.getElementById("pivitor");
 
         const foot1 = document.getElementById("foot1");
         const foot2 = document.getElementById("foot2");
@@ -381,6 +392,8 @@ TRIPODS.mvt = (function (mod) {
         if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_win) {
             return false;
         }
+
+        TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
 
         let pivot_foot_count = 0;
         const foot_move_data = [];
@@ -512,11 +525,11 @@ TRIPODS.mvt = (function (mod) {
             if (pivot_foot_count === 3 && !block_collide_via_pivot) {
                 submod.repositionPivot();
 
-                TRIPODS.game_state.updateMoveCounter();
-                TRIPODS.game_state.checkWin();
+                moveSuccess();
 
                 TRIPODS.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
+
             } else if (pivot_foot_count === 3 && block_collide_via_pivot) {
                 setTimeout(function () {
                     TRIPODS.game_state.ignore_user_input = false;
@@ -545,6 +558,8 @@ TRIPODS.mvt = (function (mod) {
         if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_win) {
             return false;
         }
+
+        TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
 
         const cell_len = TRIPODS.ui_attributes.svg_xy;
         const foot = document.getElementById(e.currentTarget.id);
@@ -584,8 +599,7 @@ TRIPODS.mvt = (function (mod) {
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
-            TRIPODS.game_state.updateMoveCounter();
-            TRIPODS.game_state.checkWin();
+            moveSuccess();
         };
 
         // Move the swiped foot
@@ -749,7 +763,7 @@ TRIPODS.mvt = (function (mod) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
         } else {
             startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
-            document.querySelector(".pivitor").style.opacity = 0;
+            document.getElementById("pivitor").style.opacity = 0;
         }
     }
 

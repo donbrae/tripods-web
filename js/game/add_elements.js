@@ -49,7 +49,7 @@ var TRIPODS = (function (mod) {
                 if (el.classes.indexOf("foot") > -1) { // Feet
                     animation = mod.cfg.animation.default;
                     has_animation = true;
-                } else if (el.classes.indexOf("pivitor") > -1) { // Pivot
+                } else if (el.id === "pivitor") { // Pivot
                     animation = mod.cfg.animation.pivot;
                     has_animation = true;
                 }
@@ -98,7 +98,6 @@ var TRIPODS = (function (mod) {
 
             // Amend actual SVG shape
             let shape_pos = parseFloat(el.querySelectorAll(":first-child")[0].getAttribute("cx"));
-            console.log(!isNaN(shape_pos));
 
             if (!isNaN(shape_pos)) {
                 el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
@@ -243,6 +242,9 @@ var TRIPODS = (function (mod) {
 
         _addElement(mod.cfg.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
 
+        if (TRIPODS.tutorials.levels[mod.game_state.level])
+            _addElement(mod.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
+
         // Set grid area dimensions
         let dimension = mod.ui_attributes.svg_xy * mod.levels[mod.game_state.level][1].length; // Grid height and width
 
@@ -255,20 +257,26 @@ var TRIPODS = (function (mod) {
             el.style.width = `${dimension}px`;
             el.style.height = `${dimension}px`;
             Array.prototype.forEach.call(el.querySelectorAll("svg"), svg => {
-                svg.style.width = `${mod.ui_attributes.svg_xy}px`;
-                svg.style.height = `${mod.ui_attributes.svg_xy}px`;
-                if (svg.children[0].nodeName === "circle") {
-                    svg.children[0].setAttribute("cx", mod.ui_attributes.svg_xy / 2);
-                    svg.children[0].setAttribute("cy", mod.ui_attributes.svg_xy / 2);
-                    if (svg.classList.contains("pivitor")) { // Pivotor
-                        svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 5);
-                    } else {
-                        svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 2.375);
-                    }
 
-                } else if (svg.children[0].nodeName === "rect") {
-                    svg.children[0].setAttribute("width", mod.ui_attributes.svg_xy);
-                    svg.children[0].setAttribute("height", mod.ui_attributes.svg_xy);
+                if (svg.id === "tap") {
+                    svg.style.width = `${mod.ui_attributes.svg_xy * 0.95}px`;
+                    svg.style.height = `${mod.ui_attributes.svg_xy * 0.6}px`;
+                } else {
+                    svg.style.width = `${mod.ui_attributes.svg_xy}px`;
+                    svg.style.height = `${mod.ui_attributes.svg_xy}px`;
+                    if (svg.children[0].nodeName === "circle") {
+                        svg.children[0].setAttribute("cx", mod.ui_attributes.svg_xy / 2);
+                        svg.children[0].setAttribute("cy", mod.ui_attributes.svg_xy / 2);
+                        if (svg.id && svg.id === "pivitor") { // Pivotor
+                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 5);
+                        } else {
+                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 2.375);
+                        }
+
+                    } else if (svg.children[0].nodeName === "rect") {
+                        svg.children[0].setAttribute("width", mod.ui_attributes.svg_xy);
+                        svg.children[0].setAttribute("height", mod.ui_attributes.svg_xy);
+                    }
                 }
             });
         });
