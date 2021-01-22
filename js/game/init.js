@@ -83,36 +83,31 @@ var TRIPODS = (function (mod) {
                     class: "pulse",
                     fill: "#222",
                 }
-                // attributes: { // r, cx and cy set dynamically
-                //     fill: '#dddddd',
-                //     'fill-opacity': .75,
-                //     filter: 'url(#pivot_blur)',
-                //     class: 'pulse'
-                // },
-                // defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
-                //     '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
-                //     '</filter>'
             },
+            // tap: { // https://iconmonstr.com/arrow-49-svg/
+            //     control: true,
+            //     name: "tap",
+            //     id: "tap",
+            //     classes: ["hide", "fade"],
+            //     shape: "path",
+            //     viewBox: "4 6 17 15",
+            //     attributes: {
+            //         fill: "#fffa8c",
+            //         d: "M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z",
+            //     }
+            // },
+
             tap: { // https://iconmonstr.com/arrow-49-svg/
-                control: true,
                 name: "tap",
                 id: "tap",
+                // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
                 classes: ["hide", "fade"],
                 shape: "path",
-                viewBox: "4 6 17 15",
+                viewBox: "0 0 20.7 14.6",
                 attributes: {
                     fill: "#fffa8c",
-                    d: "M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z",
+                    d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
                 }
-                // attributes: { // r, cx and cy set dynamically
-                //     fill: '#dddddd',
-                //     'fill-opacity': .75,
-                //     filter: 'url(#pivot_blur)',
-                //     class: 'pulse'
-                // },
-                // defs: '<filter height="400%" width="400%" y="-80%" x="-80%" id="pivot_blur">' +
-                //     '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
-                //     '</filter>'
             }
         },
         animation: {
