@@ -93,7 +93,7 @@ var TRIPODS = (function (mod) {
                 //     '<feGaussianBlur stdDeviation="7" in="SourceGraphic"/>' +
                 //     '</filter>'
             },
-            tap: {
+            tap: { // https://iconmonstr.com/arrow-49-svg/
                 control: true,
                 name: "tap",
                 id: "tap",
