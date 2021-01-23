@@ -59,8 +59,10 @@ TRIPODS.events = (function () {
 
             // Window resize
             window.addEventListener('resize', function () {
-                TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
-                TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
+                if (!navigator.maxTouchPoints) {
+                    TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
+                    TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
+                }
             });
         }
 
