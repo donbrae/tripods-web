@@ -283,8 +283,6 @@ TRIPODS.mvt = (function (mod) {
     // > Refactor as per LiveCode `on repositionPivot` (LiveCode function getAngleBetweenPoints() = getAngle() here)
     submod.repositionPivot = function () {
 
-        return false;
-
         const pivot = document.getElementById("pivitor");
 
         const foot1 = document.getElementById("foot1");
@@ -382,9 +380,9 @@ TRIPODS.mvt = (function (mod) {
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
 
-        setTimeout(function () {
-            pivot.style.opacity = 1;
-        }, mod.cfg.animation.default.duration * 1.3);
+        // setTimeout(function () {
+        //     pivot.style.opacity = 1;
+        // }, mod.cfg.animation.default.duration * 1.3);
     }
 
     // Pivot
@@ -772,7 +770,7 @@ TRIPODS.mvt = (function (mod) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
         } else {
             startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
-            document.getElementById("pivitor").style.opacity = 0;
+            // document.getElementById("pivitor").style.opacity = 0;
         }
     }
 
