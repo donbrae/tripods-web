@@ -43,6 +43,7 @@ var TRIPODS = (function (mod) {
             block: { // https://iconmonstr.com/cube-3-svg/
                 block: true,
                 name: 'block',
+                classes: "block",
                 shape: 'path',
                 viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
@@ -80,7 +81,7 @@ var TRIPODS = (function (mod) {
                 viewBox: "-13 -14 50 50",
                 attributes: {
                     d: "M4.115 5.515c4.617-4.618 12.056-4.676 16.756-.195l2.129-2.258v7.938h-7.484l2.066-2.191c-2.819-2.706-7.297-2.676-10.074.1-2.992 2.993-2.664 7.684.188 10.319l-3.314 3.5c-4.716-4.226-5.257-12.223-.267-17.213z",
-                    class: "pulse",
+                    // class: "pulse",
                     fill: "#222",
                 }
             },

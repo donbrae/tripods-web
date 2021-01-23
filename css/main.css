@@ -205,8 +205,12 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    /* filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.62)); */
+    filter: drop-shadow(2px 2px 2px #333);
 }
+
+/* .block > path {
+    filter: drop-shadow(0 0 40px #969696);
+} */
 
 #pivitor {
     transition: none !important;
