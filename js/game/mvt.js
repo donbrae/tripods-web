@@ -601,7 +601,8 @@ TRIPODS.mvt = (function (mod) {
 
         // Finish swipe movement
         function finishSwipe() {
-            foot.style.zIndex = 1000; // Reset z-index
+            console.log("finishSwipe()");
+            // foot.style.zIndex = 1000; // Reset z-index
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
@@ -763,7 +764,7 @@ TRIPODS.mvt = (function (mod) {
             return false;
         }
 
-        foot.style.zIndex = 2000; // Bring foot to top
+        // foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);

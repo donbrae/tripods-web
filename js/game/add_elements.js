@@ -27,7 +27,6 @@ var TRIPODS = (function (mod) {
 
             if (el.shapes) { // SVG with multiple <shape>s (for the tutorial 'Tap' element)
                 el.shapes.forEach(shape => {
-                    console.log(shape);
                     svg.insertAdjacentHTML("afterbegin", `<${shape.shape}></${shape.shape}>`);
 
                     if (shape.attributes !== undefined) { // Add attributes to SVG shape
