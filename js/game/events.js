@@ -59,7 +59,6 @@ TRIPODS.events = (function () {
 
             // Window resize
             window.addEventListener('resize', function () {
-                document.querySelector(".test > span").innerText = document.querySelector(".test > span").innerText + "resize";
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
             });
@@ -76,6 +75,26 @@ TRIPODS.events = (function () {
             foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
             foot.addEventListener("click", TRIPODS.mvt.swipe, false);
         });
+
+        // iOS
+        // https://stackoverflow.com/a/38573198
+
+        // Prevent pinch-to-zoom
+        document.addEventListener("touchmove", function (event) {
+            if (event.scale !== 1) { event.preventDefault(); }
+        }, false);
+
+        // Prevent double-tap-to-zoom
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            var now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+
     };
 
     return submod;
