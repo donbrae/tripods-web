@@ -283,6 +283,8 @@ TRIPODS.mvt = (function (mod) {
     // > Refactor as per LiveCode `on repositionPivot` (LiveCode function getAngleBetweenPoints() = getAngle() here)
     submod.repositionPivot = function () {
 
+        return false;
+
         const pivot = document.getElementById("pivitor");
 
         const foot1 = document.getElementById("foot1");
@@ -602,7 +604,7 @@ TRIPODS.mvt = (function (mod) {
         // Finish swipe movement
         function finishSwipe() {
             console.log("finishSwipe()");
-            // foot.style.zIndex = 1000; // Reset z-index
+            foot.style.zIndex = 1000; // Reset z-index
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
@@ -764,7 +766,7 @@ TRIPODS.mvt = (function (mod) {
             return false;
         }
 
-        // foot.style.zIndex = 2000; // Bring foot to top
+        foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
