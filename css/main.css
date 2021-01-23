@@ -205,7 +205,7 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    filter: drop-shadow(2px 2px 2px #333);
+    /* filter: drop-shadow(2px 2px 2px #333); */
 }
 
 /* .block > path {

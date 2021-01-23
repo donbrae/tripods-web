@@ -22,7 +22,9 @@ var TRIPODS = (function (mod) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: ['control', 'foot'],
-                attributes: {} // fill, r, cx and cy set dynamically
+                attributes: {
+                    filter: "drop-shadow(1px 1px 1px #484848)"
+                } // fill, r, cx and cy set dynamically
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
@@ -43,7 +45,6 @@ var TRIPODS = (function (mod) {
             block: { // https://iconmonstr.com/cube-3-svg/
                 block: true,
                 name: 'block',
-                classes: "block",
                 shape: 'path',
                 viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
