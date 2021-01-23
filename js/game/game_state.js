@@ -61,6 +61,7 @@ TRIPODS.game_state = (function () {
         const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
+            document.querySelector(".test > span").innerText = `${foot.x} ${landing.x} ${foot.y} ${landing.y}`;
             return foot.x === landing.x && foot.y === landing.y
         }
 
@@ -126,7 +127,7 @@ TRIPODS.game_state = (function () {
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
-            TRIPODS.level_builder.showSuccessMessage();
+            // TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
                 active_layer.style.opacity = 1;
