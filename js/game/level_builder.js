@@ -17,18 +17,20 @@ TRIPODS.level_builder = (function (mod) {
         }
 
         const active_layer = document.getElementsByClassName("layer-active")[0];
-        active_layer.style.opacity = 0.1;
-        setTimeout(function () {
-            active_layer.style.opacity = 1;
-            setTimeout(function () {
-                active_layer.style.opacity = 0.1;
-                setTimeout(function () {
-                    active_layer.style.opacity = 1;
-                    if (mod.game_state.tutorial_running)
-                        mod.tutorials.placeTutorialElement();
-                }, 500);
-            }, 500);
-        }, 500);
+        active_layer.style.opacity = 1;
+        mod.tutorials.placeTutorialElement();
+        // active_layer.style.opacity = 0.1;
+        // setTimeout(function () {
+        //     active_layer.style.opacity = 1;
+        //     setTimeout(function () {
+        //         active_layer.style.opacity = 0.1;
+        //         setTimeout(function () {
+        //             active_layer.style.opacity = 1;
+        //             if (mod.game_state.tutorial_running)
+        //                 mod.tutorials.placeTutorialElement();
+        //         }, 500);
+        //     }, 500);
+        // }, 500);
     }
 
     submod.addUI = function () {
