@@ -189,7 +189,7 @@ var TRIPODS = (function (mod) {
         _extendConfig();
 
         mod.level_builder.addUI(); // Add UI elements
-        // _initConfettiCanvas();
+        _initConfettiCanvas();
     }
 
     return mod;
