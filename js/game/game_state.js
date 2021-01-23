@@ -126,7 +126,7 @@ TRIPODS.game_state = (function () {
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
-            // TRIPODS.level_builder.showSuccessMessage();
+            TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
                 active_layer.style.opacity = 1;
