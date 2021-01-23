@@ -226,18 +226,18 @@ svg.control:hover {
     display: none;
 }
 
-.fade {
-    transition: opacity ease-out .3s;
-    /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
-}
-
 .fade:not(.show) {
     opacity: 0;
 }
 
 .opacity-0 {
     opacity: 0;
-    transition: opacity linear .3s;
+}
+
+.fade,
+.opacity-0 {
+    transition: opacity ease-out .3s;
+    /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
 }
 
 .pulse {
@@ -254,6 +254,7 @@ svg.control:hover {
 
 #tap {
     z-index: 5000;
+    font-family: inherit;
 }
 /* label.tap {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.2 13.3'%3E%3Ctitle%3Etap-label%3C/title%3E%3Cpath d='M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z' transform='translate(-2.6 -6.5)' style='fill:%2300ff91'/%3E%3C/svg%3E");

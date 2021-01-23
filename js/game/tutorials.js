@@ -5,7 +5,7 @@ TRIPODS.tutorials = (function (mod) {
 
     submod.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
 
-    submod.placeTutorial = function () {
+    submod.placeTutorialElement = function () {
 
         const label = document.querySelector("#tap");
         const selector = submod.levels[mod.game_state.level][mod.game_state.moves_made.length];
@@ -21,7 +21,7 @@ TRIPODS.tutorials = (function (mod) {
             label.style.left = `${left}px`;
             label.style.top = `${top}px`;
 
-            TRIPODS.utils.fadeIn("#tap"); // Show label
+            document.getElementById("tap").style.opacity = 1; // Show tutorial label
         } else this.finish(); // Tutorial should now be complete
     }
 

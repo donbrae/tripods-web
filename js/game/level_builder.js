@@ -25,7 +25,7 @@ TRIPODS.level_builder = (function (mod) {
                 setTimeout(function () {
                     active_layer.style.opacity = 1;
                     if (mod.game_state.tutorial_running)
-                        mod.tutorials.placeTutorial();
+                        mod.tutorials.placeTutorialElement();
                 }, 500);
             }, 500);
         }, 500);

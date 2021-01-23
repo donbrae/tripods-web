@@ -25,12 +25,26 @@ var TRIPODS = (function (mod) {
             if (el.id !== undefined) // Add any unique id SVG element
                 svg.setAttribute("id", el.id);
 
-            svg.insertAdjacentHTML("afterbegin", `<${el.shape}></${el.shape}>`); // afterbegin required for later resizing to work
+            if (el.shapes) { // SVG with multiple <shape>s (for the tutorial 'Tap' element)
+                el.shapes.forEach(shape => {
+                    console.log(shape);
+                    svg.insertAdjacentHTML("afterbegin", `<${shape.shape}></${shape.shape}>`);
 
-            if (el.attributes !== undefined) { // Add attributes to SVG shape
-                Object.keys(el.attributes).forEach(function (key) {
-                    svg.querySelectorAll(el.shape)[0].setAttribute(key, el.attributes[key]);
+                    if (shape.attributes !== undefined) { // Add attributes to SVG shape
+                        Object.keys(shape.attributes).forEach(function (key) {
+                            svg.querySelectorAll(shape.shape)[0].setAttribute(key, shape.attributes[key]);
+                        });
+                    }
                 });
+
+            } else { // SVG has just one shape (i.e. every one except the 'Tap' element)
+                svg.insertAdjacentHTML("afterbegin", `<${el.shape}></${el.shape}>`); // afterbegin required for later resizing to work
+
+                if (el.attributes !== undefined) { // Add attributes to SVG shape
+                    Object.keys(el.attributes).forEach(function (key) {
+                        svg.querySelectorAll(el.shape)[0].setAttribute(key, el.attributes[key]);
+                    });
+                }
             }
 
             if (el.name === "pivitor") {
@@ -242,8 +256,10 @@ var TRIPODS = (function (mod) {
 
         _addElement(mod.cfg.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
 
-        if (TRIPODS.tutorials.levels[mod.game_state.level])
+        if (TRIPODS.tutorials.levels[mod.game_state.level]) {
             _addElement(mod.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
+            document.getElementById("tap").querySelector("text").innerHTML = "Tap";
+        }
 
         // Set grid area dimensions
         let dimension = mod.ui_attributes.svg_xy * mod.levels[mod.game_state.level][1].length; // Grid height and width

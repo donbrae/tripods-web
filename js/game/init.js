@@ -84,43 +84,44 @@ var TRIPODS = (function (mod) {
                     fill: "#222",
                 }
             },
-            tap: { // https://iconmonstr.com/arrow-49-svg/
-                name: "tap",
-                id: "tap",
-                // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
-                classes: ["hide", "fade"],
-                shape: "path",
-                viewBox: "0 0 20.7 14.6",
-                attributes: {
-                    fill: "#fffa8c",
-                    d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
-                }
-            },
             // tap: { // https://iconmonstr.com/arrow-49-svg/
             //     name: "tap",
             //     id: "tap",
             //     // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
             //     classes: ["hide", "fade"],
+            //     shape: "path",
             //     viewBox: "0 0 20.7 14.6",
-            //     shapes: [
-            //         {
-            //             shape: "path",
-            //             attributes: {
-            //                 fill: "#fffa8c",
-            //                 d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
-            //             }
-            //         },
-            //         {
-            //             shape: "text",
-            //             attributes: {
-            //                 x: 2,
-            //                 y: 9.5,
-            //                 fill: "#222",
-            //                 "font-size": "10px"
-            //             }
-            //         }
-            //     ],
-            // }
+            //     attributes: {
+            //         fill: "#fffa8c",
+            //         d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
+            //     }
+            // },
+            tap: { // https://iconmonstr.com/arrow-49-svg/
+                name: "tap",
+                id: "tap",
+                // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
+                classes: "opacity-0",
+                viewBox: "0 0 20.7 14.6",
+                shapes: [
+                    {
+                        shape: "text",
+                        attributes: {
+                            x: 4,
+                            y: 9.6,
+                            fill: "#222",
+                            "font-size": "8px",
+                            "font-weight": "500"
+                        }
+                    },
+                    {
+                        shape: "path",
+                        attributes: {
+                            fill: "#fffa8c",
+                            d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
+                        }
+                    }
+                ],
+            }
         },
         animation: {
             default: {

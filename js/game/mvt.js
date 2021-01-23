@@ -83,7 +83,7 @@ TRIPODS.mvt = (function (mod) {
         TRIPODS.game_state.checkWin();
 
         if (TRIPODS.game_state.tutorial_running && TRIPODS.tutorials.checkFollow())
-            TRIPODS.tutorials.placeTutorial();
+            TRIPODS.tutorials.placeTutorialElement();
         else if (TRIPODS.game_state.tutorial_running)
             TRIPODS.tutorials.finish();
     }
@@ -395,6 +395,9 @@ TRIPODS.mvt = (function (mod) {
 
         TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
 
+        if (TRIPODS.game_state.tutorial_running)
+            document.getElementById("tap").style.opacity = 0; // Hide tutorial label
+
         let pivot_foot_count = 0;
         const foot_move_data = [];
         let block_collide_via_pivot = false;
@@ -560,6 +563,9 @@ TRIPODS.mvt = (function (mod) {
         }
 
         TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
+
+        if (TRIPODS.game_state.tutorial_running)
+            document.getElementById("tap").style.opacity = 0; // Hide tutorial label
 
         const cell_len = TRIPODS.ui_attributes.svg_xy;
         const foot = document.getElementById(e.currentTarget.id);
