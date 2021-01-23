@@ -55,13 +55,16 @@ TRIPODS.game_state = (function () {
 
     submod.checkWin = function () {
 
+        document.querySelector(".test > span").innerHTML = "";
+
         let win = false;
         const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
         const foot_2_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
         const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
-            return foot.x === landing.x && foot.y === landing.y
+            document.querySelector(".test > span").innerHTML = `${document.querySelector(".test > span").innerHTML} ${foot.x} ${landing.x} ${foot.y} ${landing.y}`;
+            return foot.x === landing.x && foot.y === landing.y;
         }
 
         if (
@@ -126,7 +129,7 @@ TRIPODS.game_state = (function () {
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
-            TRIPODS.level_builder.showSuccessMessage();
+            // TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
                 active_layer.style.opacity = 1;
