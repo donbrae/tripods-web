@@ -209,7 +209,7 @@ svg.control:hover {
 }
 
 #pivitor {
-    transition: opacity linear .2s;
+    transition: none !important;
 }
 
 .full-screen {

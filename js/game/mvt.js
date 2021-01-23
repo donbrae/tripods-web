@@ -380,9 +380,7 @@ TRIPODS.mvt = (function (mod) {
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
 
-        // setTimeout(function () {
-        //     pivot.style.opacity = 1;
-        // }, mod.cfg.animation.default.duration * 1.3);
+        pivot.style.opacity = 1;
     }
 
     // Pivot
@@ -770,7 +768,7 @@ TRIPODS.mvt = (function (mod) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
         } else {
             startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
-            // document.getElementById("pivitor").style.opacity = 0;
+            document.getElementById("pivitor").style.opacity = 0;
         }
     }
 
