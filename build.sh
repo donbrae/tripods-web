@@ -1,7 +1,7 @@
 #!/bin/bash
 shopt -s extglob
-cp index.html build
-cp -r css build
-cp -r js build
-cp -r img build
+cp index.html dist
+cp -r css dist
+cp -r js dist
+cp -r img dist
 shopt -u extglob
