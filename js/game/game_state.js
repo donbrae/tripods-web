@@ -95,18 +95,20 @@ TRIPODS.game_state = (function () {
                 setTimeout(function () {
                     el.querySelector(":first-child").classList.add("rainbow"); // SVG shape
 
-                    confetti({
-                        particleCount: 75,
-                        spread: 360,
-                        startVelocity: 20,
-                        useWorker: true,
-                        colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
-                        disableForReducedMotion: true,
-                        origin: {
-                            x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
-                            y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
-                        }
-                    });
+                    if (window.confetti) {
+                        confetti({
+                            particleCount: 75,
+                            spread: 360,
+                            startVelocity: 20,
+                            useWorker: true,
+                            colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
+                            disableForReducedMotion: true,
+                            origin: {
+                                x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
+                                y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
+                            }
+                        });
+                    }
                 }, delay);
                 delay += 100;
             });
