@@ -242,15 +242,10 @@ svg.control:hover {
 }
 
 .pulse {
-    /* display: inline-block; */
-    /* animation: change-color 1.85s cubic-bezier(0.75, 0.29, 1, 1) infinite; */
     animation-name: pulse-color;
     animation-duration: 1.2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    opacity: 0.5;
-
-    /* transition: stroke .075s linear; */
 }
 
 #tap {
@@ -269,12 +264,12 @@ svg.control:hover {
 } */
 
 @keyframes pulse-color {
-    30% {
-        fill: #414141;
+    10% {
+        fill: #222;
     }
 
     60% {
-        fill: #c7c7c7;
+        fill: #fff;
     }
 }
 
