@@ -127,7 +127,7 @@ var TRIPODS = (function (mod) {
         },
         animation: {
             default: {
-                properties: ["left", "top"], // array
+                properties: ["left", "top", "opacity"], // array
                 timing_function: "linear",
                 duration: 120 // milliseconds
             },
