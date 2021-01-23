@@ -36,7 +36,6 @@ TRIPODS.events = (function () {
             document.addEventListener("touchend", function (e) {
                 const now = (new Date()).getTime();
                 if (now - last_touch_end <= 300) {
-                    document.querySelector(".test > span").innerText = last_touch_end;
                     e.preventDefault();
                 }
                 last_touch_end = now;

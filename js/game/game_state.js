@@ -55,15 +55,12 @@ TRIPODS.game_state = (function () {
 
     submod.checkWin = function () {
 
-        document.querySelector(".test > span").innerHTML = "";
-
         let win = false;
         const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
         const foot_2_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
         const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
-            document.querySelector(".test > span").innerHTML = `${document.querySelector(".test > span").innerHTML} ${foot.x} ${landing.x} ${foot.y} ${landing.y}`;
             return foot.x === landing.x && foot.y === landing.y;
         }
 
@@ -82,17 +79,24 @@ TRIPODS.game_state = (function () {
             win = true;
         }
 
+        if (TRIPODS.cfg.logging) TRIPODS.utils.log(`checkWin() -> win: ${win}`);
+
         if (win) // If all feet are on target
             onWin();
     }
 
     function onWin() { // Function to run on win
 
+        if (TRIPODS.cfg.logging) TRIPODS.utils.log("onWin()");
+
         submod.level_win = true;
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
+
+            if (TRIPODS.cfg.logging) TRIPODS.utils.log("onWin() -> addWinEffect()");
+
             let delay = 100;
             Array.prototype.forEach.call(document.querySelectorAll(".landing"), el => {
                 setTimeout(function () {

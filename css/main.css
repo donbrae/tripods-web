@@ -257,6 +257,11 @@ svg.control:hover {
     animation-iteration-count: infinite;
 }
 
+.log {
+    font-size: .8em;
+    color: #ccc;
+}
+
 #tap {
     z-index: 5000;
     font-family: inherit;
