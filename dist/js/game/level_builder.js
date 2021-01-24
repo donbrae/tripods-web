@@ -16,7 +16,7 @@ TRIPODS.level_builder = (function (mod) {
             mod.game_state.tutorial_running = true;
         }
 
-        const active_layer = document.getElementsByClassName("layer-active")[0];
+        const active_layer = document.querySelector(".layer-active");
         active_layer.style.opacity = 0.1;
         setTimeout(function () {
             active_layer.style.opacity = 1;

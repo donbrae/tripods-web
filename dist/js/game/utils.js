@@ -83,6 +83,15 @@ TRIPODS.utils = (function () {
         }, 310);
     }
 
+    submod.log = function(msg) {
+        if (navigator.maxTouchPoints) {
+            // On mobile, most recent logs are at the top
+            document.querySelector(".log").innerHTML = `${msg} [${Math.round((new Date()).getTime() / 1000)}]<br>${document.querySelector(".log").innerHTML}`;
+        } else {
+            console.log(msg);
+        }
+    }
+
     return submod;
 
 }());

@@ -61,7 +61,7 @@ TRIPODS.game_state = (function () {
         const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
-            return foot.x === landing.x && foot.y === landing.y;
+            return Math.abs(foot.x - landing.x) <= 10 && Math.abs(foot.y - landing.y) <= 10;
         }
 
         if (
@@ -79,23 +79,17 @@ TRIPODS.game_state = (function () {
             win = true;
         }
 
-        if (TRIPODS.cfg.logging) TRIPODS.utils.log(`checkWin() -> win: ${win}`);
-
         if (win) // If all feet are on target
             onWin();
     }
 
     function onWin() { // Function to run on win
 
-        if (TRIPODS.cfg.logging) TRIPODS.utils.log("onWin()");
-
         submod.level_win = true;
 
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
-
-            if (TRIPODS.cfg.logging) TRIPODS.utils.log("onWin() -> addWinEffect()");
 
             let delay = 100;
             Array.prototype.forEach.call(document.querySelectorAll(".landing"), el => {
@@ -133,7 +127,7 @@ TRIPODS.game_state = (function () {
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
-            // TRIPODS.level_builder.showSuccessMessage();
+            TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
                 active_layer.style.opacity = 1;

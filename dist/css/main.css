@@ -21,6 +21,12 @@ textarea {
 body {
     font-size: 1em;
     line-height: 1.4;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    touch-action: none;
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#disabling_all_gestures */
 }
 
 a {
@@ -204,11 +210,15 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    /* filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.62)); */
+    /* filter: drop-shadow(2px 2px 2px #333); */
 }
 
+/* .block > path {
+    filter: drop-shadow(0 0 40px #969696);
+} */
+
 #pivitor {
-    transition: opacity linear .2s;
+    transition: none !important;
 }
 
 .full-screen {
@@ -241,15 +251,15 @@ svg.control:hover {
 }
 
 .pulse {
-    /* display: inline-block; */
-    /* animation: change-color 1.85s cubic-bezier(0.75, 0.29, 1, 1) infinite; */
     animation-name: pulse-color;
     animation-duration: 1.2s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-    opacity: 0.5;
+}
 
-    /* transition: stroke .075s linear; */
+.log {
+    font-size: .8em;
+    color: #ccc;
 }
 
 #tap {
@@ -268,12 +278,12 @@ svg.control:hover {
 } */
 
 @keyframes pulse-color {
-    30% {
-        fill: #414141;
+    10% {
+        fill: #222;
     }
 
     60% {
-        fill: #c7c7c7;
+        fill: #fff;
     }
 }
 

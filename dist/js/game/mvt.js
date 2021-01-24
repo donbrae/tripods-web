@@ -380,9 +380,7 @@ TRIPODS.mvt = (function (mod) {
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
 
-        setTimeout(function () {
-            pivot.style.opacity = 1;
-        }, mod.cfg.animation.default.duration * 1.3);
+        pivot.style.opacity = 1;
     }
 
     // Pivot
@@ -527,6 +525,8 @@ TRIPODS.mvt = (function (mod) {
 
             if (pivot_foot_count === 3 && !block_collide_via_pivot) {
                 submod.repositionPivot();
+
+                console.log("pivot_check() > Pivot complete!");
 
                 moveSuccess();
 
@@ -757,8 +757,6 @@ TRIPODS.mvt = (function (mod) {
             } else if (boundary_check === 'right' && swipe_angle === 'ne') {
                 animateBoundaryIntersect(a_foot_left + cell_len, a_foot_top + cell_len * 0.8);
             }
-
-            // e.gesture.stopDetect();
 
             return false;
         }

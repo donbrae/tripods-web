@@ -19,7 +19,6 @@ TRIPODS.events = (function () {
 
             function nextLevel() {
                 TRIPODS.game_state.level++; // Increment level
-                console.log("LEVEL UP");
                 TRIPODS.level_builder.reset();
             }
 

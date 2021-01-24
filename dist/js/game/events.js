@@ -19,7 +19,6 @@ TRIPODS.events = (function () {
 
             function nextLevel() {
                 TRIPODS.game_state.level++; // Increment level
-                console.log("LEVEL UP");
                 TRIPODS.level_builder.reset();
             }
 
@@ -30,6 +29,16 @@ TRIPODS.events = (function () {
                 replay.addEventListener("click", TRIPODS.level_builder.reset, false);
                 next_level.addEventListener("click", nextLevel, false);
             }
+
+            // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
+            let last_touch_end = 0;
+            document.addEventListener("touchend", function (e) {
+                const now = (new Date()).getTime();
+                if (now - last_touch_end <= 300) {
+                    e.preventDefault();
+                }
+                last_touch_end = now;
+            }, false);
 
             // // Changes to Hammer defaults
             // Hammer.gestures.Hold.defaults.hold_timeout = 600;

@@ -526,6 +526,8 @@ TRIPODS.mvt = (function (mod) {
             if (pivot_foot_count === 3 && !block_collide_via_pivot) {
                 submod.repositionPivot();
 
+                console.log("pivot_check() > Pivot complete!");
+
                 moveSuccess();
 
                 TRIPODS.game_state.ignore_user_input = false;
@@ -599,7 +601,6 @@ TRIPODS.mvt = (function (mod) {
 
         // Finish swipe movement
         function finishSwipe() {
-            console.log("finishSwipe()");
             foot.style.zIndex = 1000; // Reset z-index
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
@@ -756,8 +757,6 @@ TRIPODS.mvt = (function (mod) {
             } else if (boundary_check === 'right' && swipe_angle === 'ne') {
                 animateBoundaryIntersect(a_foot_left + cell_len, a_foot_top + cell_len * 0.8);
             }
-
-            // e.gesture.stopDetect();
 
             return false;
         }

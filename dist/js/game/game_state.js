@@ -61,7 +61,7 @@ TRIPODS.game_state = (function () {
         const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
-            return foot.x === landing.x && foot.y === landing.y
+            return Math.abs(foot.x - landing.x) <= 10 && Math.abs(foot.y - landing.y) <= 10;
         }
 
         if (
@@ -90,23 +90,26 @@ TRIPODS.game_state = (function () {
         clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
+
             let delay = 100;
             Array.prototype.forEach.call(document.querySelectorAll(".landing"), el => {
                 setTimeout(function () {
                     el.querySelector(":first-child").classList.add("rainbow"); // SVG shape
 
-                    confetti({
-                        particleCount: 75,
-                        spread: 360,
-                        startVelocity: 20,
-                        useWorker: true,
-                        colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
-                        disableForReducedMotion: true,
-                        origin: {
-                            x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
-                            y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
-                        }
-                    });
+                    if (window.confetti) {
+                        confetti({
+                            particleCount: 75,
+                            spread: 360,
+                            startVelocity: 20,
+                            useWorker: true,
+                            colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
+                            disableForReducedMotion: true,
+                            origin: {
+                                x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
+                                y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
+                            }
+                        });
+                    }
                 }, delay);
                 delay += 100;
             });
