@@ -380,7 +380,9 @@ TRIPODS.mvt = (function (mod) {
         pivot.style.left = pivot_x;
         pivot.style.top = pivot_y;
 
-        pivot.style.opacity = 1;
+        setTimeout(function() {
+            pivot.style.opacity = 1;
+        }, 100);
     }
 
     // Pivot
@@ -525,8 +527,6 @@ TRIPODS.mvt = (function (mod) {
 
             if (pivot_foot_count === 3 && !block_collide_via_pivot) {
                 submod.repositionPivot();
-
-                console.log("pivot_check() > Pivot complete!");
 
                 moveSuccess();
 

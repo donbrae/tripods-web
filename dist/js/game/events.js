@@ -14,19 +14,42 @@ TRIPODS.events = (function () {
 
         if (!TRIPODS.game_state.initialised) {
 
-            let replay = document.querySelector('.replay'); // Replay button
-            let next_level = document.querySelector('.next-level'); // 'Next level' button
+            const start = document.querySelector('.start'); // Replay button
+            const replay = document.querySelector('.replay'); // Replay button
+            const next_level = document.querySelector('.next-level'); // 'Next level' button
 
-            function nextLevel() {
+            function buttonDisabledFalse(btn) {
+                setTimeout(function () {
+                    btn.disabled = false;
+                }, 2000);
+            }
+
+            function nextLevel(e) {
+                e.target.disabled = true;
                 TRIPODS.game_state.level++; // Increment level
                 TRIPODS.level_builder.reset();
+                buttonDisabledFalse(e.target);
+            }
+
+            function launch(e) {
+                e.target.disabled = true;
+                TRIPODS.level_builder.addUI();
+                buttonDisabledFalse(e.target);
+            }
+
+            function reset(e) {
+                e.target.disabled = true;
+                TRIPODS.level_builder.reset();
+                buttonDisabledFalse(e.target);
             }
 
             if (navigator.maxTouchPoints) {
-                replay.addEventListener("touchend", TRIPODS.level_builder.reset, false);
+                start.addEventListener("touchend", launch, false);
+                replay.addEventListener("touchend", reset, false);
                 next_level.addEventListener("touchend", nextLevel, false);
             } else {
-                replay.addEventListener("click", TRIPODS.level_builder.reset, false);
+                start.addEventListener("click", launch, false);
+                replay.addEventListener("click", reset, false);
                 next_level.addEventListener("click", nextLevel, false);
             }
 
@@ -75,15 +98,19 @@ TRIPODS.events = (function () {
 
         // Pivotor UI element
         const pivitor = document.getElementById('pivitor');
-        pivitor.addEventListener("touchend", TRIPODS.mvt.pivot, false); // Touch
-        pivitor.addEventListener("click", TRIPODS.mvt.pivot, false); // Mouse pointer
+        if (pivitor) {
+            pivitor.addEventListener("touchend", TRIPODS.mvt.pivot, false); // Touch
+            pivitor.addEventListener("click", TRIPODS.mvt.pivot, false); // Mouse pointer
+        }
 
         // Swipe
         const feet = document.querySelectorAll('.foot');
-        Array.prototype.forEach.call(feet, function (foot) {
-            foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
-            foot.addEventListener("click", TRIPODS.mvt.swipe, false);
-        });
+        if (feet) {
+            Array.prototype.forEach.call(feet, function (foot) {
+                foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
+                foot.addEventListener("click", TRIPODS.mvt.swipe, false);
+            });
+        }
     };
 
     return submod;

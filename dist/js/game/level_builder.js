@@ -43,13 +43,13 @@ TRIPODS.level_builder = (function (mod) {
         // last_layer.classList.add("hide");
 
         setTimeout(function () {
-            TRIPODS.utils.fadeOut(".blank-overlay"); // On launch
+            TRIPODS.utils.fadeOut(".splash"); // On start
+            TRIPODS.utils.fadeIn(".outer-container"); // On start
             TRIPODS.utils.fadeOut(".message"); // Level win
         }, 150);
 
         setTimeout(function () {
             TRIPODS.utils.fadeIn(".container > .layer:last-of-type");
-            // last_layer.style.display = "inherit";
             setTimeout(submod.runLevel, 500);
         }, 3);
     }

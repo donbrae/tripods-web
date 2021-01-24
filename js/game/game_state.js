@@ -37,6 +37,10 @@ TRIPODS.game_state = (function () {
 
     submod.getWinCoords = function () { // Store target center points
 
+        if (!document.querySelectorAll(".landing").length) {
+            return false;
+        }
+
         landing_2_3.length = 0;
 
         landing_1_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
