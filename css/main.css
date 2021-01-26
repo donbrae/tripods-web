@@ -18,6 +18,10 @@ textarea {
     color: #000;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-size: 1em;
     line-height: 1.4;
@@ -231,6 +235,7 @@ svg.control:hover {
 .splash p {
     padding: 0 14px;
     margin-bottom: 5em;
+    font-weight: 500;
 }
 
 .full-screen {

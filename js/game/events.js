@@ -43,6 +43,8 @@ TRIPODS.events = (function () {
                 buttonDisabledFalse(e.target);
             }
 
+            console.log("merp");
+
             if (navigator.maxTouchPoints) {
                 start.addEventListener("touchend", launch, false);
                 replay.addEventListener("touchend", reset, false);
@@ -94,6 +96,8 @@ TRIPODS.events = (function () {
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
             });
+
+            TRIPODS.game_state.initialised = true; // Set initialised flag
         }
 
         // Pivotor UI element

@@ -10,8 +10,6 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
 
-        if (!TRIPODS.game_state.initialised) TRIPODS.game_state.initialised = 1; // Set initialised flag
-
         if (TRIPODS.tutorials.levels[mod.game_state.level]) {
             mod.game_state.tutorial_running = true;
         }

@@ -3,7 +3,7 @@ TRIPODS.game_state = (function () {
     "use strict";
 
     const submod = {
-        initialised: 0,
+        initialised: false,
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0,
