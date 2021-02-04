@@ -43,8 +43,6 @@ TRIPODS.events = (function () {
                 buttonDisabledFalse(e.target);
             }
 
-            console.log("merp");
-
             if (navigator.maxTouchPoints) {
                 start.addEventListener("touchend", launch, false);
                 replay.addEventListener("touchend", reset, false);
@@ -63,6 +61,12 @@ TRIPODS.events = (function () {
                     e.preventDefault();
                 }
                 last_touch_end = now;
+            }, false);
+
+            document.getElementById("level-select").addEventListener("change", function (e) {
+                TRIPODS.game_state.level = e.target.value;
+
+                console.log(e.target.value);
             }, false);
 
             // // Changes to Hammer defaults

@@ -10,7 +10,8 @@ TRIPODS.game_state = (function () {
         level_win: false,
         block_coords: [],
         tutorial_running: false,
-        element_tapped: "" // Selector of most recent element tapped
+        element_tapped: "", // Selector of most recent element tapped
+        scores: []
     };
 
     const moves_span = document.querySelector("h2.score span");
@@ -138,6 +139,9 @@ TRIPODS.game_state = (function () {
                 removeWinEffect();
             }, 1000);
         }, 1750);
+
+        TRIPODS.game_state.scores[submod.level] = TRIPODS.game_state.moves_made.length;
+        window.localStorage.setItem('TRIPODS_scores', TRIPODS.game_state.scores);
     }
 
     return submod;

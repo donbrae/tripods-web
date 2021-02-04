@@ -192,10 +192,23 @@ var TRIPODS = (function (mod) {
         _extendConfig();
         _initConfettiCanvas();
 
-        mod.utils.fadeOut(".blank-overlay", function() {
+        mod.utils.fadeOut(".blank-overlay", function () {
             mod.utils.fadeIn(".splash");
             TRIPODS.events.addEventListeners();
         });
+
+        const level_select = document.getElementById("level-select");
+        mod.levels.forEach((_, i) => {
+            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span></span></option>`);
+        });
+
+        const stored_scores = window.localStorage.getItem('TRIPODS_scores');
+        if (stored_scores.indexOf(",") > -1) {
+            mod.game_state.scores = window.localStorage.getItem('TRIPODS_scores').split(",");
+            // > Add `selected` attribute to highest level on `level_select`
+        } else {
+            // > Add `selected` attribute to index 1 on `level_select`
+        }
 
         if (mod.cfg.logging) {
             document.querySelector(".log").innerHTML = "";

@@ -72,6 +72,26 @@ textarea {
     resize: vertical;
 }
 
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    transition: opacity .1s ease-out;
+    line-height: 1.5;
+    background-color: #fff;
+    border: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-caret-down' width='44' height='44' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' fill='%23333333' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M18 15l-6-6l-6 6h12' transform='rotate(180 12 12)' /%3E%3C/svg%3E"); /* https://yoksel.github.io/url-encoder/ */
+    background-repeat: no-repeat;
+    background-position: right 0.4em top 51%, 0 0;
+    background-size: 1em auto, 100%;
+    background-color: #f0f0f0;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
 /* ==========================================================================
    Game Specific
    ========================================================================== */
@@ -113,14 +133,11 @@ h2 {
 button {
     display: inline-block;
     border: none;
-    padding: .7rem 1.2rem;
     margin: 0;
     text-decoration: none;
     background: #3a86ff;
     color: #ffffff;
-    border-radius: 0.2rem;
     font-family: inherit;
-    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     /* margin-right: 1rem; */
@@ -143,6 +160,17 @@ button:focus {
 
 button:active {
     transform: scale(0.98);
+}
+
+button, select {
+    border-radius: 0.2rem;
+    padding: .5rem 1rem;
+    line-height: 1.5;
+    font-size: 1.2rem;
+}
+
+select {
+    padding-right: 2rem;
 }
 
 .message button:not(:last-of-type) {
