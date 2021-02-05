@@ -34,7 +34,9 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.events.addEventListeners(); // Add event handlers
 
         document.querySelector('h2.level span').innerText = parseInt(TRIPODS.game_state.level) + 1; // Add level
-        document.querySelector('h2.score span').innerText = TRIPODS.game_state.moves_made.length; // Add number of moves
+        document.querySelector('h2.score span.current').innerText = TRIPODS.game_state.moves_made.length; // Add number of moves
+
+        window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level); // Store current level in localStorage
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer

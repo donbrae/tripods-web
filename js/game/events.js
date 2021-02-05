@@ -27,12 +27,14 @@ TRIPODS.events = (function () {
             function nextLevel(e) {
                 e.target.disabled = true;
                 TRIPODS.game_state.level++; // Increment level
+                window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level);
                 TRIPODS.level_builder.reset();
                 buttonDisabledFalse(e.target);
             }
 
             function launch(e) {
                 e.target.disabled = true;
+                window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();
                 buttonDisabledFalse(e.target);
             }
@@ -64,9 +66,7 @@ TRIPODS.events = (function () {
             }, false);
 
             document.getElementById("level-select").addEventListener("change", function (e) {
-                TRIPODS.game_state.level = e.target.value;
-
-                console.log(e.target.value);
+                TRIPODS.game_state.level = parseInt(e.target.value);
             }, false);
 
             // // Changes to Hammer defaults

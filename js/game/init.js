@@ -202,13 +202,20 @@ var TRIPODS = (function (mod) {
             level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span></span></option>`);
         });
 
-        const stored_scores = window.localStorage.getItem('TRIPODS_scores');
-        if (stored_scores.indexOf(",") > -1) {
+        const stored_scores = window.localStorage.getItem("TRIPODS_scores");
+        if (stored_scores && stored_scores.indexOf(",") > -1) {
             mod.game_state.scores = window.localStorage.getItem('TRIPODS_scores').split(",");
-            // > Add `selected` attribute to highest level on `level_select`
-        } else {
-            // > Add `selected` attribute to index 1 on `level_select`
         }
+
+        const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
+        let index;
+        if (level) {
+            mod.game_state.level = level;
+            index = level + 1;
+        } else {
+            index = 1;
+        }
+        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
 
         if (mod.cfg.logging) {
             document.querySelector(".log").innerHTML = "";
