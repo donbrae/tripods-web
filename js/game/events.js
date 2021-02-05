@@ -17,6 +17,7 @@ TRIPODS.events = (function () {
             const start = document.querySelector('.start'); // Replay button
             const replay = document.querySelector('.replay'); // Replay button
             const next_level = document.querySelector('.next-level'); // 'Next level' button
+            const hame = document.querySelectorAll('.hame'); // 'Back to hame screen' button
 
             function buttonDisabledFalse(btn) {
                 setTimeout(function () {
@@ -27,21 +28,28 @@ TRIPODS.events = (function () {
             function nextLevel(e) {
                 e.target.disabled = true;
                 TRIPODS.game_state.level++; // Increment level
-                window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level);
-                TRIPODS.level_builder.reset();
+                window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
+                TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
                 buttonDisabledFalse(e.target);
             }
 
             function launch(e) {
                 e.target.disabled = true;
-                window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level);
+                window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();
                 buttonDisabledFalse(e.target);
             }
 
             function reset(e) {
                 e.target.disabled = true;
-                TRIPODS.level_builder.reset();
+                TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
+                buttonDisabledFalse(e.target);
+            }
+
+            function gangHame(e) {
+                e.target.disabled = true;
+                TRIPODS.level_builder.reset(TRIPODS.addLevelSelect);
+                TRIPODS.utils.fadeIn(".splash");
                 buttonDisabledFalse(e.target);
             }
 
@@ -49,10 +57,16 @@ TRIPODS.events = (function () {
                 start.addEventListener("touchend", launch, false);
                 replay.addEventListener("touchend", reset, false);
                 next_level.addEventListener("touchend", nextLevel, false);
+                Array.prototype.forEach.call(hame, el => {
+                    el.addEventListener("touchend", gangHame, false);
+                });
             } else {
                 start.addEventListener("click", launch, false);
                 replay.addEventListener("click", reset, false);
                 next_level.addEventListener("click", nextLevel, false);
+                Array.prototype.forEach.call(hame, el => {
+                    el.addEventListener("click", gangHame, false);
+                });
             }
 
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)

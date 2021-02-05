@@ -33,10 +33,19 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.addElements(); // Add elements to grid
         TRIPODS.events.addEventListeners(); // Add event handlers
 
-        document.querySelector('h2.level span').innerText = parseInt(TRIPODS.game_state.level) + 1; // Add level
-        document.querySelector('h2.score span.current').innerText = TRIPODS.game_state.moves_made.length; // Add number of moves
+        const level = parseInt(TRIPODS.game_state.level);
 
-        window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level); // Store current level in localStorage
+        document.querySelector('h2.level span').innerText = level + 1; // Add level
+        document.querySelector('h2.score span.current').innerText = "0";
+
+        const score = TRIPODS.game_state.scores[level]; // Any previous best score for this level
+        if (score) {
+            document.querySelector('h2.score span.best').innerText = `(Best: ${score})`;
+        } else {
+            document.querySelector('h2.score span.best').innerText = "";
+        }
+
+        window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level); // Store current level in localStorage
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
@@ -54,7 +63,7 @@ TRIPODS.level_builder = (function (mod) {
         }, 3);
     }
 
-    submod.reset = function () {
+    submod.reset = function (callback) {
         setTimeout(function () {
             TRIPODS.game_state.block_coords.length = 0; // Reset block data
             TRIPODS.game_state.level_win = false;
@@ -66,7 +75,7 @@ TRIPODS.level_builder = (function (mod) {
                 el.parentNode.removeChild(el);
             });
 
-            submod.addUI();
+            if (typeof (callback) == "function") callback();
         }, 120);
     }
 

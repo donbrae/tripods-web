@@ -140,11 +140,15 @@ TRIPODS.game_state = (function () {
             }, 1000);
         }, 1750);
 
-        // Store score
-        TRIPODS.game_state.scores[submod.level] = TRIPODS.game_state.moves_made.length;
-        window.localStorage.setItem('TRIPODS_scores', TRIPODS.game_state.scores);
+        // Store score if it's the best so far
+        const score = TRIPODS.game_state.moves_made.length;
+        const previous_best_score = TRIPODS.game_state.scores[submod.level];
+        if ((previous_best_score && score < previous_best_score) || !previous_best_score) {
+            TRIPODS.game_state.scores[submod.level] = score;
+        }
 
-        window.localStorage.setItem('TRIPODS_level', TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        window.localStorage.setItem("TRIPODS_scores", TRIPODS.game_state.scores);
+        window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
     }
 
     return submod;

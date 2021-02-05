@@ -197,14 +197,9 @@ var TRIPODS = (function (mod) {
             TRIPODS.events.addEventListeners();
         });
 
-        const level_select = document.getElementById("level-select");
-        mod.levels.forEach((_, i) => {
-            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span></span></option>`);
-        });
-
         const stored_scores = window.localStorage.getItem("TRIPODS_scores");
-        if (stored_scores && stored_scores.indexOf(",") > -1) {
-            mod.game_state.scores = window.localStorage.getItem('TRIPODS_scores').split(",");
+        if (stored_scores) {
+            mod.game_state.scores = stored_scores.split(",");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
@@ -215,13 +210,28 @@ var TRIPODS = (function (mod) {
         } else {
             index = 1;
         }
-        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
+
+        mod.addLevelSelect(index);
 
         if (mod.cfg.logging) {
             document.querySelector(".log").innerHTML = "";
         }
 
         if (mod.cfg.logging) mod.utils.log("Test log message");
+    }
+
+    mod.addLevelSelect = function (index = mod.game_state.level + 1) {
+        const level_select = document.getElementById("level-select");
+
+        level_select.innerHTML = "";
+        level_select.insertAdjacentHTML("beforeend", `<option value="null">Select a level</option>`);
+
+        mod.levels.forEach((_, i) => {
+            const score = TRIPODS.game_state.scores[i] ? `(${TRIPODS.game_state.scores[i]})` : "";
+            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span>${score}</span></option>`);
+        });
+
+        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
     }
 
     return mod;

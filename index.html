@@ -34,15 +34,20 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <div class="message full-screen fade hide"><h2>You completed the level in <span></span> moves.</h2><p><button class="button replay">Replay</button><button class="button next-level">Next Level</button></p></div>
+        <div class="message full-screen fade hide">
+            <h2>You completed the level in <span></span> moves.</h2>
+            <div class="mt-2">
+                <button class="replay">Replay</button><button class="next-level">Next Level</button><button class="hame subtle">Hame</button>
+            </div>
+        </div>
 
         <div class="splash full-screen fade hide">
             <h1>Tripods</h2>
-            <p>Manoeuvre the tripod to the landing spots is as few moves as you can.<br>Tap the centre to pivot and the feet to jump.</p>
+            <p>Manoeuvre the tripod to the landing spots is as few moves as you can.</p>
+            <p>Tap the centre to pivot and the feet to jump.</p>
             <select id="level-select">
-                <option value="null">Select a level</option>
             </select>
-            <button class="button start">Go</button>
+            <button class="start">Go</button>
         </div>
 
         <div class="blank-overlay full-screen fade show"></div>
@@ -56,6 +61,7 @@
             <div class="info-panel">
                 <h2 class="level">Level: <span></span></h2>
                 <h2 class="score">Moves: <span class="current">0</span> <span class="best"></span></h2>
+                <button class="hame subtle mt-2 d-block m-center">Hame</button>
                 <div class="log"></div>
             </div>
 

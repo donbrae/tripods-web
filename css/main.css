@@ -109,6 +109,7 @@ h3 {
 }
 
 #container {
+    -webkit-user-select: none;
     user-select: none;
     border-radius: 5px;
 }
@@ -162,11 +163,20 @@ button:active {
     transform: scale(0.98);
 }
 
+button.subtle {
+    background: #494949;
+}
+
+button.subtle:hover,
+button.subtle:focus {
+    background: #1b1b1b;
+}
+
 button, select {
     border-radius: 0.2rem;
-    padding: .5rem 1rem;
+    padding: 0.4rem 0.8rem;
     line-height: 1.5;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 select {
@@ -174,7 +184,7 @@ select {
 }
 
 .message button:not(:last-of-type) {
-    margin-right: 1rem;
+    margin-right: .8rem;
 }
 
 .outer-container {
@@ -262,8 +272,11 @@ svg.control:hover {
 
 .splash p {
     padding: 0 14px;
-    margin-bottom: 5em;
     font-weight: 500;
+}
+
+.splash p:last-of-type {
+    margin-bottom: 3rem;
 }
 
 .full-screen {
@@ -310,6 +323,19 @@ svg.control:hover {
 #tap {
     z-index: 5000;
     font-family: inherit;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.d-block {
+    display: block;
+}
+
+.m-center {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* label.tap {
