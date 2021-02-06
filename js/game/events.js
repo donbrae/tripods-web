@@ -4,6 +4,7 @@ TRIPODS.events = (function () {
 
     const submod = {
         state: {
+            shoogle_timeout: undefined
             // hold: 0
         }
     };
@@ -34,6 +35,27 @@ TRIPODS.events = (function () {
             }
 
             function launch(e) {
+
+                const level_select = document.getElementById("level-select");
+
+                if (level_select.value === "null") {
+
+                    function shoogleLevelSelectField() {
+                        level_select.classList.add("shoogle");
+                        submod.state.shoogle_timeout = setTimeout(function () {
+                            level_select.classList.remove("shoogle");
+                        }, 830);
+                    }
+
+                    level_select.focus();
+                    setTimeout(shoogleLevelSelectField, 200);
+
+                    level_select.classList.remove("shoogle"); // Remove any previous shoogle
+                    if (submod.state.shoogle_timeout !== undefined) clearTimeout(submod.state.shoogle_timeout); // Clear any previous shoogle timeout
+
+                    return false;
+                }
+
                 e.target.disabled = true;
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();

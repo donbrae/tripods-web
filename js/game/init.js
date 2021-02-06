@@ -9,7 +9,7 @@ var TRIPODS = (function (mod) {
             grid: {
                 name: 'empty',
                 shape: 'circle',
-                classes: 'grid',
+                classes: 'grid', // "grid" is a required class
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 1,
                     'fill-opacity': 0,
@@ -61,7 +61,7 @@ var TRIPODS = (function (mod) {
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 4, // Used as input for later calculation. Original value stored in mod.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
                     'fill-opacity': 0,
-                    opacity: 0.6
+                    opacity: 0.7
                 }
             },
             landing_foot2: { // Inherits from foot 1, and color from foot2

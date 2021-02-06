@@ -148,7 +148,11 @@ TRIPODS.game_state = (function () {
         }
 
         window.localStorage.setItem("TRIPODS_scores", TRIPODS.game_state.scores);
-        window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        console.log(TRIPODS.game_state.level);
+        console.log(TRIPODS.levels.length);
+        if (TRIPODS.game_state.level < (TRIPODS.levels.length - 1)) {
+            window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        }
     }
 
     return submod;

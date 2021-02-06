@@ -111,7 +111,6 @@ h3 {
 #container {
     -webkit-user-select: none;
     user-select: none;
-    border-radius: 5px;
 }
 
 h1 {
@@ -155,8 +154,8 @@ button:focus {
 }
 
 button:focus {
-    outline: 1px solid #fff;
-    outline-offset: -4px;
+    outline: none;
+    box-shadow: 0 0 0px 3px #f1f1f1;
 }
 
 button:active {
@@ -169,7 +168,7 @@ button.subtle {
 
 button.subtle:hover,
 button.subtle:focus {
-    background: #1b1b1b;
+    background: #3d3d3d;
 }
 
 button, select {
@@ -181,6 +180,11 @@ button, select {
 
 select {
     padding-right: 2rem;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0px 3px #2377ff;
 }
 
 .message button:not(:last-of-type) {
@@ -391,5 +395,37 @@ svg.control:hover {
 
     90% {
         stroke: #00fbfe;
+    }
+}
+
+ /* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
+.shoogle {
+    animation: shoogle 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shoogle {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
     }
 }

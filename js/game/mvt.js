@@ -89,13 +89,15 @@ TRIPODS.mvt = (function (mod) {
     }
 
     submod.getMeasurements = function () {
-        const container_rect = document.getElementById("container").getBoundingClientRect();
-        this.measurements.container_offset_l = container_rect.left;
-        this.measurements.container_offset_t = container_rect.top;
-        this.measurements.container_width = container_rect.width;
-        this.measurements.container_height = container_rect.height;
-        this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
-        this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
+        if (!isNaN(TRIPODS.game_state.level)) {
+            const container_rect = document.getElementById("container").getBoundingClientRect();
+            this.measurements.container_offset_l = container_rect.left;
+            this.measurements.container_offset_t = container_rect.top;
+            this.measurements.container_width = container_rect.width;
+            this.measurements.container_height = container_rect.height;
+            this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
+            this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
+        }
     }
 
     // Works out where each foot should be in the foot_pivot_sequence

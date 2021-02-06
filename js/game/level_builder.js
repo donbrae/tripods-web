@@ -83,8 +83,11 @@ TRIPODS.level_builder = (function (mod) {
         setTimeout(function () {
             document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves_made.length; // Print number of moves
             const next_level = document.querySelector(".next-level");
-            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level)
-                next_level.parentNode.removeChild(next_level);
+            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level) {
+                next_level.classList.add("hide");
+            } else {
+                next_level.classList.remove("hide");
+            }
 
             TRIPODS.utils.fadeIn(".message");
         }, 500);
