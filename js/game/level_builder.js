@@ -32,8 +32,8 @@ TRIPODS.level_builder = (function (mod) {
             });
 
             TRIPODS.game_state.ignore_user_input = false;
-            console.log("qwertyui");
-        }, 1560);
+            if (mod.cfg.logging) mod.utils.log("Test log message");
+        }, 1220);
 
     }
 

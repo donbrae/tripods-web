@@ -139,7 +139,7 @@ var TRIPODS = (function (mod) {
         },
         svg_xy_max: 500,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
-        logging: false
+        logging: true
     }
 
     mod.ui_attributes = {

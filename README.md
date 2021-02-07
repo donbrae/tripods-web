@@ -6,3 +6,5 @@
   <text x="2" y="9.5" fill="#222" font-size="10px" style="font-family: sans-serif;">Tap</text>
 </svg>
 ```
+
+Possible motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa. Seems to clash with other filtering/animations, but worth testing further.
