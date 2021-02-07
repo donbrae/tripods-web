@@ -432,24 +432,32 @@ svg.control:hover {
 
 .flash {
     animation-name: flash;
-    animation-duration: 2s;
+    animation-duration: 1.2s;
     animation-timing-function: linear;
 }
 
 @keyframes flash {
     25% {
-        opacity: 0.1;
+        /* opacity: 0.1; */
+        transform: scale(1.2);
+        filter: drop-shadow(8px 8px 10px #363636);
     }
 
     50% {
-        opacity: 1;
+        /* opacity: 1; */
+        transform: scale(1);
+        filter: none;
     }
 
     75% {
-        opacity: 0.1;
+        /* opacity: 0.1; */
+        transform: scale(1.2);
+        filter: drop-shadow(8px 8px 10px #363636);
     }
 
     100% {
-        opacity: 1;
+        /* opacity: 1; */
+        transform: scale(1);
+        filter: none;
     }
 }

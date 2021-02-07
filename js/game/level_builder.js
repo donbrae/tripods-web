@@ -14,12 +14,16 @@ TRIPODS.level_builder = (function (mod) {
             mod.game_state.tutorial_running = true;
         }
 
+        let delay = 120;
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-            foot.classList.add("flash");
+            setTimeout(function () {
+                foot.classList.add("flash");
+            }, delay);
+            delay += 120;
         });
 
         if (mod.game_state.tutorial_running) {
-            setTimeout(mod.tutorials.placeTutorialElement, 2000);
+            setTimeout(mod.tutorials.placeTutorialElement, 2360);
         }
     }
 
