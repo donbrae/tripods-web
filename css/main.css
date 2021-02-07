@@ -440,24 +440,24 @@ svg.control:hover {
     25% {
         /* opacity: 0.1; */
         transform: scale(1.2);
-        filter: drop-shadow(8px 8px 10px #363636);
+        /* filter: drop-shadow(8px 8px 10px #363636); */
     }
 
     50% {
         /* opacity: 1; */
         transform: scale(1);
-        filter: none;
+        /* filter: none; */
     }
 
     75% {
         /* opacity: 0.1; */
         transform: scale(1.2);
-        filter: drop-shadow(8px 8px 10px #363636);
+        /* filter: drop-shadow(8px 8px 10px #363636); */
     }
 
     100% {
         /* opacity: 1; */
         transform: scale(1);
-        filter: none;
+        /* filter: none; */
     }
 }
