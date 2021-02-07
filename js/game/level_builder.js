@@ -16,9 +16,10 @@ TRIPODS.level_builder = (function (mod) {
 
         TRIPODS.game_state.ignore_user_input = true;
         let delay = 120;
+        const animation = mod.utils.is_iOS() ? "flash-ios" : "flash";
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
             setTimeout(function () {
-                foot.classList.add("flash");
+                foot.classList.add(animation);
             }, delay);
             delay += 120;
         });
@@ -28,7 +29,7 @@ TRIPODS.level_builder = (function (mod) {
                 mod.tutorials.placeTutorialElement();
             }
             Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-                foot.classList.remove("flash");
+                foot.classList.remove(animation);
             });
 
             TRIPODS.game_state.ignore_user_input = false;
