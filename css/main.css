@@ -464,11 +464,13 @@ svg.control:hover {
 
 @keyframes jump {
     50% {
-        transform: scale(1.6);
+        transform: scale(1.5);
+        filter: drop-shadow(10px 10px 7px rgba(10, 10, 10, 0.4));
     }
 
     100% {
         transform: scale(1);
+        filter: drop-shadow(0 0 0 rgba(10, 10, 10, 0.4));
     }
 }
 
@@ -496,7 +498,7 @@ svg.control:hover {
 
 @keyframes jump-block-collide {
     25% {
-        transform: scale(1.6);
+        transform: scale(1.5);
     }
 
     50% {
@@ -504,7 +506,7 @@ svg.control:hover {
     }
 
     75% {
-        transform: scale(1.6);
+        transform: scale(1.5);
     }
 
     100% {
