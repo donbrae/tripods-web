@@ -429,3 +429,27 @@ svg.control:hover {
         transform: translate3d(4px, 0, 0);
     }
 }
+
+.flash {
+    animation-name: flash;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+}
+
+@keyframes flash {
+    25% {
+        opacity: 0.1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    75% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

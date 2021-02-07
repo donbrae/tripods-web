@@ -14,19 +14,13 @@ TRIPODS.level_builder = (function (mod) {
             mod.game_state.tutorial_running = true;
         }
 
-        const active_layer = document.querySelector(".layer-active");
-        active_layer.style.opacity = 0.1;
-        setTimeout(function () {
-            active_layer.style.opacity = 1;
-            setTimeout(function () {
-                active_layer.style.opacity = 0.1;
-                setTimeout(function () {
-                    active_layer.style.opacity = 1;
-                    if (mod.game_state.tutorial_running)
-                        mod.tutorials.placeTutorialElement();
-                }, 500);
-            }, 500);
-        }, 500);
+        Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
+            foot.classList.add("flash");
+        });
+
+        if (mod.game_state.tutorial_running) {
+            setTimeout(mod.tutorials.placeTutorialElement, 2000);
+        }
     }
 
     submod.addUI = function () {

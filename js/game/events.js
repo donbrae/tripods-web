@@ -47,19 +47,21 @@ TRIPODS.events = (function () {
                         }, 830);
                     }
 
-                    level_select.focus();
+                    if (!navigator.maxTouchPoints) {
+                        level_select.focus();
+                    }
                     setTimeout(shoogleLevelSelectField, 200);
 
                     level_select.classList.remove("shoogle"); // Remove any previous shoogle
                     if (submod.state.shoogle_timeout !== undefined) clearTimeout(submod.state.shoogle_timeout); // Clear any previous shoogle timeout
 
-                    return false;
+                } else {
+                    e.target.disabled = true;
+                    TRIPODS.game_state.level = parseInt(level_select.value);
+                    window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
+                    TRIPODS.level_builder.addUI();
+                    buttonDisabledFalse(e.target);
                 }
-
-                e.target.disabled = true;
-                window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
-                TRIPODS.level_builder.addUI();
-                buttonDisabledFalse(e.target);
             }
 
             function reset(e) {
@@ -99,10 +101,6 @@ TRIPODS.events = (function () {
                     e.preventDefault();
                 }
                 last_touch_end = now;
-            }, false);
-
-            document.getElementById("level-select").addEventListener("change", function (e) {
-                TRIPODS.game_state.level = parseInt(e.target.value);
             }, false);
 
             // // Changes to Hammer defaults
