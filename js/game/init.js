@@ -129,7 +129,7 @@ var TRIPODS = (function (mod) {
             default: {
                 properties: ["left", "top", "opacity"], // array
                 timing_function: "linear",
-                duration: 120 // milliseconds
+                duration: 160 // milliseconds
             },
             pivot: {
                 properties: ["left", "top", "opacity"], // array

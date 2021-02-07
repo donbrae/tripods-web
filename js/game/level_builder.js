@@ -14,6 +14,7 @@ TRIPODS.level_builder = (function (mod) {
             mod.game_state.tutorial_running = true;
         }
 
+        TRIPODS.game_state.ignore_user_input = true;
         let delay = 120;
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
             setTimeout(function () {
@@ -22,9 +23,18 @@ TRIPODS.level_builder = (function (mod) {
             delay += 120;
         });
 
-        if (mod.game_state.tutorial_running) {
-            setTimeout(mod.tutorials.placeTutorialElement, 2360);
-        }
+        setTimeout(function () {
+            if (mod.game_state.tutorial_running) {
+                mod.tutorials.placeTutorialElement();
+            }
+            Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
+                foot.classList.remove("flash");
+            });
+
+            TRIPODS.game_state.ignore_user_input = false;
+            console.log("qwertyui");
+        }, 1560);
+
     }
 
     submod.addUI = function () {

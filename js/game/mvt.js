@@ -419,7 +419,7 @@ TRIPODS.mvt = (function (mod) {
 
                 setTimeout(function () {
                     postPivot(obj.foot, obj.count);
-                }, mod.cfg.animation.default.duration);
+                }, mod.cfg.animation.pivot.duration);
             } else postPivot(obj.foot, obj.count);
         };
 
@@ -448,9 +448,9 @@ TRIPODS.mvt = (function (mod) {
 
                     setTimeout(function () {
                         pivot_foot_count++;
-                    }, mod.cfg.animation.default.duration * 0.83);
+                    }, mod.cfg.animation.pivot.duration * 0.83);
 
-                }, mod.cfg.animation.default.duration * 0.83);
+                }, mod.cfg.animation.pivot.duration * 0.83);
             } else pivot_foot_count++;
         };
 
@@ -541,7 +541,7 @@ TRIPODS.mvt = (function (mod) {
                 }, 25); // Slight delay to allow shoogle animation to finish, otherwise collision will not be detected in checkWhichFeetShouldPivot()
                 clearInterval(pivot_check);
             }
-        }, mod.cfg.animation.default.duration);
+        }, mod.cfg.animation.pivot.duration);
 
         // Which feet should moseve?
         checkWhichFeetShouldPivot("foot1", count_foot1);
@@ -576,8 +576,11 @@ TRIPODS.mvt = (function (mod) {
 
             foot.style.left = `${left}px`;
             foot.style.top = `${top}px`;
+            foot.classList.add("jump-boundary-intersect");
 
-            setTimeout(bounceBack, mod.cfg.animation.default.duration * 1.67);
+            setTimeout(function() {
+                bounceBack();
+            }, mod.cfg.animation.default.duration * 1.67);
         };
 
         function bounceBack() {
@@ -586,39 +589,43 @@ TRIPODS.mvt = (function (mod) {
             foot.style.top = `${orig_pos_y}px`;
 
             setTimeout(function () {
+                foot.classList.remove("jump-boundary-intersect");
                 TRIPODS.game_state.ignore_user_input = false;
             }, mod.cfg.animation.default.duration * 1.67);
         };
 
-        function abortSwipe() {
+        function abortSwipe(animation) {
             setTimeout(function () {
                 foot.style.left = `${orig_pos_x}px`;
                 foot.style.top = `${orig_pos_y}px`;
 
                 setTimeout(function () {
                     TRIPODS.game_state.ignore_user_input = false;
+                    foot.classList.remove(animation);
                 }, mod.cfg.animation.default.duration * 2.5);
             }, mod.cfg.animation.default.duration * 0.42);
         };
 
         // Finish swipe movement
-        function finishSwipe() {
+        function finishSwipe(animation) {
             foot.style.zIndex = 1000; // Reset z-index
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
+            foot.classList.remove(animation);
             moveSuccess();
         };
 
         // Move the swiped foot
-        function startSwipe(left, top, ms, callback) {
+        function startSwipe(left, top, ms, animation, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
             foot.style.left = `${left}px`;
             foot.style.top = `${top}px`;
+            foot.classList.add(animation);
 
             setTimeout(function () {
-                if (typeof (callback) == "function") callback(); // Call either finishSwipe() or bouncBack()
+                if (typeof (callback) == "function") callback(animation); // Call either finishSwipe() or bouncBack()
             }, ms);
         };
 
@@ -766,9 +773,9 @@ TRIPODS.mvt = (function (mod) {
         foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
-            startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
+            startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, "jump-block-collide", abortSwipe);
         } else {
-            startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
+            startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, "jump", finishSwipe);
             document.getElementById("pivitor").style.opacity = 0;
         }
     }

@@ -81,7 +81,8 @@ select {
     line-height: 1.5;
     background-color: #fff;
     border: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-caret-down' width='44' height='44' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' fill='%23333333' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M18 15l-6-6l-6 6h12' transform='rotate(180 12 12)' /%3E%3C/svg%3E"); /* https://yoksel.github.io/url-encoder/ */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-caret-down' width='44' height='44' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' fill='%23333333' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M18 15l-6-6l-6 6h12' transform='rotate(180 12 12)' /%3E%3C/svg%3E");
+    /* https://yoksel.github.io/url-encoder/ */
     background-repeat: no-repeat;
     background-position: right 0.4em top 51%, 0 0;
     background-size: 1em auto, 100%;
@@ -171,7 +172,8 @@ button.subtle:focus {
     background: #3d3d3d;
 }
 
-button, select {
+button,
+select {
     border-radius: 0.2rem;
     padding: 0.4rem 0.8rem;
     line-height: 1.5;
@@ -398,7 +400,7 @@ svg.control:hover {
     }
 }
 
- /* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
+/* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
 .shoogle {
     animation: shoogle 0.82s cubic-bezier(.36, .07, .19, .97) both;
     transform: translate3d(0, 0, 0);
@@ -432,32 +434,80 @@ svg.control:hover {
 
 .flash {
     animation-name: flash;
-    animation-duration: 1.2s;
-    animation-timing-function: linear;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out;
 }
 
 @keyframes flash {
     25% {
-        /* opacity: 0.1; */
-        transform: scale(1.2);
-        /* filter: drop-shadow(8px 8px 10px #363636); */
+        opacity: 0.2;
     }
 
     50% {
-        /* opacity: 1; */
-        transform: scale(1);
-        /* filter: none; */
+        opacity: 1;
     }
 
     75% {
-        /* opacity: 0.1; */
-        transform: scale(1.2);
-        /* filter: drop-shadow(8px 8px 10px #363636); */
+        opacity: 0.2;
     }
 
     100% {
-        /* opacity: 1; */
+        opacity: 1;
+    }
+}
+
+.jump {
+    animation-name: jump;
+    animation-duration: 0.23s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump {
+    50% {
+        transform: scale(1.6);
+    }
+
+    100% {
         transform: scale(1);
-        /* filter: none; */
+    }
+}
+
+.jump-boundary-intersect {
+    animation-name: jump-boundary-intersect;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump-boundary-intersect {
+    50% {
+        transform: scale(1.25);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.jump-block-collide {
+    animation-name: jump-block-collide;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump-block-collide {
+    25% {
+        transform: scale(1.6);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.6);
+    }
+
+    100% {
+        transform: scale(1);
     }
 }
