@@ -545,8 +545,11 @@ svg.control:hover {
         transform: scale(1.5);
     }
 
-    35% {
+    40% {
         filter: url(#blur0);
+    }
+
+    50% {
         transform: scale(1);
     }
 
