@@ -441,11 +441,9 @@ svg.control:hover {
 @keyframes flash {
     50% {
         scale: 1.4;
-        filter: drop-shadow(6px 6px 3px rgba(10, 10, 10, 0.1));
     }
     100% {
         scale: 1;
-        filter: drop-shadow(0 0 0 #fff);
     }
 }
 
@@ -466,19 +464,28 @@ svg.control:hover {
 
 .jump {
     animation-name: jump;
+    /* animation-duration: 1s; */
     animation-duration: 0.23s;
     animation-timing-function: ease-in-out;
 }
 
 @keyframes jump {
-    50% {
-        transform: scale(1.35);
-        filter: drop-shadow(8px 8px 3px rgba(10, 10, 10, 0.3)) blur(1px);
+    0% {
+        filter: url(#blur0);
     }
-
+    25% {
+        filter: url(#blur3);
+    }
+    50% {
+        filter: url(#blur4);
+        transform: scale(1.35);
+    }
+    75% {
+        filter: url(#blur3);
+    }
     100% {
+        filter: url(#blur0);
         transform: scale(1);
-        filter: drop-shadow(0 0 0 #fff);
     }
 }
 
@@ -489,7 +496,7 @@ svg.control:hover {
 }
 
 @keyframes jump-boundary-intersect {
-    50% {
+    /* 50% {
         transform: scale(1.2);
         filter: drop-shadow(6px 6px 2px rgba(10, 10, 10, 0.3));
     }
@@ -497,33 +504,96 @@ svg.control:hover {
     100% {
         transform: scale(1);
         filter: drop-shadow(0 0 0 #fff);
+    } */
+
+    0% {
+        filter: url(#blur0);
+    }
+
+    25% {
+        filter: url(#blur1);
+    }
+
+    50% {
+        filter: url(#blur2);
+        transform: scale(1.2);
+    }
+
+    75% {
+        filter: url(#blur1);
+    }
+
+    100% {
+        filter: url(#blur0);
+        transform: scale(1);
     }
 }
 
 .jump-block-collide {
     animation-name: jump-block-collide;
-    animation-duration: 0.4s;
+    animation-duration: 0.48s;
     animation-timing-function: ease-in-out;
 }
 
 @keyframes jump-block-collide {
+    0% {
+        filter: url(#blur0);
+    }
+
     25% {
-        transform: scale(1.35);
-        filter: drop-shadow(8px 8px 3px rgba(10, 10, 10, 0.3)) blur(1px);
+        filter: url(#blur4);
+        transform: scale(1.5);
     }
 
     50% {
+        filter: url(#blur0);
         transform: scale(1);
-        filter: drop-shadow(0 0 0 #fff) blur(0);
     }
 
     75% {
+        filter: url(#blur4);
         transform: scale(1.5);
-        filter: drop-shadow(8px 8px 3px rgba(10, 10, 10, 0.3)) blur(1px);
     }
 
-    100% {
+    99% {
+        filter: url(#blur3);
         transform: scale(1);
-        filter: drop-shadow(0 0 0 #fff) blur(1);
     }
 }
+
+/* .motion-blur {
+    animation: motion-blur 0.01s linear forwards;
+}
+
+@keyframes motion-blur {
+    0% {
+        filter: url(#blur0);
+        transform: scale(1, 1);
+    }
+
+    15% {
+        filter: url(#blur1);
+        transform: scale(1, 0.98);
+    }
+
+    30% {
+        filter: url(#blur2);
+        transform: scale(1, 0.93);
+    }
+
+    45% {
+        filter: url(#blur3);
+        transform: scale(1.1, 0.9);
+    }
+
+    60% {
+        filter: url(#blur4);
+        transform: scale(1.2, 0.88);
+    }
+
+    75%,
+    100% {
+        filter: url(#blur5);
+        transform: scale(1.35, 0.85);
+    }
+} */

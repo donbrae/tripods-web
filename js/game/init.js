@@ -22,7 +22,23 @@ var TRIPODS = (function (mod) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: ['control', 'foot'],
-                attributes: {} // fill, r, cx and cy set dynamically
+                attributes: {}, // fill, r, cx and cy set dynamically
+                defs: `<filter id="blur0">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.2" />
+                        </filter>
+                        <filter id="blur1">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.4" />
+                        </filter>
+                        <filter id="blur2">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.6" />
+                        </filter>
+                        <filter id="blur3">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+                        </filter>
+                        <filter id="blur4">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+                        </filter>
+                    </defs>`
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
