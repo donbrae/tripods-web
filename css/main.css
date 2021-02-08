@@ -546,7 +546,7 @@ svg.control:hover {
     }
 
     40% {
-        filter: url(#blur0);
+        filter: url(#blur2);
     }
 
     50% {
