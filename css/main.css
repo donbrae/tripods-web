@@ -532,6 +532,7 @@ svg.control:hover {
 .jump-block-collide {
     animation-name: jump-block-collide;
     animation-duration: 0.48s;
+    /* animation-duration: 2s; */
     animation-timing-function: ease-in-out;
 }
 
@@ -541,8 +542,8 @@ svg.control:hover {
     }
 
     25% {
-        filter: url(#blur4);
-        transform: scale(1.5);
+        filter: url(#blur3);
+        transform: scale(1.35);
     }
 
     40% {
@@ -553,12 +554,16 @@ svg.control:hover {
         transform: scale(1);
     }
 
-    75% {
-        filter: url(#blur4);
-        transform: scale(1.5);
+    60% {
+        filter: url(#blur3);
     }
 
-    99% {
+    75% {
+        filter: url(#blur4);
+        transform: scale(1.35);
+    }
+
+    90% {
         filter: url(#blur3);
         transform: scale(1);
     }
