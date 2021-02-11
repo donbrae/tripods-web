@@ -34,6 +34,26 @@ body {
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#disabling_all_gestures */
 }
 
+body {
+    background: linear-gradient(-45deg, #ee7752, #ff006e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 60s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 a {
     color: #00e;
 }
@@ -98,7 +118,7 @@ select::-ms-expand {
    ========================================================================== */
 
 body {
-    background-color: #000;
+    background-color: #fff;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
 }
 
@@ -232,7 +252,7 @@ select:focus {
 
 .container {
     /* background: url(../img/game/grid.svg) #fff no-repeat; */
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.74);
     margin-top: 10px;
 }
 
@@ -290,7 +310,9 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background-color: #000;
+    background: linear-gradient(-45deg, #ee7752, #ff006e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 60s ease infinite;
     color: white;
     text-align: center;
     padding-top: 100px;

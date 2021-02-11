@@ -13,7 +13,7 @@ var TRIPODS = (function (mod) {
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 1,
                     'fill-opacity': 0,
-                    stroke: '#ddd'
+                    stroke: '#fff'
                 }
             },
             foot1: {
