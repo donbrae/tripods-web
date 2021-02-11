@@ -35,7 +35,7 @@ body {
 }
 
 body {
-    background: linear-gradient(-45deg, #ee7752, #ff006e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, rgba(238, 119, 82, 0.5), rgba(255, 0, 110, 0.5), hsla(195.8, 71.8%, 48.6%, 0.5), hsla(165.8, 71.8%, 48.6%, 0.5));
     background-size: 400% 400%;
     animation: gradient 60s ease infinite;
 }
@@ -252,7 +252,7 @@ select:focus {
 
 .container {
     /* background: url(../img/game/grid.svg) #fff no-repeat; */
-    background-color: rgba(255, 255, 255, 0.74);
+    background-color: rgba(255, 255, 255, 0.33);
     margin-top: 10px;
 }
 
@@ -310,7 +310,7 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background: linear-gradient(-45deg, #ee7752, #ff006e, #23a6d5, #23d5ab);
+    background: linear-gradient(-45deg, rgba(238, 119, 82, 1), rgba(255, 0, 110, 1), hsla(195.8, 71.8%, 48.6%, 1), hsla(165.8, 71.8%, 48.6%, 1));
     background-size: 400% 400%;
     animation: gradient 60s ease infinite;
     color: white;
