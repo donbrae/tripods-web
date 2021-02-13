@@ -3,14 +3,15 @@ TRIPODS.game_state = (function () {
     "use strict";
 
     const submod = {
-        initialised: 0,
+        initialised: false,
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
-        level: 0,
+        level: 0, // Also stored in TRIPODS_level in localStorage
         level_win: false,
         block_coords: [],
         tutorial_running: false,
-        element_tapped: "" // Selector of most recent element tapped
+        element_tapped: "", // Selector of most recent element tapped
+        scores: [] // Also stored in TRIPODS_scores in localStorage
     };
 
     const moves_span = document.querySelector("h2.score span");
@@ -138,6 +139,20 @@ TRIPODS.game_state = (function () {
                 removeWinEffect();
             }, 1000);
         }, 1750);
+
+        // Store score if it's the best so far
+        const score = TRIPODS.game_state.moves_made.length;
+        const previous_best_score = TRIPODS.game_state.scores[submod.level];
+        if ((previous_best_score && score < previous_best_score) || !previous_best_score) {
+            TRIPODS.game_state.scores[submod.level] = score;
+        }
+
+        window.localStorage.setItem("TRIPODS_scores", TRIPODS.game_state.scores);
+        console.log(TRIPODS.game_state.level);
+        console.log(TRIPODS.levels.length);
+        if (TRIPODS.game_state.level < (TRIPODS.levels.length - 1)) {
+            window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        }
     }
 
     return submod;

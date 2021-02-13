@@ -15,19 +15,41 @@ button,
 input,
 select,
 textarea {
-    color: #121212;
+    color: #000;
 }
 
-body {
-    font-size: 1em;
-    line-height: 1.4;
-    -webkit-tap-highlight-color: transparent;
+html {
+    height: 100%;
 }
 
 html,
 body {
     touch-action: none;
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#disabling_all_gestures */
+}
+
+body {
+    background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
+    font-size: 1em;
+    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
+    -webkit-tap-highlight-color: transparent;
+    /* https://cssgradient.io/gradient-backgrounds */
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 a {
@@ -68,14 +90,30 @@ textarea {
     resize: vertical;
 }
 
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-block;
+    transition: opacity .1s ease-out;
+    line-height: 1.5;
+    background-color: #fff;
+    border: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-caret-down' width='44' height='44' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' fill='%23333333' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M18 15l-6-6l-6 6h12' transform='rotate(180 12 12)' /%3E%3C/svg%3E");
+    /* https://yoksel.github.io/url-encoder/ */
+    background-repeat: no-repeat;
+    background-position: right 0.4em top 51%, 0 0;
+    background-size: 1em auto, 100%;
+    background-color: #f0f0f0;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
 /* ==========================================================================
    Game Specific
    ========================================================================== */
-
-body {
-    background-color: #121212;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
-}
 
 h1,
 h2,
@@ -85,38 +123,43 @@ h3 {
 }
 
 #container {
+    -webkit-user-select: none;
     user-select: none;
-    border-radius: 5px;
 }
 
 h1 {
     font-size: 1.8em;
-    color: #f4f4f4;
+    color: rgba(34, 34, 34, 0.75);
     text-align: center;
     margin: 0 auto;
 }
 
 h2 {
     font-size: 1em;
-    color: #f4f4f4;
+    color: rgba(34, 34, 34, 0.75);
     text-align: left;
+}
+
+.message {
+    padding-top: 130px !important;
 }
 
 .message h2 {
     text-align: center;
 }
 
+svg.splash-title {
+    max-width: 600px;
+}
+
 button {
     display: inline-block;
     border: none;
-    padding: .7rem 1.2rem;
     margin: 0;
     text-decoration: none;
-    background: #3a86ff;
-    color: #ffffff;
-    border-radius: 0.2rem;
+    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    color: rgba(255, 255, 255, 0.87);
     font-family: inherit;
-    font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
     /* margin-right: 1rem; */
@@ -129,20 +172,47 @@ button {
 
 button:hover,
 button:focus {
-    background: #2377ff;
+    background-image: linear-gradient(to top, #fe3a6b 0%, #ff9373 100%);
 }
 
 button:focus {
-    outline: 1px solid #fff;
-    outline-offset: -4px;
+    outline: none;
+    box-shadow: 0 0 0px 3px #f1f1f1;
 }
 
 button:active {
     transform: scale(0.98);
 }
 
+button.subtle {
+    background: rgba(255, 255, 255, 0.4);
+    color: rgba(34, 34, 34, 0.75)
+}
+
+button.subtle:hover,
+button.subtle:focus {
+    background: rgba(255, 255, 255, 0.7);
+}
+
+button,
+select {
+    border-radius: 0.2rem;
+    padding: 0.4rem 0.8rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
+}
+
+select {
+    padding-right: 2rem;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 0px 3px #fe3a6b;
+}
+
 .message button:not(:last-of-type) {
-    margin-right: 1rem;
+    margin-right: .8rem;
 }
 
 .outer-container {
@@ -151,7 +221,7 @@ button:active {
     position: relative;
     margin: 0 auto;
     cursor: default;
-    padding-top: 8px;
+    padding-top: 50px;
 }
 
 .container,
@@ -184,7 +254,7 @@ button:active {
 
 .container {
     /* background: url(../img/game/grid.svg) #fff no-repeat; */
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.22);
     margin-top: 10px;
 }
 
@@ -229,8 +299,12 @@ svg.control:hover {
 }
 
 .splash p {
-    padding: 0 14px;
-    margin-bottom: 5em;
+    padding: 0 44px;
+    font-weight: 500;
+}
+
+.splash p:last-of-type {
+    margin-bottom: 3rem;
 }
 
 .full-screen {
@@ -238,10 +312,11 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background-color: #121212;
-    color: white;
+    background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
+    color: rgba(34, 34, 34, 0.75);
     text-align: center;
-    padding-top: 100px;
+    padding-top: 70px;
 }
 
 .hide {
@@ -279,6 +354,19 @@ svg.control:hover {
     font-family: inherit;
 }
 
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.d-block {
+    display: block;
+}
+
+.m-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* label.tap {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.2 13.3'%3E%3Ctitle%3Etap-label%3C/title%3E%3Cpath d='M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z' transform='translate(-2.6 -6.5)' style='fill:%2300ff91'/%3E%3C/svg%3E");
     padding: 0.65rem;
@@ -292,7 +380,7 @@ svg.control:hover {
 
 @keyframes pulse-color {
     10% {
-        fill: #222;
+        fill: rgba(34, 34, 34, 0.75);
     }
 
     60% {
@@ -334,3 +422,194 @@ svg.control:hover {
         stroke: #00fbfe;
     }
 }
+
+/* https://css-tricks.com/snippets/css/shake-css-keyframe-animation/ */
+.shoogle {
+    animation: shoogle 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+@keyframes shoogle {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
+}
+
+.flash {
+    animation-name: flash;
+    animation-duration: .75s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes flash {
+    50% {
+        transform: scale(1.4);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.jump {
+    animation-name: jump;
+    /* animation-duration: 1s; */
+    animation-duration: 0.23s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump {
+    0% {
+        filter: url(#blur0);
+    }
+    25% {
+        filter: url(#blur3);
+    }
+    50% {
+        filter: url(#blur4);
+        transform: scale(1.35);
+    }
+    75% {
+        filter: url(#blur3);
+    }
+    100% {
+        filter: url(#blur0);
+        transform: scale(1);
+    }
+}
+
+.jump-boundary-intersect {
+    animation-name: jump-boundary-intersect;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump-boundary-intersect {
+    /* 50% {
+        transform: scale(1.2);
+        filter: drop-shadow(6px 6px 2px rgba(10, 10, 10, 0.3));
+    }
+
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0 #fff);
+    } */
+
+    0% {
+        filter: url(#blur0);
+    }
+
+    25% {
+        filter: url(#blur1);
+    }
+
+    50% {
+        filter: url(#blur2);
+        transform: scale(1.2);
+    }
+
+    75% {
+        filter: url(#blur1);
+    }
+
+    100% {
+        filter: url(#blur0);
+        transform: scale(1);
+    }
+}
+
+.jump-block-collide {
+    animation-name: jump-block-collide;
+    animation-duration: 0.48s;
+    /* animation-duration: 2s; */
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes jump-block-collide {
+    0% {
+        filter: url(#blur0);
+    }
+
+    25% {
+        filter: url(#blur3);
+        transform: scale(1.35);
+    }
+
+    40% {
+        filter: url(#blur2);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    60% {
+        filter: url(#blur3);
+    }
+
+    75% {
+        filter: url(#blur4);
+        transform: scale(1.35);
+    }
+
+    90% {
+        filter: url(#blur3);
+        transform: scale(1);
+    }
+}
+
+/* .motion-blur {
+    animation: motion-blur 0.01s linear forwards;
+}
+
+@keyframes motion-blur {
+    0% {
+        filter: url(#blur0);
+        transform: scale(1, 1);
+    }
+
+    15% {
+        filter: url(#blur1);
+        transform: scale(1, 0.98);
+    }
+
+    30% {
+        filter: url(#blur2);
+        transform: scale(1, 0.93);
+    }
+
+    45% {
+        filter: url(#blur3);
+        transform: scale(1.1, 0.9);
+    }
+
+    60% {
+        filter: url(#blur4);
+        transform: scale(1.2, 0.88);
+    }
+
+    75%,
+    100% {
+        filter: url(#blur5);
+        transform: scale(1.35, 0.85);
+    }
+} */

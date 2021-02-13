@@ -92,6 +92,14 @@ TRIPODS.utils = (function () {
         }
     }
 
+    submod.is_iOS = function() {
+        const user_agent = navigator.userAgent.toLowerCase();
+        return user_agent.indexOf("iphone") > -1 ||
+            user_agent.indexOf("ipod") > -1 ||
+            user_agent.indexOf("ipad") > -1 || // This may not be required
+            (navigator.maxTouchPoints && /Mac/.test(navigator.platform)); // iPad running 'desktop' Safari
+    }
+
     return submod;
 
 }());

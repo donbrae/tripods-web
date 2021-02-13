@@ -9,11 +9,11 @@ var TRIPODS = (function (mod) {
             grid: {
                 name: 'empty',
                 shape: 'circle',
-                classes: 'grid',
+                classes: 'grid', // "grid" is a required class
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 1,
                     'fill-opacity': 0,
-                    stroke: '#ddd'
+                    stroke: '#fff'
                 }
             },
             foot1: {
@@ -22,7 +22,23 @@ var TRIPODS = (function (mod) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: ['control', 'foot'],
-                attributes: {} // fill, r, cx and cy set dynamically
+                attributes: {}, // fill, r, cx and cy set dynamically
+                defs: `<filter id="blur0">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.15" />
+                        </filter>
+                        <filter id="blur1">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" />
+                        </filter>
+                        <filter id="blur2">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.45" />
+                        </filter>
+                        <filter id="blur3">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
+                        </filter>
+                        <filter id="blur4">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="2.25" />
+                        </filter>
+                    </defs>`
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
@@ -46,9 +62,9 @@ var TRIPODS = (function (mod) {
                 shape: 'path',
                 viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
-                    fill: "#3a86ff",
+                    fill: "#5496ff",
                     d: "M12 0l-11 6v12.131l11 5.869 11-5.869v-12.066l-11-6.065zm7.91 6.646l-7.905 4.218-7.872-4.294 7.862-4.289 7.915 4.365zm-6.91 14.554v-8.6l8-4.269v8.6l-8 4.269z",
-                    opacity: 0.85
+                    opacity: 0.9
                     // x: 0,
                     // y: 0,
                     // fill: '#3a86ff'
@@ -61,7 +77,7 @@ var TRIPODS = (function (mod) {
                 attributes: { // r, cx and cy set dynamically
                     'stroke-width': 4, // Used as input for later calculation. Original value stored in mod.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
                     'fill-opacity': 0,
-                    opacity: 0.6
+                    opacity: 0.7
                 }
             },
             landing_foot2: { // Inherits from foot 1, and color from foot2
@@ -82,8 +98,8 @@ var TRIPODS = (function (mod) {
                 attributes: {
                     d: "M4.115 5.515c4.617-4.618 12.056-4.676 16.756-.195l2.129-2.258v7.938h-7.484l2.066-2.191c-2.819-2.706-7.297-2.676-10.074.1-2.992 2.993-2.664 7.684.188 10.319l-3.314 3.5c-4.716-4.226-5.257-12.223-.267-17.213z",
                     // class: "pulse",
-                    fill: "#222",
-                    opacity: "0.25"
+                    fill: "#fff",
+                    opacity: "0.55"
                 }
             },
             // tap: { // https://iconmonstr.com/arrow-49-svg/
@@ -118,7 +134,7 @@ var TRIPODS = (function (mod) {
                     {
                         shape: "path",
                         attributes: {
-                            fill: "#fffa8c",
+                            fill: "#edeaa8",
                             d: "M20.6,10.3V0.2H0.1v10.1l10.3,4.2L20.6,10.3z"
                         }
                     }
@@ -129,7 +145,7 @@ var TRIPODS = (function (mod) {
             default: {
                 properties: ["left", "top", "opacity"], // array
                 timing_function: "linear",
-                duration: 120 // milliseconds
+                duration: 160 // milliseconds
             },
             pivot: {
                 properties: ["left", "top", "opacity"], // array
@@ -192,16 +208,46 @@ var TRIPODS = (function (mod) {
         _extendConfig();
         _initConfettiCanvas();
 
-        mod.utils.fadeOut(".blank-overlay", function() {
+        mod.utils.fadeOut(".blank-overlay", function () {
             mod.utils.fadeIn(".splash");
             TRIPODS.events.addEventListeners();
         });
+
+        const stored_scores = window.localStorage.getItem("TRIPODS_scores");
+        if (stored_scores) {
+            mod.game_state.scores = stored_scores.split(",");
+        }
+
+        const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
+        let index;
+        if (level) {
+            mod.game_state.level = level;
+            index = level + 1;
+        } else {
+            index = 1;
+        }
+
+        mod.addLevelSelect(index);
 
         if (mod.cfg.logging) {
             document.querySelector(".log").innerHTML = "";
         }
 
         if (mod.cfg.logging) mod.utils.log("Test log message");
+    }
+
+    mod.addLevelSelect = function (index = mod.game_state.level + 1) {
+        const level_select = document.getElementById("level-select");
+
+        level_select.innerHTML = "";
+        level_select.insertAdjacentHTML("beforeend", `<option value="null">Select a level</option>`);
+
+        mod.levels.forEach((_, i) => {
+            const score = TRIPODS.game_state.scores[i] ? `(${TRIPODS.game_state.scores[i]})` : "";
+            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span>${score}</span></option>`);
+        });
+
+        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
     }
 
     return mod;

@@ -263,10 +263,11 @@ var TRIPODS = (function (mod) {
         // Set grid area dimensions
         let dimension = mod.ui_attributes.svg_xy * mod.levels[mod.game_state.level][1].length; // Grid height and width
 
-        Array.prototype.forEach.call(document.querySelectorAll(".container"), el => {
-            el.style.width = `${dimension}px`;
-            el.style.height = `${dimension}px`;
-        });
+        const container = document.getElementById("container");
+        container.style.width = `${dimension}px`;
+        container.style.height = `${dimension}px`;
+        container.style.padding = `${Math.round(dimension / 75)}px`;
+        container.style.borderRadius = `${Math.round(dimension / 13)}px`;
 
         Array.prototype.forEach.call(document.querySelectorAll(".layer"), el => {
             el.style.width = `${dimension}px`;
@@ -284,6 +285,8 @@ var TRIPODS = (function (mod) {
                         svg.children[0].setAttribute("cy", mod.ui_attributes.svg_xy / 2);
                         if (svg.id && svg.id === "pivitor") { // Pivotor
                             svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 5);
+                        } else if (svg.classList.contains("grid")) {
+                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 2.45);
                         } else {
                             svg.children[0].setAttribute("r", mod.ui_attributes.svg_xy / 2.375);
                         }
