@@ -35,9 +35,9 @@ body {
 }
 
 body {
-    background: linear-gradient(-45deg, rgba(238, 119, 82, 0.5), rgba(255, 0, 110, 0.5), hsla(195.8, 71.8%, 48.6%, 0.5), hsla(165.8, 71.8%, 48.6%, 0.5));
-    background-size: 400% 400%;
-    animation: gradient 60s ease infinite;
+    background: #ffffff;
+    background-image: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
+    /* https://cssgradient.io/gradient-backgrounds */
 }
 
 @keyframes gradient {
@@ -136,19 +136,27 @@ h3 {
 
 h1 {
     font-size: 1.8em;
-    color: #f4f4f4;
+    color: rgba(34, 34, 34, 0.75);
     text-align: center;
     margin: 0 auto;
 }
 
 h2 {
     font-size: 1em;
-    color: #f4f4f4;
+    color: rgba(34, 34, 34, 0.75);
     text-align: left;
+}
+
+.message {
+    padding-top: 130px !important;
 }
 
 .message h2 {
     text-align: center;
+}
+
+svg.splash-title {
+    max-width: 600px;
 }
 
 button {
@@ -156,7 +164,7 @@ button {
     border: none;
     margin: 0;
     text-decoration: none;
-    background: #3a86ff;
+    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
     color: #ffffff;
     font-family: inherit;
     font-weight: 600;
@@ -171,7 +179,7 @@ button {
 
 button:hover,
 button:focus {
-    background: #2377ff;
+    background-image: linear-gradient(to top, #fe3a6b 0%, #ff9373 100%);
 }
 
 button:focus {
@@ -184,12 +192,13 @@ button:active {
 }
 
 button.subtle {
-    background: #494949;
+    background: rgba(255, 255, 255, 0.4);
+    color: rgba(34, 34, 34, 0.85);
 }
 
 button.subtle:hover,
 button.subtle:focus {
-    background: #3d3d3d;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 button,
@@ -206,7 +215,7 @@ select {
 
 select:focus {
     outline: none;
-    box-shadow: 0 0 0px 3px #2377ff;
+    box-shadow: 0 0 0px 3px #fe3a6b;
 }
 
 .message button:not(:last-of-type) {
@@ -219,7 +228,7 @@ select:focus {
     position: relative;
     margin: 0 auto;
     cursor: default;
-    padding-top: 8px;
+    padding-top: 50px;
 }
 
 .container,
@@ -252,7 +261,7 @@ select:focus {
 
 .container {
     /* background: url(../img/game/grid.svg) #fff no-repeat; */
-    background-color: rgba(255, 255, 255, 0.33);
+    background-color: rgba(255, 255, 255, 0.22);
     margin-top: 10px;
 }
 
@@ -297,7 +306,7 @@ svg.control:hover {
 }
 
 .splash p {
-    padding: 0 14px;
+    padding: 0 44px;
     font-weight: 500;
 }
 
@@ -310,12 +319,10 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background: linear-gradient(-45deg, rgba(238, 119, 82, 1), rgba(255, 0, 110, 1), hsla(195.8, 71.8%, 48.6%, 1), hsla(165.8, 71.8%, 48.6%, 1));
-    background-size: 400% 400%;
-    animation: gradient 60s ease infinite;
-    color: white;
+    background-image: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
+    color: rgba(34, 34, 34, 0.75);
     text-align: center;
-    padding-top: 100px;
+    padding-top: 70px;
 }
 
 .hide {
@@ -379,7 +386,7 @@ svg.control:hover {
 
 @keyframes pulse-color {
     10% {
-        fill: #222;
+        fill: rgba(34, 34, 34, 0.75);
     }
 
     60% {
@@ -462,25 +469,10 @@ svg.control:hover {
 
 @keyframes flash {
     50% {
-        scale: 1.4;
+        transform: scale(1.4);
     }
     100% {
-        scale: 1;
-    }
-}
-
-.flash-ios {
-    animation-name: flash-ios;
-    animation-duration: .75s;
-    animation-timing-function: linear;
-}
-
-@keyframes flash-ios {
-    50% {
-        opacity: 0.2;
-    }
-    100% {
-        opacity: 1;
+        transform: scale(1);
     }
 }
 
