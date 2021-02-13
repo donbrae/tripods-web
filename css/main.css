@@ -158,7 +158,7 @@ button {
     margin: 0;
     text-decoration: none;
     background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
-    color: #ffffff;
+    color: rgba(255, 255, 255, 0.87);
     font-family: inherit;
     font-weight: 600;
     cursor: pointer;
@@ -186,7 +186,7 @@ button:active {
 
 button.subtle {
     background: rgba(255, 255, 255, 0.4);
-    color: rgba(34, 34, 34, 0.85);
+    color: rgba(34, 34, 34, 0.75)
 }
 
 button.subtle:hover,

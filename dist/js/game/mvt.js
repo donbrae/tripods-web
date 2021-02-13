@@ -766,7 +766,7 @@ TRIPODS.mvt = (function (mod) {
         if (block_collide) {
             startSwipe(left, top, mod.cfg.animation.default.duration * 1.25, abortSwipe);
         } else {
-            startSwipe(left, top, mod.cfg.animation.default.duration * 2.5, finishSwipe);
+            startSwipe(left, top, mod.cfg.animation.default.duration * 10, finishSwipe);
             document.getElementById("pivitor").style.opacity = 0;
         }
     }
