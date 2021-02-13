@@ -22,12 +22,6 @@ html {
     height: 100%;
 }
 
-body {
-    font-size: 1em;
-    line-height: 1.4;
-    -webkit-tap-highlight-color: transparent;
-}
-
 html,
 body {
     touch-action: none;
@@ -35,8 +29,10 @@ body {
 }
 
 body {
-    background: #ffffff;
-    background-image: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
+    background: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
+    font-size: 1em;
+    line-height: 1.4;
+    -webkit-tap-highlight-color: transparent;
     /* https://cssgradient.io/gradient-backgrounds */
 }
 
@@ -319,7 +315,7 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background-image: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
+    background: linear-gradient(to top, #a8edea 0%, #ffd1e0 100%);
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
     padding-top: 70px;
