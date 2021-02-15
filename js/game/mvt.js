@@ -35,12 +35,10 @@ TRIPODS.mvt = (function (mod) {
 
     // Foot hits one of the four walls
     function boundaryIntersected(left, top, cell_len) {
-        const control_padding = TRIPODS.ui_attributes.control_padding;
-
-        if (left < -control_padding) return 'left'; // Hits left container boundary
-        else if (left > cell_len * (submod.measurements.cells_in_row - 1) - control_padding) return 'right';
-        else if (top < -control_padding) return 'top';
-        else if (top > cell_len * (submod.measurements.cells_in_column - 1) - control_padding) return 'bottom';
+        if (left < submod.measurements.container_rect.x) return "left"; // Hits left container boundary
+        else if (left > submod.measurements.container_rect.right) return "right";
+        else if (top < submod.measurements.container_rect.y) return "top";
+        else if (top > submod.measurements.container_rect.bottom) return "bottom";
 
         return false;
     };
@@ -609,20 +607,22 @@ TRIPODS.mvt = (function (mod) {
             moveSuccess();
         };
 
-        // Move the swiped foot
+        // Move the swiped foot (left and top arguments are the destination coords)
         function startSwipe(left, top, animation, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
+            // > If left < orig_pos_x then new position = -(orig_pos_x - left) else new position = left - orig_pos_x
+
             const keyframes = [
                 { transform: "translate(0,0)" }, // > Do we need 'current' coords here?
-                { transform: `translate(${left / 2}px,${top / 2}px) scale(1.35)` },
-                { transform: `translate(${left}px,${top}px) scale(1)` }
+                { transform: `translate(${(left - orig_pos_x) / 2}px,${(top - orig_pos_y) / 2}px) scale(1.5)` },
+                { transform: `translate(${left - orig_pos_x}px,${top - orig_pos_y}px) scale(1)` }
             ];
 
             const animate = foot.animate(
                 keyframes,
                 {
-                    duration: 300,
+                    duration: 175,
                     easing: "linear",
                     delay: 0,
                     iterations: 1,
@@ -638,15 +638,15 @@ TRIPODS.mvt = (function (mod) {
 
         // Store coords of elements before any elements are moved
         const foot_rect = foot.getBoundingClientRect();
-        orig_pos_x = submod.container_rect.x + foot_rect.x;
-        orig_pos_y = submod.container_rect.y + foot_rect.y;
+        orig_pos_x = foot_rect.x;
+        orig_pos_y = foot_rect.y;
 
         const foot_id = foot.getAttribute("id"); // ID of swiped foot
         const angles = []; // Angles between swiped foot and other two feet
         const other_foot_coords = []; // Coords of other two feet
-        const target_rect = document.getElementById(e.currentTarget.id);
-        let x = submod.container_rect.x + target_rect.x;
-        let y = submod.container_rect.y + target_rect.y;
+        const target_rect = document.getElementById(e.currentTarget.id).getBoundingClientRect();
+        let x = target_rect.x;
+        let y = target_rect.y;
         let swipe_diagonally = false;
         let swipe_angle;
 
@@ -742,8 +742,8 @@ TRIPODS.mvt = (function (mod) {
 
             const a_foot = submod.getAFoot(); // Foot at position A
             const a_foot_rect = a_foot.getBoundingClientRect();
-            const a_foot_x = submod.container_rect.x + a_foot_rect.x;
-            const a_foot_y = submod.container_rect.y + a_foot_rect.y;
+            const a_foot_x = a_foot_rect.x;
+            const a_foot_y = a_foot_rect.y;
             const control_padding = TRIPODS.ui_attributes.control_padding;
 
             // Animate depending on which wall was hit and at which angle
