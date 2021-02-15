@@ -143,12 +143,12 @@ var TRIPODS = (function (mod) {
         },
         animation: {
             default: {
-                properties: ["left", "top", "opacity"], // array
+                properties: ["opacity"], // array
                 timing_function: "linear",
                 duration: 160 // milliseconds
             },
             pivot: {
-                properties: ["left", "top", "opacity"], // array
+                properties: ["opacity"], // array
                 timing_function: "linear",
                 duration: 120
             }
