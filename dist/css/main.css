@@ -29,8 +29,9 @@ body {
 }
 
 body {
-    background-color: #ffd1e0;
-    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
+    background-color: #fff;
+    /* background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%); */
     font-size: 1em;
     line-height: 1.4;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
@@ -282,6 +283,7 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
+    will-change: left, top, transform, filter;
     /* filter: drop-shadow(2px 2px 2px #333); */
 }
 
@@ -312,8 +314,9 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background-color: #ffd1e0;
-    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
+    background-color: #fff;
+    /* background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%); */
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
     padding-top: 70px;
@@ -470,9 +473,8 @@ svg.control:hover {
     }
 }
 
-.jump {
+/* .jump {
     animation-name: jump;
-    /* animation-duration: 1s; */
     animation-duration: 0.23s;
     animation-timing-function: ease-in-out;
 }
@@ -504,16 +506,6 @@ svg.control:hover {
 }
 
 @keyframes jump-boundary-intersect {
-    /* 50% {
-        transform: scale(1.2);
-        filter: drop-shadow(6px 6px 2px rgba(10, 10, 10, 0.3));
-    }
-
-    100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 0 #fff);
-    } */
-
     0% {
         filter: url(#blur0);
     }
@@ -540,7 +532,6 @@ svg.control:hover {
 .jump-block-collide {
     animation-name: jump-block-collide;
     animation-duration: 0.48s;
-    /* animation-duration: 2s; */
     animation-timing-function: ease-in-out;
 }
 
@@ -574,42 +565,5 @@ svg.control:hover {
     90% {
         filter: url(#blur3);
         transform: scale(1);
-    }
-}
-
-/* .motion-blur {
-    animation: motion-blur 0.01s linear forwards;
-}
-
-@keyframes motion-blur {
-    0% {
-        filter: url(#blur0);
-        transform: scale(1, 1);
-    }
-
-    15% {
-        filter: url(#blur1);
-        transform: scale(1, 0.98);
-    }
-
-    30% {
-        filter: url(#blur2);
-        transform: scale(1, 0.93);
-    }
-
-    45% {
-        filter: url(#blur3);
-        transform: scale(1.1, 0.9);
-    }
-
-    60% {
-        filter: url(#blur4);
-        transform: scale(1.2, 0.88);
-    }
-
-    75%,
-    100% {
-        filter: url(#blur5);
-        transform: scale(1.35, 0.85);
     }
 } */

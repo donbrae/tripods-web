@@ -31,14 +31,19 @@ TRIPODS.mvt = (function (mod) {
     let orig_pos_y;
     let block_collide;
 
-    let count_foot1, count_foot2, count_foot3;
+    let count_foot1;
+    let count_foot2;
+    let count_foot3;
 
     // Foot hits one of the four walls
-    function boundaryIntersected(left, top, cell_len) {
-        if (left < submod.measurements.container_rect.x) return "left"; // Hits left container boundary
-        else if (left > submod.measurements.container_rect.right) return "right";
-        else if (top < submod.measurements.container_rect.y) return "top";
-        else if (top > submod.measurements.container_rect.bottom) return "bottom";
+    function boundaryIntersected(x_shift, y_shift, cell_len) {
+        const control_padding = TRIPODS.ui_attributes.control_padding;
+        const container_padding = parseFloat(document.getElementById("container").style.padding);
+
+        if (orig_pos_x + control_padding + x_shift - container_padding < submod.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
+        else if (orig_pos_x + control_padding + x_shift + container_padding + cell_len > submod.measurements.container_rect.right) return "right";
+        else if (orig_pos_y + control_padding + y_shift - container_padding < submod.measurements.container_rect.y) return "top";
+        else if (orig_pos_y + control_padding + y_shift + container_padding + cell_len > submod.measurements.container_rect.bottom) return "bottom";
 
         return false;
     };
@@ -273,7 +278,6 @@ TRIPODS.mvt = (function (mod) {
         return foot;
     }
 
-    // > Refactor as per LiveCode `on repositionPivot` (LiveCode function getAngleBetweenPoints() = getAngle() here)
     submod.repositionPivot = function () {
 
         const pivot = document.getElementById("pivitor");
@@ -608,15 +612,30 @@ TRIPODS.mvt = (function (mod) {
         };
 
         // Move the swiped foot (left and top arguments are the destination coords)
-        function startSwipe(left, top, animation, callback) {
+        function startSwipe(x_shift, y_shift, animation, callback) {
             TRIPODS.game_state.ignore_user_input = true;
+
+            // let x_transform;
+            // let y_transform;
+
+            // if (x < orig_pos_x) {
+            //     x_transform = -(orig_pos_x - x);
+            // } else {
+            //     x_transform = x - orig_pos_x;
+            // }
+
+            // if (y > orig_pos_y) {
+            //     y_transform = y - orig_pos_y;
+            // } else {
+            //     y_transform = -(orig_pos_y - y);
+            // }
 
             // > If left < orig_pos_x then new position = -(orig_pos_x - left) else new position = left - orig_pos_x
 
             const keyframes = [
                 { transform: "translate(0,0)" }, // > Do we need 'current' coords here?
-                { transform: `translate(${(left - orig_pos_x) / 2}px,${(top - orig_pos_y) / 2}px) scale(1.5)` },
-                { transform: `translate(${left - orig_pos_x}px,${top - orig_pos_y}px) scale(1)` }
+                { transform: `translate(${x_shift / 2}px,${y_shift / 2}px) scale(1.5)` }, // Halfway
+                { transform: `translate(${x_shift}px,${y_shift}px) scale(1)` }
             ];
 
             const animate = foot.animate(
@@ -644,9 +663,8 @@ TRIPODS.mvt = (function (mod) {
         const foot_id = foot.getAttribute("id"); // ID of swiped foot
         const angles = []; // Angles between swiped foot and other two feet
         const other_foot_coords = []; // Coords of other two feet
-        const target_rect = document.getElementById(e.currentTarget.id).getBoundingClientRect();
-        let x = target_rect.x;
-        let y = target_rect.y;
+        let x_shift = 0;
+        let y_shift = 0;
         let swipe_diagonally = false;
         let swipe_angle;
 
@@ -670,36 +688,36 @@ TRIPODS.mvt = (function (mod) {
             const angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl(foot, submod.getAFoot())); // Angle between swiped foot and foot at position A
 
             if (angle_swiped_and_A === -116) { // NW
-                x -= (cell_len * 3);
-                y -= (cell_len * 2);
+                x_shift = -cell_len * 3;
+                y_shift = -cell_len * 2;
                 swipe_angle = 'nw';
             } else if (angle_swiped_and_A === -153) { // NNW
-                x -= (cell_len * 2);
-                y -= (cell_len * 3);
+                x_shift = -cell_len * 2;
+                y_shift = -cell_len * 3;
                 swipe_angle = 'nnw';
             } else if (angle_swiped_and_A === -63) { // NE
-                x += (cell_len * 3);
-                y -= (cell_len * 2);
+                x_shift = cell_len * 3;
+                y_shift = -cell_len * 2;
                 swipe_angle = 'ne';
             } else if (angle_swiped_and_A === -26) { // NNE
-                x += (cell_len * 2);
-                y -= (cell_len * 3);
+                x_shift = cell_len * 2;
+                y_shift = -cell_len * 3;
                 swipe_angle = 'nne';
             } else if (angle_swiped_and_A === 116) { // SW
-                x -= (cell_len * 3);
-                y += (cell_len * 2);
+                x_shift = -cell_len * 3;
+                y_shift = cell_len * 2;
                 swipe_angle = 'sw';
             } else if (angle_swiped_and_A === 153) { // SSW
-                x -= (cell_len * 2);
-                y += (cell_len * 3);
+                x_shift = -cell_len * 2;
+                y_shift = cell_len * 3;
                 swipe_angle = 'ssw';
             } else if (angle_swiped_and_A === 63) { // SE
-                x += (cell_len * 3);
-                y += (cell_len * 2);
+                x_shift = cell_len * 3;
+                y_shift = cell_len * 2;
                 swipe_angle = 'se';
             } else if (angle_swiped_and_A === 26) { // SSE
-                x += (cell_len * 2);
-                y += (cell_len * 3);
+                x_shift = cell_len * 2;
+                y_shift = cell_len * 3;
                 swipe_angle = 'sse';
             }
 
@@ -714,18 +732,18 @@ TRIPODS.mvt = (function (mod) {
 
             if (axis_to_check === 'x') {
                 if (other_foot_coords[0].x < foot_coords.x) { // West
-                    x -= (cell_len * 4);
+                    x_shift = -cell_len * 4;
                     swipe_angle = 'w';
                 } else { // East
-                    x += (cell_len * 4);
+                    x_shift = cell_len * 4;
                     swipe_angle = 'e';
                 }
             } else if (axis_to_check === 'y') {
                 if (other_foot_coords[0].y < foot_coords.y) { // North
-                    y -= (cell_len * 4);
+                    y_shift = -cell_len * 4;
                     swipe_angle = 'n';
                 } else { // South
-                    y += (cell_len * 4);
+                    y_shift = cell_len * 4;
                     swipe_angle = 's';
                 }
             }
@@ -733,8 +751,8 @@ TRIPODS.mvt = (function (mod) {
 
         // Check whether boundary has been intersected
 
-        const boundary_check = boundaryIntersected(x, y, cell_len);
-        block_collide = elementCollision(x, y);
+        const boundary_check = boundaryIntersected(x_shift, y_shift, cell_len);
+        block_collide = elementCollision(x_shift, y_shift);
 
         if (boundary_check) { // If swiped off the board
 
@@ -779,9 +797,9 @@ TRIPODS.mvt = (function (mod) {
         foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
-            startSwipe(x, y, "jump-block-collide", abortSwipe);
+            startSwipe(x_shift, y_shift, "jump-block-collide", abortSwipe);
         } else {
-            startSwipe(x, y, "jump", finishSwipe);
+            startSwipe(x_shift, y_shift, "jump", finishSwipe);
             document.getElementById("pivitor").style.opacity = 0;
         }
     }
