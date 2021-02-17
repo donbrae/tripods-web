@@ -49,6 +49,17 @@ TRIPODS.utils = (function () {
         return this.getAngle(obj1_coords.x, obj1_coords.y, obj2_coords.x, obj2_coords.y);
     }
 
+    // https://stackoverflow.com/a/64654744
+    submod.getTranslateXY = function (element) {
+        const style = window.getComputedStyle(element);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        return {
+            tX: matrix.m41,
+            tY: matrix.m42
+        }
+    }
+
+
     submod.extend = function (out) {
         out = out || {};
 
@@ -83,7 +94,7 @@ TRIPODS.utils = (function () {
         }, 310);
     }
 
-    submod.log = function(msg) {
+    submod.log = function (msg) {
         if (navigator.maxTouchPoints) {
             // On mobile, most recent logs are at the top
             document.querySelector(".log").innerHTML = `${msg} [${Math.round((new Date()).getTime() / 1000)}]<br>${document.querySelector(".log").innerHTML}`;
@@ -92,7 +103,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.is_iOS = function() {
+    submod.is_iOS = function () {
         const user_agent = navigator.userAgent.toLowerCase();
         return user_agent.indexOf("iphone") > -1 ||
             user_agent.indexOf("ipod") > -1 ||

@@ -589,53 +589,36 @@ TRIPODS.mvt = (function (mod) {
             }, mod.cfg.animation.default.duration * 1.67);
         };
 
-        function abortSwipe(animation) {
+        function abortSwipe() {
             setTimeout(function () {
                 foot.style.left = `${orig_pos_x}px`;
                 foot.style.top = `${orig_pos_y}px`;
 
                 setTimeout(function () {
                     TRIPODS.game_state.ignore_user_input = false;
-                    foot.classList.remove(animation);
                 }, mod.cfg.animation.default.duration * 2.5);
             }, mod.cfg.animation.default.duration * 0.42);
         };
 
         // Finish swipe movement
-        function finishSwipe(animation) {
+        function finishSwipe() {
             foot.style.zIndex = 1000; // Reset z-index
             TRIPODS.game_state.ignore_user_input = false;
             submod.calculatePivotState();
             submod.repositionPivot();
-            foot.classList.remove(animation);
             moveSuccess();
         };
 
         // Move the swiped foot (left and top arguments are the destination coords)
-        function startSwipe(x_shift, y_shift, animation, callback) {
+        function startSwipe(foot, x_shift, y_shift, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
-            // let x_transform;
-            // let y_transform;
-
-            // if (x < orig_pos_x) {
-            //     x_transform = -(orig_pos_x - x);
-            // } else {
-            //     x_transform = x - orig_pos_x;
-            // }
-
-            // if (y > orig_pos_y) {
-            //     y_transform = y - orig_pos_y;
-            // } else {
-            //     y_transform = -(orig_pos_y - y);
-            // }
-
-            // > If left < orig_pos_x then new position = -(orig_pos_x - left) else new position = left - orig_pos_x
+            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
             const keyframes = [
-                { transform: "translate(0,0)" }, // > Do we need 'current' coords here?
-                { transform: `translate(${x_shift / 2}px,${y_shift / 2}px) scale(1.5)` }, // Halfway
-                { transform: `translate(${x_shift}px,${y_shift}px) scale(1)` }
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(2px)" }, // Initial (0,0) or current x_shift and y_shift for this foot
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.5)`, filter: "blur(4px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0px)" }
             ];
 
             const animate = foot.animate(
@@ -651,7 +634,7 @@ TRIPODS.mvt = (function (mod) {
             );
 
             animate.onfinish = () => {
-                if (typeof (callback) == "function") callback(animation); // Call either finishSwipe() or bouncBack()
+                if (typeof (callback) == "function") callback(); // Call either finishSwipe() or bouncBack()
             };
         };
 
@@ -797,9 +780,9 @@ TRIPODS.mvt = (function (mod) {
         foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
-            startSwipe(x_shift, y_shift, "jump-block-collide", abortSwipe);
+            startSwipe(foot, x_shift, y_shift, abortSwipe);
         } else {
-            startSwipe(x_shift, y_shift, "jump", finishSwipe);
+            startSwipe(foot, x_shift, y_shift, finishSwipe);
             document.getElementById("pivitor").style.opacity = 0;
         }
     }
