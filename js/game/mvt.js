@@ -600,17 +600,8 @@ TRIPODS.mvt = (function (mod) {
             }, mod.cfg.animation.default.duration * 0.42);
         };
 
-        // Finish swipe movement
-        function finishSwipe() {
-            foot.style.zIndex = 1000; // Reset z-index
-            TRIPODS.game_state.ignore_user_input = false;
-            submod.calculatePivotState();
-            submod.repositionPivot();
-            moveSuccess();
-        };
-
         // Move the swiped foot (left and top arguments are the destination coords)
-        function startSwipe(foot, x_shift, y_shift, callback) {
+        function jump(foot, x_shift, y_shift, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
             const translate_xy = TRIPODS.utils.getTranslateXY(foot);
@@ -634,7 +625,11 @@ TRIPODS.mvt = (function (mod) {
             );
 
             animate.onfinish = () => {
-                if (typeof (callback) == "function") callback(); // Call either finishSwipe() or bouncBack()
+                foot.style.zIndex = 1000; // Reset z-index
+                TRIPODS.game_state.ignore_user_input = false;
+                submod.calculatePivotState();
+                submod.repositionPivot();
+                moveSuccess();
             };
         };
 
@@ -746,32 +741,46 @@ TRIPODS.mvt = (function (mod) {
             const a_foot_x = a_foot_rect.x;
             const a_foot_y = a_foot_rect.y;
             const control_padding = TRIPODS.ui_attributes.control_padding;
+            let x_shift;
+            let y_shift;
 
             // Animate depending on which wall was hit and at which angle
             if (boundary_check === 'bottom' && swipe_angle === 's') {
-                animateBoundaryIntersect(orig_pos_x, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
+                x_shift = orig_pos_x;
+                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
             } else if (boundary_check === 'bottom' && swipe_angle === 'ssw') {
-                animateBoundaryIntersect(a_foot_x + cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
+                x_shift = a_foot_x + cell_len / 1.5;
+                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
             } else if (boundary_check === 'bottom' && swipe_angle === 'sse') {
-                animateBoundaryIntersect(a_foot_x - cell_len / 1.5, cell_len * (submod.measurements.cells_in_column - 1) - control_padding);
+                x_shift = a_foot_x - cell_len / 1.5;
+                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
             } else if (boundary_check === 'top' && swipe_angle === 'n') {
-                animateBoundaryIntersect(orig_pos_x, -control_padding);
+                x_shift = orig_pos_x;
+                y_shift = -control_padding;
             } else if (boundary_check === 'top' && swipe_angle === 'nne') {
-                animateBoundaryIntersect(a_foot_x - cell_len / 1.5, -control_padding);
+                x_shift = a_foot_x - cell_len / 1.5;
+                y_shift = -control_padding;
             } else if (boundary_check === 'top' && swipe_angle === 'nnw') {
-                animateBoundaryIntersect(a_foot_x + cell_len / 1.5, -control_padding);
+                x_shift = a_foot_x + cell_len / 1.5;
+                y_shift = -control_padding;
             } else if (boundary_check === 'left' && swipe_angle === 'w') {
-                animateBoundaryIntersect(-control_padding, orig_pos_y);
+                x_shift = -control_padding;
+                y_shift = orig_pos_y;
             } else if (boundary_check === 'left' && swipe_angle === 'sw') {
-                animateBoundaryIntersect(a_foot_x - cell_len, a_foot_y - cell_len * 0.7);
+                x_shift = a_foot_x - cell_len;
+                y_shift = a_foot_y - cell_len * 0.7;
             } else if (boundary_check === 'left' && swipe_angle === 'nw') {
-                animateBoundaryIntersect(a_foot_x - cell_len, a_foot_y + cell_len * 0.8);
+                x_shift = a_foot_x - cell_len;
+                y_shift = a_foot_y + cell_len * 0.8;
             } else if (boundary_check === 'right' && swipe_angle === 'e') {
-                animateBoundaryIntersect(cell_len * (submod.measurements.cells_in_row - 1) - control_padding, orig_pos_y);
+                x_shift = cell_len * (submod.measurements.cells_in_row - 1) - control_padding;
+                y_shift = orig_pos_y;
             } else if (boundary_check === 'right' && swipe_angle === 'se') {
-                animateBoundaryIntersect(a_foot_x + cell_len, a_foot_y - cell_len * 0.7);
+                x_shift = a_foot_x + cell_len;
+                y_shift = a_foot_y - cell_len * 0.7;
             } else if (boundary_check === 'right' && swipe_angle === 'ne') {
-                animateBoundaryIntersect(a_foot_x + cell_len, a_foot_y + cell_len * 0.8);
+                x_shift = a_foot_x + cell_len;
+                y_shift = a_foot_y + cell_len * 0.8;
             }
 
             return false;
@@ -780,9 +789,9 @@ TRIPODS.mvt = (function (mod) {
         foot.style.zIndex = 2000; // Bring foot to top
 
         if (block_collide) {
-            startSwipe(foot, x_shift, y_shift, abortSwipe);
+            jumpBoundary(foot, x_shift, y_shift);
         } else {
-            startSwipe(foot, x_shift, y_shift, finishSwipe);
+            jump(foot, x_shift, y_shift);
             document.getElementById("pivitor").style.opacity = 0;
         }
     }
