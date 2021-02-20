@@ -7,4 +7,8 @@
 </svg>
 ```
 
-Possible motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa. Seems to clash with other filtering/animations, but worth testing further.
+Possible more sophisticated motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa.
+
+### Reference
+
+* https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect

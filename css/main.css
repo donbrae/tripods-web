@@ -283,13 +283,8 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    will-change: left, top, transform, filter;
-    /* filter: drop-shadow(2px 2px 2px #333); */
+    /* will-change: left, top, transform, filter; */
 }
-
-/* .block > path {
-    filter: drop-shadow(0 0 40px #969696);
-} */
 
 #pivitor {
     transition: left .04s ease-out,

@@ -6,9 +6,9 @@ TRIPODS.mvt = (function (mod) {
 
     const submod = {
         measurements: {
-            container_rect: '',
-            cells_in_row: '',
-            cells_in_column: ''
+            container_rect: undefined,
+            cells_in_row: undefined,
+            cells_in_column: undefined
         }
     };
 
@@ -609,7 +609,7 @@ TRIPODS.mvt = (function (mod) {
             const keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(2px)" }, // Initial (0,0) or current x_shift and y_shift for this foot
                 { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.5)`, filter: "blur(4px)" }, // Halfway
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0px)" }
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
             ];
 
             const animate = foot.animate(
@@ -624,14 +624,65 @@ TRIPODS.mvt = (function (mod) {
                 }
             );
 
-            animate.onfinish = () => {
-                foot.style.zIndex = 1000; // Reset z-index
-                TRIPODS.game_state.ignore_user_input = false;
-                submod.calculatePivotState();
-                submod.repositionPivot();
-                moveSuccess();
-            };
+            if (typeof (callback) == "function") {
+                animate.onfinish = callback;
+            }
         };
+
+        function jumpBoundary(foot, x_shift, y_shift, swipe_angle, callback) {
+            TRIPODS.game_state.ignore_user_input = true;
+
+            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+            let x_shift_additional = 0;
+            let y_shift_additional = 0;
+
+            const control_padding = TRIPODS.ui_attributes.control_padding;
+            const container_padding = parseFloat(document.getElementById("container").style.padding);
+            const foot_rect = foot.getBoundingClientRect();
+
+            const shift_halfway = { // Halfway point of a full jump
+                x: x_shift / 2,
+                y: y_shift / 2
+            }
+
+            switch (swipe_angle) {
+                case "s":
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    break; // *
+                case "e":
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    break; // *
+                case "n":
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    break; // *
+                case "w":
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+            }
+
+            const keyframes = [
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(1px)" }, // Initial (0,0) or current x_shift and y_shift for this foot
+                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: "blur(3px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
+            ];
+
+            const animate = foot.animate(
+                keyframes,
+                {
+                    duration: 175,
+                    easing: "linear",
+                    delay: 0,
+                    iterations: 1,
+                    direction: "normal",
+                    fill: "forwards"
+                }
+            );
+
+            if (typeof (callback) == "function") {
+                animate.onfinish = callback;
+            }
+        };
+
+        // > function jumpBlock() {}
 
         // Store coords of elements before any elements are moved
         const foot_rect = foot.getBoundingClientRect();
@@ -727,71 +778,31 @@ TRIPODS.mvt = (function (mod) {
             }
         }
 
+        foot.style.zIndex = 2000; // Bring foot to top
+
         // Check whether boundary has been intersected
 
         const boundary_check = boundaryIntersected(x_shift, y_shift, cell_len);
         block_collide = elementCollision(x_shift, y_shift);
 
         if (boundary_check) { // If swiped off the board
-
-            TRIPODS.game_state.ignore_user_input = true;
-
-            const a_foot = submod.getAFoot(); // Foot at position A
-            const a_foot_rect = a_foot.getBoundingClientRect();
-            const a_foot_x = a_foot_rect.x;
-            const a_foot_y = a_foot_rect.y;
-            const control_padding = TRIPODS.ui_attributes.control_padding;
-            let x_shift;
-            let y_shift;
-
-            // Animate depending on which wall was hit and at which angle
-            if (boundary_check === 'bottom' && swipe_angle === 's') {
-                x_shift = orig_pos_x;
-                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
-            } else if (boundary_check === 'bottom' && swipe_angle === 'ssw') {
-                x_shift = a_foot_x + cell_len / 1.5;
-                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
-            } else if (boundary_check === 'bottom' && swipe_angle === 'sse') {
-                x_shift = a_foot_x - cell_len / 1.5;
-                y_shift = cell_len * (submod.measurements.cells_in_column - 1) - control_padding;
-            } else if (boundary_check === 'top' && swipe_angle === 'n') {
-                x_shift = orig_pos_x;
-                y_shift = -control_padding;
-            } else if (boundary_check === 'top' && swipe_angle === 'nne') {
-                x_shift = a_foot_x - cell_len / 1.5;
-                y_shift = -control_padding;
-            } else if (boundary_check === 'top' && swipe_angle === 'nnw') {
-                x_shift = a_foot_x + cell_len / 1.5;
-                y_shift = -control_padding;
-            } else if (boundary_check === 'left' && swipe_angle === 'w') {
-                x_shift = -control_padding;
-                y_shift = orig_pos_y;
-            } else if (boundary_check === 'left' && swipe_angle === 'sw') {
-                x_shift = a_foot_x - cell_len;
-                y_shift = a_foot_y - cell_len * 0.7;
-            } else if (boundary_check === 'left' && swipe_angle === 'nw') {
-                x_shift = a_foot_x - cell_len;
-                y_shift = a_foot_y + cell_len * 0.8;
-            } else if (boundary_check === 'right' && swipe_angle === 'e') {
-                x_shift = cell_len * (submod.measurements.cells_in_row - 1) - control_padding;
-                y_shift = orig_pos_y;
-            } else if (boundary_check === 'right' && swipe_angle === 'se') {
-                x_shift = a_foot_x + cell_len;
-                y_shift = a_foot_y - cell_len * 0.7;
-            } else if (boundary_check === 'right' && swipe_angle === 'ne') {
-                x_shift = a_foot_x + cell_len;
-                y_shift = a_foot_y + cell_len * 0.8;
-            }
-
-            return false;
-        }
-
-        foot.style.zIndex = 2000; // Bring foot to top
-
-        if (block_collide) {
-            jumpBoundary(foot, x_shift, y_shift);
+            jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
+                foot.style.zIndex = 1000; // Reset z-index
+                TRIPODS.game_state.ignore_user_input = false;
+            });
+        } else if (block_collide) {
+            jumpBlock(foot, x_shift, y_shift, () => {
+                foot.style.zIndex = 1000;
+                TRIPODS.game_state.ignore_user_input = false;
+            });
         } else {
-            jump(foot, x_shift, y_shift);
+            jump(foot, x_shift, y_shift, () => {
+                foot.style.zIndex = 1000;
+                TRIPODS.game_state.ignore_user_input = false;
+                submod.calculatePivotState();
+                submod.repositionPivot();
+                moveSuccess();
+            });
             document.getElementById("pivitor").style.opacity = 0;
         }
     }
