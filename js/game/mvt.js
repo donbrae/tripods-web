@@ -281,6 +281,7 @@ TRIPODS.mvt = (function (mod) {
     submod.repositionPivot = function () {
 
         const pivot = document.getElementById("pivitor");
+        const pivot_rect = pivot.getBoundingClientRect();
 
         const foot1 = document.getElementById("foot1");
         const foot2 = document.getElementById("foot2");
@@ -289,97 +290,138 @@ TRIPODS.mvt = (function (mod) {
         const angle_1_2 = Math.round(TRIPODS.utils.getAngleEl(foot1, foot2));
         const angle_1_3 = Math.round(TRIPODS.utils.getAngleEl(foot1, foot3));
 
-        let pivot_x; // `left` style attribute of where pivot should be (x)
-        let pivot_y; // As above, but for y
+        let pivot_shift_x;
+        let pivot_shift_y;
 
         const side = mod.ui_attributes.svg_xy;
         const shunt = Math.round(mod.ui_attributes.svg_xy / 6); // px
 
+        let foot_rect;
+
         // Clockwise arrangement 1, 2, 3
         if (angle_1_2 === 63 && angle_1_3 === 117) { // Position 1
-            pivot_x = foot1.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot1).top) + side + shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_2 === 90 && angle_1_3 === 153) { // Position 2
-            pivot_y = foot3.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot3).left) + side + shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_2 === 117 && angle_1_3 === 180) { // Position 3
-            pivot_x = foot2.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot2).top) - side - shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_2 === 153 && angle_1_3 === - 153) { // Position 4
-            pivot_y = foot1.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot1).left) - side - shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         } else if (angle_1_2 === 180 && angle_1_3 === - 117) { // Position 5
-            pivot_x = foot3.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot3).top) + side + shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_2 === - 153 && angle_1_3 === - 90) { // Position 6
-            pivot_y = foot2.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot2).left) + side + shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_2 === - 117 && angle_1_3 === - 63) { // Position 7
-            pivot_x = foot1.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot1).top) - side - shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_2 === - 90 && angle_1_3 === - 27) { // Position 8
-            pivot_y = foot3.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot3).left) - side - shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         } else if (angle_1_2 === - 63 && angle_1_3 === 0) { // Position 9
-            pivot_x = foot2.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot2).top) + side + shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_2 === - 27 && angle_1_3 === 27) { // Position 10
-            pivot_y = foot1.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot1).left) + side + shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_2 === 0 && angle_1_3 === 63) { // Position 11
-            pivot_x = foot3.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot3).top) - side - shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_2 === 27 && angle_1_3 === 90) { // Position 12
-            pivot_y = foot2.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot2).left) - side - shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         } else if (angle_1_3 === 63 && angle_1_2 === 117) { // Position 1 (clockwise 1, 3, 2)
-            pivot_x = foot1.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot1).top) + side + shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_3 === 90 && angle_1_2 === 153) { // Position 2
-            pivot_y = foot2.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot2).left) + side + shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_3 === 117 && angle_1_2 === 180) { // Position 3
-            pivot_x = foot3.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot3).top) - side - shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_3 === 153 && angle_1_2 === - 153) { // Position 4
-            pivot_y = foot1.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot1).left) - side - shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         } else if (angle_1_3 === 180 && angle_1_2 === - 117) { // Position 5
-            pivot_x = foot2.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot2).top) + side + shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_3 === - 153 && angle_1_2 === - 90) { // Position 6
-            pivot_y = foot3.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot3).left) + side + shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_3 === - 117 && angle_1_2 === - 63) { // Position 7
-            pivot_x = foot1.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot1).top) - side - shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_3 === - 90 && angle_1_2 === - 27) { // Position 8
-            pivot_y = foot2.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot2).left) - side - shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         } else if (angle_1_3 === - 63 && angle_1_2 === 0) { // Position 9
-            pivot_x = foot3.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot3).top) + side + shunt}px`;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y + side + shunt;
         } else if (angle_1_3 === - 27 && angle_1_2 === 27) { // Position 10
-            pivot_y = foot1.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot1).left) + side + shunt}px`;
+            foot_rect = foot1.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x + side + shunt;
         } else if (angle_1_3 === 0 && angle_1_2 === 63) { // Position 11
-            pivot_x = foot2.style.left;
-            pivot_y = `${parseInt(getComputedStyle(foot2).top) - side - shunt}px`;
+            foot_rect = foot2.getBoundingClientRect();
+            pivot_shift_x = foot_rect.x - pivot_rect.x;
+            pivot_shift_y = foot_rect.y - pivot_rect.y - side - shunt;
         } else if (angle_1_3 === 27 && angle_1_2 === 90) { // Position 12
-            pivot_y = foot3.style.top;
-            pivot_x = `${parseInt(getComputedStyle(foot3).left) - side - shunt}px`;
-        } else {
-            // > Just a bit of defensive programming for the pivot to stay still if none of the above conditions is met(so pivot_x and pivot_y have a value)
-            pivot_x = pivot.style.left;
-            pivot_y = pivot.style.top;
+            foot_rect = foot3.getBoundingClientRect();
+            pivot_shift_y = foot_rect.y - pivot_rect.y;
+            pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
         }
 
-        pivot.style.left = pivot_x;
-        pivot.style.top = pivot_y;
+        // pivot.style.left = pivot_shift_x;
+        // pivot.style.top = pivot_shift_y;
 
-        setTimeout(function () {
+        const translate_xy = TRIPODS.utils.getTranslateXY(pivot);
+
+        const keyframes = [
+            { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial (0,0) or current x_shift and y_shift for the pivotor
+            { transform: `translate(${translate_xy.tX + pivot_shift_x}px,${translate_xy.tY + pivot_shift_y}px)` }
+        ];
+
+        const animate = pivot.animate(
+            keyframes,
+            {
+                duration: mod.cfg.animation.jump_duration,
+                easing: "linear",
+                delay: 0,
+                iterations: 1,
+                direction: "normal",
+                fill: "forwards"
+            }
+        );
+
+        animate.onfinish = () => {
             pivot.style.opacity = 1;
-        }, 100);
+        }
     }
 
     // Pivot

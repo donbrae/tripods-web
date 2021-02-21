@@ -5,7 +5,7 @@ TRIPODS.utils = (function () {
     const submod = {};
 
     // Calculate distance between two points
-    submod.getLineDistance = function (point1, point2) { // Credit: http://snipplr.com/view/47207/
+    submod.getLineDistance = function (point1, point2) { // http://snipplr.com/view/47207/
 
         let xs = 0;
         let ys = 0;
@@ -21,9 +21,9 @@ TRIPODS.utils = (function () {
 
     // Get center point of element
     submod.getCenterPoint = function (el) {
-        const offset = el.getBoundingClientRect();
-        const center_x = offset.left + document.body.scrollLeft + parseFloat(getComputedStyle(el, null).width.replace("px", "")) / 2; // > do we need to replace 'px'?
-        const center_y = offset.top + document.body.scrollTop + parseFloat(getComputedStyle(el, null).height.replace("px", "")) / 2;
+        const el_rect = el.getBoundingClientRect();
+        const center_x = el_rect.x + el_rect.width / 2;
+        const center_y = el_rect.y + el_rect.height / 2;
 
         return { x: center_x, y: center_y };
     }
