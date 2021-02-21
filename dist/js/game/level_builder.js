@@ -5,7 +5,7 @@ TRIPODS.level_builder = (function (mod) {
     const submod = {};
 
     submod.runLevel = function () {
-        TRIPODS.mvt.repositionPivot();
+        TRIPODS.mvt.repositionPivot(true, 1000);
         TRIPODS.mvt.getMeasurements(); // Set UI measurements
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
@@ -73,7 +73,7 @@ TRIPODS.level_builder = (function (mod) {
 
     submod.reset = function (callback) {
         setTimeout(function () {
-            TRIPODS.game_state.block_coords.length = 0; // Reset block data
+            TRIPODS.game_state.block_center_coords.length = 0; // Reset block data
             TRIPODS.game_state.level_win = false;
             TRIPODS.game_state.tutorial_running = false;
             TRIPODS.game_state.moves_made.length = 0; // Empty array

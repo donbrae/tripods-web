@@ -8,7 +8,7 @@ TRIPODS.game_state = (function () {
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0, // Also stored in TRIPODS_level in localStorage
         level_win: false,
-        block_coords: [],
+        block_center_coords: [],
         tutorial_running: false,
         element_tapped: "", // Selector of most recent element tapped
         scores: [] // Also stored in TRIPODS_scores in localStorage

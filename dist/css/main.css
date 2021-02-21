@@ -29,9 +29,9 @@ body {
 }
 
 body {
-    background-color: #fff;
-    /* background-color: #ffd1e0;
-    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%); */
+    /* background-color: #fff; */
+    background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     font-size: 1em;
     line-height: 1.4;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
@@ -283,17 +283,10 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    will-change: left, top, transform, filter;
-    /* filter: drop-shadow(2px 2px 2px #333); */
 }
 
-/* .block > path {
-    filter: drop-shadow(0 0 40px #969696);
-} */
-
-#pivitor {
-    transition: left .04s ease-out,
-        top .04s ease-out !important;
+.foot, #pivitor {
+    will-change: transform, filter; /* iPhone is janky */
 }
 
 .splash h1 {
@@ -314,9 +307,9 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    background-color: #fff;
-    /* background-color: #ffd1e0;
-    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%); */
+    /* background-color: #fff; */
+    background-color: #ffd1e0;
+    background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
     padding-top: 70px;

@@ -5,7 +5,7 @@ TRIPODS.utils = (function () {
     const submod = {};
 
     // Calculate distance between two points
-    submod.getLineDistance = function (point1, point2) { // Credit: http://snipplr.com/view/47207/
+    submod.getLineDistance = function (point1, point2) { // http://snipplr.com/view/47207/
 
         let xs = 0;
         let ys = 0;
@@ -21,9 +21,9 @@ TRIPODS.utils = (function () {
 
     // Get center point of element
     submod.getCenterPoint = function (el) {
-        const offset = el.getBoundingClientRect();
-        const center_x = offset.left + document.body.scrollLeft + parseFloat(getComputedStyle(el, null).width.replace("px", "")) / 2; // > do we need to replace 'px'?
-        const center_y = offset.top + document.body.scrollTop + parseFloat(getComputedStyle(el, null).height.replace("px", "")) / 2;
+        const el_rect = el.getBoundingClientRect();
+        const center_x = el_rect.x + el_rect.width / 2;
+        const center_y = el_rect.y + el_rect.height / 2;
 
         return { x: center_x, y: center_y };
     }
@@ -48,6 +48,17 @@ TRIPODS.utils = (function () {
 
         return this.getAngle(obj1_coords.x, obj1_coords.y, obj2_coords.x, obj2_coords.y);
     }
+
+    // https://stackoverflow.com/a/64654744
+    submod.getTranslateXY = function (element) {
+        const style = window.getComputedStyle(element);
+        const matrix = new DOMMatrixReadOnly(style.transform);
+        return {
+            tX: matrix.m41,
+            tY: matrix.m42
+        }
+    }
+
 
     submod.extend = function (out) {
         out = out || {};
@@ -83,7 +94,7 @@ TRIPODS.utils = (function () {
         }, 310);
     }
 
-    submod.log = function(msg) {
+    submod.log = function (msg) {
         if (navigator.maxTouchPoints) {
             // On mobile, most recent logs are at the top
             document.querySelector(".log").innerHTML = `${msg} [${Math.round((new Date()).getTime() / 1000)}]<br>${document.querySelector(".log").innerHTML}`;
@@ -92,7 +103,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.is_iOS = function() {
+    submod.is_iOS = function () {
         const user_agent = navigator.userAgent.toLowerCase();
         return user_agent.indexOf("iphone") > -1 ||
             user_agent.indexOf("ipod") > -1 ||

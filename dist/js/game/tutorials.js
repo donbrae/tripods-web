@@ -3,7 +3,7 @@ TRIPODS.tutorials = (function (mod) {
         levels: []
     };
 
-    submod.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
+    // submod.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
 
     submod.placeTutorialElement = function () {
 

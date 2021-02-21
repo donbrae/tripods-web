@@ -283,12 +283,10 @@ svg.control:hover {
 .foot {
     z-index: 1000;
     transition: opacity linear .1s;
-    /* will-change: left, top, transform, filter; */
 }
 
-#pivitor {
-    /* transition: left .04s ease-out,
-        top .04s ease-out !important; */
+.foot, #pivitor {
+    will-change: transform, filter; /* iPhone is janky */
 }
 
 .splash h1 {

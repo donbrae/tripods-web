@@ -22,23 +22,7 @@ var TRIPODS = (function (mod) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: ['control', 'foot'],
-                attributes: {}, // fill, r, cx and cy set dynamically
-                defs: `<filter id="blur0">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.15" />
-                        </filter>
-                        <filter id="blur1">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" />
-                        </filter>
-                        <filter id="blur2">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="0.45" />
-                        </filter>
-                        <filter id="blur3">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
-                        </filter>
-                        <filter id="blur4">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="2.25" />
-                        </filter>
-                    </defs>`
+                attributes: {} // fill, r, cx and cy set dynamically
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
@@ -60,6 +44,7 @@ var TRIPODS = (function (mod) {
                 block: true,
                 name: 'block',
                 shape: 'path',
+                classes: ["block"],
                 viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
                     fill: "#5496ff",
@@ -143,15 +128,16 @@ var TRIPODS = (function (mod) {
         },
         animation: {
             default: {
-                properties: ["opacity"], // array
-                timing_function: "linear",
+                // properties: ["opacity"], // array
+                // timing_function: "linear",
                 duration: 160 // milliseconds
             },
             pivot: {
-                properties: ["opacity"], // array
-                timing_function: "linear",
+                // properties: ["opacity"], // array
+                // timing_function: "linear",
                 duration: 120
-            }
+            },
+            jump_duration: 175
         },
         svg_xy_max: 750,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
