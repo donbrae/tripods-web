@@ -135,7 +135,8 @@ var TRIPODS = (function (mod) {
                 properties: ["opacity"], // array
                 timing_function: "linear",
                 duration: 120
-            }
+            },
+            jump_duration: 175
         },
         svg_xy_max: 750,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE

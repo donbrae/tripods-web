@@ -615,7 +615,7 @@ TRIPODS.mvt = (function (mod) {
             const animate = foot.animate(
                 keyframes,
                 {
-                    duration: 175,
+                    duration: mod.cfg.animation.jump_duration,
                     easing: "linear",
                     delay: 0,
                     iterations: 1,
@@ -646,17 +646,51 @@ TRIPODS.mvt = (function (mod) {
             }
 
             switch (swipe_angle) {
-                case "s":
-                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
-                    break; // *
-                case "e":
-                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
-                    break; // *
                 case "n":
                     y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
-                    break; // *
+                    break;
+                case "e":
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    break;
+                case "s":
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    break;
                 case "w":
                     x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    break;
+                case "nne":
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    x_shift_additional = Math.abs(y_shift_additional + cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "sse":
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    x_shift_additional = Math.abs(y_shift_additional - cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "ssw":
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    x_shift_additional = -Math.abs(y_shift_additional - cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "nnw":
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    x_shift_additional = -Math.abs(y_shift_additional + cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "ne":
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    y_shift_additional = -Math.abs(x_shift_additional - cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "se":
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    y_shift_additional = Math.abs(x_shift_additional - cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "sw":
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    y_shift_additional = Math.abs(x_shift_additional + cell_len * 0.84); // > Replace with proper maths
+                    break;
+                case "nw":
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    y_shift_additional = -Math.abs(x_shift_additional + cell_len * 0.84); // > Replace with proper maths
+                    break;
+
             }
 
             const keyframes = [
@@ -668,7 +702,8 @@ TRIPODS.mvt = (function (mod) {
             const animate = foot.animate(
                 keyframes,
                 {
-                    duration: 175,
+                    // duration: 3000,
+                    duration: mod.cfg.animation.jump_duration * 1.75,
                     easing: "linear",
                     delay: 0,
                     iterations: 1,
