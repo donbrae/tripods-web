@@ -47,8 +47,7 @@ var TRIPODS = (function (mod) {
             }
 
             if (el.name === "pivitor") {
-                top += 5;
-                svg.style.opacity = 0;
+                svg.style.filter = "opacity(0)";
             }
 
             svg.style.top = `${top}px`;

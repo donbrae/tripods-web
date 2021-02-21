@@ -35,6 +35,8 @@ TRIPODS.mvt = (function (mod) {
     let count_foot2;
     let count_foot3;
 
+    let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
+
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift, cell_len) {
         const control_padding = TRIPODS.ui_attributes.control_padding;
@@ -278,7 +280,7 @@ TRIPODS.mvt = (function (mod) {
         return foot;
     }
 
-    submod.repositionPivot = function () {
+    submod.repositionPivot = function (fade_in, delay = 300) {
 
         const pivot = document.getElementById("pivitor");
         const pivot_rect = pivot.getBoundingClientRect();
@@ -446,8 +448,31 @@ TRIPODS.mvt = (function (mod) {
             }
         );
 
-        animate.onfinish = () => {
-            pivot.style.opacity = 1;
+        if (fade_in) {
+            animate.onfinish = () => {
+
+                if (pivot_timeout !== undefined) {
+                    clearTimeout(pivot_timeout);
+                    pivot_timeout = undefined;
+                }
+
+                pivot_timeout = setTimeout(() => {
+                    pivot.animate(
+                        [
+                            { filter: getComputedStyle(pivot).filter },
+                            { filter: "opacity(1)" },
+                        ],
+                        {
+                            duration: 180,
+                            easing: "linear",
+                            delay: 0,
+                            iterations: 1,
+                            direction: "normal",
+                            fill: "forwards"
+                        }
+                    );
+                }, delay);
+            }
         }
     }
 
@@ -771,7 +796,6 @@ TRIPODS.mvt = (function (mod) {
             const animate = foot.animate(
                 keyframes,
                 {
-                    // duration: 3000,
                     duration: mod.cfg.animation.jump_duration * 1.75,
                     easing: "linear",
                     delay: 0,
@@ -904,10 +928,30 @@ TRIPODS.mvt = (function (mod) {
                 foot.style.zIndex = 1000;
                 TRIPODS.game_state.ignore_user_input = false;
                 submod.calculatePivotState();
-                submod.repositionPivot();
+                submod.repositionPivot(true);
                 moveSuccess();
             });
-            document.getElementById("pivitor").style.opacity = 0;
+
+            if (pivot_timeout !== undefined) {
+                clearTimeout(pivot_timeout);
+                pivot_timeout = undefined;
+            }
+
+            const pivot = document.getElementById("pivitor");
+            pivot.animate(
+                [
+                    { filter: getComputedStyle(pivot).filter },
+                    { filter: "opacity(0)" },
+                ],
+                {
+                    duration: 180,
+                    easing: "linear",
+                    delay: 0,
+                    iterations: 1,
+                    direction: "normal",
+                    fill: "forwards"
+                }
+            );
         }
     }
 

@@ -5,7 +5,7 @@ TRIPODS.level_builder = (function (mod) {
     const submod = {};
 
     submod.runLevel = function () {
-        TRIPODS.mvt.repositionPivot();
+        TRIPODS.mvt.repositionPivot(true, 1000);
         TRIPODS.mvt.getMeasurements(); // Set UI measurements
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
