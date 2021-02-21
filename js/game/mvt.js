@@ -50,13 +50,13 @@ TRIPODS.mvt = (function (mod) {
         return false;
     };
 
-    function elementCollision(left, top) {
-        const block_coords = TRIPODS.game_state.block_coords;
+    function blockCollision(cx, cy) {
+        const block_center_coords = TRIPODS.game_state.block_center_coords;
         let collide = false;
 
-        for (let i = 0; i < block_coords.length; i++) {
-            const item = block_coords[i];
-            if (item.left === left && item.top === top) {
+        for (let i = 0; i < block_center_coords.length; i++) {
+            const block = block_center_coords[i];
+            if (Math.abs(block.x - cx) <= 10 && Math.abs(block.y - cy) <= 10) {
                 collide = true;
                 break;
             }
@@ -92,6 +92,13 @@ TRIPODS.mvt = (function (mod) {
 
     submod.getMeasurements = function () {
         if (!isNaN(TRIPODS.game_state.level)) {
+
+            // Get blocker coords (centre points)
+            TRIPODS.game_state.block_center_coords.length = 0;
+            Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
+                TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
+            });
+
             this.measurements.container_rect = document.getElementById("container").getBoundingClientRect();
             this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
             this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
@@ -420,7 +427,7 @@ TRIPODS.mvt = (function (mod) {
                 foot_rect = foot3.getBoundingClientRect();
                 pivot_shift_y = foot_rect.y - pivot_rect.y;
                 pivot_shift_x = foot_rect.x - pivot_rect.x - side - shunt;
-                 break;
+                break;
             default:
                 // Place near foot 1
                 foot_rect = foot1.getBoundingClientRect();
@@ -498,31 +505,49 @@ TRIPODS.mvt = (function (mod) {
             pivot_foot_count++;
         };
 
-        function finishPivot(obj) {
-            if (obj.move) {
-                const foot = document.getElementById(obj.foot);
+        function finishPivot(foot_move) {
+            if (foot_move.move) {
 
-                Object.keys(obj.anim_params).forEach(function (key) {
-                    foot.style[key] = `${obj.anim_params[key]}px`;
-                });
+                const foot = document.getElementById(foot_move.foot);
+                const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
-                setTimeout(function () {
-                    postPivot(obj.foot, obj.count);
-                }, mod.cfg.animation.pivot.duration);
-            } else postPivot(obj.foot, obj.count);
+                const keyframes = [
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` },
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)` },
+                ];
+
+                const animate = foot.animate(
+                    keyframes,
+                    {
+                        duration: 200,
+                        easing: "linear",
+                        delay: 0,
+                        iterations: 1,
+                        direction: "normal",
+                        fill: "forwards"
+                    }
+                );
+
+                animate.onfinish = () => {
+                    postPivot(foot_move.foot, foot_move.count);
+                };
+            } else postPivot(foot_move.foot, foot_move.count);
         };
 
-        function abortPivot(obj) {
+        function abortPivot(foot_move) {
 
-            if (obj.move) {
+            pivot_foot_count++;
+            return false;
+
+            if (foot_move.move) {
 
                 const anim_obj = {};
-                const foot = document.getElementById(obj.foot);
+                const foot = document.getElementById(foot_move.foot);
 
-                if (obj.anim_params.left === obj.orig_coords.left) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shoogle
-                    anim_obj.top = obj.orig_coords.top + (obj.anim_params.top - obj.orig_coords.top) / 4;
-                else if (obj.anim_params.top === obj.orig_coords.top)
-                    anim_obj.left = obj.orig_coords.left + (obj.anim_params.left - obj.orig_coords.left) / 4;
+                if (foot_move.shift.x === foot_move.orig_coords.x) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shoogle
+                    anim_obj.top = foot_move.orig_coords.y + (foot_move.shift.y - foot_move.orig_coords.y) / 4;
+                else if (foot_move.shift.y === foot_move.orig_coords.y)
+                    anim_obj.left = foot_move.orig_coords.x + (foot_move.shift.x - foot_move.orig_coords.x) / 4;
 
                 // Move relevant feet slightly
                 Object.keys(anim_obj).forEach(function (key) {
@@ -531,8 +556,8 @@ TRIPODS.mvt = (function (mod) {
 
                 setTimeout(function () {
                     // Move relevant feet back
-                    Object.keys(obj.orig_coords).forEach(function (key) {
-                        foot.style[key] = `${obj.orig_coords[key]}px`;
+                    Object.keys(foot_move.orig_coords).forEach(function (key) {
+                        foot.style[key] = `${foot_move.orig_coords[key]}px`;
                     });
 
                     setTimeout(function () {
@@ -561,52 +586,50 @@ TRIPODS.mvt = (function (mod) {
          */
         function checkWhichFeetShouldPivot(foot, count) {
 
-            const left = parseFloat(getComputedStyle(document.getElementById(foot))["left"]);
-            const top = parseFloat(getComputedStyle(document.getElementById(foot))["top"]);
-
             if (foot_pivot_sequence[count] !== null) { // If foot should move
 
-                let anim_params; // Where feet will move to if the move is valid (e.g. doesn't encounter blocker UI element)
+                let shift; // Where feet will move to if the move is valid (e.g. doesn't encounter blocker UI element)
 
-                if (foot_pivot_sequence[count][0] === 'left') {
+                if (foot_pivot_sequence[count][0] === "left") {
 
-                    let foot_new_position_left;
+                    let foot_shift_x;
 
                     // Get new foot coords
-                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_left = left - TRIPODS.ui_attributes.svg_xy;
-                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_left = left + TRIPODS.ui_attributes.svg_xy;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.svg_xy;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.svg_xy;
 
-                    anim_params = { 'left': foot_new_position_left, top: top }; // Store parameters for animation
+                    shift = { x: foot_shift_x, y: 0 }; // Store parameters for animation
 
-                } else if (foot_pivot_sequence[count][0] === 'top') {
+                } else if (foot_pivot_sequence[count][0] === "top") {
 
-                    let foot_new_position_top;
+                    let foot_shift_y;
 
-                    if (foot_pivot_sequence[count][1] === '-') foot_new_position_top = top - TRIPODS.ui_attributes.svg_xy;
-                    else if (foot_pivot_sequence[count][1] === '+') foot_new_position_top = top + TRIPODS.ui_attributes.svg_xy;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.svg_xy;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.svg_xy;
 
-                    anim_params = { 'top': foot_new_position_top, left: left };
+                    shift = { x: 0, y: foot_shift_y };
                 }
 
                 foot_move_data.push({
                     foot: foot, // Element ID
-                    move: 1,
+                    move: true,
                     count: count,
-                    anim_params: anim_params,
-                    orig_coords: {
-                        left: left,
-                        top: top
-                    }
+                    shift: shift, // x,y
+                    // orig_coords: {
+                    //     x: x,
+                    //     y: y
+                    // }
                 });
 
-                block_collide = elementCollision(anim_params.left, anim_params.top);
+                const foot_center_point = TRIPODS.utils.getCenterPoint(document.getElementById(foot));
+                block_collide = blockCollision(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
 
                 if (block_collide) block_collide_via_pivot = true;
 
             } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
                 foot_move_data.push({
                     foot: foot, // Element ID
-                    move: 0,
+                    move: false,
                     count: count
                 });
             }
@@ -911,7 +934,9 @@ TRIPODS.mvt = (function (mod) {
         // Check whether boundary has been intersected
 
         const boundary_check = boundaryIntersected(x_shift, y_shift, cell_len);
-        block_collide = elementCollision(x_shift, y_shift);
+
+        const foot_center_point = TRIPODS.utils.getCenterPoint(foot);
+        block_collide = blockCollision(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
 
         if (boundary_check) { // If swiped off the board
             jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {

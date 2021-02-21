@@ -47,37 +47,11 @@ var TRIPODS = (function (mod) {
             }
 
             if (el.name === "pivitor") {
-                svg.style.filter = "opacity(0)";
+                svg.style.filter = "opacity(0)"; // So pivot initial XY adjustment is hidden
             }
 
             svg.style.top = `${top}px`;
             svg.style.left = `${left}px`;
-
-            // Add CSS animations/transitions
-            if (el.classes) {
-                let has_animation = false;
-                let animation;
-
-                if (el.classes.indexOf("foot") > -1) { // Feet
-                    animation = mod.cfg.animation.default;
-                    has_animation = true;
-                } else if (el.id === "pivitor") { // Pivot
-                    animation = mod.cfg.animation.pivot;
-                    has_animation = true;
-                }
-
-                if (has_animation) {
-                    const transition = [];
-
-                    [].concat(animation.properties).forEach(property => { // E.g. 'left'
-                        transition.push(
-                            `${property} ${animation.timing_function} ${animation.duration / 1000}s`
-                        );
-                    });
-
-                    svg.style.transition = transition.join(", ");
-                }
-            }
 
             layer_element.insertAdjacentHTML("beforeend", svg.outerHTML); // Add SVG shape
         }
@@ -167,12 +141,6 @@ var TRIPODS = (function (mod) {
             if (i) { // First row contains colour data
                 let left = 0;
                 row.forEach(square => { // Each square
-                    if (square === 4) { // If this is a blocker element
-                        mod.game_state.block_coords.push({ // Store coords (allow for control padding)
-                            left: left - mod.ui_attributes.control_padding,
-                            top: top - mod.ui_attributes.control_padding
-                        });
-                    }
 
                     // (See mod.cfg.linking)
                     if (

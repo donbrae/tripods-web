@@ -287,8 +287,8 @@ svg.control:hover {
 }
 
 #pivitor {
-    transition: left .04s ease-out,
-        top .04s ease-out !important;
+    /* transition: left .04s ease-out,
+        top .04s ease-out !important; */
 }
 
 .splash h1 {

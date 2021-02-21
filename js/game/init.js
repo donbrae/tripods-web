@@ -44,6 +44,7 @@ var TRIPODS = (function (mod) {
                 block: true,
                 name: 'block',
                 shape: 'path',
+                classes: ["block"],
                 viewBox: "0 0 24 24",
                 attributes: { // width and height set dynamically
                     fill: "#5496ff",
@@ -127,13 +128,13 @@ var TRIPODS = (function (mod) {
         },
         animation: {
             default: {
-                properties: ["opacity"], // array
-                timing_function: "linear",
+                // properties: ["opacity"], // array
+                // timing_function: "linear",
                 duration: 160 // milliseconds
             },
             pivot: {
-                properties: ["opacity"], // array
-                timing_function: "linear",
+                // properties: ["opacity"], // array
+                // timing_function: "linear",
                 duration: 120
             },
             jump_duration: 175
