@@ -37,40 +37,12 @@ TRIPODS.mvt = (function (mod) {
 
     let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
 
-    // JavaScript Web Animations API animate() abstraction
-    function animate(element, keyframes, {
-        duration = 1000,
-        easing = "linear",
-        delay = 0,
-        iterations = 1,
-        direction = "normal",
-        fill = "forwards"
-    }, callback = null) {
-
-        const animate = element.animate(
-            keyframes,
-            {
-                duration: duration,
-                easing: easing,
-                delay: delay,
-                iterations: iterations,
-                direction: direction,
-                fill: fill
-            }
-        );
-
-        if (typeof (callback) == "function") {
-            animate.onfinish = callback;
-        }
-
-    }
-
     function pivotFadeIn() {
 
         const pivot = document.getElementById("pivitor");
 
         if (pivot) {
-            animate(pivot, [
+            TRIPODS.utils.animate(pivot, [
                 { filter: getComputedStyle(pivot).filter },
                 { filter: "opacity(1)" },
             ], { duration: 180 });
@@ -82,7 +54,7 @@ TRIPODS.mvt = (function (mod) {
         const pivot = document.getElementById("pivitor");
 
         if (pivot) {
-            animate(pivot, [
+            TRIPODS.utils.animate(pivot, [
                 { filter: getComputedStyle(pivot).filter },
                 { filter: "opacity(0)" },
             ], { duration: 180 });
@@ -504,11 +476,11 @@ TRIPODS.mvt = (function (mod) {
             }
 
             pivot_timeout = setTimeout(() => {
-                pivotFadeIn();
+                TRIPODS.utils.fadeInNew("#pivitor");
             }, delay);
         } : null;
 
-        animate(pivot, keyframes, {
+        TRIPODS.utils.animate(pivot, keyframes, {
             duration: mod.cfg.animation.jump_duration
         }, cb);
     }
@@ -548,7 +520,7 @@ TRIPODS.mvt = (function (mod) {
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
                 ];
 
-                animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
+                TRIPODS.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
 
             } else postPivot(foot_move.foot, foot_move.count);
         };
@@ -568,7 +540,7 @@ TRIPODS.mvt = (function (mod) {
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
                 ];
 
-                animate(foot, keyframes, { duration: 200 }, () => {
+                TRIPODS.utils.animate(foot, keyframes, { duration: 200 }, () => {
                     pivot_foot_count++;
                 });
 
@@ -697,7 +669,7 @@ TRIPODS.mvt = (function (mod) {
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
             ];
 
-            animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, callback);
+            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, callback);
         };
 
         function jumpBoundary(foot, x_shift, y_shift, swipe_angle, callback) {
@@ -770,13 +742,13 @@ TRIPODS.mvt = (function (mod) {
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
             ];
 
-            animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration * 1.75 }, callback)
+            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration * 1.75 }, callback)
         };
 
         function jumpBlock(foot, x_shift, y_shift, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
-            pivotFadeOut();
+            TRIPODS.utils.fadeOutNew("#pivitor");
 
             const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
@@ -786,7 +758,7 @@ TRIPODS.mvt = (function (mod) {
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
-            animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, () => {
+            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, () => {
                 setTimeout(() => {
 
                     let keyframes = [
@@ -796,11 +768,11 @@ TRIPODS.mvt = (function (mod) {
 
                     ];
 
-                    animate(foot, keyframes, {
+                    TRIPODS.utils.animate(foot, keyframes, {
                         duration: mod.cfg.animation.jump_duration,
                         delay: 10
                     }, () => {
-                        pivotFadeIn();
+                        TRIPODS.utils.fadeInNew("#pivitor");
                         callback();
                     });
                 }, 80);
@@ -934,7 +906,7 @@ TRIPODS.mvt = (function (mod) {
                 pivot_timeout = undefined;
             }
 
-            pivotFadeOut();
+            TRIPODS.utils.fadeOutNew("#pivitor");
         }
     }
 

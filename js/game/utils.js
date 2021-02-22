@@ -59,7 +59,6 @@ TRIPODS.utils = (function () {
         }
     }
 
-
     submod.extend = function (out) {
         out = out || {};
 
@@ -74,6 +73,56 @@ TRIPODS.utils = (function () {
         }
 
         return out;
+    }
+
+    // JavaScript Web Animations API animate() abstraction
+    submod.animate = function (element, keyframes, {
+        duration = 1000,
+        easing = "linear",
+        delay = 0,
+        iterations = 1,
+        direction = "normal",
+        fill = "forwards"
+    }, callback = null) {
+
+        const animation = element.animate(
+            keyframes,
+            {
+                duration: duration,
+                easing: easing,
+                delay: delay,
+                iterations: iterations,
+                direction: direction,
+                fill: fill
+            }
+        );
+
+        if (typeof (callback) == "function") {
+            animation.onfinish = callback;
+        }
+
+    }
+
+    submod.fadeInNew = function(selector, callback) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+            TRIPODS.utils.animate(element, [
+                { filter: getComputedStyle(element).filter },
+                { filter: "opacity(1)" },
+            ], { duration: 180 }, callback);
+        }
+    }
+
+    submod.fadeOutNew = function(selector, callback) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+            TRIPODS.utils.animate(element, [
+                { filter: getComputedStyle(element).filter },
+                { filter: "opacity(0)" },
+            ], { duration: 180 }, callback);
+        }
     }
 
     submod.fadeIn = function (selector, callback) {
