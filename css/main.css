@@ -285,10 +285,10 @@ svg.control:hover {
     transition: opacity linear .1s;
 }
 
-/* iPhone is janky */
-/*.foot, #pivitor {
+/* iPhone XS (and maybe other models) is janky in portrait orientation */
+.foot, #pivitor {
     will-change: transform, filter;
-}*/
+}
 
 .splash h1 {
     font-size: 3em;
