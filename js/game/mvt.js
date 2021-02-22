@@ -137,7 +137,9 @@ TRIPODS.mvt = (function (mod) {
         TRIPODS.game_state.checkWin();
 
         if (TRIPODS.game_state.tutorial_running && TRIPODS.tutorials.checkFollow())
-            TRIPODS.tutorials.placeTutorialElement();
+            setTimeout(() => { // Delay to allow pivot to reposition
+                TRIPODS.tutorials.placeTutorialElement();
+            }, 300);
         else if (TRIPODS.game_state.tutorial_running)
             TRIPODS.tutorials.finish();
     }

@@ -77,21 +77,29 @@ TRIPODS.utils = (function () {
     }
 
     submod.fadeIn = function (selector, callback) {
-        document.querySelector(selector).classList.remove("hide");
-        setTimeout(function () {
-            document.querySelector(selector).classList.add("show");
+        const el = document.querySelector(selector);
+
+        if (el) {
+            el.classList.remove("hide");
             setTimeout(function () {
-                if (typeof (callback) == "function") callback();
-            }, 310);
-        }, 100); // Slight delay so the change in opacity works
+                el.classList.add("show");
+                setTimeout(function () {
+                    if (typeof (callback) == "function") callback();
+                }, 310);
+            }, 100); // Slight delay so the change in opacity works
+        }
     }
 
     submod.fadeOut = function (selector, callback) {
-        document.querySelector(selector).classList.remove("show");
-        setTimeout(function () {
-            document.querySelector(selector).classList.add("hide");
-            if (typeof (callback) == "function") callback();
-        }, 310);
+        const el = document.querySelector(selector);
+
+        if (el) {
+            el.classList.remove("show");
+            setTimeout(function () {
+                el.classList.add("hide");
+                if (typeof (callback) == "function") callback();
+            }, 310);
+        }
     }
 
     submod.log = function (msg) {
