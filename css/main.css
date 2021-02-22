@@ -285,9 +285,10 @@ svg.control:hover {
     transition: opacity linear .1s;
 }
 
-.foot, #pivitor {
-    will-change: transform, filter; /* iPhone is janky */
-}
+/* iPhone is janky */
+/*.foot, #pivitor {
+    will-change: transform, filter;
+}*/
 
 .splash h1 {
     font-size: 3em;

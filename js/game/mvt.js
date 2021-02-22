@@ -37,6 +37,47 @@ TRIPODS.mvt = (function (mod) {
 
     let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
 
+    function pivotFadeIn() {
+
+        const pivot = document.getElementById("pivitor");
+
+        pivot.animate(
+            [
+                { filter: getComputedStyle(pivot).filter },
+                { filter: "opacity(1)" },
+            ],
+            {
+                duration: 180,
+                easing: "linear",
+                delay: 0,
+                iterations: 1,
+                direction: "normal",
+                fill: "forwards"
+            }
+        );
+
+    }
+
+    function pivotFadeOut() {
+
+        const pivot = document.getElementById("pivitor");
+        pivot.animate(
+            [
+                { filter: getComputedStyle(pivot).filter },
+                { filter: "opacity(0)" },
+            ],
+            {
+                duration: 180,
+                easing: "linear",
+                delay: 0,
+                iterations: 1,
+                direction: "normal",
+                fill: "forwards"
+            }
+        );
+
+    }
+
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift, cell_len) {
         const control_padding = TRIPODS.ui_attributes.control_padding;
@@ -464,20 +505,7 @@ TRIPODS.mvt = (function (mod) {
                 }
 
                 pivot_timeout = setTimeout(() => {
-                    pivot.animate(
-                        [
-                            { filter: getComputedStyle(pivot).filter },
-                            { filter: "opacity(1)" },
-                        ],
-                        {
-                            duration: 180,
-                            easing: "linear",
-                            delay: 0,
-                            iterations: 1,
-                            direction: "normal",
-                            fill: "forwards"
-                        }
-                    );
+                    pivotFadeIn();
                 }, delay);
             }
         }
@@ -512,14 +540,16 @@ TRIPODS.mvt = (function (mod) {
                 const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
                 const keyframes = [
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` },
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)` },
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
                 ];
 
                 const animate = foot.animate(
                     keyframes,
                     {
-                        duration: 200,
+                        duration: 250,
                         easing: "linear",
                         delay: 0,
                         iterations: 1,
@@ -536,36 +566,37 @@ TRIPODS.mvt = (function (mod) {
 
         function abortPivot(foot_move) {
 
-            pivot_foot_count++;
-            return false;
-
             if (foot_move.move) {
 
-                const anim_obj = {};
                 const foot = document.getElementById(foot_move.foot);
+                const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
-                if (foot_move.shift.x === foot_move.orig_coords.x) // If x positions match between current foot position and where it should pivot to, calculate direction the foot should shoogle
-                    anim_obj.top = foot_move.orig_coords.y + (foot_move.shift.y - foot_move.orig_coords.y) / 4;
-                else if (foot_move.shift.y === foot_move.orig_coords.y)
-                    anim_obj.left = foot_move.orig_coords.x + (foot_move.shift.x - foot_move.orig_coords.x) / 4;
+                const keyframes = [
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
+                ];
 
-                // Move relevant feet slightly
-                Object.keys(anim_obj).forEach(function (key) {
-                    foot.style[key] = `${anim_obj[key]}px`;
-                });
+                const animate = foot.animate(
+                    keyframes,
+                    {
+                        duration: 200,
+                        easing: "linear",
+                        delay: 0,
+                        iterations: 1,
+                        direction: "normal",
+                        fill: "forwards"
+                    }
+                );
 
-                setTimeout(function () {
-                    // Move relevant feet back
-                    Object.keys(foot_move.orig_coords).forEach(function (key) {
-                        foot.style[key] = `${foot_move.orig_coords[key]}px`;
-                    });
-
-                    setTimeout(function () {
-                        pivot_foot_count++;
-                    }, mod.cfg.animation.pivot.duration * 0.83);
-
-                }, mod.cfg.animation.pivot.duration * 0.83);
-            } else pivot_foot_count++;
+                animate.onfinish = () => {
+                    pivot_foot_count++;
+                };
+            } else {
+                pivot_foot_count++;
+            }
         };
 
         function startPivot(callback) {
@@ -684,39 +715,6 @@ TRIPODS.mvt = (function (mod) {
         const cell_len = TRIPODS.ui_attributes.svg_xy;
         const foot = document.getElementById(e.currentTarget.id);
 
-        function animateBoundaryIntersect(left, top) {
-
-            foot.style.left = `${left}px`;
-            foot.style.top = `${top}px`;
-            foot.classList.add("jump-boundary-intersect");
-
-            setTimeout(function () {
-                bounceBack();
-            }, mod.cfg.animation.default.duration * 1.67);
-        };
-
-        function bounceBack() {
-
-            foot.style.left = `${orig_pos_x}px`;
-            foot.style.top = `${orig_pos_y}px`;
-
-            setTimeout(function () {
-                foot.classList.remove("jump-boundary-intersect");
-                TRIPODS.game_state.ignore_user_input = false;
-            }, mod.cfg.animation.default.duration * 1.67);
-        };
-
-        function abortSwipe() {
-            setTimeout(function () {
-                foot.style.left = `${orig_pos_x}px`;
-                foot.style.top = `${orig_pos_y}px`;
-
-                setTimeout(function () {
-                    TRIPODS.game_state.ignore_user_input = false;
-                }, mod.cfg.animation.default.duration * 2.5);
-            }, mod.cfg.animation.default.duration * 0.42);
-        };
-
         // Move the swiped foot (left and top arguments are the destination coords)
         function jump(foot, x_shift, y_shift, callback) {
             TRIPODS.game_state.ignore_user_input = true;
@@ -724,8 +722,8 @@ TRIPODS.mvt = (function (mod) {
             const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(2px)" }, // Initial (0,0) or current x_shift and y_shift for this foot
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.5)`, filter: "blur(4px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(1px)" },
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: "blur(3px)" }, // Halfway
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
             ];
 
@@ -811,8 +809,8 @@ TRIPODS.mvt = (function (mod) {
             }
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(1px)" }, // Initial (0,0) or current x_shift and y_shift for this foot
-                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: "blur(3px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0px)" },
+                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: "blur(2px)" }, // Halfway
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
             ];
 
@@ -833,7 +831,58 @@ TRIPODS.mvt = (function (mod) {
             }
         };
 
-        // > function jumpBlock() {}
+        function jumpBlock(foot, x_shift, y_shift, callback) {
+            console.log("jumpBlock");
+            TRIPODS.game_state.ignore_user_input = true;
+
+            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+
+            let keyframes = [
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`}, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
+            ];
+
+            let animate = foot.animate(
+                keyframes,
+                {
+                    duration: mod.cfg.animation.jump_duration,
+                    easing: "linear",
+                    delay: 0,
+                    iterations: 1,
+                    direction: "normal",
+                    fill: "forwards"
+                }
+            );
+
+            animate.onfinish = () => {
+                setTimeout(() => {
+
+                    let keyframes = [
+                        { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.002}rem)` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+
+                    ];
+
+                    let animate = foot.animate(
+                        keyframes,
+                        {
+                            duration: mod.cfg.animation.jump_duration,
+                            easing: "linear",
+                            delay: 10,
+                            iterations: 1,
+                            direction: "normal",
+                            fill: "forwards"
+                        }
+                    );
+
+                    if (typeof (callback) == "function") {
+                        animate.onfinish = callback;
+                    }
+                }, 80);
+            };
+        }
 
         // Store coords of elements before any elements are moved
         const foot_rect = foot.getBoundingClientRect();
@@ -962,21 +1011,7 @@ TRIPODS.mvt = (function (mod) {
                 pivot_timeout = undefined;
             }
 
-            const pivot = document.getElementById("pivitor");
-            pivot.animate(
-                [
-                    { filter: getComputedStyle(pivot).filter },
-                    { filter: "opacity(0)" },
-                ],
-                {
-                    duration: 180,
-                    easing: "linear",
-                    delay: 0,
-                    iterations: 1,
-                    direction: "normal",
-                    fill: "forwards"
-                }
-            );
+            pivotFadeOut();
         }
     }
 
