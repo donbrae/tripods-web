@@ -86,7 +86,7 @@ TRIPODS.game_state = (function () {
 
         if (win) {// If all feet are on target
             submod.ignore_user_input = true;
-            setTimeout(onWin, 150);
+            setTimeout(onWin, 60);
         }
     }
 

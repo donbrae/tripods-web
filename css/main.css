@@ -263,8 +263,7 @@ select:focus {
 @media (max-width: 480px) {}
 
 .layer {
-    float: left;
-    position: absolute;
+    position: fixed;
 }
 
 .layer-active {
@@ -286,9 +285,9 @@ svg.control:hover {
 }
 
 /* iPhone XS (and maybe other models) is janky in portrait orientation */
-.foot, #pivitor {
+/* .foot, #pivitor {
     will-change: transform, filter;
-}
+} */
 
 .splash h1 {
     font-size: 3em;
