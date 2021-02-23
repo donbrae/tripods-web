@@ -128,8 +128,7 @@ TRIPODS.game_state = (function () {
             });
         }
 
-        const active_layer = document.getElementsByClassName("layer-active")[0];
-        active_layer.style.opacity = 0;
+        TRIPODS.utils.fadeOut(".layer-active");
         TRIPODS.utils.fadeOut("#pivitor");
         addWinEffect();
         setTimeout(function () {
@@ -137,7 +136,7 @@ TRIPODS.game_state = (function () {
             TRIPODS.level_builder.showSuccessMessage();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
-                active_layer.style.opacity = 1;
+                TRIPODS.utils.fadeIn(".layer-active");
                 removeWinEffect();
             }, 1000);
         }, 1750);

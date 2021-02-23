@@ -103,7 +103,7 @@ var TRIPODS = (function (mod) {
                 name: "tap",
                 id: "tap",
                 // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
-                classes: "opacity-0",
+                classes: ["opacity-0"],
                 viewBox: "0 0 20.7 14.6",
                 shapes: [
                     {
@@ -194,8 +194,8 @@ var TRIPODS = (function (mod) {
         _extendConfig();
         _initConfettiCanvas();
 
-        mod.utils.fadeOut(".blank-overlay", function () {
-            mod.utils.fadeIn(".splash");
+        mod.utils.fadeOut(".blank-overlay", undefined, true, function () {
+            mod.utils.fadeIn(".splash", undefined, true);
             TRIPODS.events.addEventListeners();
         });
 

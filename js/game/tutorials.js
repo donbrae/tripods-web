@@ -25,7 +25,7 @@ TRIPODS.tutorials = (function (mod) {
             label.style.left = `${left}px`;
             label.style.top = `${top}px`;
 
-            document.getElementById("tap").style.opacity = 1; // Show tutorial label
+            TRIPODS.utils.fadeIn("#tap"); // Show tutorial label
         } else this.finish(); // Tutorial should now be complete
     }
 
@@ -48,7 +48,7 @@ TRIPODS.tutorials = (function (mod) {
         mod.game_state.tutorial_running = false; // Tutorial should now be complete
 
         // Remove tutorial label
-        TRIPODS.utils.fadeOut("#tap", function () {
+        TRIPODS.utils.fadeOut("#tap", undefined, undefined, function () {
             const label = document.querySelector("#tap");
             if (label) {
                 label.parentNode.removeChild(label);

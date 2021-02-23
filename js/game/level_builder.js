@@ -57,12 +57,11 @@ TRIPODS.level_builder = (function (mod) {
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
-        // last_layer.classList.add("hide");
 
         setTimeout(function () {
-            TRIPODS.utils.fadeOut(".splash"); // On start
+            TRIPODS.utils.fadeOut(".splash", undefined, true); // On start
             TRIPODS.utils.fadeIn(".outer-container"); // On start
-            TRIPODS.utils.fadeOut(".message"); // Level win
+            TRIPODS.utils.fadeOut(".message", undefined, true); // Level win
         }, 150);
 
         setTimeout(function () {

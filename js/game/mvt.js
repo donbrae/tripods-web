@@ -37,30 +37,6 @@ TRIPODS.mvt = (function (mod) {
 
     let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
 
-    function pivotFadeIn() {
-
-        const pivot = document.getElementById("pivitor");
-
-        if (pivot) {
-            TRIPODS.utils.animate(pivot, [
-                { filter: getComputedStyle(pivot).filter },
-                { filter: "opacity(1)" },
-            ], { duration: 180 });
-        }
-    }
-
-    function pivotFadeOut() {
-
-        const pivot = document.getElementById("pivitor");
-
-        if (pivot) {
-            TRIPODS.utils.animate(pivot, [
-                { filter: getComputedStyle(pivot).filter },
-                { filter: "opacity(0)" },
-            ], { duration: 180 });
-        }
-    }
-
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift, cell_len) {
         const control_padding = TRIPODS.ui_attributes.control_padding;
@@ -476,7 +452,7 @@ TRIPODS.mvt = (function (mod) {
             }
 
             pivot_timeout = setTimeout(() => {
-                TRIPODS.utils.fadeInNew("#pivitor");
+                TRIPODS.utils.fadeIn("#pivitor");
             }, delay);
         } : null;
 
@@ -496,7 +472,7 @@ TRIPODS.mvt = (function (mod) {
         TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
 
         if (TRIPODS.game_state.tutorial_running)
-            document.getElementById("tap").style.opacity = 0; // Hide tutorial label
+            TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
 
         let pivot_foot_count = 0;
         const foot_move_data = [];
@@ -652,7 +628,7 @@ TRIPODS.mvt = (function (mod) {
         TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
 
         if (TRIPODS.game_state.tutorial_running)
-            document.getElementById("tap").style.opacity = 0; // Hide tutorial label
+            TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
 
         const cell_len = TRIPODS.ui_attributes.svg_xy;
         const foot = document.getElementById(e.currentTarget.id);
@@ -748,7 +724,7 @@ TRIPODS.mvt = (function (mod) {
         function jumpBlock(foot, x_shift, y_shift, callback) {
             TRIPODS.game_state.ignore_user_input = true;
 
-            TRIPODS.utils.fadeOutNew("#pivitor");
+            TRIPODS.utils.fadeOut("#pivitor");
 
             const translate_xy = TRIPODS.utils.getTranslateXY(foot);
 
@@ -772,7 +748,7 @@ TRIPODS.mvt = (function (mod) {
                         duration: mod.cfg.animation.jump_duration,
                         delay: 10
                     }, () => {
-                        TRIPODS.utils.fadeInNew("#pivitor");
+                        TRIPODS.utils.fadeIn("#pivitor");
                         callback();
                     });
                 }, 80);
@@ -906,7 +882,7 @@ TRIPODS.mvt = (function (mod) {
                 pivot_timeout = undefined;
             }
 
-            TRIPODS.utils.fadeOutNew("#pivitor");
+            TRIPODS.utils.fadeOut("#pivitor");
         }
     }
 
