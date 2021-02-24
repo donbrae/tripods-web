@@ -4,10 +4,14 @@ TRIPODS.tutorials = (function (mod) {
     };
 
     submod.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
+    submod.levels[1] = ["#pivitor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivitor", "#pivitor", "#pivitor", "#foot1"]; // Level 2
 
     submod.placeTutorialElement = function () {
 
         if (mod.game_state.moves_made.length < submod.levels[mod.game_state.level].length) { // If number of moves made is fewer than number of moves in this level's tutorial
+            if (mod.game_state.ignore_user_input) {
+                return false;
+            }
 
             const element = document.querySelector(submod.levels[mod.game_state.level][mod.game_state.moves_made.length]);
             const element_rect = element.getBoundingClientRect();
@@ -26,7 +30,9 @@ TRIPODS.tutorials = (function (mod) {
             label.style.top = `${top}px`;
 
             TRIPODS.utils.fadeIn("#tap"); // Show tutorial label
-        } else this.finish(); // Tutorial should now be complete
+        } else {
+            this.finish(); // Tutorial should now be complete
+        }
     }
 
     // Checks whether user is following the tutorial. Returns true or false
@@ -45,7 +51,7 @@ TRIPODS.tutorials = (function (mod) {
 
     submod.finish = function () {
 
-        mod.game_state.tutorial_running = false; // Tutorial should now be complete
+        mod.game_state.tutorial_running = false; // Tutorial should now be complete, or the user has exited it
 
         // Remove tutorial label
         TRIPODS.utils.fadeOut("#tap", undefined, undefined, function () {

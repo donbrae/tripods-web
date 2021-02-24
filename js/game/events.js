@@ -149,9 +149,16 @@ TRIPODS.events = (function () {
         const feet = document.querySelectorAll('.foot');
         if (feet) {
             Array.prototype.forEach.call(feet, function (foot) {
-                foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
+                foot.addEventListener("touchend", TRIPODS.mvt.swipe, false);
                 foot.addEventListener("click", TRIPODS.mvt.swipe, false);
             });
+        }
+
+        // Tutorial indicator
+        const tap = document.getElementById('tap');
+        if (tap) {
+            tap.addEventListener("touchend", TRIPODS.tutorials.finish, false);
+            tap.addEventListener("click", TRIPODS.tutorials.finish, false);
         }
     };
 
