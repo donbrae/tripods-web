@@ -103,36 +103,21 @@ TRIPODS.events = (function () {
                 last_touch_end = now;
             }, false);
 
-            // // Changes to Hammer defaults
-            // Hammer.gestures.Hold.defaults.hold_timeout = 600;
-            // Hammer.gestures.Swipe.defaults.swipe_velocity = 0.1;
-
-            // // Pivotor hold
-            // $(document).hammer().on('hold', '.pivitor', function (e) {
-            //     submod.state.hold = 1;
-            //     submod.state.hold_interval = setInterval(function () { // Pivot automatically
-            //         TRIPODS.mvt.pivot(e);
-            //     }, 100);
-            // });
-
-            // // Pivot release during hold
-            // $(document).hammer().on('release', '.pivitor', function (e) {
-            //     setTimeout(function () {
-            //         submod.state.hold = 0;
-            //     }, 500); // Timeout for TRIPODS.info_panel.updateMoveCounter()
-
-            //     clearInterval(submod.state.hold_interval);
-            // });
-
-            // // Prevent dragging on other elements
-            // $(document).hammer().on('drag', '.container:not(.control), .outer-container, .message', function (e) {
-            //     e.gesture.preventDefault();
-            // });
-
-            // Window resize
-            window.addEventListener('resize', function () {
+            function resize() {
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
+                TRIPODS.game_state.getBlockerCoords(); // Recalculate blocker coords
+            }
+
+            // Window resize
+            let resize_timeout = undefined;
+            window.addEventListener("resize", () => {
+                // console.log(resize_timeout);
+                if (resize_timeout !== undefined) {
+                    clearTimeout(resize_timeout);
+                }
+
+                resize_timeout = setTimeout(resize, 180);
             });
 
             TRIPODS.game_state.initialised = true; // Set initialised flag

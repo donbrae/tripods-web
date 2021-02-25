@@ -9,6 +9,7 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.mvt.getMeasurements(); // Set UI measurements
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
+        TRIPODS.game_state.getBlockerCoords();
 
         if (TRIPODS.tutorials.levels[mod.game_state.level]) {
             mod.game_state.tutorial_running = true;

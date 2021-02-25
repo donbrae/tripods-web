@@ -94,13 +94,6 @@ TRIPODS.mvt = (function (mod) {
 
     submod.getMeasurements = function () {
         if (!isNaN(TRIPODS.game_state.level)) {
-
-            // Get blocker coords (centre points)
-            TRIPODS.game_state.block_center_coords.length = 0;
-            Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
-                TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
-            });
-
             this.measurements.container_rect = document.getElementById("container").getBoundingClientRect();
             this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
             this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;

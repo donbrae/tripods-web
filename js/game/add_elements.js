@@ -96,10 +96,10 @@ var TRIPODS = (function (mod) {
 
     mod.addElements = function () {
 
-        mod.ui_attributes.svg_dimensions = Math.round(window.innerWidth / (mod.levels[mod.game_state.level][2].length + 2));
+        mod.ui_attributes.svg_dimensions = Math.round((window.innerWidth - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Screen width - padding / number of cells in row
 
         if (window.innerWidth > mod.cfg.grid_max_dimensions) {
-            mod.ui_attributes.svg_dimensions = Math.round(mod.cfg.grid_max_dimensions / (mod.levels[mod.game_state.level][2].length + 2));
+            mod.ui_attributes.svg_dimensions = Math.round((mod.cfg.grid_max_dimensions - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Max grid width - padding / number of cells in row
         }
 
         // Layer 0 (grid)

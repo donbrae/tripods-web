@@ -58,6 +58,14 @@ TRIPODS.game_state = (function () {
         }
     }
 
+    // Store blocker coords (centre points)
+    submod.getBlockerCoords = function() {
+        TRIPODS.game_state.block_center_coords.length = 0;
+        Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
+            TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
+        });
+    }
+
     submod.checkWin = function () {
 
         let win = false;
