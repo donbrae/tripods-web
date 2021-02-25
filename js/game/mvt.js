@@ -304,8 +304,8 @@ TRIPODS.mvt = (function (mod) {
         let pivot_shift_x;
         let pivot_shift_y;
 
-        const side = mod.ui_attributes.svg_xy;
-        const shunt = Math.round(mod.ui_attributes.svg_xy / 6);
+        const side = mod.ui_attributes.svg_dimensions;
+        const shunt = Math.round(mod.ui_attributes.svg_dimensions / 6);
 
         let foot_rect;
 
@@ -491,7 +491,7 @@ TRIPODS.mvt = (function (mod) {
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.001}rem)` }, // Destination
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
                 ];
@@ -510,7 +510,7 @@ TRIPODS.mvt = (function (mod) {
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.001}rem)` }, // Hit block
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
                     { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
@@ -552,8 +552,8 @@ TRIPODS.mvt = (function (mod) {
                     let foot_shift_x;
 
                     // Get new foot coords
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.svg_xy;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.svg_xy;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.svg_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.svg_dimensions;
 
                     shift = { x: foot_shift_x, y: 0 }; // Store parameters for animation
 
@@ -561,8 +561,8 @@ TRIPODS.mvt = (function (mod) {
 
                     let foot_shift_y;
 
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.svg_xy;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.svg_xy;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.svg_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.svg_dimensions;
 
                     shift = { x: 0, y: foot_shift_y };
                 }
@@ -630,7 +630,7 @@ TRIPODS.mvt = (function (mod) {
         if (TRIPODS.game_state.tutorial_running)
             TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
 
-        const cell_len = TRIPODS.ui_attributes.svg_xy;
+        const cell_len = TRIPODS.ui_attributes.svg_dimensions;
         const foot = document.getElementById(e.currentTarget.id);
 
         // Move the swiped foot (left and top arguments are the destination coords)
@@ -730,7 +730,7 @@ TRIPODS.mvt = (function (mod) {
 
             let keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.002}rem)` }, // Halfway between initial and block
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
@@ -739,7 +739,7 @@ TRIPODS.mvt = (function (mod) {
 
                     let keyframes = [
                         { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_xy * 0.002}rem)` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.002}rem)` }, // Halfway between initial and block
                         { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
 
                     ];

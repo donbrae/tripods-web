@@ -1,23 +1,3 @@
-/*
- * HTML5 Boilerplate
- *
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
-html,
-button,
-input,
-select,
-textarea {
-    color: #000;
-}
-
 html {
     height: 100%;
 }
@@ -25,32 +5,22 @@ html {
 html,
 body {
     touch-action: none;
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#disabling_all_gestures */
 }
 
 body {
-    /* background-color: #fff; */
+    margin: 0;
     background-color: #ffd1e0;
+    /* https://cssgradient.io/gradient-backgrounds */
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     font-size: 1em;
     line-height: 1.4;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
     -webkit-tap-highlight-color: transparent;
-    /* https://cssgradient.io/gradient-backgrounds */
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+#container {
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 a {
@@ -63,32 +33,6 @@ a:visited {
 
 a:hover {
     color: #06e;
-}
-
-/*
- * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
- */
-
-img {
-    vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
 }
 
 select {
@@ -108,24 +52,11 @@ select {
     background-color: #f0f0f0;
 }
 
-select::-ms-expand {
-    display: none;
-}
-
-/* ==========================================================================
-   Game Specific
-   ========================================================================== */
-
 h1,
 h2,
 h3 {
     margin: 0.3em 0 0 0;
     font-weight: bold;
-}
-
-#container {
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 h1 {
@@ -151,6 +82,14 @@ h2 {
 
 svg.splash-title {
     max-width: 600px;
+}
+
+button,
+select {
+    border-radius: 0.2rem;
+    padding: 0.4rem 0.8rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
 }
 
 button {
@@ -193,14 +132,6 @@ button.subtle {
 button.subtle:hover,
 button.subtle:focus {
     background: rgba(255, 255, 255, 0.7);
-}
-
-button,
-select {
-    border-radius: 0.2rem;
-    padding: 0.4rem 0.8rem;
-    line-height: 1.5;
-    font-size: 1.1rem;
 }
 
 select {
@@ -249,18 +180,11 @@ select:focus {
 }
 
 .container {
-    padding: 0;
     position: relative;
-}
-
-.container {
-    /* background: url(../img/game/grid.svg) #fff no-repeat; */
+    padding: 0;
     background-color: rgba(255, 255, 255, 0.22);
     margin-top: 10px;
 }
-
-/* iPhone portrait */
-@media (max-width: 480px) {}
 
 .layer {
     position: fixed;
@@ -351,17 +275,6 @@ svg.control:hover {
     margin-right: auto;
 }
 
-/* label.tap {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.2 13.3'%3E%3Ctitle%3Etap-label%3C/title%3E%3Cpath d='M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z' transform='translate(-2.6 -6.5)' style='fill:%2300ff91'/%3E%3C/svg%3E");
-    padding: 0.65rem;
-    background-repeat: no-repeat;
-    background-position: 0 .39rem;
-    z-index: 5000;
-    position: relative;
-    font-weight: 600;
-    display: inline-block;
-} */
-
 @keyframes pulse-color {
     10% {
         fill: rgba(34, 34, 34, 0.75);
@@ -416,7 +329,6 @@ svg.control:hover {
 }
 
 @keyframes shoogle {
-
     10%,
     90% {
         transform: translate3d(-1px, 0, 0);
@@ -449,102 +361,8 @@ svg.control:hover {
     50% {
         transform: scale(1.4);
     }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* .jump {
-    animation-name: jump;
-    animation-duration: 0.23s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump {
-    0% {
-        filter: url(#blur0);
-    }
-    25% {
-        filter: url(#blur3);
-    }
-    50% {
-        filter: url(#blur4);
-        transform: scale(1.35);
-    }
-    75% {
-        filter: url(#blur3);
-    }
-    100% {
-        filter: url(#blur0);
-        transform: scale(1);
-    }
-}
-
-.jump-boundary-intersect {
-    animation-name: jump-boundary-intersect;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump-boundary-intersect {
-    0% {
-        filter: url(#blur0);
-    }
-
-    25% {
-        filter: url(#blur1);
-    }
-
-    50% {
-        filter: url(#blur2);
-        transform: scale(1.2);
-    }
-
-    75% {
-        filter: url(#blur1);
-    }
 
     100% {
-        filter: url(#blur0);
         transform: scale(1);
     }
 }
-
-.jump-block-collide {
-    animation-name: jump-block-collide;
-    animation-duration: 0.48s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump-block-collide {
-    0% {
-        filter: url(#blur0);
-    }
-
-    25% {
-        filter: url(#blur3);
-        transform: scale(1.35);
-    }
-
-    40% {
-        filter: url(#blur2);
-    }
-
-    50% {
-        transform: scale(1);
-    }
-
-    60% {
-        filter: url(#blur3);
-    }
-
-    75% {
-        filter: url(#blur4);
-        transform: scale(1.35);
-    }
-
-    90% {
-        filter: url(#blur3);
-        transform: scale(1);
-    }
-} */
