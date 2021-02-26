@@ -222,18 +222,18 @@ var TRIPODS = (function (mod) {
         if (mod.cfg.logging) mod.utils.log("Test log message");
     }
 
-    mod.addLevelSelect = function (index = mod.game_state.level + 1) {
-        const level_select = document.getElementById("level-select");
-
-        level_select.innerHTML = "";
-        level_select.insertAdjacentHTML("beforeend", `<option value="null">Select a level</option>`);
+    mod.addLevelSelect = function () {
+        const level_buttons_container = document.querySelector("#level-buttons");
+        const level_buttons = level_buttons_container.querySelectorAll("button");
 
         mod.levels.forEach((_, i) => {
-            const score = TRIPODS.game_state.scores[i] ? `(${TRIPODS.game_state.scores[i]})` : "";
-            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span>${score}</span></option>`);
+            const score = TRIPODS.game_state.scores[i] ? `${TRIPODS.game_state.scores[i]}` : "&nbsp;";
+            if (level_buttons.length) {
+                level_buttons[i].querySelector("span").innerHTML = score; // Add any update to score
+            } else {
+                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}">${i + 1}<span>${score}</span></button>`);
+            }
         });
-
-        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
     }
 
     return mod;

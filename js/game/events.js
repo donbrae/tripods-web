@@ -15,7 +15,7 @@ TRIPODS.events = (function () {
 
         if (!TRIPODS.game_state.initialised) {
 
-            const start = document.querySelector('.start'); // Replay button
+            const start = document.querySelectorAll('.start'); // Level button
             const replay = document.querySelector('.replay'); // Replay button
             const next_level = document.querySelector('.next-level'); // 'Next level' button
             const hame = document.querySelectorAll('.hame'); // 'Back to hame screen' button
@@ -35,33 +35,12 @@ TRIPODS.events = (function () {
             }
 
             function launch(e) {
-
-                const level_select = document.getElementById("level-select");
-
-                if (level_select.value === "null") {
-
-                    function shoogleLevelSelectField() {
-                        level_select.classList.add("shoogle");
-                        submod.state.shoogle_timeout = setTimeout(function () {
-                            level_select.classList.remove("shoogle");
-                        }, 830);
-                    }
-
-                    if (!navigator.maxTouchPoints) {
-                        level_select.focus();
-                    }
-                    setTimeout(shoogleLevelSelectField, 200);
-
-                    level_select.classList.remove("shoogle"); // Remove any previous shoogle
-                    if (submod.state.shoogle_timeout !== undefined) clearTimeout(submod.state.shoogle_timeout); // Clear any previous shoogle timeout
-
-                } else {
-                    e.target.disabled = true;
-                    TRIPODS.game_state.level = parseInt(level_select.value);
-                    window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
-                    TRIPODS.level_builder.addUI();
-                    buttonDisabledFalse(e.target);
-                }
+                e.target.disabled = true;
+                TRIPODS.game_state.level = parseInt(e.target.dataset.level);
+                console.log(parseInt(e.target.dataset.level));
+                window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
+                TRIPODS.level_builder.addUI();
+                buttonDisabledFalse(e.target);
             }
 
             function reset(e) {
@@ -78,18 +57,22 @@ TRIPODS.events = (function () {
             }
 
             if (navigator.maxTouchPoints) {
-                start.addEventListener("touchend", launch, false);
                 replay.addEventListener("touchend", reset, false);
                 next_level.addEventListener("touchend", nextLevel, false);
                 Array.prototype.forEach.call(hame, el => {
                     el.addEventListener("touchend", gangHame, false);
                 });
+                Array.prototype.forEach.call(start, el => {
+                    el.addEventListener("touchend", launch, false);
+                });
             } else {
-                start.addEventListener("click", launch, false);
                 replay.addEventListener("click", reset, false);
                 next_level.addEventListener("click", nextLevel, false);
                 Array.prototype.forEach.call(hame, el => {
                     el.addEventListener("click", gangHame, false);
+                });
+                Array.prototype.forEach.call(start, el => {
+                    el.addEventListener("click", launch, false);
                 });
             }
 

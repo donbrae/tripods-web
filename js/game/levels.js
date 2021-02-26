@@ -25,7 +25,7 @@ TRIPODS.levels = [
     //     [0, 0, 3, 0, 0, 0]
     // ],
     [
-        ["#eda8ce", "#222"], // Foot/landing spot colours [<foot1>, <foot2>, <foot2>]
+        ["#eda8ce", "#222"], // Foot/landing spot colours [<foot1>, <foot2>, <foot3:optional>]
         [5, 10], // Star rating thresholds: [<3-star><2-star>]
         [0, 0, 0, 6, 0, 0],
         [0, 4, 4, 4, 0, 5],
