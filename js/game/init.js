@@ -139,7 +139,7 @@ var TRIPODS = (function (mod) {
             },
             jump_duration: 175
         },
-        grid_max_dimensions: 750,
+        grid_max_dimensions: 700,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
         logging: false
     }
@@ -196,6 +196,8 @@ var TRIPODS = (function (mod) {
 
         mod.utils.fadeOut(".blank-overlay", undefined, true, function () {
             mod.utils.fadeIn(".splash", undefined, true);
+            const level_buttons_container = document.getElementById("level-buttons");
+            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
             TRIPODS.events.addEventListeners();
         });
 
@@ -223,7 +225,7 @@ var TRIPODS = (function (mod) {
     }
 
     mod.addLevelSelect = function () {
-        const level_buttons_container = document.querySelector("#level-buttons");
+        const level_buttons_container = document.getElementById("level-buttons");
         const level_buttons = level_buttons_container.querySelectorAll("button");
 
         mod.levels.forEach((_, i) => {

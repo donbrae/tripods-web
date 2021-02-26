@@ -35,12 +35,14 @@ TRIPODS.events = (function () {
             }
 
             function launch(e) {
-                e.target.disabled = true;
-                TRIPODS.game_state.level = parseInt(e.target.dataset.level);
-                console.log(parseInt(e.target.dataset.level));
+                e.currentTarget.disabled = true;
+                TRIPODS.game_state.level = parseInt(e.currentTarget.dataset.level);
+                TRIPODS.utils.fadeOut(".message", 1);
+
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();
-                buttonDisabledFalse(e.target);
+                buttonDisabledFalse(e.currentTarget);
+                e.preventDefault();
             }
 
             function reset(e) {
@@ -51,30 +53,24 @@ TRIPODS.events = (function () {
 
             function gangHame(e) {
                 e.target.disabled = true;
-                TRIPODS.level_builder.reset(TRIPODS.addLevelSelect);
-                TRIPODS.utils.fadeIn(".splash");
+                TRIPODS.level_builder.reset(function () {
+                    TRIPODS.addLevelSelect();
+                    TRIPODS.utils.fadeOut(".message", undefined, undefined, () => {
+                        TRIPODS.utils.fadeIn(".splash");
+                    });
+                });
                 buttonDisabledFalse(e.target);
             }
 
-            if (navigator.maxTouchPoints) {
-                replay.addEventListener("touchend", reset, false);
-                next_level.addEventListener("touchend", nextLevel, false);
-                Array.prototype.forEach.call(hame, el => {
-                    el.addEventListener("touchend", gangHame, false);
-                });
-                Array.prototype.forEach.call(start, el => {
-                    el.addEventListener("touchend", launch, false);
-                });
-            } else {
-                replay.addEventListener("click", reset, false);
-                next_level.addEventListener("click", nextLevel, false);
-                Array.prototype.forEach.call(hame, el => {
-                    el.addEventListener("click", gangHame, false);
-                });
-                Array.prototype.forEach.call(start, el => {
-                    el.addEventListener("click", launch, false);
-                });
-            }
+            replay.addEventListener("click", reset, false);
+            next_level.addEventListener("click", nextLevel, false);
+            Array.prototype.forEach.call(hame, el => {
+                el.addEventListener("click", gangHame, false);
+            });
+            Array.prototype.forEach.call(start, el => {
+                el.addEventListener("click", launch, false);
+            });
+            // }
 
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
             let last_touch_end = 0;
@@ -95,7 +91,6 @@ TRIPODS.events = (function () {
             // Window resize
             let resize_timeout = undefined;
             window.addEventListener("resize", () => {
-                // console.log(resize_timeout);
                 if (resize_timeout !== undefined) {
                     clearTimeout(resize_timeout);
                 }

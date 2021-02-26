@@ -61,16 +61,18 @@ TRIPODS.level_builder = (function (mod) {
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
 
-        setTimeout(function () {
+        setTimeout(() => {
             TRIPODS.utils.fadeOut(".splash", undefined, true); // On start
-            TRIPODS.utils.fadeIn(".outer-container"); // On start
             TRIPODS.utils.fadeOut(".message", undefined, true); // Level win
         }, 150);
 
-        setTimeout(function () {
-            TRIPODS.utils.fadeIn(".container > .layer:last-of-type");
-            setTimeout(submod.runLevel, 500);
-        }, 3);
+        setTimeout(() => {
+            TRIPODS.utils.fadeIn(".outer-container", undefined, () => {
+                submod.runLevel();
+            });
+        }, 500);
+
+        // setTimeout(submod.runLevel, 500);
     }
 
     submod.reset = function (callback) {
@@ -80,12 +82,13 @@ TRIPODS.level_builder = (function (mod) {
             TRIPODS.game_state.tutorial_running = false;
             TRIPODS.game_state.moves_made.length = 0; // Empty array
             TRIPODS.game_state.element_tapped = "";
+            TRIPODS.utils.fadeOut(".outer-container", undefined, undefined, () => {
+                Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
+                    el.parentNode.removeChild(el);
+                });
 
-            Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
-                el.parentNode.removeChild(el);
+                if (typeof (callback) == "function") callback();
             });
-
-            if (typeof (callback) == "function") callback();
         }, 120);
     }
 
