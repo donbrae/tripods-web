@@ -7,7 +7,7 @@ body {
     touch-action: none;
 }
 
-/* body .splash {
+/* body .screen-level-select {
     touch-action: pan-y !important;
 } */
 
@@ -22,7 +22,7 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-#container {
+#container-grid {
     -webkit-user-select: none;
     user-select: none;
 }
@@ -75,15 +75,15 @@ h2 {
     color: rgba(34, 34, 34, 0.75);
 }
 
-.message {
+.screen-win {
     padding-top: 130px !important;
 }
 
-.message h2 {
+.screen-win h2 {
     text-align: center;
 }
 
-svg.splash-title {
+svg.screen-level-select-title {
     max-width: 600px;
 }
 
@@ -150,7 +150,7 @@ select:focus {
     box-shadow: 0 0 0px 3px #fe3a6b;
 }
 
-.message button:not(:last-of-type) {
+.screen-win button:not(:last-of-type) {
     margin-right: .8rem;
 }
 
@@ -223,7 +223,7 @@ select:focus {
     padding-top: 100%;
 }
 
-.outer-container {
+.container-game {
     min-height: 500px;
     width: 100%;
     position: relative;
@@ -287,16 +287,16 @@ svg.control:hover {
     will-change: transform, filter;
 }
 
-.splash h1 {
+.screen-level-select h1 {
     font-size: 3em;
 }
 
-.splash p {
+.screen-level-select p {
     padding: 0 44px;
     font-weight: 500;
 }
 
-.splash p:last-of-type {
+.screen-level-select p:last-of-type {
     margin-bottom: 1.3rem;
 }
 

@@ -19,7 +19,7 @@ TRIPODS.tutorials = (function (mod) {
             const label = document.querySelector("#tap");
             const label_rect = label.getBoundingClientRect();
 
-            const container = document.getElementById("container");
+            const container = document.getElementById("container-grid");
             const container_rect = container.getBoundingClientRect();
 
             // Position label

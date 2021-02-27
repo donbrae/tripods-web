@@ -195,7 +195,7 @@ var TRIPODS = (function (mod) {
         _initConfettiCanvas();
 
         mod.utils.fadeOut(".blank-overlay", undefined, true, function () {
-            mod.utils.fadeIn(".splash", undefined, true);
+            mod.utils.fadeIn(".screen-level-select", undefined, true);
             const level_buttons_container = document.getElementById("level-buttons");
             level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
             TRIPODS.events.addEventListeners();

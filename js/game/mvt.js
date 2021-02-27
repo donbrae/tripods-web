@@ -40,7 +40,7 @@ TRIPODS.mvt = (function (mod) {
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift) {
         const control_padding = TRIPODS.ui_attributes.control_padding;
-        const container_padding = parseFloat(document.getElementById("container").style.padding);
+        const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
         const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
         // console.log("left: ", orig_pos_x + control_padding + x_shift - container_padding + foot_width_height, submod.measurements.container_rect.x);
@@ -101,7 +101,7 @@ TRIPODS.mvt = (function (mod) {
 
     submod.getMeasurements = function () {
         if (!isNaN(TRIPODS.game_state.level)) {
-            this.measurements.container_rect = document.getElementById("container").getBoundingClientRect();
+            this.measurements.container_rect = document.getElementById("container-grid").getBoundingClientRect();
             this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
             this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
         }
@@ -656,7 +656,7 @@ TRIPODS.mvt = (function (mod) {
             let y_shift_additional = 0;
 
             const control_padding = TRIPODS.ui_attributes.control_padding;
-            const container_padding = parseFloat(document.getElementById("container").style.padding);
+            const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
             const foot_rect = foot.getBoundingClientRect();
 
             const shift_halfway = { // Halfway point of a full jump

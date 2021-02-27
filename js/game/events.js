@@ -37,7 +37,7 @@ TRIPODS.events = (function () {
             function launch(e) {
                 e.currentTarget.disabled = true;
                 TRIPODS.game_state.level = parseInt(e.currentTarget.dataset.level);
-                TRIPODS.utils.fadeOut(".message", 1);
+                TRIPODS.utils.fadeOut(".screen-win", 1);
 
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();
@@ -55,8 +55,8 @@ TRIPODS.events = (function () {
                 e.target.disabled = true;
                 TRIPODS.level_builder.reset(function () {
                     TRIPODS.addLevelSelect();
-                    TRIPODS.utils.fadeOut(".message", undefined, undefined, () => {
-                        TRIPODS.utils.fadeIn(".splash");
+                    TRIPODS.utils.fadeOut(".screen-win", undefined, undefined, () => {
+                        TRIPODS.utils.fadeIn(".screen-level-select");
                     });
                 });
                 buttonDisabledFalse(e.target);

@@ -62,12 +62,12 @@ TRIPODS.level_builder = (function (mod) {
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
 
         setTimeout(() => {
-            TRIPODS.utils.fadeOut(".splash", undefined, true); // On start
-            TRIPODS.utils.fadeOut(".message", undefined, true); // Level win
+            TRIPODS.utils.fadeOut(".screen-level-select", undefined, true); // On start
+            TRIPODS.utils.fadeOut(".screen-win", undefined, true); // Level win
         }, 150);
 
         setTimeout(() => {
-            TRIPODS.utils.fadeIn(".outer-container", undefined, () => {
+            TRIPODS.utils.fadeIn(".container-game", undefined, () => {
                 submod.runLevel();
             });
         }, 500);
@@ -82,7 +82,7 @@ TRIPODS.level_builder = (function (mod) {
             TRIPODS.game_state.tutorial_running = false;
             TRIPODS.game_state.moves_made.length = 0; // Empty array
             TRIPODS.game_state.element_tapped = "";
-            TRIPODS.utils.fadeOut(".outer-container", undefined, undefined, () => {
+            TRIPODS.utils.fadeOut(".container-game", undefined, undefined, () => {
                 Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
                     el.parentNode.removeChild(el);
                 });
@@ -92,9 +92,9 @@ TRIPODS.level_builder = (function (mod) {
         }, 120);
     }
 
-    submod.showSuccessMessage = function () {
+    submod.showWinScreen = function () {
         setTimeout(function () {
-            document.querySelector(".message h2 span").innerText = TRIPODS.game_state.moves_made.length; // Print number of moves
+            document.querySelector(".screen-win h2 span").innerText = TRIPODS.game_state.moves_made.length; // Print number of moves
             const next_level = document.querySelector(".next-level");
             if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level) {
                 next_level.classList.add("hide");
@@ -102,7 +102,7 @@ TRIPODS.level_builder = (function (mod) {
                 next_level.classList.remove("hide");
             }
 
-            TRIPODS.utils.fadeIn(".message");
+            TRIPODS.utils.fadeIn(".screen-win");
         }, 500);
     }
 

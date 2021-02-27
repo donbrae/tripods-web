@@ -230,7 +230,7 @@ var TRIPODS = (function (mod) {
         // Set grid area dimensions
         let dimension = mod.ui_attributes.cell_dimensions * mod.levels[mod.game_state.level][2].length; // Grid height and width
 
-        const container = document.getElementById("container");
+        const container = document.getElementById("container-grid");
         container.style.width = `${dimension}px`;
         container.style.height = `${dimension}px`;
         container.style.padding = `${Math.round(dimension / 75)}px`;
@@ -265,7 +265,7 @@ var TRIPODS = (function (mod) {
                 }
             });
         });
-        Array.prototype.forEach.call(document.querySelector(".outer-container").children, el => {
+        Array.prototype.forEach.call(document.querySelector(".container-game").children, el => {
             el.style.width = `${dimension}px`;
         });
 

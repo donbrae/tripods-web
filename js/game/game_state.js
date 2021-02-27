@@ -141,7 +141,7 @@ TRIPODS.game_state = (function () {
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;
-            TRIPODS.level_builder.showSuccessMessage();
+            TRIPODS.level_builder.showWinScreen();
             setTimeout(function () {
                 TRIPODS.utils.fadeIn("#pivitor");
                 TRIPODS.utils.fadeIn(".layer-active");
@@ -152,7 +152,7 @@ TRIPODS.game_state = (function () {
         // Store score if it's the best so far
         const score = TRIPODS.game_state.moves_made.length;
         const previous_best_score = TRIPODS.game_state.scores[submod.level];
-        if ((previous_best_score.length && score < previous_best_score) || !previous_best_score.length) {
+        if (previous_best_score && score < previous_best_score || !previous_best_score) {
             TRIPODS.game_state.scores[submod.level] = score;
         }
 
