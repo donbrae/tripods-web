@@ -140,8 +140,8 @@ TRIPODS.game_state = (function () {
         TRIPODS.utils.fadeOut("#pivitor");
 
         const hame = ".info-panel > .hame";
+        TRIPODS.utils.fadeOut(hame, 100, false);
         document.querySelector(hame).disabled = true;
-        TRIPODS.utils.fadeOut(hame, 100);
 
         addWinEffect();
         setTimeout(function () {

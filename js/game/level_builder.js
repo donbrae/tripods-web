@@ -61,16 +61,16 @@ TRIPODS.level_builder = (function (mod) {
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
 
-        const hame = ".info-panel > .hame";
-        document.querySelector(hame).disabled = false;
-        TRIPODS.utils.fadeIn(hame, 100);
-
         setTimeout(() => {
             TRIPODS.utils.fadeOut(".screen-level-select", undefined, true); // On start
             TRIPODS.utils.fadeOut(".screen-win", undefined, true); // Level win
         }, 80);
 
         setTimeout(() => {
+            const hame = ".info-panel > .hame";
+            TRIPODS.utils.fadeIn(hame, 100);
+            document.querySelector(hame).disabled = false;
+
             TRIPODS.utils.fadeIn(".container-game", undefined, () => {
                 submod.runLevel();
             });
