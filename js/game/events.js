@@ -121,11 +121,11 @@ TRIPODS.events = (function () {
         }
 
         // Tutorial indicator
-        const tap = document.getElementById('tap');
-        if (tap) {
-            tap.addEventListener("touchend", TRIPODS.tutorials.finish, false);
-            tap.addEventListener("click", TRIPODS.tutorials.finish, false);
-        }
+        // const tap = document.getElementById('tap');
+        // if (tap) {
+        //     tap.addEventListener("touchend", TRIPODS.tutorials.finish, false);
+        //     tap.addEventListener("click", TRIPODS.tutorials.finish, false);
+        // }
     };
 
     return submod;
