@@ -145,7 +145,7 @@ var TRIPODS = (function (mod) {
     }
 
     mod.ui_attributes = {
-        svg_dimensions: 0, // Width and height of (square) SVG element
+        cell_dimensions: 0, // Width and height of (square) SVG element
         control_padding: 0,
         landing_stroke_width: 0 // Original value for reference. Keep default as 0
     };

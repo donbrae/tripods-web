@@ -38,14 +38,16 @@ TRIPODS.mvt = (function (mod) {
     let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
 
     // Foot hits one of the four walls
-    function boundaryIntersected(x_shift, y_shift, cell_len) {
+    function boundaryIntersected(x_shift, y_shift) {
         const control_padding = TRIPODS.ui_attributes.control_padding;
         const container_padding = parseFloat(document.getElementById("container").style.padding);
+        const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
-        if (orig_pos_x + control_padding + x_shift - container_padding < submod.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
-        else if (orig_pos_x + control_padding + x_shift + container_padding + cell_len > submod.measurements.container_rect.right) return "right";
-        else if (orig_pos_y + control_padding + y_shift - container_padding < submod.measurements.container_rect.y) return "top";
-        else if (orig_pos_y + control_padding + y_shift + container_padding + cell_len > submod.measurements.container_rect.bottom) return "bottom";
+        // These conditionals calculate whether the full foot would clear the boundary
+        if (orig_pos_x + control_padding + x_shift - container_padding + foot_width_height < submod.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
+        else if (orig_pos_x - control_padding + x_shift + container_padding + foot_width_height > submod.measurements.container_rect.right) return "right";
+        else if (orig_pos_y + control_padding + y_shift - container_padding + foot_width_height < submod.measurements.container_rect.y) return "top";
+        else if (orig_pos_y - control_padding + y_shift + container_padding + foot_width_height > submod.measurements.container_rect.bottom) return "bottom";
 
         return false;
     };
@@ -297,8 +299,8 @@ TRIPODS.mvt = (function (mod) {
         let pivot_shift_x;
         let pivot_shift_y;
 
-        const side = mod.ui_attributes.svg_dimensions;
-        const shunt = Math.round(mod.ui_attributes.svg_dimensions / 6);
+        const side = mod.ui_attributes.cell_dimensions;
+        const shunt = Math.round(mod.ui_attributes.cell_dimensions / 6);
 
         let foot_rect;
 
@@ -484,7 +486,7 @@ TRIPODS.mvt = (function (mod) {
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
                 ];
@@ -503,7 +505,7 @@ TRIPODS.mvt = (function (mod) {
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
                     { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
@@ -545,8 +547,8 @@ TRIPODS.mvt = (function (mod) {
                     let foot_shift_x;
 
                     // Get new foot coords
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.svg_dimensions;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.svg_dimensions;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.cell_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.cell_dimensions;
 
                     shift = { x: foot_shift_x, y: 0 }; // Store parameters for animation
 
@@ -554,8 +556,8 @@ TRIPODS.mvt = (function (mod) {
 
                     let foot_shift_y;
 
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.svg_dimensions;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.svg_dimensions;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.cell_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.cell_dimensions;
 
                     shift = { x: 0, y: foot_shift_y };
                 }
@@ -623,7 +625,7 @@ TRIPODS.mvt = (function (mod) {
         if (TRIPODS.game_state.tutorial_running)
             TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
 
-        const cell_len = TRIPODS.ui_attributes.svg_dimensions;
+        const cell_len = TRIPODS.ui_attributes.cell_dimensions;
         const foot = document.getElementById(e.currentTarget.id);
 
         // Move the swiped foot (left and top arguments are the destination coords)
@@ -723,7 +725,7 @@ TRIPODS.mvt = (function (mod) {
 
             let keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
@@ -732,7 +734,7 @@ TRIPODS.mvt = (function (mod) {
 
                     let keyframes = [
                         { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.svg_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
                         { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
 
                     ];
@@ -846,7 +848,7 @@ TRIPODS.mvt = (function (mod) {
 
         // Check whether boundary has been intersected
 
-        const boundary_check = boundaryIntersected(x_shift, y_shift, cell_len);
+        const boundary_check = boundaryIntersected(x_shift, y_shift);
 
         const foot_center_point = TRIPODS.utils.getCenterPoint(foot);
         block_collide = blockCollision(foot_center_point.x + x_shift, foot_center_point.y + y_shift);

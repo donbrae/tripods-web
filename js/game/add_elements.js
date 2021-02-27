@@ -96,10 +96,10 @@ var TRIPODS = (function (mod) {
 
     mod.addElements = function () {
 
-        mod.ui_attributes.svg_dimensions = Math.round((window.innerWidth - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Screen width - padding / number of cells in row
+        mod.ui_attributes.cell_dimensions = Math.round((window.innerWidth - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Screen width - padding / number of cells in row
 
         if (window.innerWidth > mod.cfg.grid_max_dimensions) {
-            mod.ui_attributes.svg_dimensions = Math.round((mod.cfg.grid_max_dimensions - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Max grid width - padding / number of cells in row
+            mod.ui_attributes.cell_dimensions = Math.round((mod.cfg.grid_max_dimensions - window.innerWidth / 8) / mod.levels[mod.game_state.level][2].length); // Max grid width - padding / number of cells in row
         }
 
         // Layer 0 (grid)
@@ -117,9 +117,9 @@ var TRIPODS = (function (mod) {
                     )
                         _addElement(mod.cfg.svg_elements.grid, layer_element, left, top);
 
-                    left += mod.ui_attributes.svg_dimensions;
+                    left += mod.ui_attributes.cell_dimensions;
                 });
-                top += mod.ui_attributes.svg_dimensions;
+                top += mod.ui_attributes.cell_dimensions;
             }
         });
 
@@ -135,7 +135,7 @@ var TRIPODS = (function (mod) {
         }
 
         // Adjust control padding for this level
-        mod.ui_attributes.control_padding = Math.round(mod.cfg.control_padding * (mod.ui_attributes.svg_dimensions / 36));
+        mod.ui_attributes.control_padding = Math.round(mod.cfg.control_padding * (mod.ui_attributes.cell_dimensions / 36));
 
         mod.levels[mod.game_state.level].forEach((row, i) => { // Each row
             if (i > 1) { // First two rows contain colour and rating data respectively
@@ -169,14 +169,14 @@ var TRIPODS = (function (mod) {
                             }
 
                             mod.cfg.linking[square].attributes.stroke = stroke;
-                            mod.cfg.linking[square].attributes["stroke-width"] = (mod.ui_attributes.landing_stroke_width * (mod.ui_attributes.svg_dimensions / 36).toFixed(2));
+                            mod.cfg.linking[square].attributes["stroke-width"] = (mod.ui_attributes.landing_stroke_width * (mod.ui_attributes.cell_dimensions / 36).toFixed(2));
                         }
                         _addElement(mod.cfg.linking[square], layer_element, left, top);
                     }
 
-                    left += mod.ui_attributes.svg_dimensions;
+                    left += mod.ui_attributes.cell_dimensions;
                 });
-                top += mod.ui_attributes.svg_dimensions;
+                top += mod.ui_attributes.cell_dimensions;
             }
         });
 
@@ -214,9 +214,9 @@ var TRIPODS = (function (mod) {
                         _addElement(mod.cfg.linking[square], layer_element, left, top);
                     }
 
-                    left += mod.ui_attributes.svg_dimensions;
+                    left += mod.ui_attributes.cell_dimensions;
                 });
-                top += mod.ui_attributes.svg_dimensions;
+                top += mod.ui_attributes.cell_dimensions;
             }
         });
 
@@ -228,7 +228,7 @@ var TRIPODS = (function (mod) {
         }
 
         // Set grid area dimensions
-        let dimension = mod.ui_attributes.svg_dimensions * mod.levels[mod.game_state.level][2].length; // Grid height and width
+        let dimension = mod.ui_attributes.cell_dimensions * mod.levels[mod.game_state.level][2].length; // Grid height and width
 
         const container = document.getElementById("container");
         container.style.width = `${dimension}px`;
@@ -242,25 +242,25 @@ var TRIPODS = (function (mod) {
             Array.prototype.forEach.call(el.querySelectorAll("svg"), svg => {
 
                 if (svg.id === "tap") {
-                    svg.style.width = `${mod.ui_attributes.svg_dimensions * 0.95}px`;
-                    svg.style.height = `${mod.ui_attributes.svg_dimensions * 0.6}px`;
+                    svg.style.width = `${mod.ui_attributes.cell_dimensions * 0.95}px`;
+                    svg.style.height = `${mod.ui_attributes.cell_dimensions * 0.6}px`;
                 } else {
-                    svg.style.width = `${mod.ui_attributes.svg_dimensions}px`;
-                    svg.style.height = `${mod.ui_attributes.svg_dimensions}px`;
+                    svg.style.width = `${mod.ui_attributes.cell_dimensions}px`;
+                    svg.style.height = `${mod.ui_attributes.cell_dimensions}px`;
                     if (svg.children[0].nodeName === "circle") {
-                        svg.children[0].setAttribute("cx", mod.ui_attributes.svg_dimensions / 2);
-                        svg.children[0].setAttribute("cy", mod.ui_attributes.svg_dimensions / 2);
+                        svg.children[0].setAttribute("cx", mod.ui_attributes.cell_dimensions / 2);
+                        svg.children[0].setAttribute("cy", mod.ui_attributes.cell_dimensions / 2);
                         if (svg.id && svg.id === "pivitor") { // Pivotor
-                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_dimensions / 5);
+                            svg.children[0].setAttribute("r", mod.ui_attributes.cell_dimensions / 5);
                         } else if (svg.classList.contains("grid")) {
-                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_dimensions / 2.45);
+                            svg.children[0].setAttribute("r", mod.ui_attributes.cell_dimensions / 2.45);
                         } else {
-                            svg.children[0].setAttribute("r", mod.ui_attributes.svg_dimensions / 2.375);
+                            svg.children[0].setAttribute("r", mod.ui_attributes.cell_dimensions / 2.375);
                         }
 
                     } else if (svg.children[0].nodeName === "rect") {
-                        svg.children[0].setAttribute("width", mod.ui_attributes.svg_dimensions);
-                        svg.children[0].setAttribute("height", mod.ui_attributes.svg_dimensions);
+                        svg.children[0].setAttribute("width", mod.ui_attributes.cell_dimensions);
+                        svg.children[0].setAttribute("height", mod.ui_attributes.cell_dimensions);
                     }
                 }
             });
