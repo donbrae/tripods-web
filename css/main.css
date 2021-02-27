@@ -7,10 +7,6 @@ body {
     touch-action: none;
 }
 
-/* body .screen-level-select {
-    touch-action: pan-y !important;
-} */
-
 body {
     margin: 0;
     background-color: #ffd1e0;
@@ -59,7 +55,7 @@ select {
 h1,
 h2,
 h3 {
-    margin: 0.3em 0 ;
+    margin: 0.3em 0 1em 0;
     font-weight: bold;
 }
 
@@ -193,27 +189,61 @@ select:focus {
 }
 
 .flex-grid-item {
+    position: relative;
     width: 23.5%;
     margin-top: 2%;
     font-size: 26px;
 }
 
-.flex-grid-item span {
-    display: block;
+.flex-grid-item .score {
     font-size: 10px;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.flex-grid-item .level {
+    font-size: 20px;
 }
 
 .flex-grid-item:not(:nth-child(4n)) {
     margin-right: 2%;
 }
 
-@media (min-width: 37rem) {
+@media (min-width: 384px) {
+    .flex-grid-item .level {
+        font-size: 30px;
+    }
+    .flex-grid-item .score {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 605px) {
+    .flex-grid {
+        padding: 0 3rem;
+    }
+    .flex-grid-item .level {
+        font-size: 36px;
+    }
+    .flex-grid-item .score {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 780px) {
     .flex-grid-item {
         width: 10.75%;
     }
-
     .flex-grid-item:not(:nth-child(8n)) {
         margin-right: 2%;
+    }
+    .flex-grid-item .level {
+        font-size: 22px;
+    }
+    .flex-grid-item .score {
+        font-size: 12px;
     }
 }
 

@@ -102,9 +102,8 @@ TRIPODS.level_builder = (function (mod) {
                 next_level.classList.remove("hide");
             }
 
-            TRIPODS.utils.fadeOut(".container-game", undefined, false, () => {
-                TRIPODS.utils.fadeIn(".screen-win");
-            });
+            TRIPODS.utils.fadeOut(".container-game");
+            TRIPODS.utils.fadeIn(".screen-win");
         }, 500);
     }
 

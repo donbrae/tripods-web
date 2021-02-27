@@ -231,9 +231,9 @@ var TRIPODS = (function (mod) {
         mod.levels.forEach((_, i) => {
             const score = TRIPODS.game_state.scores[i] ? `${TRIPODS.game_state.scores[i]}` : "&nbsp;";
             if (level_buttons.length) {
-                level_buttons[i].querySelector("span").innerHTML = score; // Add any update to score
+                level_buttons[i].querySelector(".score").innerHTML = score; // Add any update to score
             } else {
-                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}">${i + 1}<span>${score}</span></button>`);
+                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}"><div class="level">${i + 1}</div><div class="score">${score}</div></button>`);
             }
         });
     }
