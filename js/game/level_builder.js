@@ -61,35 +61,35 @@ TRIPODS.level_builder = (function (mod) {
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
 
+        const hame = ".info-panel > .hame";
+        document.querySelector(hame).disabled = false;
+        TRIPODS.utils.fadeIn(hame, 100);
+
         setTimeout(() => {
             TRIPODS.utils.fadeOut(".screen-level-select", undefined, true); // On start
             TRIPODS.utils.fadeOut(".screen-win", undefined, true); // Level win
-        }, 150);
+        }, 80);
 
         setTimeout(() => {
             TRIPODS.utils.fadeIn(".container-game", undefined, () => {
                 submod.runLevel();
             });
-        }, 500);
-
-        // setTimeout(submod.runLevel, 500);
+        }, 300);
     }
 
     submod.reset = function (callback) {
-        setTimeout(function () {
-            TRIPODS.game_state.block_center_coords.length = 0; // Reset block data
-            TRIPODS.game_state.level_win = false;
-            TRIPODS.game_state.tutorial_running = false;
-            TRIPODS.game_state.moves_made.length = 0; // Empty array
-            TRIPODS.game_state.element_tapped = "";
-            TRIPODS.utils.fadeOut(".container-game", undefined, undefined, () => {
-                Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
-                    el.parentNode.removeChild(el);
-                });
-
-                if (typeof (callback) == "function") callback();
+        TRIPODS.game_state.block_center_coords.length = 0; // Reset block data
+        TRIPODS.game_state.level_win = false;
+        TRIPODS.game_state.tutorial_running = false;
+        TRIPODS.game_state.moves_made.length = 0; // Empty array
+        TRIPODS.game_state.element_tapped = "";
+        TRIPODS.utils.fadeOut(".container-game", undefined, undefined, () => {
+            Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
+                el.parentNode.removeChild(el);
             });
-        }, 120);
+
+            if (typeof (callback) == "function") callback();
+        });
     }
 
     submod.showWinScreen = function () {
@@ -102,7 +102,9 @@ TRIPODS.level_builder = (function (mod) {
                 next_level.classList.remove("hide");
             }
 
-            TRIPODS.utils.fadeIn(".screen-win");
+            TRIPODS.utils.fadeOut(".container-game", undefined, false, () => {
+                TRIPODS.utils.fadeIn(".screen-win");
+            });
         }, 500);
     }
 

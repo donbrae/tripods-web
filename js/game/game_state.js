@@ -102,7 +102,7 @@ TRIPODS.game_state = (function () {
 
         submod.level_win = true;
 
-        clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
+        // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
 
@@ -138,6 +138,11 @@ TRIPODS.game_state = (function () {
 
         TRIPODS.utils.fadeOut(".layer-active");
         TRIPODS.utils.fadeOut("#pivitor");
+
+        const hame = ".info-panel > .hame";
+        document.querySelector(hame).disabled = true;
+        TRIPODS.utils.fadeOut(hame, 100);
+
         addWinEffect();
         setTimeout(function () {
             submod.ignore_user_input = false;

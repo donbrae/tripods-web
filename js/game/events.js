@@ -32,6 +32,7 @@ TRIPODS.events = (function () {
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
             function launch(e) {
@@ -49,6 +50,7 @@ TRIPODS.events = (function () {
                 e.target.disabled = true;
                 TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
             function gangHame(e) {
@@ -60,6 +62,7 @@ TRIPODS.events = (function () {
                     });
                 });
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
             replay.addEventListener("click", reset, false);
