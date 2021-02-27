@@ -43,11 +43,16 @@ TRIPODS.mvt = (function (mod) {
         const container_padding = parseFloat(document.getElementById("container").style.padding);
         const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
+        // console.log("left: ", orig_pos_x + control_padding + x_shift - container_padding + foot_width_height, submod.measurements.container_rect.x);
+        // console.log("right: ", orig_pos_x + control_padding + x_shift + container_padding + foot_width_height, submod.measurements.container_rect.right);
+        // console.log("top: ", orig_pos_y + control_padding + y_shift - container_padding + foot_width_height, submod.measurements.container_rect.y);
+        // console.log("bottom: ", orig_pos_y + control_padding + y_shift + container_padding + foot_width_height, submod.measurements.container_rect.bottom);
+
         // These conditionals calculate whether the full foot would clear the boundary
         if (orig_pos_x + control_padding + x_shift - container_padding + foot_width_height < submod.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
-        else if (orig_pos_x - control_padding + x_shift + container_padding + foot_width_height > submod.measurements.container_rect.right) return "right";
+        else if (orig_pos_x + control_padding + x_shift + container_padding + foot_width_height > submod.measurements.container_rect.right) return "right";
         else if (orig_pos_y + control_padding + y_shift - container_padding + foot_width_height < submod.measurements.container_rect.y) return "top";
-        else if (orig_pos_y - control_padding + y_shift + container_padding + foot_width_height > submod.measurements.container_rect.bottom) return "bottom";
+        else if (orig_pos_y + control_padding + y_shift + container_padding + foot_width_height > submod.measurements.container_rect.bottom) return "bottom";
 
         return false;
     };
