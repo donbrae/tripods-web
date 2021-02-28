@@ -201,9 +201,9 @@ var TRIPODS = (function (mod) {
             TRIPODS.events.addEventListeners();
         });
 
-        const stored_scores = window.localStorage.getItem("TRIPODS_scores");
-        if (stored_scores) {
-            mod.game_state.scores = stored_scores.split(",");
+        const stored_moves = window.localStorage.getItem("TRIPODS_moves");
+        if (stored_moves) {
+            mod.game_state.moves = stored_moves.split(",");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
@@ -229,11 +229,24 @@ var TRIPODS = (function (mod) {
         const level_buttons = level_buttons_container.querySelectorAll("button");
 
         mod.levels.forEach((_, i) => {
-            const score = TRIPODS.game_state.scores[i] ? `${TRIPODS.game_state.scores[i]}` : "&nbsp;";
-            if (level_buttons.length) {
-                level_buttons[i].querySelector(".score").innerHTML = score; // Add any update to score
+            const moves = parseInt(TRIPODS.game_state.moves[i]);
+            const threshold = TRIPODS.levels[i][1]; // Threshold for ★★★ rating
+            let rating;
+
+            if (!isNaN(moves) && moves <= threshold) {
+                rating = "★★★";
+            } else if (!isNaN(moves) && moves <= threshold * 2) {
+                rating = "★★☆";
+            } else if (!isNaN(moves) && moves) {
+                rating = "★";
             } else {
-                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}"><div class="level">${i + 1}</div><div class="score">${score}</div></button>`);
+                rating = "";
+            }
+
+            if (level_buttons.length) {
+                level_buttons[i].querySelector(".rating").innerHTML = rating; // Add any update to rating
+            } else {
+                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}"><div class="level">${i + 1}</div><div class="rating">${rating}</div></button>`);
             }
         });
     }

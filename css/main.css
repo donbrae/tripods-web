@@ -69,6 +69,7 @@ h1 {
 h2 {
     font-size: 1em;
     color: rgba(34, 34, 34, 0.75);
+    padding: 0 1rem;
 }
 
 .screen-win {
@@ -77,6 +78,12 @@ h2 {
 
 .screen-win h2 {
     text-align: center;
+}
+
+.screen-win .rating {
+    font-size: 4rem;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    color: #edeaa8;
 }
 
 svg.screen-level-select-title {
@@ -195,7 +202,7 @@ select:focus {
     font-size: 26px;
 }
 
-.flex-grid-item .score {
+.flex-grid-item .rating {
     font-size: 10px;
     position: absolute;
     bottom: 7%;
@@ -215,7 +222,7 @@ select:focus {
     .flex-grid-item .level {
         font-size: 30px;
     }
-    .flex-grid-item .score {
+    .flex-grid-item .rating {
         font-size: 14px;
     }
 }
@@ -227,7 +234,7 @@ select:focus {
     .flex-grid-item .level {
         font-size: 36px;
     }
-    .flex-grid-item .score {
+    .flex-grid-item .rating {
         font-size: 18px;
     }
 }
@@ -242,7 +249,7 @@ select:focus {
     .flex-grid-item .level {
         font-size: 22px;
     }
-    .flex-grid-item .score {
+    .flex-grid-item .rating {
         font-size: 12px;
     }
 }
