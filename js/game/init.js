@@ -238,7 +238,7 @@ var TRIPODS = (function (mod) {
             } else if (!isNaN(moves) && moves <= threshold * 2) {
                 rating = "★★☆";
             } else if (!isNaN(moves) && moves) {
-                rating = "★";
+                rating = "★☆☆";
             } else {
                 rating = "";
             }

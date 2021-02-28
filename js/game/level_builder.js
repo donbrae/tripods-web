@@ -100,15 +100,6 @@ TRIPODS.level_builder = (function (mod) {
 
             document.querySelector(".screen-win h2 span.moves").innerText = moves; // Print number of moves
 
-            if (previous_best && moves < previous_best) { // New best
-                TRIPODS.game_state.moves[submod.level] = moves;
-                document.querySelector(".screen-win h2 span.best").innerText = "No bad: that’s a new personal record!";
-            } else if (previous_best && moves > previous_best) {
-                document.querySelector(".screen-win h2 span.best").innerText = `(Your record is ${previous_best} moves.)`;
-            } else {
-                document.querySelector(".screen-win h2 span.best").innerText = "";
-            }
-
             const threshold = TRIPODS.levels[TRIPODS.game_state.level][1]; // Threshold for ★★★ rating
             let rating;
 
@@ -121,6 +112,17 @@ TRIPODS.level_builder = (function (mod) {
             }
 
             document.querySelector(".screen-win .rating").innerHTML = rating; // Print rating
+
+            if (previous_best && moves < previous_best) { // Best previous moves
+                TRIPODS.game_state.moves[submod.level] = moves;
+                document.querySelector(".screen-win h2 span.best").innerText = "No bad: that’s a new personal record!";
+            } else if (previous_best && moves > previous_best) {
+                document.querySelector(".screen-win h2 span.best").innerText = `(Your record is ${previous_best} moves.)`;
+            } else if (!previous_best && moves <= threshold) { // Perfect score on first attempt
+                document.querySelector(".screen-win h2 span.best").innerText = `Well done!`;
+            } else {
+                document.querySelector(".screen-win h2 span.best").innerText = "";
+            }
 
             const next_level = document.querySelector(".next-level");
             if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level) {
