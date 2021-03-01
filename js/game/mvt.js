@@ -57,12 +57,11 @@ TRIPODS.mvt = (function (mod) {
         return false;
     };
 
-    function blockCollision(cx, cy) {
-        const block_center_coords = TRIPODS.game_state.block_center_coords;
+    function collided(cx, cy, coords = TRIPODS.game_state.block_center_coords) {
         let collide = false;
 
-        for (let i = 0; i < block_center_coords.length; i++) {
-            const block = block_center_coords[i];
+        for (let i = 0; i < coords.length; i++) {
+            const block = coords[i];
             if (Math.abs(block.x - cx) <= 10 && Math.abs(block.y - cy) <= 10) {
                 collide = true;
                 break;
@@ -575,9 +574,11 @@ TRIPODS.mvt = (function (mod) {
                 });
 
                 const foot_center_point = TRIPODS.utils.getCenterPoint(document.getElementById(foot));
-                block_collide = blockCollision(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
+                block_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
+                // > Check for vortex collide
 
                 if (block_collide) block_collide_via_pivot = true;
+                // > Raise flag if vortex collide
 
             } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
                 foot_move_data.push({
@@ -604,7 +605,7 @@ TRIPODS.mvt = (function (mod) {
             }
         }, 50);
 
-        // Which feet should moseve?
+        // Which feet should move?
         checkWhichFeetShouldPivot("foot1", count_foot1);
         checkWhichFeetShouldPivot("foot2", count_foot2);
         checkWhichFeetShouldPivot("foot3", count_foot3);
@@ -613,6 +614,7 @@ TRIPODS.mvt = (function (mod) {
             startPivot(finishPivot); // If no block go pivot
         else if (block_collide_via_pivot)
             startPivot(abortPivot); // Don't pivot
+        // > else if collide into vortex then clearInterval(pivot_check) and animate being soukit into vortex
     }
 
     // Swipe
@@ -856,13 +858,15 @@ TRIPODS.mvt = (function (mod) {
         const boundary_check = boundaryIntersected(x_shift, y_shift);
 
         const foot_center_point = TRIPODS.utils.getCenterPoint(foot);
-        block_collide = blockCollision(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
+        block_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
+        // > Check for vortex collide
 
         if (boundary_check) { // If swiped off the board
             jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
                 foot.style.zIndex = 1000; // Reset z-index
                 TRIPODS.game_state.ignore_user_input = false;
             });
+        // > else if vortex collide ...
         } else if (block_collide) {
             jumpBlock(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;

@@ -490,3 +490,16 @@ svg.control:hover {
         transform: scale(1);
     }
 }
+
+.swirl {
+    animation: swirl 0.45s infinite linear;
+}
+
+@keyframes swirl {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

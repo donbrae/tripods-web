@@ -32,6 +32,7 @@ var TRIPODS = (function (mod) {
                 name: 'foot3',
                 id: 'foot3'
             },
+            // https://iconmonstr.com/weather-84-svg/
             /*damager: {
               name: 'damager',
               shape: 'polygon',
@@ -50,9 +51,17 @@ var TRIPODS = (function (mod) {
                     fill: "#5496ff",
                     d: "M12 0l-11 6v12.131l11 5.869 11-5.869v-12.066l-11-6.065zm7.91 6.646l-7.905 4.218-7.872-4.294 7.862-4.289 7.915 4.365zm-6.91 14.554v-8.6l8-4.269v8.6l-8 4.269z",
                     opacity: 0.9
-                    // x: 0,
-                    // y: 0,
-                    // fill: '#3a86ff'
+                }
+            },
+            vortex: { // https://iconmonstr.com/weather-84-svg/
+                // avoid: true, // > ?
+                name: 'vortex',
+                shape: 'path',
+                classes: ["vortex", "swirl"],
+                viewBox: "0 0 24 24",
+                attributes: { // width and height set dynamically
+                    fill: "#fff",
+                    d: "M13.66,5.79A13.73,13.73,0,0,1,24,8.36C22.26,4.08,17.55,1,12,1,7.1,1,2.92,4.08,2.14,8.27s2.16,8.83,8.21,9.92A13.76,13.76,0,0,1,0,15.61C1.73,19.91,6.45,23,12,23h.3c4.83-.1,8.89-3.17,9.64-7.3S19.75,6.88,13.66,5.79Z"
                 }
             },
             landing_foot1: { // Inherits color from foot1
@@ -107,13 +116,14 @@ var TRIPODS = (function (mod) {
                 viewBox: "0 0 20.7 14.6",
                 shapes: [
                     {
-                        shape: "text",
+                        shape: "text", // innerText set in addElements()
                         attributes: {
-                            x: 4,
-                            y: 9.6,
+                            x: 3.5,
+                            y: 9.2,
                             fill: "#222",
+                            "letter-spacing": 0.1,
                             "font-size": "8px",
-                            "font-weight": "500"
+                            "font-weight": 600
                         }
                     },
                     {
