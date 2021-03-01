@@ -6,44 +6,55 @@
         <meta name="description" content="Tripods: a puzzle game">
         <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 
-        <!-- For iOS web apps. Delete if not needed. https://github.com/h5bp/mobile-boilerplate/issues/94 -->
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="apple-mobile-web-app-title" content="Tripods">
 
         <!-- https://www.ionos.co.uk/tools/favicon-generator -->
-        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-        <link rel="manifest" href="/manifest.json">
+        <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png?v=210301095633">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png?v=210301095633">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png?v=210301095633">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=210301095633">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png?v=210301095633">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=210301095633">
+        <link rel="manifest" href="/manifest.json?v=210301095633">
         <meta name="msapplication-TileColor" content="#ffffff">
-        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+        <meta name="msapplication-TileImage" content="/ms-icon-144x144.png?v=210301095633">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="stylesheet" href="css/normalize.css">
+        <!-- https://appsco.pe/developer/splash-screens -->
+        <link href="splashscreens/iphone5_splash.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphone6_splash.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphoneplus_splash.png" media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphonex_splash.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphonexr_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/iphonexsmax_splash.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/ipad_splash.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/ipadpro1_splash.png" media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/ipadpro3_splash.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+        <link href="splashscreens/ipadpro2_splash.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
+
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <div class="message full-screen fade hide">
-            <h2>You completed the level in <span></span> moves.</h2>
+        <div class="screen-win full-screen hide">
+            <h2>You completed the level in <span class="moves"></span> moves.<br><span class="best"></span></h2>
+            <div class="rating"></div>
             <div class="mt-2">
                 <button class="replay">Replay</button><button class="next-level">Next Level</button><button class="hame subtle">Hame</button>
             </div>
         </div>
 
-        <div class="splash full-screen fade hide">            
+        <div class="screen-level-select full-screen hide">
             <!-- https://maketext.io/ -->
-            <svg class="splash-title" xmlns="http://www.w3.org/2000/svg"
+            <svg class="screen-level-select-title" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 viewBox="-53.24000244140626 -28.319995117187503 606.4800048828125 206.639990234375" preserveAspectRatio="xMidYMid">
                 <defs>
@@ -69,22 +80,23 @@
                     </g>
                 </g>
             </svg>
-            
+
             <p>Manoeuvre the tripod to the landing spots in as few moves as you can.</p>
             <p>Tap the centre to pivot and the feet to jump.</p>
-            <select id="level-select">
-            </select>
-            <button class="start">Go</button>
+            <h2>Select a level:</h2>
+            <div class="flex-grid" id="level-buttons">
+            </div>
+            <!-- <div class="indicate-scroll"></div> -->
         </div>
 
-        <div class="blank-overlay full-screen fade show"></div>
+        <div class="blank-overlay full-screen"></div>
 
-        <div class="outer-container hide fade">
-            <div class="container" id="container">
+        <div class="container-game hide">
+            <div class="container" id="container-grid">
             </div>
             <div class="info-panel">
                 <h2 class="level">Level: <span></span></h2>
-                <h2 class="score">Moves: <span class="current">0</span> <span class="best"></span></h2>
+                <h2 class="moves">Moves: <span class="current">0</span> <span class="best"></span></h2>
                 <button class="hame subtle mt-2 d-block m-center">Hame</button>
                 <div class="log"></div>
             </div>

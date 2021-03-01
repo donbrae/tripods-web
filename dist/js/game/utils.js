@@ -59,7 +59,6 @@ TRIPODS.utils = (function () {
         }
     }
 
-
     submod.extend = function (out) {
         out = out || {};
 
@@ -76,22 +75,69 @@ TRIPODS.utils = (function () {
         return out;
     }
 
-    submod.fadeIn = function (selector, callback) {
-        document.querySelector(selector).classList.remove("hide");
-        setTimeout(function () {
-            document.querySelector(selector).classList.add("show");
-            setTimeout(function () {
-                if (typeof (callback) == "function") callback();
-            }, 310);
-        }, 100); // Slight delay so the change in opacity works
+    // JavaScript Web Animations API animate() abstraction
+    submod.animate = function (element, keyframes, {
+        duration = 1000,
+        easing = "linear",
+        delay = 0,
+        iterations = 1,
+        direction = "normal",
+        fill = "forwards"
+    }, callback = null) {
+
+        const animation = element.animate(
+            keyframes,
+            {
+                duration: duration,
+                easing: easing,
+                delay: delay,
+                iterations: iterations,
+                direction: direction,
+                fill: fill
+            }
+        );
+
+        if (typeof (callback) == "function") {
+            animation.onfinish = callback;
+        }
+
     }
 
-    submod.fadeOut = function (selector, callback) {
-        document.querySelector(selector).classList.remove("show");
-        setTimeout(function () {
-            document.querySelector(selector).classList.add("hide");
-            if (typeof (callback) == "function") callback();
-        }, 310);
+    /**
+     * .hide should be set in CSS as `display: none;`. Used by fadeOut() to actually hide an element after its opacity has been set to 0
+     * .opacity-0 should be set in CSS as `opacity: 0;`. Allows elements to be displayed, but invisible, in the UI before any JavaScript runs. For the purpose of, say, calculating object properties such as height and xy coordinates relative to the viewport
+     */
+    submod.fadeIn = function (selector, duration = 180, callback) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+            element.classList.remove("hide", "opacity-0");
+            element.style.filter = "opacity(0)"; // Make sure the element isn't visible before fade in (i.e. if it's opacity is 1)
+            TRIPODS.utils.animate(element, [
+                { filter: getComputedStyle(element).filter },
+                { filter: "opacity(1)" },
+            ], { duration: duration }, callback);
+        }
+    }
+
+    submod.fadeOut = function (selector, duration = 180, hide = false, callback) {
+        const element = document.querySelector(selector);
+
+        if (element) {
+            TRIPODS.utils.animate(element, [
+                { filter: getComputedStyle(element).filter },
+                { filter: "opacity(0)" },
+            ], { duration: duration }, () => {
+
+                if (hide) {
+                    element.classList.add("hide");
+                }
+
+                if (typeof (callback) == "function") {
+                    callback();
+                }
+            });
+        }
     }
 
     submod.log = function (msg) {

@@ -11,10 +11,10 @@ TRIPODS.game_state = (function () {
         block_center_coords: [],
         tutorial_running: false,
         element_tapped: "", // Selector of most recent element tapped
-        scores: [] // Also stored in TRIPODS_scores in localStorage
+        moves: [] // Also stored in TRIPODS_moves in localStorage
     };
 
-    const moves_span = document.querySelector("h2.score span");
+    const moves_span = document.querySelector("h2.moves span");
     const landing_2_3 = []; // When there are only two colours
 
     let landing_1_xy; // Landing 1 center
@@ -58,6 +58,14 @@ TRIPODS.game_state = (function () {
         }
     }
 
+    // Store blocker coords (centre points)
+    submod.getBlockerCoords = function() {
+        TRIPODS.game_state.block_center_coords.length = 0;
+        Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
+            TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
+        });
+    }
+
     submod.checkWin = function () {
 
         let win = false;
@@ -84,15 +92,17 @@ TRIPODS.game_state = (function () {
             win = true;
         }
 
-        if (win) // If all feet are on target
-            onWin();
+        if (win) {// If all feet are on target
+            submod.ignore_user_input = true;
+            setTimeout(onWin, 60);
+        }
     }
 
     function onWin() { // Function to run on win
 
         submod.level_win = true;
 
-        clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
+        // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
 
@@ -126,33 +136,36 @@ TRIPODS.game_state = (function () {
             });
         }
 
-        const active_layer = document.getElementsByClassName("layer-active")[0];
-        active_layer.style.opacity = 0;
+        TRIPODS.utils.fadeOut(".layer-active");
         TRIPODS.utils.fadeOut("#pivitor");
-        addWinEffect();
-        setTimeout(function () {
-            submod.ignore_user_input = false;
-            TRIPODS.level_builder.showSuccessMessage();
-            setTimeout(function () {
-                TRIPODS.utils.fadeIn("#pivitor");
-                active_layer.style.opacity = 1;
-                removeWinEffect();
-            }, 1000);
-        }, 1750);
 
-        // Store score if it's the best so far
-        const score = TRIPODS.game_state.moves_made.length;
-        const previous_best_score = TRIPODS.game_state.scores[submod.level];
-        if ((previous_best_score && score < previous_best_score) || !previous_best_score) {
-            TRIPODS.game_state.scores[submod.level] = score;
+        const hame = ".info-panel > .hame";
+        TRIPODS.utils.fadeOut(hame, 100, false);
+        document.querySelector(hame).disabled = true;
+
+        addWinEffect();
+
+        // Store moves if it's the best so far
+        const moves = TRIPODS.game_state.moves_made.length;
+        const previous_best_moves = TRIPODS.game_state.moves[submod.level];
+        if (previous_best_moves && moves < previous_best_moves || !previous_best_moves) {
+            TRIPODS.game_state.moves[submod.level] = moves;
         }
 
-        window.localStorage.setItem("TRIPODS_scores", TRIPODS.game_state.scores);
-        console.log(TRIPODS.game_state.level);
-        console.log(TRIPODS.levels.length);
+        window.localStorage.setItem("TRIPODS_moves", TRIPODS.game_state.moves);
         if (TRIPODS.game_state.level < (TRIPODS.levels.length - 1)) {
             window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
         }
+
+        setTimeout(function () {
+            submod.ignore_user_input = false;
+            TRIPODS.level_builder.showWinScreen(previous_best_moves);
+            setTimeout(function () {
+                TRIPODS.utils.fadeIn("#pivitor");
+                TRIPODS.utils.fadeIn(".layer-active");
+                removeWinEffect();
+            }, 1000);
+        }, 1750);
     }
 
     return submod;

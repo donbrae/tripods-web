@@ -1,56 +1,26 @@
-/*
- * HTML5 Boilerplate
- *
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
-html,
-button,
-input,
-select,
-textarea {
-    color: #000;
-}
-
 html {
-    height: 100%;
+    min-height: 100%;
 }
 
 html,
 body {
     touch-action: none;
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/touch-action#disabling_all_gestures */
 }
 
 body {
-    /* background-color: #fff; */
+    margin: 0;
     background-color: #ffd1e0;
+    /* https://cssgradient.io/gradient-backgrounds */
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     font-size: 1em;
     line-height: 1.4;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
     -webkit-tap-highlight-color: transparent;
-    /* https://cssgradient.io/gradient-backgrounds */
 }
 
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-
-    50% {
-        background-position: 100% 50%;
-    }
-
-    100% {
-        background-position: 0% 50%;
-    }
+#container-grid {
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 a {
@@ -63,32 +33,6 @@ a:visited {
 
 a:hover {
     color: #06e;
-}
-
-/*
- * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
- */
-
-img {
-    vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
 }
 
 select {
@@ -108,24 +52,11 @@ select {
     background-color: #f0f0f0;
 }
 
-select::-ms-expand {
-    display: none;
-}
-
-/* ==========================================================================
-   Game Specific
-   ========================================================================== */
-
 h1,
 h2,
 h3 {
-    margin: 0.3em 0 0 0;
+    margin: 0.3em 0 1em 0;
     font-weight: bold;
-}
-
-#container {
-    -webkit-user-select: none;
-    user-select: none;
 }
 
 h1 {
@@ -138,19 +69,33 @@ h1 {
 h2 {
     font-size: 1em;
     color: rgba(34, 34, 34, 0.75);
-    text-align: left;
+    padding: 0 1rem;
 }
 
-.message {
+.screen-win {
     padding-top: 130px !important;
 }
 
-.message h2 {
+.screen-win h2 {
     text-align: center;
 }
 
-svg.splash-title {
+.screen-win .rating {
+    font-size: 4rem;
+    text-shadow: 2px 2px 11px rgba(0, 0, 0, 0.18);
+    color: #fffa8a;
+}
+
+svg.screen-level-select-title {
     max-width: 600px;
+}
+
+button,
+select {
+    border-radius: 1rem;
+    padding: 0.4rem 0.8rem;
+    line-height: 1.5;
+    font-size: 1.1rem;
 }
 
 button {
@@ -158,7 +103,8 @@ button {
     border: none;
     margin: 0;
     text-decoration: none;
-    background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);
+    background-image: linear-gradient(120deg, #f073fe 0, #f53851 50%, #f073fe 100%);
+    background-size: 200% auto;
     color: rgba(255, 255, 255, 0.87);
     font-family: inherit;
     font-weight: 600;
@@ -173,7 +119,7 @@ button {
 
 button:hover,
 button:focus {
-    background-image: linear-gradient(to top, #fe3a6b 0%, #ff9373 100%);
+    background-position: right center;
 }
 
 button:focus {
@@ -182,7 +128,7 @@ button:focus {
 }
 
 button:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
 }
 
 button.subtle {
@@ -195,12 +141,8 @@ button.subtle:focus {
     background: rgba(255, 255, 255, 0.7);
 }
 
-button,
-select {
-    border-radius: 0.2rem;
-    padding: 0.4rem 0.8rem;
-    line-height: 1.5;
-    font-size: 1.1rem;
+button.start {
+    border-radius: 1rem;
 }
 
 select {
@@ -212,11 +154,119 @@ select:focus {
     box-shadow: 0 0 0px 3px #fe3a6b;
 }
 
-.message button:not(:last-of-type) {
+.screen-win button:not(:last-of-type) {
     margin-right: .8rem;
 }
 
-.outer-container {
+/* .indicate-scroll {
+    width: 100%;
+    height: 25px;
+    position: absolute;
+    margin-top: -25px;
+    background-image: linear-gradient(to bottom, #fff0 10%, #a8edea 100%);
+} */
+
+/* #level-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#level-buttons button {
+    width: 12%;
+    background: firebrick;
+    margin-top: 2%;
+}
+
+#level-buttons button:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
+#level-buttons button:not(:nth-child(4n)) {
+    margin-right: 2%;
+} */
+
+.flex-grid {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+    max-width: 750px;
+    margin: 0 auto;
+    overflow: scroll;
+    scrollbar-width: none; /* Firefox */
+}
+
+.flex-grid::-webkit-scrollbar {
+    display: none;
+}
+
+.flex-grid-item {
+    position: relative;
+    width: 23.5%;
+    margin-top: 2%;
+    font-size: 26px;
+}
+
+.flex-grid-item .rating {
+    font-size: 10px;
+    position: absolute;
+    bottom: 7%;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.flex-grid-item .level {
+    font-size: 20px;
+}
+
+.flex-grid-item:not(:nth-child(4n)) {
+    margin-right: 2%;
+}
+
+@media (min-width: 384px) {
+    .flex-grid-item .level {
+        font-size: 30px;
+    }
+    .flex-grid-item .rating {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 605px) {
+    .flex-grid {
+        padding: 0 3rem;
+    }
+    .flex-grid-item .level {
+        font-size: 36px;
+    }
+    .flex-grid-item .rating {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 780px) {
+    .flex-grid-item {
+        width: 10.75%;
+    }
+    .flex-grid-item:not(:nth-child(8n)) {
+        margin-right: 2%;
+    }
+    .flex-grid-item .level {
+        font-size: 22px;
+    }
+    .flex-grid-item .rating {
+        font-size: 12px;
+    }
+}
+
+.flex-grid-item:before {
+    content: "";
+    float: left;
+    padding-top: 100%;
+}
+
+.container-game {
     min-height: 500px;
     width: 100%;
     position: relative;
@@ -249,27 +299,18 @@ select:focus {
 }
 
 .container {
-    padding: 0;
     position: relative;
-}
-
-.container {
-    /* background: url(../img/game/grid.svg) #fff no-repeat; */
+    padding: 0;
     background-color: rgba(255, 255, 255, 0.22);
     margin-top: 10px;
 }
 
-/* iPhone portrait */
-@media (max-width: 480px) {}
-
 .layer {
-    float: left;
-    position: absolute;
+    position: fixed;
 }
 
 .layer-active {
     z-index: 100;
-    transition: opacity linear .4s;
 }
 
 .layer>svg {
@@ -282,24 +323,24 @@ svg.control:hover {
 
 .foot {
     z-index: 1000;
-    transition: opacity linear .1s;
 }
 
-.foot, #pivitor {
-    will-change: transform, filter; /* iPhone is janky */
+/* iPhone XS (and maybe other models) is janky in portrait orientation */
+#pivitor {
+    will-change: transform, filter;
 }
 
-.splash h1 {
+.screen-level-select h1 {
     font-size: 3em;
 }
 
-.splash p {
+.screen-level-select p {
     padding: 0 44px;
     font-weight: 500;
 }
 
-.splash p:last-of-type {
-    margin-bottom: 3rem;
+.screen-level-select p:last-of-type {
+    margin-bottom: 1.3rem;
 }
 
 .full-screen {
@@ -307,30 +348,18 @@ svg.control:hover {
     width: 100%;
     position: fixed;
     z-index: 3000;
-    /* background-color: #fff; */
     background-color: #ffd1e0;
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
-    padding-top: 70px;
 }
 
 .hide {
     display: none;
 }
 
-.fade:not(.show) {
-    opacity: 0;
-}
-
 .opacity-0 {
     opacity: 0;
-}
-
-.fade,
-.opacity-0 {
-    transition: opacity ease-out .3s;
-    /* If changing the timimg here, also adjust timing in utils.fadeIn() and utils.fadeOut() */
 }
 
 .pulse {
@@ -350,6 +379,12 @@ svg.control:hover {
     font-family: inherit;
 }
 
+#confetti-canvas {
+    position: absolute;
+    bottom: 0;
+    height: 1px;
+}
+
 .mt-2 {
     margin-top: 2rem;
 }
@@ -362,17 +397,6 @@ svg.control:hover {
     margin-left: auto;
     margin-right: auto;
 }
-
-/* label.tap {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 19.2 13.3'%3E%3Ctitle%3Etap-label%3C/title%3E%3Cpath d='M21.8,15.9V6.5H2.6v9.4l9.6,3.9Z' transform='translate(-2.6 -6.5)' style='fill:%2300ff91'/%3E%3C/svg%3E");
-    padding: 0.65rem;
-    background-repeat: no-repeat;
-    background-position: 0 .39rem;
-    z-index: 5000;
-    position: relative;
-    font-weight: 600;
-    display: inline-block;
-} */
 
 @keyframes pulse-color {
     10% {
@@ -461,102 +485,8 @@ svg.control:hover {
     50% {
         transform: scale(1.4);
     }
-    100% {
-        transform: scale(1);
-    }
-}
-
-/* .jump {
-    animation-name: jump;
-    animation-duration: 0.23s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump {
-    0% {
-        filter: url(#blur0);
-    }
-    25% {
-        filter: url(#blur3);
-    }
-    50% {
-        filter: url(#blur4);
-        transform: scale(1.35);
-    }
-    75% {
-        filter: url(#blur3);
-    }
-    100% {
-        filter: url(#blur0);
-        transform: scale(1);
-    }
-}
-
-.jump-boundary-intersect {
-    animation-name: jump-boundary-intersect;
-    animation-duration: 0.5s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump-boundary-intersect {
-    0% {
-        filter: url(#blur0);
-    }
-
-    25% {
-        filter: url(#blur1);
-    }
-
-    50% {
-        filter: url(#blur2);
-        transform: scale(1.2);
-    }
-
-    75% {
-        filter: url(#blur1);
-    }
 
     100% {
-        filter: url(#blur0);
         transform: scale(1);
     }
 }
-
-.jump-block-collide {
-    animation-name: jump-block-collide;
-    animation-duration: 0.48s;
-    animation-timing-function: ease-in-out;
-}
-
-@keyframes jump-block-collide {
-    0% {
-        filter: url(#blur0);
-    }
-
-    25% {
-        filter: url(#blur3);
-        transform: scale(1.35);
-    }
-
-    40% {
-        filter: url(#blur2);
-    }
-
-    50% {
-        transform: scale(1);
-    }
-
-    60% {
-        filter: url(#blur3);
-    }
-
-    75% {
-        filter: url(#blur4);
-        transform: scale(1.35);
-    }
-
-    90% {
-        filter: url(#blur3);
-        transform: scale(1);
-    }
-} */

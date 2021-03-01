@@ -103,7 +103,7 @@ var TRIPODS = (function (mod) {
                 name: "tap",
                 id: "tap",
                 // <text x="2" y="9.5" style="fill: #222; font-family: sans-serif; font-size: 10px;">Tap</text>
-                classes: "opacity-0",
+                classes: ["opacity-0"],
                 viewBox: "0 0 20.7 14.6",
                 shapes: [
                     {
@@ -139,13 +139,13 @@ var TRIPODS = (function (mod) {
             },
             jump_duration: 175
         },
-        svg_xy_max: 750,
+        grid_max_dimensions: 700,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
         logging: false
     }
 
     mod.ui_attributes = {
-        svg_xy: 0,
+        cell_dimensions: 0, // Width and height of (square) SVG element
         control_padding: 0,
         landing_stroke_width: 0 // Original value for reference. Keep default as 0
     };
@@ -194,14 +194,16 @@ var TRIPODS = (function (mod) {
         _extendConfig();
         _initConfettiCanvas();
 
-        mod.utils.fadeOut(".blank-overlay", function () {
-            mod.utils.fadeIn(".splash");
+        mod.utils.fadeOut(".blank-overlay", undefined, true, function () {
+            mod.utils.fadeIn(".screen-level-select", undefined, true);
+            const level_buttons_container = document.getElementById("level-buttons");
+            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
             TRIPODS.events.addEventListeners();
         });
 
-        const stored_scores = window.localStorage.getItem("TRIPODS_scores");
-        if (stored_scores) {
-            mod.game_state.scores = stored_scores.split(",");
+        const stored_moves = window.localStorage.getItem("TRIPODS_moves");
+        if (stored_moves) {
+            mod.game_state.moves = stored_moves.split(",");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
@@ -222,18 +224,31 @@ var TRIPODS = (function (mod) {
         if (mod.cfg.logging) mod.utils.log("Test log message");
     }
 
-    mod.addLevelSelect = function (index = mod.game_state.level + 1) {
-        const level_select = document.getElementById("level-select");
-
-        level_select.innerHTML = "";
-        level_select.insertAdjacentHTML("beforeend", `<option value="null">Select a level</option>`);
+    mod.addLevelSelect = function () {
+        const level_buttons_container = document.getElementById("level-buttons");
+        const level_buttons = level_buttons_container.querySelectorAll("button");
 
         mod.levels.forEach((_, i) => {
-            const score = TRIPODS.game_state.scores[i] ? `(${TRIPODS.game_state.scores[i]})` : "";
-            level_select.insertAdjacentHTML("beforeend", `<option value="${i}">Level ${i + 1} <span>${score}</span></option>`);
-        });
+            const moves = parseInt(TRIPODS.game_state.moves[i]);
+            const threshold = TRIPODS.levels[i][1]; // Threshold for ★★★ rating
+            let rating;
 
-        level_select.querySelectorAll("option")[index].setAttribute("selected", "selected");
+            if (!isNaN(moves) && moves <= threshold) {
+                rating = "★★★";
+            } else if (!isNaN(moves) && moves <= threshold * 2) {
+                rating = "★★☆";
+            } else if (!isNaN(moves) && moves) {
+                rating = "★☆☆";
+            } else {
+                rating = "";
+            }
+
+            if (level_buttons.length) {
+                level_buttons[i].querySelector(".rating").innerHTML = rating; // Add any update to rating
+            } else {
+                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}"><div class="level">${i + 1}</div><div class="rating">${rating}</div></button>`);
+            }
+        });
     }
 
     return mod;

@@ -15,7 +15,7 @@ TRIPODS.events = (function () {
 
         if (!TRIPODS.game_state.initialised) {
 
-            const start = document.querySelector('.start'); // Replay button
+            const start = document.querySelectorAll('.start'); // Level button
             const replay = document.querySelector('.replay'); // Replay button
             const next_level = document.querySelector('.next-level'); // 'Next level' button
             const hame = document.querySelectorAll('.hame'); // 'Back to hame screen' button
@@ -32,66 +32,48 @@ TRIPODS.events = (function () {
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
             function launch(e) {
+                e.currentTarget.disabled = true;
+                TRIPODS.game_state.level = parseInt(e.currentTarget.dataset.level);
+                TRIPODS.utils.fadeOut(".screen-win", 1);
 
-                const level_select = document.getElementById("level-select");
-
-                if (level_select.value === "null") {
-
-                    function shoogleLevelSelectField() {
-                        level_select.classList.add("shoogle");
-                        submod.state.shoogle_timeout = setTimeout(function () {
-                            level_select.classList.remove("shoogle");
-                        }, 830);
-                    }
-
-                    if (!navigator.maxTouchPoints) {
-                        level_select.focus();
-                    }
-                    setTimeout(shoogleLevelSelectField, 200);
-
-                    level_select.classList.remove("shoogle"); // Remove any previous shoogle
-                    if (submod.state.shoogle_timeout !== undefined) clearTimeout(submod.state.shoogle_timeout); // Clear any previous shoogle timeout
-
-                } else {
-                    e.target.disabled = true;
-                    TRIPODS.game_state.level = parseInt(level_select.value);
-                    window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
-                    TRIPODS.level_builder.addUI();
-                    buttonDisabledFalse(e.target);
-                }
+                window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
+                TRIPODS.level_builder.addUI();
+                buttonDisabledFalse(e.currentTarget);
+                e.preventDefault();
             }
 
             function reset(e) {
                 e.target.disabled = true;
                 TRIPODS.level_builder.reset(TRIPODS.level_builder.addUI);
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
             function gangHame(e) {
                 e.target.disabled = true;
-                TRIPODS.level_builder.reset(TRIPODS.addLevelSelect);
-                TRIPODS.utils.fadeIn(".splash");
+                TRIPODS.level_builder.reset(function () {
+                    TRIPODS.addLevelSelect();
+                    TRIPODS.utils.fadeOut(".screen-win", undefined, undefined, () => {
+                        TRIPODS.utils.fadeIn(".screen-level-select");
+                    });
+                });
                 buttonDisabledFalse(e.target);
+                e.preventDefault();
             }
 
-            if (navigator.maxTouchPoints) {
-                start.addEventListener("touchend", launch, false);
-                replay.addEventListener("touchend", reset, false);
-                next_level.addEventListener("touchend", nextLevel, false);
-                Array.prototype.forEach.call(hame, el => {
-                    el.addEventListener("touchend", gangHame, false);
-                });
-            } else {
-                start.addEventListener("click", launch, false);
-                replay.addEventListener("click", reset, false);
-                next_level.addEventListener("click", nextLevel, false);
-                Array.prototype.forEach.call(hame, el => {
-                    el.addEventListener("click", gangHame, false);
-                });
-            }
+            replay.addEventListener("click", reset, false);
+            next_level.addEventListener("click", nextLevel, false);
+            Array.prototype.forEach.call(hame, el => {
+                el.addEventListener("click", gangHame, false);
+            });
+            Array.prototype.forEach.call(start, el => {
+                el.addEventListener("click", launch, false);
+            });
+            // }
 
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
             let last_touch_end = 0;
@@ -103,36 +85,20 @@ TRIPODS.events = (function () {
                 last_touch_end = now;
             }, false);
 
-            // // Changes to Hammer defaults
-            // Hammer.gestures.Hold.defaults.hold_timeout = 600;
-            // Hammer.gestures.Swipe.defaults.swipe_velocity = 0.1;
-
-            // // Pivotor hold
-            // $(document).hammer().on('hold', '.pivitor', function (e) {
-            //     submod.state.hold = 1;
-            //     submod.state.hold_interval = setInterval(function () { // Pivot automatically
-            //         TRIPODS.mvt.pivot(e);
-            //     }, 100);
-            // });
-
-            // // Pivot release during hold
-            // $(document).hammer().on('release', '.pivitor', function (e) {
-            //     setTimeout(function () {
-            //         submod.state.hold = 0;
-            //     }, 500); // Timeout for TRIPODS.info_panel.updateMoveCounter()
-
-            //     clearInterval(submod.state.hold_interval);
-            // });
-
-            // // Prevent dragging on other elements
-            // $(document).hammer().on('drag', '.container:not(.control), .outer-container, .message', function (e) {
-            //     e.gesture.preventDefault();
-            // });
-
-            // Window resize
-            window.addEventListener('resize', function () {
+            function resize() {
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
+                TRIPODS.game_state.getBlockerCoords(); // Recalculate blocker coords
+            }
+
+            // Window resize
+            let resize_timeout = undefined;
+            window.addEventListener("resize", () => {
+                if (resize_timeout !== undefined) {
+                    clearTimeout(resize_timeout);
+                }
+
+                resize_timeout = setTimeout(resize, 180);
             });
 
             TRIPODS.game_state.initialised = true; // Set initialised flag
@@ -149,10 +115,17 @@ TRIPODS.events = (function () {
         const feet = document.querySelectorAll('.foot');
         if (feet) {
             Array.prototype.forEach.call(feet, function (foot) {
-                foot.addEventListener("touchend", TRIPODS.mvt.swipe, false); // > Replace with swipe gesture for mobile
+                foot.addEventListener("touchend", TRIPODS.mvt.swipe, false);
                 foot.addEventListener("click", TRIPODS.mvt.swipe, false);
             });
         }
+
+        // Tutorial indicator
+        // const tap = document.getElementById('tap');
+        // if (tap) {
+        //     tap.addEventListener("touchend", TRIPODS.tutorials.finish, false);
+        //     tap.addEventListener("click", TRIPODS.tutorials.finish, false);
+        // }
     };
 
     return submod;
