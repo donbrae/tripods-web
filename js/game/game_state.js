@@ -7,8 +7,9 @@ TRIPODS.game_state = (function () {
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0, // Also stored in TRIPODS_level in localStorage
-        level_win: false,
+        level_end: false,
         block_center_coords: [],
+        vortex_center_coords: [],
         tutorial_running: false,
         element_tapped: "", // Selector of most recent element tapped
         moves: [] // Also stored in TRIPODS_moves in localStorage
@@ -66,6 +67,14 @@ TRIPODS.game_state = (function () {
         });
     }
 
+    // Store vortex cords coords (centre points)
+    submod.getVortexCoords = function() {
+        TRIPODS.game_state.vortex_center_coords.length = 0;
+        Array.prototype.forEach.call(document.getElementsByClassName("vortex"), vortex => {
+            TRIPODS.game_state.vortex_center_coords.push(TRIPODS.utils.getCenterPoint(vortex));
+        });
+    }
+
     submod.checkWin = function () {
 
         let win = false;
@@ -92,7 +101,7 @@ TRIPODS.game_state = (function () {
             win = true;
         }
 
-        if (win) {// If all feet are on target
+        if (win) { // If all feet are on target
             submod.ignore_user_input = true;
             setTimeout(onWin, 60);
         }
@@ -100,7 +109,7 @@ TRIPODS.game_state = (function () {
 
     function onWin() { // Function to run on win
 
-        submod.level_win = true;
+        submod.level_end = true;
 
         // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
@@ -160,11 +169,7 @@ TRIPODS.game_state = (function () {
         setTimeout(function () {
             submod.ignore_user_input = false;
             TRIPODS.level_builder.showWinScreen(previous_best_moves);
-            setTimeout(function () {
-                TRIPODS.utils.fadeIn("#pivitor");
-                TRIPODS.utils.fadeIn(".layer-active");
-                removeWinEffect();
-            }, 1000);
+            setTimeout(removeWinEffect, 1000);
         }, 1750);
     }
 

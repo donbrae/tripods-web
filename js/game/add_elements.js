@@ -147,7 +147,8 @@ var TRIPODS = (function (mod) {
                         square === 4 || // Blocker
                         square === 5 || // Landing 1
                         square === 6 || // Landing 2
-                        square === 7 // Landing 3
+                        square === 7 || // Landing 3
+                        square === 8 // Vortex
                     ) {
 
                         if (square === 7)

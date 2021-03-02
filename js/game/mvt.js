@@ -30,6 +30,7 @@ TRIPODS.mvt = (function (mod) {
     let orig_pos_x;
     let orig_pos_y;
     let block_collide;
+    let vortex_collide;
 
     let count_foot1;
     let count_foot2;
@@ -464,7 +465,7 @@ TRIPODS.mvt = (function (mod) {
 
     submod.pivot = function (e) {
 
-        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_win) {
+        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_end) {
             return false;
         }
 
@@ -476,6 +477,7 @@ TRIPODS.mvt = (function (mod) {
         let pivot_foot_count = 0;
         const foot_move_data = [];
         let block_collide_via_pivot = false;
+        let vortex_collide_via_pivot = false;
 
         function postPivot(foot, count) {
             updatePivotCounter(foot, count);
@@ -575,10 +577,10 @@ TRIPODS.mvt = (function (mod) {
 
                 const foot_center_point = TRIPODS.utils.getCenterPoint(document.getElementById(foot));
                 block_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
-                // > Check for vortex collide
+                vortex_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y, TRIPODS.game_state.vortex_center_coords);
 
                 if (block_collide) block_collide_via_pivot = true;
-                // > Raise flag if vortex collide
+                if (vortex_collide) vortex_collide_via_pivot = true;
 
             } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
                 foot_move_data.push({
@@ -610,20 +612,23 @@ TRIPODS.mvt = (function (mod) {
         checkWhichFeetShouldPivot("foot2", count_foot2);
         checkWhichFeetShouldPivot("foot3", count_foot3);
 
-        if (!block_collide_via_pivot)
+        if (!block_collide_via_pivot && !vortex_collide_via_pivot) {
             startPivot(finishPivot); // If no block go pivot
-        else if (block_collide_via_pivot)
+        } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
-        // > else if collide into vortex then clearInterval(pivot_check) and animate being soukit into vortex
+        } else if (vortex_collide_via_pivot) {
+            // > clearInterval(pivot_check) and animate being soukit into vortex
+            // > Disable and hide hame button
+            // > Vortex animation
+            TRIPODS.level_builder.showLoseScreen("Sorry, the tripod was souked into a vortex. Make sure to avoid the vortices as you move to the landing spots.");
+        }
     }
 
     // Swipe
 
     submod.swipe = function (e) {
 
-        // e.gesture.preventDefault();
-
-        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_win) {
+        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_end) {
             return false;
         }
 
@@ -751,9 +756,31 @@ TRIPODS.mvt = (function (mod) {
                         delay: 10
                     }, () => {
                         TRIPODS.utils.fadeIn("#pivitor");
-                        callback();
+                        if (typeof (callback) == "function") {
+                            callback();
+                        }
                     });
                 }, 80);
+            });
+        }
+
+        function jumpVortex(foot, x_shift, y_shift, callback) {
+            TRIPODS.game_state.ignore_user_input = true;
+
+            TRIPODS.utils.fadeOut("#pivitor");
+
+            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+
+            let keyframes = [
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
+            ];
+
+            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, () => {
+                if (typeof (callback) == "function") {
+                    callback();
+                }
             });
         }
 
@@ -859,18 +886,23 @@ TRIPODS.mvt = (function (mod) {
 
         const foot_center_point = TRIPODS.utils.getCenterPoint(foot);
         block_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
-        // > Check for vortex collide
+        vortex_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift, TRIPODS.game_state.vortex_center_coords);
 
         if (boundary_check) { // If swiped off the board
             jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
                 foot.style.zIndex = 1000; // Reset z-index
                 TRIPODS.game_state.ignore_user_input = false;
             });
-        // > else if vortex collide ...
         } else if (block_collide) {
             jumpBlock(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
                 TRIPODS.game_state.ignore_user_input = false;
+            });
+        } else if (vortex_collide) {
+            jumpVortex(foot, x_shift, y_shift, () => {
+                // > Disable and hide hame button
+                // > Vortex animation
+                TRIPODS.level_builder.showLoseScreen("Sorry, the tripod was souked into a vortex. Make sure to avoid the vortices as you move to the landing spots.");
             });
         } else {
             jump(foot, x_shift, y_shift, () => {

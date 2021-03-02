@@ -16,8 +16,8 @@ TRIPODS.events = (function () {
         if (!TRIPODS.game_state.initialised) {
 
             const start = document.querySelectorAll('.start'); // Level button
-            const replay = document.querySelector('.replay'); // Replay button
-            const next_level = document.querySelector('.next-level'); // 'Next level' button
+            const replay = document.querySelectorAll('.replay'); // Replay button
+            const next_level = document.querySelectorAll('.next-level'); // 'Next level' button
             const hame = document.querySelectorAll('.hame'); // 'Back to hame screen' button
 
             function buttonDisabledFalse(btn) {
@@ -39,6 +39,7 @@ TRIPODS.events = (function () {
                 e.currentTarget.disabled = true;
                 TRIPODS.game_state.level = parseInt(e.currentTarget.dataset.level);
                 TRIPODS.utils.fadeOut(".screen-win", 1);
+                TRIPODS.utils.fadeOut(".screen-lose", 1);
 
                 window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level);
                 TRIPODS.level_builder.addUI();
@@ -57,16 +58,23 @@ TRIPODS.events = (function () {
                 e.target.disabled = true;
                 TRIPODS.level_builder.reset(function () {
                     TRIPODS.addLevelSelect();
-                    TRIPODS.utils.fadeOut(".screen-win", undefined, undefined, () => {
+                    TRIPODS.utils.fadeOut(".screen-win", 180);
+                    TRIPODS.utils.fadeOut(".screen-lose", 180);
+
+                    setTimeout(() => {
                         TRIPODS.utils.fadeIn(".screen-level-select");
-                    });
+                    }, 180);
                 });
                 buttonDisabledFalse(e.target);
                 e.preventDefault();
             }
 
-            replay.addEventListener("click", reset, false);
-            next_level.addEventListener("click", nextLevel, false);
+            Array.prototype.forEach.call(replay, el => {
+                el.addEventListener("click", reset, false);
+            });
+            Array.prototype.forEach.call(next_level, el => {
+                el.addEventListener("click", nextLevel, false);
+            });
             Array.prototype.forEach.call(hame, el => {
                 el.addEventListener("click", gangHame, false);
             });
@@ -89,6 +97,7 @@ TRIPODS.events = (function () {
                 TRIPODS.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 TRIPODS.game_state.getWinCoords(); // Recalculate landing spot coords
                 TRIPODS.game_state.getBlockerCoords(); // Recalculate blocker coords
+                TRIPODS.game_state.getVortexCoords(); // Recalculate vortex coords
             }
 
             // Window resize

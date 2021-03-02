@@ -10,6 +10,7 @@ TRIPODS.level_builder = (function (mod) {
         TRIPODS.mvt.calculatePivotState();
         TRIPODS.game_state.getWinCoords();
         TRIPODS.game_state.getBlockerCoords();
+        TRIPODS.game_state.getVortexCoords();
 
         if (TRIPODS.tutorials.levels[mod.game_state.level]) {
             mod.game_state.tutorial_running = true;
@@ -64,6 +65,7 @@ TRIPODS.level_builder = (function (mod) {
         setTimeout(() => {
             TRIPODS.utils.fadeOut(".screen-level-select", undefined, true); // On start
             TRIPODS.utils.fadeOut(".screen-win", undefined, true); // Level win
+            TRIPODS.utils.fadeOut(".screen-lose", undefined, true); // Level lose
         }, 80);
 
         setTimeout(() => {
@@ -78,8 +80,9 @@ TRIPODS.level_builder = (function (mod) {
     }
 
     submod.reset = function (callback) {
-        TRIPODS.game_state.block_center_coords.length = 0; // Reset block data
-        TRIPODS.game_state.level_win = false;
+        TRIPODS.game_state.block_center_coords.length = 0; // Reset vortex data
+        TRIPODS.game_state.vortex_center_coords.length = 0; // Reset block data
+        TRIPODS.game_state.level_end = false;
         TRIPODS.game_state.tutorial_running = false;
         TRIPODS.game_state.moves_made.length = 0; // Empty array
         TRIPODS.game_state.element_tapped = "";
@@ -134,6 +137,13 @@ TRIPODS.level_builder = (function (mod) {
             TRIPODS.utils.fadeOut(".container-game");
             TRIPODS.utils.fadeIn(".screen-win");
         }, 500);
+    }
+
+    submod.showLoseScreen = function (message) {
+        console.log("showLoseScreen() ", message);
+        TRIPODS.utils.fadeIn(".screen-lose", undefined, () => {
+            TRIPODS.game_state.ignore_user_input = false;
+        });
     }
 
     return submod;

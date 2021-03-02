@@ -118,12 +118,12 @@ var TRIPODS = (function (mod) {
                     {
                         shape: "text", // innerText set in addElements()
                         attributes: {
-                            x: 3.5,
-                            y: 9.2,
+                            x: 3.9,
+                            y: 9.3,
                             fill: "#222",
                             "letter-spacing": 0.1,
                             "font-size": "8px",
-                            "font-weight": 600
+                            "font-weight": 500
                         }
                     },
                     {
@@ -191,7 +191,8 @@ var TRIPODS = (function (mod) {
                 mod.cfg.svg_elements.block, // 4
                 mod.cfg.svg_elements.landing_foot1, // 5
                 mod.cfg.svg_elements.landing_foot2, // 6
-                mod.cfg.svg_elements.landing_foot3 // 7
+                mod.cfg.svg_elements.landing_foot3, // 7
+                mod.cfg.svg_elements.vortex // 8
             ]
         };
 
