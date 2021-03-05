@@ -147,10 +147,7 @@ TRIPODS.game_state = (function (_module) {
 
         _module.utils.fadeOut(".layer-active");
         _module.utils.fadeOut("#pivitor");
-
-        const hame = ".info-panel > .hame";
-        _module.utils.fadeOut(hame, 100, false);
-        document.querySelector(hame).disabled = true;
+        _module.utils.fadeOutAndDisable(".info-panel > .hame");
 
         addWinEffect();
 

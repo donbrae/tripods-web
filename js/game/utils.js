@@ -49,6 +49,7 @@ TRIPODS.utils = (function (_module) {
         return this.getAngle(obj1_coords.x, obj1_coords.y, obj2_coords.x, obj2_coords.y);
     }
 
+    // Get X and Y shifts of element relative to where it was previously. For improved performance, movement of elements is animated via translate(x, y), rather that amending an elements absolute coords (see keyframes objects within mvt.js)
     // https://stackoverflow.com/a/64654744
     _this.getTranslateXY = function (element) {
         const style = window.getComputedStyle(element);
@@ -138,6 +139,12 @@ TRIPODS.utils = (function (_module) {
                 }
             });
         }
+    }
+
+    // Fade out and disable button with 'selector'
+    _this.fadeOutAndDisable = function(selector) {
+        _this.fadeOut(selector, 100, false);
+        document.querySelector(selector).disabled = true;
     }
 
     _this.log = function (msg) {

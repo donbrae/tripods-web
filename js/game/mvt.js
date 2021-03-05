@@ -99,6 +99,47 @@ TRIPODS.mvt = (function (_module) {
             _module.tutorials.finish();
     }
 
+    function animateVortex(vortex_data, callback) {
+
+        console.log("animateVortex()");
+        console.log(vortex_data);
+
+        const blur = _module.ui_attributes.cell_dimensions * 0.001;
+        // Animate foot that has collided with vortex
+        const foot = document.getElementById(vortex_data.foot_id);
+        const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
+        const keyframes = [
+            { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)` },
+            { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(0)` },
+        ];
+        _module.utils.animate(foot, keyframes, { duration: 400, easing: "ease-in" });
+
+        // Animate other foot
+        Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
+            console.log(foot.getAttribute("id"));
+            if (foot.getAttribute("id") !== vortex_data.foot_id) {
+                const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
+                const foot_center = _module.utils.getCenterPoint(foot); // xy of foot centre point
+                const foot_vortex_shift_x = vortex_data.x - foot_center.x;
+                const foot_vortex_shift_y = vortex_data.y - foot_center.y;
+                const move_to_x = translate_xy.tX + foot_vortex_shift_x; // Number of px to shift x
+                const move_to_y = translate_xy.tY + foot_vortex_shift_y; // Number of px to shift y
+
+                const keyframes = [
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: `blur(${blur}rem)` }, // Current position of foot
+                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0.7)`, filter: `blur(${blur}rem)` },
+                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0)`, filter: `blur(0)` }
+                ];
+
+                _module.utils.animate(foot, keyframes, { duration: 600, easing: "ease-in" }, () => {
+                    if (typeof (callback) == "function") {
+                        setTimeout(callback, 300);
+                    };
+                });
+            }
+        });
+    }
+
     _this.getMeasurements = function () {
         if (!isNaN(_module.game_state.level)) {
             this.measurements.container_rect = document.getElementById("container-grid").getBoundingClientRect();
@@ -478,6 +519,7 @@ TRIPODS.mvt = (function (_module) {
         const foot_move_data = [];
         let block_collide_via_pivot = false;
         let vortex_collide_via_pivot = false;
+        let vortex_data;
 
         function postPivot(foot, count) {
             updatePivotCounter(foot, count);
@@ -576,12 +618,24 @@ TRIPODS.mvt = (function (_module) {
                 });
 
                 const foot_center_point = _module.utils.getCenterPoint(document.getElementById(foot));
-                block_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
-                vortex_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y, _module.game_state.vortex_center_coords);
+                const move_to_x = foot_center_point.x + shift.x;
+                const move_to_y = foot_center_point.y + shift.y;
 
-                if (block_collide) block_collide_via_pivot = true;
-                if (vortex_collide) vortex_collide_via_pivot = true;
+                block_collide = collided(move_to_x, move_to_y);
 
+                if (block_collide) {
+                    block_collide_via_pivot = true;
+                } else {
+                    vortex_collide = collided(move_to_x, move_to_y, _module.game_state.vortex_center_coords);
+                    if (vortex_collide) {
+                        vortex_collide_via_pivot = true;
+                        vortex_data = {
+                            foot_id: foot, // ID of foot that has collided with vortex
+                            x: move_to_x,
+                            y: move_to_y
+                        }
+                    }
+                }
             } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
                 foot_move_data.push({
                     foot: foot, // Element ID
@@ -595,17 +649,21 @@ TRIPODS.mvt = (function (_module) {
 
         const pivot_check = setInterval(function () { // Check for completion of pivot
 
-            if (pivot_foot_count === 3 && !block_collide_via_pivot) {
+            if (pivot_foot_count === 3 && !block_collide_via_pivot && !vortex_collide_via_pivot) {
                 _this.repositionPivot();
                 _module.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
                 moveSuccess();
-
             } else if (pivot_foot_count === 3 && block_collide_via_pivot) {
                 _module.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
+            } else if (pivot_foot_count === 3 && vortex_collide_via_pivot) {
+                clearInterval(pivot_check);
+                animateVortex(vortex_data, () => {
+                    _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
+                });
             }
-        }, 50);
+        }, 25);
 
         // Which feet should move?
         checkWhichFeetShouldPivot("foot1", count_foot1);
@@ -617,10 +675,10 @@ TRIPODS.mvt = (function (_module) {
         } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
         } else if (vortex_collide_via_pivot) {
-            // > clearInterval(pivot_check) and animate being soukit into vortex
-            // > Disable and hide hame button
-            // > Vortex animation
-            _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
+            _module.utils.fadeOutAndDisable(".info-panel > .hame");
+            _module.utils.fadeOut("#pivitor");
+            startPivot(finishPivot);
+            // pivot_check() will run animateVortex() etc.
         }
     }
 
@@ -885,26 +943,33 @@ TRIPODS.mvt = (function (_module) {
         const boundary_check = boundaryIntersected(x_shift, y_shift);
 
         const foot_center_point = _module.utils.getCenterPoint(foot);
-        block_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
-        vortex_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift, _module.game_state.vortex_center_coords);
+        const move_to_x = foot_center_point.x + x_shift;
+        const move_to_y = foot_center_point.y + y_shift;
+        block_collide = collided(move_to_x, move_to_y);
+        vortex_collide = collided(move_to_x, move_to_y, _module.game_state.vortex_center_coords);
 
-        if (boundary_check) { // If swiped off the board
+        if (boundary_check) { // Foot swiped off the board
             jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
                 foot.style.zIndex = 1000; // Reset z-index
                 _module.game_state.ignore_user_input = false;
             });
-        } else if (block_collide) {
+        } else if (block_collide) { // Foot collided with a block
             jumpBlock(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
                 _module.game_state.ignore_user_input = false;
             });
-        } else if (vortex_collide) {
+        } else if (vortex_collide) { // Foot collided with a vortex
             jumpVortex(foot, x_shift, y_shift, () => {
-                // > Disable and hide hame button
-                // > Vortex animation
-                _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
+                _module.utils.fadeOutAndDisable(".info-panel > .hame");
+                animateVortex({
+                    foot_id: foot.getAttribute("id"), // ID of foot that has collided with vortex
+                    x: move_to_x,
+                    y: move_to_y
+                }, () => {
+                    _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
+                });
             });
-        } else {
+        } else { // OK to jump
             jump(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
                 _this.calculatePivotState();
