@@ -140,7 +140,7 @@ TRIPODS.level_builder = (function (mod) {
     }
 
     submod.showLoseScreen = function (message) {
-        console.log("showLoseScreen() ", message);
+        document.querySelector(".screen-lose > h2").innerHTML = message;
         TRIPODS.utils.fadeIn(".screen-lose", undefined, () => {
             TRIPODS.game_state.ignore_user_input = false;
         });

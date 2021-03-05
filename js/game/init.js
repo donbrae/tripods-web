@@ -42,7 +42,6 @@ var TRIPODS = (function (mod) {
               }
             },*/
             block: { // https://iconmonstr.com/cube-3-svg/
-                block: true,
                 name: 'block',
                 shape: 'path',
                 classes: ["block"],
@@ -54,7 +53,6 @@ var TRIPODS = (function (mod) {
                 }
             },
             vortex: { // https://iconmonstr.com/weather-84-svg/
-                // avoid: true, // > ?
                 name: 'vortex',
                 shape: 'path',
                 classes: ["vortex", "swirl"],
@@ -62,7 +60,8 @@ var TRIPODS = (function (mod) {
                 attributes: { // width and height set dynamically
                     fill: "#fff",
                     d: "M13.66,5.79A13.73,13.73,0,0,1,24,8.36C22.26,4.08,17.55,1,12,1,7.1,1,2.92,4.08,2.14,8.27s2.16,8.83,8.21,9.92A13.76,13.76,0,0,1,0,15.61C1.73,19.91,6.45,23,12,23h.3c4.83-.1,8.89-3.17,9.64-7.3S19.75,6.88,13.66,5.79Z"
-                }
+                },
+                lose_message: "Ach, sorry, the tripod was souked into a vortex.<br>Make sure to avoid the vortices as you move to the landing spots."
             },
             landing_foot1: { // Inherits color from foot1
                 name: 'landing_foot1',
@@ -83,7 +82,6 @@ var TRIPODS = (function (mod) {
                 classes: [], // `classes` property requires at least a blank array
             },
             pivitor: { // https://iconmonstr.com/redo-3-svg/
-                control: true,
                 name: 'pivitor',
                 id: 'pivitor',
                 shape: 'path',

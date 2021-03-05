@@ -620,7 +620,7 @@ TRIPODS.mvt = (function (mod) {
             // > clearInterval(pivot_check) and animate being soukit into vortex
             // > Disable and hide hame button
             // > Vortex animation
-            TRIPODS.level_builder.showLoseScreen("Sorry, the tripod was souked into a vortex. Make sure to avoid the vortices as you move to the landing spots.");
+            TRIPODS.level_builder.showLoseScreen(mod.cfg.svg_elements.vortex.lose_message);
         }
     }
 
@@ -902,7 +902,7 @@ TRIPODS.mvt = (function (mod) {
             jumpVortex(foot, x_shift, y_shift, () => {
                 // > Disable and hide hame button
                 // > Vortex animation
-                TRIPODS.level_builder.showLoseScreen("Sorry, the tripod was souked into a vortex. Make sure to avoid the vortices as you move to the landing spots.");
+                TRIPODS.level_builder.showLoseScreen(mod.cfg.svg_elements.vortex.lose_message);
             });
         } else {
             jump(foot, x_shift, y_shift, () => {

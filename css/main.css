@@ -300,6 +300,7 @@ select:focus {
 
 .info-panel h2 {
     margin: 0;
+    padding: 0;
 }
 
 .container {
