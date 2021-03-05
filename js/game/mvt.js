@@ -101,12 +101,10 @@ TRIPODS.mvt = (function (_module) {
 
     function animateVortex(vortex_data, callback) {
 
-        console.log("animateVortex()");
-        console.log(vortex_data);
-
         const blur = _module.ui_attributes.cell_dimensions * 0.001;
         // Animate foot that has collided with vortex
         const foot = document.getElementById(vortex_data.foot_id);
+        foot.style["z-index"] = getComputedStyle(foot).zIndex - 1000;
         const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
         const keyframes = [
             { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)` },

@@ -119,7 +119,6 @@ var TRIPODS = (function (_this) {
                             x: 3.9,
                             y: 9.3,
                             fill: "#222",
-                            "letter-spacing": 0.1,
                             "font-size": "8px",
                             "font-weight": 500
                         }
