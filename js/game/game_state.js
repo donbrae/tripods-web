@@ -2,7 +2,7 @@ TRIPODS.game_state = (function () {
 
     "use strict";
 
-    const submod = {
+    const _this = {
         initialised: false,
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
@@ -22,22 +22,22 @@ TRIPODS.game_state = (function () {
     let landing_2_xy; // Landing 2 center
     let landing_3_xy; // Landing 3 center
 
-    submod.updateMoveCounter = function () {
+    _this.updateMoveCounter = function () {
 
         TRIPODS.game_state.moves_made.push(TRIPODS.game_state.element_tapped);
 
         if (TRIPODS.events.state.hold) { // If the pivot is being held, don't bother fading
-            moves_span.innerText = submod.moves_made.length;
+            moves_span.innerText = _this.moves_made.length;
         } else if (!TRIPODS.events.state.hold) {
             // > fade out moves_span
-            moves_span.innerText = submod.moves_made.length;
+            moves_span.innerText = _this.moves_made.length;
             // > fade in moves_span
-            submod.pivot_hold = 0;
+            _this.pivot_hold = 0;
 
         }
     }
 
-    submod.getWinCoords = function () { // Store target center points
+    _this.getWinCoords = function () { // Store target center points
 
         if (!document.querySelectorAll(".landing").length) {
             return false;
@@ -60,7 +60,7 @@ TRIPODS.game_state = (function () {
     }
 
     // Store blocker coords (centre points)
-    submod.getBlockerCoords = function() {
+    _this.getBlockerCoords = function() {
         TRIPODS.game_state.block_center_coords.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
             TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
@@ -68,14 +68,14 @@ TRIPODS.game_state = (function () {
     }
 
     // Store vortex cords coords (centre points)
-    submod.getVortexCoords = function() {
+    _this.getVortexCoords = function() {
         TRIPODS.game_state.vortex_center_coords.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("vortex"), vortex => {
             TRIPODS.game_state.vortex_center_coords.push(TRIPODS.utils.getCenterPoint(vortex));
         });
     }
 
-    submod.checkWin = function () {
+    _this.checkWin = function () {
 
         let win = false;
         const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
@@ -102,14 +102,14 @@ TRIPODS.game_state = (function () {
         }
 
         if (win) { // If all feet are on target
-            submod.ignore_user_input = true;
+            _this.ignore_user_input = true;
             setTimeout(onWin, 60);
         }
     }
 
     function onWin() { // Function to run on win
 
-        submod.level_end = true;
+        _this.level_end = true;
 
         // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
@@ -156,9 +156,9 @@ TRIPODS.game_state = (function () {
 
         // Store moves if it's the best so far
         const moves = TRIPODS.game_state.moves_made.length;
-        const previous_best_moves = TRIPODS.game_state.moves[submod.level];
+        const previous_best_moves = TRIPODS.game_state.moves[_this.level];
         if (previous_best_moves && moves < previous_best_moves || !previous_best_moves) {
-            TRIPODS.game_state.moves[submod.level] = moves;
+            TRIPODS.game_state.moves[_this.level] = moves;
         }
 
         window.localStorage.setItem("TRIPODS_moves", TRIPODS.game_state.moves);
@@ -167,12 +167,12 @@ TRIPODS.game_state = (function () {
         }
 
         setTimeout(function () {
-            submod.ignore_user_input = false;
+            _this.ignore_user_input = false;
             TRIPODS.level_builder.showWinScreen(previous_best_moves);
             setTimeout(removeWinEffect, 1000);
         }, 1750);
     }
 
-    return submod;
+    return _this;
 
 }());

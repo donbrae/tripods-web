@@ -2,16 +2,16 @@ TRIPODS.events = (function () {
 
     "use strict";
 
-    const submod = {
+    const _this = {
         state: {
             shoogle_timeout: undefined
             // hold: 0
         }
     };
 
-    submod.state.hold_interval = function () { };
+    _this.state.hold_interval = function () { };
 
-    submod.addEventListeners = function () {
+    _this.addEventListeners = function () {
 
         if (!TRIPODS.game_state.initialised) {
 
@@ -137,6 +137,6 @@ TRIPODS.events = (function () {
         // }
     };
 
-    return submod;
+    return _this;
 
 }());

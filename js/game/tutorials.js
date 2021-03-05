@@ -1,19 +1,19 @@
-TRIPODS.tutorials = (function (mod) {
-    const submod = {
+TRIPODS.tutorials = (function (_module) {
+    const _this = {
         levels: []
     };
 
-    submod.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
-    submod.levels[1] = ["#pivitor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivitor", "#pivitor", "#pivitor", "#foot1"]; // Level 2
+    _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
+    _this.levels[1] = ["#pivitor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivitor", "#pivitor", "#pivitor", "#foot1"]; // Level 2
 
-    submod.placeTutorialElement = function () {
+    _this.placeTutorialElement = function () {
 
-        if (mod.game_state.moves_made.length < submod.levels[mod.game_state.level].length) { // If number of moves made is fewer than number of moves in this level's tutorial
-            if (mod.game_state.ignore_user_input) {
+        if (_module.game_state.moves_made.length < _this.levels[_module.game_state.level].length) { // If number of moves made is fewer than number of moves in this level's tutorial
+            if (_module.game_state.ignore_user_input) {
                 return false;
             }
 
-            const element = document.querySelector(submod.levels[mod.game_state.level][mod.game_state.moves_made.length]);
+            const element = document.querySelector(_this.levels[_module.game_state.level][_module.game_state.moves_made.length]);
             const element_rect = element.getBoundingClientRect();
 
             const label = document.querySelector("#tap");
@@ -36,22 +36,22 @@ TRIPODS.tutorials = (function (mod) {
     }
 
     // Checks whether user is following the tutorial. Returns true or false
-    submod.checkFollow = function () {
+    _this.checkFollow = function () {
 
-        if (!mod.game_state.moves_made.length) {
-            console.error("mod.game_state.moves_made[] empty");
+        if (!_module.game_state.moves_made.length) {
+            console.error("_module.game_state.moves_made[] empty");
             return false;
         }
 
-        const last_move = mod.game_state.moves_made[mod.game_state.moves_made.length - 1];
-        const tutorial_step = submod.levels[mod.game_state.level][mod.game_state.moves_made.length - 1];
+        const last_move = _module.game_state.moves_made[_module.game_state.moves_made.length - 1];
+        const tutorial_step = _this.levels[_module.game_state.level][_module.game_state.moves_made.length - 1];
 
         return last_move === tutorial_step;
     }
 
-    submod.finish = function () {
+    _this.finish = function () {
 
-        mod.game_state.tutorial_running = false; // Tutorial should now be complete, or the user has exited it
+        _module.game_state.tutorial_running = false; // Tutorial should now be complete, or the user has exited it
 
         // Remove tutorial label
         TRIPODS.utils.fadeOut("#tap", undefined, undefined, function () {
@@ -62,6 +62,6 @@ TRIPODS.tutorials = (function (mod) {
         });
     }
 
-    return submod;
+    return _this;
 
 }(TRIPODS || {}));

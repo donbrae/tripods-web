@@ -2,10 +2,10 @@ TRIPODS.utils = (function () {
 
     "use strict";
 
-    const submod = {};
+    const _this = {};
 
     // Calculate distance between two points
-    submod.getLineDistance = function (point1, point2) { // http://snipplr.com/view/47207/
+    _this.getLineDistance = function (point1, point2) { // http://snipplr.com/view/47207/
 
         let xs = 0;
         let ys = 0;
@@ -20,7 +20,7 @@ TRIPODS.utils = (function () {
     }
 
     // Get center point of element
-    submod.getCenterPoint = function (el) {
+    _this.getCenterPoint = function (el) {
         const el_rect = el.getBoundingClientRect();
         const center_x = el_rect.x + el_rect.width / 2;
         const center_y = el_rect.y + el_rect.height / 2;
@@ -29,12 +29,12 @@ TRIPODS.utils = (function () {
     }
 
     // Calculate distance between two elements
-    submod.getLineDistanceEl = function (obj1, obj2) {
+    _this.getLineDistanceEl = function (obj1, obj2) {
         return this.getLineDistance(this.getCenterPoint(obj1), this.getCenterPoint(obj2));
     }
 
     // Calculate angle in degrees between two points
-    submod.getAngle = function (x1, y1, x2, y2) {
+    _this.getAngle = function (x1, y1, x2, y2) {
         const dx = x2 - x1;
         const dy = y2 - y1;
 
@@ -42,7 +42,7 @@ TRIPODS.utils = (function () {
     }
 
     // Calculate angle in degrees between two elements
-    submod.getAngleEl = function (obj1, obj2) {
+    _this.getAngleEl = function (obj1, obj2) {
         const obj1_coords = this.getCenterPoint(obj1);
         const obj2_coords = this.getCenterPoint(obj2);
 
@@ -50,7 +50,7 @@ TRIPODS.utils = (function () {
     }
 
     // https://stackoverflow.com/a/64654744
-    submod.getTranslateXY = function (element) {
+    _this.getTranslateXY = function (element) {
         const style = window.getComputedStyle(element);
         const matrix = new DOMMatrixReadOnly(style.transform);
         return {
@@ -59,7 +59,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.extend = function (out) {
+    _this.extend = function (out) {
         out = out || {};
 
         for (let i = 1; i < arguments.length; i++) {
@@ -76,7 +76,7 @@ TRIPODS.utils = (function () {
     }
 
     // JavaScript Web Animations API animate() abstraction
-    submod.animate = function (element, keyframes, {
+    _this.animate = function (element, keyframes, {
         duration = 1000,
         easing = "linear",
         delay = 0,
@@ -107,7 +107,7 @@ TRIPODS.utils = (function () {
      * .hide should be set in CSS as `display: none;`. Used by fadeOut() to actually hide an element after its opacity has been set to 0
      * .opacity-0 should be set in CSS as `opacity: 0;`. Allows elements to be displayed, but invisible, in the UI before any JavaScript runs. For the purpose of, say, calculating object properties such as height and xy coordinates relative to the viewport
      */
-    submod.fadeIn = function (selector, duration = 180, callback) {
+    _this.fadeIn = function (selector, duration = 180, callback) {
         const element = document.querySelector(selector);
 
         if (element) {
@@ -120,7 +120,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.fadeOut = function (selector, duration = 180, hide = false, callback) {
+    _this.fadeOut = function (selector, duration = 180, hide = false, callback) {
         const element = document.querySelector(selector);
 
         if (element) {
@@ -140,7 +140,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.log = function (msg) {
+    _this.log = function (msg) {
         if (navigator.maxTouchPoints) {
             // On mobile, most recent logs are at the top
             document.querySelector(".log").innerHTML = `${msg} [${Math.round((new Date()).getTime() / 1000)}]<br>${document.querySelector(".log").innerHTML}`;
@@ -149,7 +149,7 @@ TRIPODS.utils = (function () {
         }
     }
 
-    submod.is_iOS = function () {
+    _this.is_iOS = function () {
         const user_agent = navigator.userAgent.toLowerCase();
         return user_agent.indexOf("iphone") > -1 ||
             user_agent.indexOf("ipod") > -1 ||
@@ -157,6 +157,6 @@ TRIPODS.utils = (function () {
             (navigator.maxTouchPoints && /Mac/.test(navigator.platform)); // iPad running 'desktop' Safari
     }
 
-    return submod;
+    return _this;
 
 }());

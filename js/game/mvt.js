@@ -1,10 +1,10 @@
 // Before refactor: https://github.com/donbrae/tripods-web/blob/5521e55afc7269226db453759c4b6242813f03e6/js/game/mvt.js
 
-TRIPODS.mvt = (function (mod) {
+TRIPODS.mvt = (function (_module) {
 
     "use strict";
 
-    const submod = {
+    const _this = {
         measurements: {
             container_rect: undefined,
             cells_in_row: undefined,
@@ -40,25 +40,25 @@ TRIPODS.mvt = (function (mod) {
 
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift) {
-        const control_padding = TRIPODS.ui_attributes.control_padding;
+        const control_padding = _module.ui_attributes.control_padding;
         const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
         const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
-        // console.log("left: ", orig_pos_x + control_padding + x_shift - container_padding + foot_width_height, submod.measurements.container_rect.x);
-        // console.log("right: ", orig_pos_x + control_padding + x_shift + container_padding + foot_width_height, submod.measurements.container_rect.right);
-        // console.log("top: ", orig_pos_y + control_padding + y_shift - container_padding + foot_width_height, submod.measurements.container_rect.y);
-        // console.log("bottom: ", orig_pos_y + control_padding + y_shift + container_padding + foot_width_height, submod.measurements.container_rect.bottom);
+        // console.log("left: ", orig_pos_x + control_padding + x_shift - container_padding + foot_width_height, _this.measurements.container_rect.x);
+        // console.log("right: ", orig_pos_x + control_padding + x_shift + container_padding + foot_width_height, _this.measurements.container_rect.right);
+        // console.log("top: ", orig_pos_y + control_padding + y_shift - container_padding + foot_width_height, _this.measurements.container_rect.y);
+        // console.log("bottom: ", orig_pos_y + control_padding + y_shift + container_padding + foot_width_height, _this.measurements.container_rect.bottom);
 
         // These conditionals calculate whether the full foot would clear the boundary
-        if (orig_pos_x + control_padding + x_shift - container_padding + foot_width_height < submod.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
-        else if (orig_pos_x + control_padding + x_shift + container_padding + foot_width_height > submod.measurements.container_rect.right) return "right";
-        else if (orig_pos_y + control_padding + y_shift - container_padding + foot_width_height < submod.measurements.container_rect.y) return "top";
-        else if (orig_pos_y + control_padding + y_shift + container_padding + foot_width_height > submod.measurements.container_rect.bottom) return "bottom";
+        if (orig_pos_x + control_padding + x_shift - container_padding + foot_width_height < _this.measurements.container_rect.x) return "left"; // Hits left container boundary (x_shift will be a minus value)
+        else if (orig_pos_x + control_padding + x_shift + container_padding + foot_width_height > _this.measurements.container_rect.right) return "right";
+        else if (orig_pos_y + control_padding + y_shift - container_padding + foot_width_height < _this.measurements.container_rect.y) return "top";
+        else if (orig_pos_y + control_padding + y_shift + container_padding + foot_width_height > _this.measurements.container_rect.bottom) return "bottom";
 
         return false;
     };
 
-    function collided(cx, cy, coords = TRIPODS.game_state.block_center_coords) {
+    function collided(cx, cy, coords = _module.game_state.block_center_coords) {
         let collide = false;
 
         for (let i = 0; i < coords.length; i++) {
@@ -88,38 +88,38 @@ TRIPODS.mvt = (function (mod) {
 
     function moveSuccess() {
 
-        TRIPODS.game_state.updateMoveCounter();
-        TRIPODS.game_state.checkWin();
+        _module.game_state.updateMoveCounter();
+        _module.game_state.checkWin();
 
-        if (TRIPODS.game_state.tutorial_running && TRIPODS.tutorials.checkFollow())
+        if (_module.game_state.tutorial_running && _module.tutorials.checkFollow())
             setTimeout(() => { // Delay to allow pivot to reposition
-                TRIPODS.tutorials.placeTutorialElement();
+                _module.tutorials.placeTutorialElement();
             }, 300);
-        else if (TRIPODS.game_state.tutorial_running)
-            TRIPODS.tutorials.finish();
+        else if (_module.game_state.tutorial_running)
+            _module.tutorials.finish();
     }
 
-    submod.getMeasurements = function () {
-        if (!isNaN(TRIPODS.game_state.level)) {
+    _this.getMeasurements = function () {
+        if (!isNaN(_module.game_state.level)) {
             this.measurements.container_rect = document.getElementById("container-grid").getBoundingClientRect();
-            this.measurements.cells_in_row = TRIPODS.levels[TRIPODS.game_state.level][1].length;
-            this.measurements.cells_in_column = TRIPODS.levels[TRIPODS.game_state.level].length - 1;
+            this.measurements.cells_in_row = _module.levels[_module.game_state.level][1].length;
+            this.measurements.cells_in_column = _module.levels[_module.game_state.level].length - 1;
         }
     }
 
     // Works out where each foot should be in the foot_pivot_sequence
-    submod.calculatePivotState = function () {
-        const a_foot = submod.getAFoot();
+    _this.calculatePivotState = function () {
+        const a_foot = _this.getAFoot();
         const foot_id = a_foot.getAttribute('id');
-        const a_foot_ctr_pt = TRIPODS.utils.getCenterPoint(a_foot);
+        const a_foot_ctr_pt = _module.utils.getCenterPoint(a_foot);
         const other_feet = [];
-        const foot1_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot1"));
-        const foot2_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot2"));
-        const foot3_ctr = TRIPODS.utils.getCenterPoint(document.getElementById("foot3"));
+        const foot1_ctr = _module.utils.getCenterPoint(document.getElementById("foot1"));
+        const foot2_ctr = _module.utils.getCenterPoint(document.getElementById("foot2"));
+        const foot3_ctr = _module.utils.getCenterPoint(document.getElementById("foot3"));
 
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             if (el.getAttribute('id') !== a_foot.getAttribute('id')) {
-                other_feet.push(TRIPODS.utils.getCenterPoint(el));
+                other_feet.push(_module.utils.getCenterPoint(el));
             }
         });
 
@@ -252,7 +252,7 @@ TRIPODS.mvt = (function (mod) {
     }
 
     // Work out which foot is at the 'A' point of the triangle
-    submod.getAFoot = function () {
+    _this.getAFoot = function () {
 
         let foot;
 
@@ -263,7 +263,7 @@ TRIPODS.mvt = (function (mod) {
 
             Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) { // For each of the other two feet
                 if (el.getAttribute("id") !== foot.getAttribute("id"))
-                    angles.push(TRIPODS.utils.getAngleEl(foot, el));
+                    angles.push(_module.utils.getAngleEl(foot, el));
             });
 
             // Compare the two angles
@@ -289,7 +289,7 @@ TRIPODS.mvt = (function (mod) {
         return foot;
     }
 
-    submod.repositionPivot = function (fade_in, delay = 300) {
+    _this.repositionPivot = function (fade_in, delay = 300) {
 
         const pivot = document.getElementById("pivitor");
         const pivot_rect = pivot.getBoundingClientRect();
@@ -298,14 +298,14 @@ TRIPODS.mvt = (function (mod) {
         const foot2 = document.getElementById("foot2");
         const foot3 = document.getElementById("foot3");
 
-        const angle_1_2 = Math.round(TRIPODS.utils.getAngleEl(foot1, foot2));
-        const angle_1_3 = Math.round(TRIPODS.utils.getAngleEl(foot1, foot3));
+        const angle_1_2 = Math.round(_module.utils.getAngleEl(foot1, foot2));
+        const angle_1_3 = Math.round(_module.utils.getAngleEl(foot1, foot3));
 
         let pivot_shift_x;
         let pivot_shift_y;
 
-        const side = mod.ui_attributes.cell_dimensions;
-        const shunt = Math.round(mod.ui_attributes.cell_dimensions / 6);
+        const side = _module.ui_attributes.cell_dimensions;
+        const shunt = Math.round(_module.ui_attributes.cell_dimensions / 6);
 
         let foot_rect;
 
@@ -438,7 +438,7 @@ TRIPODS.mvt = (function (mod) {
                 console.error("Pivot position could not be calculated");
         }
 
-        const translate_xy = TRIPODS.utils.getTranslateXY(pivot);
+        const translate_xy = _module.utils.getTranslateXY(pivot);
 
         const keyframes = [
             { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial (0,0) or current x_shift and y_shift for the pivotor
@@ -452,27 +452,27 @@ TRIPODS.mvt = (function (mod) {
             }
 
             pivot_timeout = setTimeout(() => {
-                TRIPODS.utils.fadeIn("#pivitor");
+                _module.utils.fadeIn("#pivitor");
             }, delay);
         } : null;
 
-        TRIPODS.utils.animate(pivot, keyframes, {
-            duration: mod.cfg.animation.jump_duration
+        _module.utils.animate(pivot, keyframes, {
+            duration: _module.cfg.animation.jump_duration
         }, cb);
     }
 
     // Pivot
 
-    submod.pivot = function (e) {
+    _this.pivot = function (e) {
 
-        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_end) {
+        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
             return false;
         }
 
-        TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
+        _module.game_state.element_tapped = `#${e.currentTarget.id}`;
 
-        if (TRIPODS.game_state.tutorial_running)
-            TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
+        if (_module.game_state.tutorial_running)
+            _module.utils.fadeOut("#tap"); // Hide tutorial label
 
         let pivot_foot_count = 0;
         const foot_move_data = [];
@@ -488,16 +488,16 @@ TRIPODS.mvt = (function (mod) {
             if (foot_move.move) {
 
                 const foot = document.getElementById(foot_move.foot);
-                const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+                const translate_xy = _module.utils.getTranslateXY(foot);
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
                 ];
 
-                TRIPODS.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
+                _module.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
 
             } else postPivot(foot_move.foot, foot_move.count);
         };
@@ -507,17 +507,17 @@ TRIPODS.mvt = (function (mod) {
             if (foot_move.move) {
 
                 const foot = document.getElementById(foot_move.foot);
-                const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+                const translate_xy = _module.utils.getTranslateXY(foot);
 
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
                     { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
                 ];
 
-                TRIPODS.utils.animate(foot, keyframes, { duration: 200 }, () => {
+                _module.utils.animate(foot, keyframes, { duration: 200 }, () => {
                     pivot_foot_count++;
                 });
 
@@ -527,7 +527,7 @@ TRIPODS.mvt = (function (mod) {
         };
 
         function startPivot(callback) {
-            TRIPODS.game_state.ignore_user_input = true;
+            _module.game_state.ignore_user_input = true;
 
             foot_move_data.forEach(item => {
                 // Amend count
@@ -553,8 +553,8 @@ TRIPODS.mvt = (function (mod) {
                     let foot_shift_x;
 
                     // Get new foot coords
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - TRIPODS.ui_attributes.cell_dimensions;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = TRIPODS.ui_attributes.cell_dimensions;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_x = - _module.ui_attributes.cell_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_x = _module.ui_attributes.cell_dimensions;
 
                     shift = { x: foot_shift_x, y: 0 }; // Store parameters for animation
 
@@ -562,8 +562,8 @@ TRIPODS.mvt = (function (mod) {
 
                     let foot_shift_y;
 
-                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - TRIPODS.ui_attributes.cell_dimensions;
-                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = TRIPODS.ui_attributes.cell_dimensions;
+                    if (foot_pivot_sequence[count][1] === "-") foot_shift_y = - _module.ui_attributes.cell_dimensions;
+                    else if (foot_pivot_sequence[count][1] === "+") foot_shift_y = _module.ui_attributes.cell_dimensions;
 
                     shift = { x: 0, y: foot_shift_y };
                 }
@@ -575,9 +575,9 @@ TRIPODS.mvt = (function (mod) {
                     shift: shift // x,y
                 });
 
-                const foot_center_point = TRIPODS.utils.getCenterPoint(document.getElementById(foot));
+                const foot_center_point = _module.utils.getCenterPoint(document.getElementById(foot));
                 block_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y);
-                vortex_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y, TRIPODS.game_state.vortex_center_coords);
+                vortex_collide = collided(foot_center_point.x + shift.x, foot_center_point.y + shift.y, _module.game_state.vortex_center_coords);
 
                 if (block_collide) block_collide_via_pivot = true;
                 if (vortex_collide) vortex_collide_via_pivot = true;
@@ -591,18 +591,18 @@ TRIPODS.mvt = (function (mod) {
             }
         };
 
-        if (TRIPODS.game_state.ignore_user_input) return false;
+        if (_module.game_state.ignore_user_input) return false;
 
         const pivot_check = setInterval(function () { // Check for completion of pivot
 
             if (pivot_foot_count === 3 && !block_collide_via_pivot) {
-                submod.repositionPivot();
-                TRIPODS.game_state.ignore_user_input = false;
+                _this.repositionPivot();
+                _module.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
                 moveSuccess();
 
             } else if (pivot_foot_count === 3 && block_collide_via_pivot) {
-                TRIPODS.game_state.ignore_user_input = false;
+                _module.game_state.ignore_user_input = false;
                 clearInterval(pivot_check);
             }
         }, 50);
@@ -620,31 +620,31 @@ TRIPODS.mvt = (function (mod) {
             // > clearInterval(pivot_check) and animate being soukit into vortex
             // > Disable and hide hame button
             // > Vortex animation
-            TRIPODS.level_builder.showLoseScreen(mod.cfg.svg_elements.vortex.lose_message);
+            _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
         }
     }
 
     // Swipe
 
-    submod.swipe = function (e) {
+    _this.swipe = function (e) {
 
-        if (TRIPODS.game_state.ignore_user_input || TRIPODS.game_state.level_end) {
+        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
             return false;
         }
 
-        TRIPODS.game_state.element_tapped = `#${e.currentTarget.id}`;
+        _module.game_state.element_tapped = `#${e.currentTarget.id}`;
 
-        if (TRIPODS.game_state.tutorial_running)
-            TRIPODS.utils.fadeOut("#tap"); // Hide tutorial label
+        if (_module.game_state.tutorial_running)
+            _module.utils.fadeOut("#tap"); // Hide tutorial label
 
-        const cell_len = TRIPODS.ui_attributes.cell_dimensions;
+        const cell_len = _module.ui_attributes.cell_dimensions;
         const foot = document.getElementById(e.currentTarget.id);
 
         // Move the swiped foot (left and top arguments are the destination coords)
         function jump(foot, x_shift, y_shift, callback) {
-            TRIPODS.game_state.ignore_user_input = true;
+            _module.game_state.ignore_user_input = true;
 
-            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+            const translate_xy = _module.utils.getTranslateXY(foot);
 
             const keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(1px)" },
@@ -652,17 +652,17 @@ TRIPODS.mvt = (function (mod) {
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
             ];
 
-            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, callback);
+            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, callback);
         };
 
         function jumpBoundary(foot, x_shift, y_shift, swipe_angle, callback) {
-            TRIPODS.game_state.ignore_user_input = true;
+            _module.game_state.ignore_user_input = true;
 
-            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+            const translate_xy = _module.utils.getTranslateXY(foot);
             let x_shift_additional = 0;
             let y_shift_additional = 0;
 
-            const control_padding = TRIPODS.ui_attributes.control_padding;
+            const control_padding = _module.ui_attributes.control_padding;
             const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
             const foot_rect = foot.getBoundingClientRect();
 
@@ -673,47 +673,47 @@ TRIPODS.mvt = (function (mod) {
 
             switch (swipe_angle) {
                 case "n":
-                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - _this.measurements.container_rect.top);
                     break;
                 case "e":
-                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - _this.measurements.container_rect.right);
                     break;
                 case "s":
-                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - _this.measurements.container_rect.bottom);
                     break;
                 case "w":
-                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - _this.measurements.container_rect.left);
                     break;
                 case "nne":
-                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - _this.measurements.container_rect.top);
                     x_shift_additional = Math.abs(y_shift_additional + cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "sse":
-                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - _this.measurements.container_rect.bottom);
                     x_shift_additional = Math.abs(y_shift_additional - cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "ssw":
-                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - submod.measurements.container_rect.bottom);
+                    y_shift_additional = Math.abs(foot_rect.bottom + shift_halfway.y - control_padding + container_padding - _this.measurements.container_rect.bottom);
                     x_shift_additional = -Math.abs(y_shift_additional - cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "nnw":
-                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - submod.measurements.container_rect.top);
+                    y_shift_additional = -Math.abs(foot_rect.top + shift_halfway.y + control_padding - container_padding - _this.measurements.container_rect.top);
                     x_shift_additional = -Math.abs(y_shift_additional + cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "ne":
-                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - _this.measurements.container_rect.right);
                     y_shift_additional = -Math.abs(x_shift_additional - cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "se":
-                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - submod.measurements.container_rect.right);
+                    x_shift_additional = Math.abs(foot_rect.right + shift_halfway.x - control_padding + container_padding - _this.measurements.container_rect.right);
                     y_shift_additional = Math.abs(x_shift_additional - cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "sw":
-                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - _this.measurements.container_rect.left);
                     y_shift_additional = Math.abs(x_shift_additional + cell_len * 0.84); // > Replace with proper maths
                     break;
                 case "nw":
-                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - submod.measurements.container_rect.left);
+                    x_shift_additional = -Math.abs(foot_rect.left + shift_halfway.x + control_padding - container_padding - _this.measurements.container_rect.left);
                     y_shift_additional = -Math.abs(x_shift_additional + cell_len * 0.84); // > Replace with proper maths
                     break;
 
@@ -725,37 +725,37 @@ TRIPODS.mvt = (function (mod) {
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
             ];
 
-            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration * 1.75 }, callback)
+            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration * 1.75 }, callback)
         };
 
         function jumpBlock(foot, x_shift, y_shift, callback) {
-            TRIPODS.game_state.ignore_user_input = true;
+            _module.game_state.ignore_user_input = true;
 
-            TRIPODS.utils.fadeOut("#pivitor");
+            _module.utils.fadeOut("#pivitor");
 
-            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+            const translate_xy = _module.utils.getTranslateXY(foot);
 
             let keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
-            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, () => {
+            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
                 setTimeout(() => {
 
                     let keyframes = [
                         { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
                         { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
 
                     ];
 
-                    TRIPODS.utils.animate(foot, keyframes, {
-                        duration: mod.cfg.animation.jump_duration,
+                    _module.utils.animate(foot, keyframes, {
+                        duration: _module.cfg.animation.jump_duration,
                         delay: 10
                     }, () => {
-                        TRIPODS.utils.fadeIn("#pivitor");
+                        _module.utils.fadeIn("#pivitor");
                         if (typeof (callback) == "function") {
                             callback();
                         }
@@ -765,19 +765,19 @@ TRIPODS.mvt = (function (mod) {
         }
 
         function jumpVortex(foot, x_shift, y_shift, callback) {
-            TRIPODS.game_state.ignore_user_input = true;
+            _module.game_state.ignore_user_input = true;
 
-            TRIPODS.utils.fadeOut("#pivitor");
+            _module.utils.fadeOut("#pivitor");
 
-            const translate_xy = TRIPODS.utils.getTranslateXY(foot);
+            const translate_xy = _module.utils.getTranslateXY(foot);
 
             let keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${TRIPODS.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
-            TRIPODS.utils.animate(foot, keyframes, { duration: mod.cfg.animation.jump_duration }, () => {
+            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
                 if (typeof (callback) == "function") {
                     callback();
                 }
@@ -800,8 +800,8 @@ TRIPODS.mvt = (function (mod) {
         // Get angle between swiped foot and other two feet
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             if (el.getAttribute("id") !== foot_id) {
-                angles.push(TRIPODS.utils.getAngleEl(foot, el));
-                other_foot_coords.push(TRIPODS.utils.getCenterPoint(el));
+                angles.push(_module.utils.getAngleEl(foot, el));
+                other_foot_coords.push(_module.utils.getCenterPoint(el));
             }
         });
 
@@ -814,7 +814,7 @@ TRIPODS.mvt = (function (mod) {
         // Which direction to swipe in
         if (swipe_diagonally) {
 
-            const angle_swiped_and_A = parseInt(TRIPODS.utils.getAngleEl(foot, submod.getAFoot())); // Angle between swiped foot and foot at position A
+            const angle_swiped_and_A = parseInt(_module.utils.getAngleEl(foot, _this.getAFoot())); // Angle between swiped foot and foot at position A
 
             if (angle_swiped_and_A === -116) { // NW
                 x_shift = -cell_len * 3;
@@ -857,7 +857,7 @@ TRIPODS.mvt = (function (mod) {
             if (other_foot_coords[0].y === other_foot_coords[1].y) axis_to_check = 'y';
             else if (other_foot_coords[0].x === other_foot_coords[1].x) axis_to_check = 'x';
 
-            const foot_coords = TRIPODS.utils.getCenterPoint(foot); // Coords of swiped foot
+            const foot_coords = _module.utils.getCenterPoint(foot); // Coords of swiped foot
 
             if (axis_to_check === 'x') {
                 if (other_foot_coords[0].x < foot_coords.x) { // West
@@ -884,33 +884,33 @@ TRIPODS.mvt = (function (mod) {
 
         const boundary_check = boundaryIntersected(x_shift, y_shift);
 
-        const foot_center_point = TRIPODS.utils.getCenterPoint(foot);
+        const foot_center_point = _module.utils.getCenterPoint(foot);
         block_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift);
-        vortex_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift, TRIPODS.game_state.vortex_center_coords);
+        vortex_collide = collided(foot_center_point.x + x_shift, foot_center_point.y + y_shift, _module.game_state.vortex_center_coords);
 
         if (boundary_check) { // If swiped off the board
             jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
                 foot.style.zIndex = 1000; // Reset z-index
-                TRIPODS.game_state.ignore_user_input = false;
+                _module.game_state.ignore_user_input = false;
             });
         } else if (block_collide) {
             jumpBlock(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
-                TRIPODS.game_state.ignore_user_input = false;
+                _module.game_state.ignore_user_input = false;
             });
         } else if (vortex_collide) {
             jumpVortex(foot, x_shift, y_shift, () => {
                 // > Disable and hide hame button
                 // > Vortex animation
-                TRIPODS.level_builder.showLoseScreen(mod.cfg.svg_elements.vortex.lose_message);
+                _module.level_builder.showLoseScreen(_module.cfg.svg_elements.vortex.lose_message);
             });
         } else {
             jump(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
-                submod.calculatePivotState();
-                submod.repositionPivot(true);
+                _this.calculatePivotState();
+                _this.repositionPivot(true);
                 moveSuccess();
-                TRIPODS.game_state.ignore_user_input = false;
+                _module.game_state.ignore_user_input = false;
             });
 
             if (pivot_timeout !== undefined) {
@@ -918,10 +918,10 @@ TRIPODS.mvt = (function (mod) {
                 pivot_timeout = undefined;
             }
 
-            TRIPODS.utils.fadeOut("#pivitor");
+            _module.utils.fadeOut("#pivitor");
         }
     }
 
-    return submod;
+    return _this;
 
 }(TRIPODS || {}));
