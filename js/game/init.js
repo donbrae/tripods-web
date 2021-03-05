@@ -161,20 +161,20 @@ var TRIPODS = (function (_this) {
     _this.init = function () {
         function _extendConfig() { // Adds additional inheriting properties to config obj
             // foot2
-            _this.cfg.svg_elements.foot2 = TRIPODS.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot2);
-            _this.cfg.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot2.attributes);
+            _this.cfg.svg_elements.foot2 = _this.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot2);
+            _this.cfg.svg_elements.foot2.attributes = _this.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot2.attributes);
 
             // foot3
-            _this.cfg.svg_elements.foot3 = TRIPODS.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot3);
-            _this.cfg.svg_elements.foot3.attributes = TRIPODS.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot3.attributes);
+            _this.cfg.svg_elements.foot3 = _this.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot3);
+            _this.cfg.svg_elements.foot3.attributes = _this.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot3.attributes);
 
             // landing_foot2
-            _this.cfg.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot2);
-            _this.cfg.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot2.attributes);
+            _this.cfg.svg_elements.landing_foot2 = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot2);
+            _this.cfg.svg_elements.landing_foot2.attributes = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot2.attributes);
 
             // landing_foot3
-            _this.cfg.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot3);
-            _this.cfg.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot3.attributes);
+            _this.cfg.svg_elements.landing_foot3 = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot3);
+            _this.cfg.svg_elements.landing_foot3.attributes = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot3.attributes);
 
             _this.cfg.svg_elements.landing_foot1.classes.push("landing", "landing-1");
             _this.cfg.svg_elements.landing_foot2.classes.push("landing", "landing-2");
@@ -207,7 +207,7 @@ var TRIPODS = (function (_this) {
             _this.utils.fadeIn(".screen-level-select", undefined, true);
             const level_buttons_container = document.getElementById("level-buttons");
             level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
-            TRIPODS.events.addEventListeners();
+            _this.events.addEventListeners();
         });
 
         const stored_moves = window.localStorage.getItem("TRIPODS_moves");
@@ -238,8 +238,8 @@ var TRIPODS = (function (_this) {
         const level_buttons = level_buttons_container.querySelectorAll("button");
 
         _this.levels.forEach((_, i) => {
-            const moves = parseInt(TRIPODS.game_state.moves[i]);
-            const threshold = TRIPODS.levels[i][1]; // Threshold for ★★★ rating
+            const moves = parseInt(_this.game_state.moves[i]);
+            const threshold = _this.levels[i][1]; // Threshold for ★★★ rating
             let rating;
 
             if (!isNaN(moves) && moves <= threshold) {

@@ -1,4 +1,4 @@
-TRIPODS.utils = (function () {
+TRIPODS.utils = (function (_module) {
 
     "use strict";
 
@@ -113,7 +113,7 @@ TRIPODS.utils = (function () {
         if (element) {
             element.classList.remove("hide", "opacity-0");
             element.style.filter = "opacity(0)"; // Make sure the element isn't visible before fade in (i.e. if it's opacity is 1)
-            TRIPODS.utils.animate(element, [
+            _module.utils.animate(element, [
                 { filter: getComputedStyle(element).filter },
                 { filter: "opacity(1)" },
             ], { duration: duration }, callback);
@@ -124,7 +124,7 @@ TRIPODS.utils = (function () {
         const element = document.querySelector(selector);
 
         if (element) {
-            TRIPODS.utils.animate(element, [
+            _module.utils.animate(element, [
                 { filter: getComputedStyle(element).filter },
                 { filter: "opacity(0)" },
             ], { duration: duration }, () => {
@@ -159,4 +159,4 @@ TRIPODS.utils = (function () {
 
     return _this;
 
-}());
+}(TRIPODS || {}));

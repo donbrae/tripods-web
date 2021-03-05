@@ -2,9 +2,6 @@ var TRIPODS = (function (_this) {
 
     "use strict";
 
-    console.log(this);
-    console.log(_this);
-
     // Private functions
 
     function _addElement(el, layer_element, left, top) {
@@ -77,7 +74,7 @@ var TRIPODS = (function (_this) {
             let left = parseFloat(getComputedStyle(el)["left"]);
             let top = parseFloat(getComputedStyle(el)["top"]);
 
-            let new_side = side + TRIPODS.ui_attributes.control_padding * 2;
+            let new_side = side + _this.ui_attributes.control_padding * 2;
             let shunt = (new_side - side) / 2;
 
             el.style.width = `${new_side}px`;
@@ -89,8 +86,8 @@ var TRIPODS = (function (_this) {
             let shape_pos = parseFloat(el.querySelectorAll(":first-child")[0].getAttribute("cx"));
 
             if (!isNaN(shape_pos)) {
-                el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + TRIPODS.ui_attributes.control_padding);
-                el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + TRIPODS.ui_attributes.control_padding);
+                el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + _this.ui_attributes.control_padding);
+                el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + _this.ui_attributes.control_padding);
             }
         });
     }
@@ -226,7 +223,7 @@ var TRIPODS = (function (_this) {
 
         _addElement(_this.cfg.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
 
-        if (TRIPODS.tutorials.levels[_this.game_state.level]) {
+        if (_this.tutorials.levels[_this.game_state.level]) {
             _addElement(_this.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
             document.getElementById("tap").querySelector("text").innerHTML = "Tap";
         }

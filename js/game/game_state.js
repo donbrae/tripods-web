@@ -1,4 +1,4 @@
-TRIPODS.game_state = (function () {
+TRIPODS.game_state = (function (_module) {
 
     "use strict";
 
@@ -24,11 +24,11 @@ TRIPODS.game_state = (function () {
 
     _this.updateMoveCounter = function () {
 
-        TRIPODS.game_state.moves_made.push(TRIPODS.game_state.element_tapped);
+        _module.game_state.moves_made.push(_module.game_state.element_tapped);
 
-        if (TRIPODS.events.state.hold) { // If the pivot is being held, don't bother fading
+        if (_module.events.state.hold) { // If the pivot is being held, don't bother fading
             moves_span.innerText = _this.moves_made.length;
-        } else if (!TRIPODS.events.state.hold) {
+        } else if (!_module.events.state.hold) {
             // > fade out moves_span
             moves_span.innerText = _this.moves_made.length;
             // > fade in moves_span
@@ -45,42 +45,42 @@ TRIPODS.game_state = (function () {
 
         landing_2_3.length = 0;
 
-        landing_1_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
+        landing_1_xy = _module.utils.getCenterPoint(document.querySelector(".landing-1"));
 
         const landing_3 = document.querySelector(".landing-3");
 
         if (landing_3) {
-            landing_2_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-2"));
-            landing_3_xy = TRIPODS.utils.getCenterPoint(landing_3);
+            landing_2_xy = _module.utils.getCenterPoint(document.querySelector(".landing-2"));
+            landing_3_xy = _module.utils.getCenterPoint(landing_3);
         } else {
             Array.prototype.forEach.call(document.querySelectorAll(".landing-2"), function (el) {
-                landing_2_3.push(TRIPODS.utils.getCenterPoint(el));
+                landing_2_3.push(_module.utils.getCenterPoint(el));
             });
         }
     }
 
     // Store blocker coords (centre points)
     _this.getBlockerCoords = function() {
-        TRIPODS.game_state.block_center_coords.length = 0;
+        _module.game_state.block_center_coords.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
-            TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
+            _module.game_state.block_center_coords.push(_module.utils.getCenterPoint(block));
         });
     }
 
     // Store vortex cords coords (centre points)
     _this.getVortexCoords = function() {
-        TRIPODS.game_state.vortex_center_coords.length = 0;
+        _module.game_state.vortex_center_coords.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("vortex"), vortex => {
-            TRIPODS.game_state.vortex_center_coords.push(TRIPODS.utils.getCenterPoint(vortex));
+            _module.game_state.vortex_center_coords.push(_module.utils.getCenterPoint(vortex));
         });
     }
 
     _this.checkWin = function () {
 
         let win = false;
-        const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
-        const foot_2_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
-        const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
+        const foot_1_xy = _module.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
+        const foot_2_xy = _module.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
+        const foot_3_xy = _module.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
             return Math.abs(foot.x - landing.x) <= 10 && Math.abs(foot.y - landing.y) <= 10;
@@ -111,7 +111,7 @@ TRIPODS.game_state = (function () {
 
         _this.level_end = true;
 
-        // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
+        // clearTimeout(_module.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
 
@@ -129,8 +129,8 @@ TRIPODS.game_state = (function () {
                             colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
                             disableForReducedMotion: true,
                             origin: {
-                                x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
-                                y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
+                                x: _module.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
+                                y: _module.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
                             }
                         });
                     }
@@ -145,34 +145,34 @@ TRIPODS.game_state = (function () {
             });
         }
 
-        TRIPODS.utils.fadeOut(".layer-active");
-        TRIPODS.utils.fadeOut("#pivitor");
+        _module.utils.fadeOut(".layer-active");
+        _module.utils.fadeOut("#pivitor");
 
         const hame = ".info-panel > .hame";
-        TRIPODS.utils.fadeOut(hame, 100, false);
+        _module.utils.fadeOut(hame, 100, false);
         document.querySelector(hame).disabled = true;
 
         addWinEffect();
 
         // Store moves if it's the best so far
-        const moves = TRIPODS.game_state.moves_made.length;
-        const previous_best_moves = TRIPODS.game_state.moves[_this.level];
+        const moves = _module.game_state.moves_made.length;
+        const previous_best_moves = _module.game_state.moves[_this.level];
         if (previous_best_moves && moves < previous_best_moves || !previous_best_moves) {
-            TRIPODS.game_state.moves[_this.level] = moves;
+            _module.game_state.moves[_this.level] = moves;
         }
 
-        window.localStorage.setItem("TRIPODS_moves", TRIPODS.game_state.moves);
-        if (TRIPODS.game_state.level < (TRIPODS.levels.length - 1)) {
-            window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        window.localStorage.setItem("TRIPODS_moves", _module.game_state.moves);
+        if (_module.game_state.level < (_module.levels.length - 1)) {
+            window.localStorage.setItem("TRIPODS_level", _module.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
         }
 
         setTimeout(function () {
             _this.ignore_user_input = false;
-            TRIPODS.level_builder.showWinScreen(previous_best_moves);
+            _module.level_builder.showWinScreen(previous_best_moves);
             setTimeout(removeWinEffect, 1000);
         }, 1750);
     }
 
     return _this;
 
-}());
+}(TRIPODS || {}));
