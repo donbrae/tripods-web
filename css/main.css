@@ -67,9 +67,13 @@ h1 {
 }
 
 h2 {
-    font-size: 1em;
     color: rgba(34, 34, 34, 0.75);
     padding: 0 1rem;
+}
+
+button,
+h2 {
+    font-size: 0.9rem;
 }
 
 .screen-win,
@@ -98,18 +102,13 @@ svg.screen-level-select-title {
     max-width: 600px;
 }
 
-button,
-select {
-    border-radius: 1rem;
-    padding: 0.4rem 0.8rem;
-    line-height: 1.5;
-    font-size: 1.1rem;
-}
-
 button {
+    border-radius: 1rem;
+    line-height: 1.5;
     display: inline-block;
     border: none;
     margin: 0;
+    padding: 0.4rem 0.8rem;
     text-decoration: none;
     background-image: linear-gradient(120deg, #f073fe 0, #f53851 50%, #f073fe 100%);
     background-size: 200% auto;
@@ -117,12 +116,19 @@ button {
     font-family: inherit;
     font-weight: 600;
     cursor: pointer;
-    /* margin-right: 1rem; */
     text-align: center;
     transition: background 250ms ease-in-out,
         transform 150ms ease;
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+@media (min-width: 384px) {
+
+    button,
+    h2 {
+        font-size: 1.1rem;
+    }
 }
 
 button:hover,
@@ -198,7 +204,8 @@ select:focus {
     max-width: 750px;
     margin: 0 auto;
     overflow: scroll;
-    scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .flex-grid::-webkit-scrollbar {
@@ -232,6 +239,7 @@ select:focus {
     .flex-grid-item .level {
         font-size: 30px;
     }
+
     .flex-grid-item .rating {
         font-size: 14px;
     }
@@ -241,9 +249,11 @@ select:focus {
     .flex-grid {
         padding: 0 3rem;
     }
+
     .flex-grid-item .level {
         font-size: 36px;
     }
+
     .flex-grid-item .rating {
         font-size: 18px;
     }
@@ -253,12 +263,15 @@ select:focus {
     .flex-grid-item {
         width: 10.75%;
     }
+
     .flex-grid-item:not(:nth-child(8n)) {
         margin-right: 2%;
     }
+
     .flex-grid-item .level {
         font-size: 22px;
     }
+
     .flex-grid-item .rating {
         font-size: 12px;
     }
@@ -357,6 +370,22 @@ svg.control:hover {
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
+}
+
+.full-screen.screen-landscape {
+    background: #ffd1e0;
+}
+
+.screen-landscape {
+    z-index: 10000;
+}
+
+.screen-landscape h2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 70%;
 }
 
 .hide {
@@ -504,6 +533,7 @@ svg.control:hover {
     0% {
         transform: rotate(0);
     }
+
     100% {
         transform: rotate(360deg);
     }

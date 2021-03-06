@@ -98,6 +98,7 @@ TRIPODS.events = (function (_module) {
                 _module.game_state.getWinCoords(); // Recalculate landing spot coords
                 _module.game_state.getBlockerCoords(); // Recalculate blocker coords
                 _module.game_state.getVortexCoords(); // Recalculate vortex coords
+                _module.utils.handleOrientation();
             }
 
             // Window resize

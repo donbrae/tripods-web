@@ -61,7 +61,7 @@ var TRIPODS = (function (_this) {
                     fill: "#fff",
                     d: "M13.66,5.79A13.73,13.73,0,0,1,24,8.36C22.26,4.08,17.55,1,12,1,7.1,1,2.92,4.08,2.14,8.27s2.16,8.83,8.21,9.92A13.76,13.76,0,0,1,0,15.61C1.73,19.91,6.45,23,12,23h.3c4.83-.1,8.89-3.17,9.64-7.3S19.75,6.88,13.66,5.79Z"
                 },
-                lose_message: "Ach, sorry, the tripod was souked into a vortex.<br>Make sure to avoid the vortices as you move to the landing spots."
+                lose_message: "Ach, the tripod was souked into a vortex.<br><br>Make sure to avoid the vortices as you move to the landing spots."
             },
             landing_foot1: { // Inherits color from foot1
                 name: 'landing_foot1',
@@ -207,6 +207,7 @@ var TRIPODS = (function (_this) {
             const level_buttons_container = document.getElementById("level-buttons");
             level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
             _this.events.addEventListeners();
+            _this.utils.handleOrientation();
         });
 
         const stored_moves = window.localStorage.getItem("TRIPODS_moves");

@@ -164,6 +164,20 @@ TRIPODS.utils = (function (_module) {
             (navigator.maxTouchPoints && /Mac/.test(navigator.platform)); // iPad running 'desktop' Safari
     }
 
+    // When/if iOS supports `"orientation": "portrait"` in manifest file, we can remove this function
+    _this.handleOrientation = function() {
+        const landscape = window.innerHeight < window.innerWidth;
+        const max_width_portrait = 1024; // Landscape is fine on touch-enabled devices with at least this width (e.g. iPads Pro)
+
+        if (navigator.maxTouchPoints && landscape && window.innerWidth <= max_width_portrait) {
+            _module.utils.fadeIn(".screen-landscape", 80);
+        } else if (navigator.maxTouchPoints) {
+            _module.utils.fadeOut(".screen-landscape", 80, true);
+            const level_buttons_container = document.getElementById("level-buttons");
+            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
+        }
+    }
+
     return _this;
 
 }(TRIPODS || {}));
