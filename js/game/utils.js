@@ -170,12 +170,17 @@ TRIPODS.utils = (function (_module) {
         const max_width_portrait = 1024; // Landscape is fine on touch-enabled devices with at least this width (e.g. iPads Pro)
 
         if (navigator.maxTouchPoints && landscape && window.innerWidth <= max_width_portrait) {
-            _module.utils.fadeIn(".screen-landscape", 80);
+            _this.fadeIn(".screen-landscape", 80);
         } else if (navigator.maxTouchPoints) {
-            _module.utils.fadeOut(".screen-landscape", 80, true);
-            const level_buttons_container = document.getElementById("level-buttons");
-            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
+            _this.fadeOut(".screen-landscape", 80, true);
+            _this.setLevelSelectGridHeight();
         }
+    }
+
+    _this.setLevelSelectGridHeight = function() {
+        const level_buttons_container = document.getElementById("level-buttons");
+        level_buttons_container.style.maxHeight = 0;
+        level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
     }
 
     return _this;

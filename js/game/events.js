@@ -62,7 +62,7 @@ TRIPODS.events = (function (_module) {
                     _module.utils.fadeOut(".screen-lose", 180);
 
                     setTimeout(() => {
-                        _module.utils.fadeIn(".screen-level-select");
+                        _module.utils.fadeIn(".screen-level-select", undefined, undefined, _module.utils.setLevelSelectGridHeight);
                     }, 180);
                 });
                 buttonDisabledFalse(e.target);

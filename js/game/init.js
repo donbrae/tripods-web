@@ -204,8 +204,7 @@ var TRIPODS = (function (_this) {
 
         _this.utils.fadeOut(".blank-overlay", undefined, true, function () {
             _this.utils.fadeIn(".screen-level-select", undefined, true);
-            const level_buttons_container = document.getElementById("level-buttons");
-            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
+            _this.utils.setLevelSelectGridHeight();
             _this.events.addEventListeners();
             _this.utils.handleOrientation();
         });
