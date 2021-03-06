@@ -123,8 +123,7 @@ button {
     -moz-appearance: none;
 }
 
-@media (min-width: 384px) {
-
+@media (min-width: 375px) {
     button,
     h2 {
         font-size: 1.1rem;
