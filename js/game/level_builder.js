@@ -1,21 +1,22 @@
-TRIPODS.level_builder = (function (mod) {
+TRIPODS.level_builder = (function (_module) {
 
     "use strict";
 
-    const submod = {};
+    const _this = {};
 
-    submod.runLevel = function () {
-        TRIPODS.mvt.repositionPivot(true, 1000);
-        TRIPODS.mvt.getMeasurements(); // Set UI measurements
-        TRIPODS.mvt.calculatePivotState();
-        TRIPODS.game_state.getWinCoords();
-        TRIPODS.game_state.getBlockerCoords();
+    _this.runLevel = function () {
+        _module.mvt.repositionPivot(true, 1000);
+        _module.mvt.getMeasurements(); // Set UI measurements
+        _module.mvt.calculatePivotState();
+        _module.game_state.getWinCoords();
+        _module.game_state.getBlockerCoords();
+        _module.game_state.getVortexCoords();
 
-        if (TRIPODS.tutorials.levels[mod.game_state.level]) {
-            mod.game_state.tutorial_running = true;
+        if (_module.tutorials.levels[_module.game_state.level]) {
+            _module.game_state.tutorial_running = true;
         }
 
-        TRIPODS.game_state.ignore_user_input = true;
+        _module.game_state.ignore_user_input = true;
         let delay = 120;
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
             setTimeout(function () {
@@ -29,61 +30,63 @@ TRIPODS.level_builder = (function (mod) {
                 foot.classList.remove("flash");
             });
 
-            TRIPODS.game_state.ignore_user_input = false;
+            _module.game_state.ignore_user_input = false;
 
-            if (mod.game_state.tutorial_running) {
-                mod.tutorials.placeTutorialElement();
+            if (_module.game_state.tutorial_running) {
+                _module.tutorials.placeTutorialElement();
             }
 
-            if (mod.cfg.logging) mod.utils.log("Test log message");
+            if (_module.cfg.logging) _module.utils.log("Test log message");
         }, 1220);
 
     }
 
-    submod.addUI = function () {
-        TRIPODS.addElements(); // Add elements to grid
-        TRIPODS.events.addEventListeners(); // Add event handlers
+    _this.addUI = function () {
+        _module.addElements(); // Add elements to grid
+        _module.events.addEventListeners(); // Add event handlers
 
-        const level = parseInt(TRIPODS.game_state.level);
+        const level = parseInt(_module.game_state.level);
 
         document.querySelector('h2.level span').innerText = level + 1; // Add level
         document.querySelector('h2.moves span.current').innerText = "0";
 
-        const moves = TRIPODS.game_state.moves[level]; // Any previous best moves for this level
+        const moves = _module.game_state.moves[level]; // Any previous best moves for this level
         if (moves) {
             document.querySelector('h2.moves span.best').innerText = `(Best: ${moves})`;
         } else {
             document.querySelector('h2.moves span.best').innerText = "";
         }
 
-        window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level); // Store current level in localStorage
+        window.localStorage.setItem("TRIPODS_level", _module.game_state.level); // Store current level in localStorage
 
         const last_layer = document.querySelector(".container > .layer:last-of-type");
         last_layer.classList.add("layer-active"); // Add 'layer-active' class to top layer
 
         setTimeout(() => {
-            TRIPODS.utils.fadeOut(".screen-level-select", undefined, true); // On start
-            TRIPODS.utils.fadeOut(".screen-win", undefined, true); // Level win
+            _module.utils.fadeOut(".screen-level-select", undefined, true); // On start
+            _module.utils.fadeOut(".screen-win", undefined, true); // Level win
+            _module.utils.fadeOut(".screen-lose", undefined, true); // Level lose
         }, 80);
 
         setTimeout(() => {
             const hame = ".info-panel > .hame";
-            TRIPODS.utils.fadeIn(hame, 100);
+            _module.utils.fadeIn(hame, 100);
             document.querySelector(hame).disabled = false;
 
-            TRIPODS.utils.fadeIn(".container-game", undefined, () => {
-                submod.runLevel();
+            _module.utils.fadeIn(".container-game", undefined, () => {
+                _this.runLevel();
             });
         }, 300);
     }
 
-    submod.reset = function (callback) {
-        TRIPODS.game_state.block_center_coords.length = 0; // Reset block data
-        TRIPODS.game_state.level_win = false;
-        TRIPODS.game_state.tutorial_running = false;
-        TRIPODS.game_state.moves_made.length = 0; // Empty array
-        TRIPODS.game_state.element_tapped = "";
-        TRIPODS.utils.fadeOut(".container-game", undefined, undefined, () => {
+    _this.reset = function (callback) {
+        _module.game_state.block_center_coords.length = 0; // Reset vortex data
+        _module.game_state.vortex_center_coords.length = 0; // Reset block data
+        _module.game_state.level_end = false;
+        _module.game_state.tutorial_running = false;
+        _module.game_state.moves_made.length = 0; // Empty array
+        _module.game_state.element_tapped = "";
+        _module.utils.fadeOut(".container-game", undefined, undefined, () => {
             Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
                 el.parentNode.removeChild(el);
             });
@@ -92,15 +95,13 @@ TRIPODS.level_builder = (function (mod) {
         });
     }
 
-    submod.showWinScreen = function (previous_best) {
+    _this.showWinScreen = function (previous_best) {
         setTimeout(function () {
-            let moves = TRIPODS.game_state.moves_made.length;
-
-            console.log(previous_best);
+            let moves = _module.game_state.moves_made.length;
 
             document.querySelector(".screen-win h2 span.moves").innerText = moves; // Print number of moves
 
-            const threshold = TRIPODS.levels[TRIPODS.game_state.level][1]; // Threshold for ★★★ rating
+            const threshold = _module.levels[_module.game_state.level][1]; // Threshold for ★★★ rating
             let rating;
 
             if (moves <= threshold) {
@@ -114,7 +115,7 @@ TRIPODS.level_builder = (function (mod) {
             document.querySelector(".screen-win .rating").innerHTML = rating; // Print rating
 
             if (previous_best && moves < previous_best) { // Best previous moves
-                TRIPODS.game_state.moves[submod.level] = moves;
+                _module.game_state.moves[_this.level] = moves;
                 document.querySelector(".screen-win h2 span.best").innerText = "No bad: that’s a new personal record!";
             } else if (previous_best && moves > previous_best) {
                 document.querySelector(".screen-win h2 span.best").innerText = `(Your record is ${previous_best} moves.)`;
@@ -125,17 +126,24 @@ TRIPODS.level_builder = (function (mod) {
             }
 
             const next_level = document.querySelector(".next-level");
-            if (TRIPODS.game_state.level === TRIPODS.levels.length - 1 && next_level) {
+            if (_module.game_state.level === _module.levels.length - 1 && next_level) {
                 next_level.classList.add("hide");
             } else {
                 next_level.classList.remove("hide");
             }
 
-            TRIPODS.utils.fadeOut(".container-game");
-            TRIPODS.utils.fadeIn(".screen-win");
+            _module.utils.fadeOut(".container-game");
+            _module.utils.fadeIn(".screen-win");
         }, 500);
     }
 
-    return submod;
+    _this.showLoseScreen = function (message) {
+        document.querySelector(".screen-lose > h2").innerHTML = message;
+        _module.utils.fadeIn(".screen-lose", undefined, () => {
+            _module.game_state.ignore_user_input = false;
+        });
+    }
+
+    return _this;
 
 }(TRIPODS || {}));

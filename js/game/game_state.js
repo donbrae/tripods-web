@@ -1,14 +1,15 @@
-TRIPODS.game_state = (function () {
+TRIPODS.game_state = (function (_module) {
 
     "use strict";
 
-    const submod = {
+    const _this = {
         initialised: false,
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0, // Also stored in TRIPODS_level in localStorage
-        level_win: false,
+        level_end: false,
         block_center_coords: [],
+        vortex_center_coords: [],
         tutorial_running: false,
         element_tapped: "", // Selector of most recent element tapped
         moves: [] // Also stored in TRIPODS_moves in localStorage
@@ -21,22 +22,22 @@ TRIPODS.game_state = (function () {
     let landing_2_xy; // Landing 2 center
     let landing_3_xy; // Landing 3 center
 
-    submod.updateMoveCounter = function () {
+    _this.updateMoveCounter = function () {
 
-        TRIPODS.game_state.moves_made.push(TRIPODS.game_state.element_tapped);
+        _module.game_state.moves_made.push(_module.game_state.element_tapped);
 
-        if (TRIPODS.events.state.hold) { // If the pivot is being held, don't bother fading
-            moves_span.innerText = submod.moves_made.length;
-        } else if (!TRIPODS.events.state.hold) {
+        if (_module.events.state.hold) { // If the pivot is being held, don't bother fading
+            moves_span.innerText = _this.moves_made.length;
+        } else if (!_module.events.state.hold) {
             // > fade out moves_span
-            moves_span.innerText = submod.moves_made.length;
+            moves_span.innerText = _this.moves_made.length;
             // > fade in moves_span
-            submod.pivot_hold = 0;
+            _this.pivot_hold = 0;
 
         }
     }
 
-    submod.getWinCoords = function () { // Store target center points
+    _this.getWinCoords = function () { // Store target center points
 
         if (!document.querySelectorAll(".landing").length) {
             return false;
@@ -44,34 +45,42 @@ TRIPODS.game_state = (function () {
 
         landing_2_3.length = 0;
 
-        landing_1_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-1"));
+        landing_1_xy = _module.utils.getCenterPoint(document.querySelector(".landing-1"));
 
         const landing_3 = document.querySelector(".landing-3");
 
         if (landing_3) {
-            landing_2_xy = TRIPODS.utils.getCenterPoint(document.querySelector(".landing-2"));
-            landing_3_xy = TRIPODS.utils.getCenterPoint(landing_3);
+            landing_2_xy = _module.utils.getCenterPoint(document.querySelector(".landing-2"));
+            landing_3_xy = _module.utils.getCenterPoint(landing_3);
         } else {
             Array.prototype.forEach.call(document.querySelectorAll(".landing-2"), function (el) {
-                landing_2_3.push(TRIPODS.utils.getCenterPoint(el));
+                landing_2_3.push(_module.utils.getCenterPoint(el));
             });
         }
     }
 
     // Store blocker coords (centre points)
-    submod.getBlockerCoords = function() {
-        TRIPODS.game_state.block_center_coords.length = 0;
+    _this.getBlockerCoords = function() {
+        _module.game_state.block_center_coords.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("block"), block => {
-            TRIPODS.game_state.block_center_coords.push(TRIPODS.utils.getCenterPoint(block));
+            _module.game_state.block_center_coords.push(_module.utils.getCenterPoint(block));
         });
     }
 
-    submod.checkWin = function () {
+    // Store vortex cords coords (centre points)
+    _this.getVortexCoords = function() {
+        _module.game_state.vortex_center_coords.length = 0;
+        Array.prototype.forEach.call(document.getElementsByClassName("vortex"), vortex => {
+            _module.game_state.vortex_center_coords.push(_module.utils.getCenterPoint(vortex));
+        });
+    }
+
+    _this.checkWin = function () {
 
         let win = false;
-        const foot_1_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
-        const foot_2_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
-        const foot_3_xy = TRIPODS.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
+        const foot_1_xy = _module.utils.getCenterPoint(document.getElementById("foot1")); // Foot 1 center
+        const foot_2_xy = _module.utils.getCenterPoint(document.getElementById("foot2")); // Foot 2 center
+        const foot_3_xy = _module.utils.getCenterPoint(document.getElementById("foot3")); // Foot 3 center
 
         function landed(foot, landing) {
             return Math.abs(foot.x - landing.x) <= 10 && Math.abs(foot.y - landing.y) <= 10;
@@ -92,17 +101,17 @@ TRIPODS.game_state = (function () {
             win = true;
         }
 
-        if (win) {// If all feet are on target
-            submod.ignore_user_input = true;
+        if (win) { // If all feet are on target
+            _this.ignore_user_input = true;
             setTimeout(onWin, 60);
         }
     }
 
     function onWin() { // Function to run on win
 
-        submod.level_win = true;
+        _this.level_end = true;
 
-        // clearTimeout(TRIPODS.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
+        // clearTimeout(_module.events.state.hold_interval); // If user is has pivitor held, stop repeated calls to pivot function
 
         function addWinEffect() {
 
@@ -120,8 +129,8 @@ TRIPODS.game_state = (function () {
                             colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
                             disableForReducedMotion: true,
                             origin: {
-                                x: TRIPODS.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
-                                y: TRIPODS.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
+                                x: _module.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,
+                                y: _module.utils.getCenterPoint(el).y / window.innerHeight * 100 / 100
                             }
                         });
                     }
@@ -136,38 +145,31 @@ TRIPODS.game_state = (function () {
             });
         }
 
-        TRIPODS.utils.fadeOut(".layer-active");
-        TRIPODS.utils.fadeOut("#pivitor");
-
-        const hame = ".info-panel > .hame";
-        TRIPODS.utils.fadeOut(hame, 100, false);
-        document.querySelector(hame).disabled = true;
+        _module.utils.fadeOut(".layer-active");
+        _module.utils.fadeOut("#pivitor");
+        _module.utils.fadeOutAndDisable(".info-panel > .hame");
 
         addWinEffect();
 
         // Store moves if it's the best so far
-        const moves = TRIPODS.game_state.moves_made.length;
-        const previous_best_moves = TRIPODS.game_state.moves[submod.level];
+        const moves = _module.game_state.moves_made.length;
+        const previous_best_moves = _module.game_state.moves[_this.level];
         if (previous_best_moves && moves < previous_best_moves || !previous_best_moves) {
-            TRIPODS.game_state.moves[submod.level] = moves;
+            _module.game_state.moves[_this.level] = moves;
         }
 
-        window.localStorage.setItem("TRIPODS_moves", TRIPODS.game_state.moves);
-        if (TRIPODS.game_state.level < (TRIPODS.levels.length - 1)) {
-            window.localStorage.setItem("TRIPODS_level", TRIPODS.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
+        window.localStorage.setItem("TRIPODS_moves", _module.game_state.moves);
+        if (_module.game_state.level < (_module.levels.length - 1)) {
+            window.localStorage.setItem("TRIPODS_level", _module.game_state.level + 1); // Store next level in localStorage so that if user goes back to the launch screen the next level will be shown in the <select>
         }
 
         setTimeout(function () {
-            submod.ignore_user_input = false;
-            TRIPODS.level_builder.showWinScreen(previous_best_moves);
-            setTimeout(function () {
-                TRIPODS.utils.fadeIn("#pivitor");
-                TRIPODS.utils.fadeIn(".layer-active");
-                removeWinEffect();
-            }, 1000);
+            _this.ignore_user_input = false;
+            _module.level_builder.showWinScreen(previous_best_moves);
+            setTimeout(removeWinEffect, 1000);
         }, 1750);
     }
 
-    return submod;
+    return _this;
 
-}());
+}(TRIPODS || {}));

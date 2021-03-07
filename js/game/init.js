@@ -1,8 +1,8 @@
-var TRIPODS = (function (mod) {
+var TRIPODS = (function (_this) {
 
     "use strict";
 
-    mod.cfg = {
+    _this.cfg = {
         // SVG elements for placement on grid
         svg_elements: {
             empty: null,
@@ -32,6 +32,7 @@ var TRIPODS = (function (mod) {
                 name: 'foot3',
                 id: 'foot3'
             },
+            // https://iconmonstr.com/weather-84-svg/
             /*damager: {
               name: 'damager',
               shape: 'polygon',
@@ -41,7 +42,6 @@ var TRIPODS = (function (mod) {
               }
             },*/
             block: { // https://iconmonstr.com/cube-3-svg/
-                block: true,
                 name: 'block',
                 shape: 'path',
                 classes: ["block"],
@@ -50,17 +50,25 @@ var TRIPODS = (function (mod) {
                     fill: "#5496ff",
                     d: "M12 0l-11 6v12.131l11 5.869 11-5.869v-12.066l-11-6.065zm7.91 6.646l-7.905 4.218-7.872-4.294 7.862-4.289 7.915 4.365zm-6.91 14.554v-8.6l8-4.269v8.6l-8 4.269z",
                     opacity: 0.9
-                    // x: 0,
-                    // y: 0,
-                    // fill: '#3a86ff'
                 }
+            },
+            vortex: { // https://iconmonstr.com/weather-84-svg/
+                name: 'vortex',
+                shape: 'path',
+                classes: ["vortex", "swirl"],
+                viewBox: "0 0 24 24",
+                attributes: { // width and height set dynamically
+                    fill: "#fff",
+                    d: "M13.66,5.79A13.73,13.73,0,0,1,24,8.36C22.26,4.08,17.55,1,12,1,7.1,1,2.92,4.08,2.14,8.27s2.16,8.83,8.21,9.92A13.76,13.76,0,0,1,0,15.61C1.73,19.91,6.45,23,12,23h.3c4.83-.1,8.89-3.17,9.64-7.3S19.75,6.88,13.66,5.79Z"
+                },
+                lose_message: "Ach, the tripod was souked into a vortex.<br><br>Make sure to avoid the vortices as you move to the landing spots."
             },
             landing_foot1: { // Inherits color from foot1
                 name: 'landing_foot1',
                 shape: 'circle',
                 classes: [], // `classes` property requires at least a blank array
                 attributes: { // r, cx and cy set dynamically
-                    'stroke-width': 4, // Used as input for later calculation. Original value stored in mod.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
+                    'stroke-width': 4, // Used as input for later calculation. Original value stored in _this.ui_attributes.landing_stroke_width. The value here is round about what it should be for an iPhone 5/SE
                     'fill-opacity': 0,
                     opacity: 0.7
                 }
@@ -74,7 +82,6 @@ var TRIPODS = (function (mod) {
                 classes: [], // `classes` property requires at least a blank array
             },
             pivitor: { // https://iconmonstr.com/redo-3-svg/
-                control: true,
                 name: 'pivitor',
                 id: 'pivitor',
                 shape: 'path',
@@ -107,13 +114,13 @@ var TRIPODS = (function (mod) {
                 viewBox: "0 0 20.7 14.6",
                 shapes: [
                     {
-                        shape: "text",
+                        shape: "text", // innerText set in addElements()
                         attributes: {
-                            x: 4,
-                            y: 9.6,
+                            x: 3.9,
+                            y: 9.3,
                             fill: "#222",
                             "font-size": "8px",
-                            "font-weight": "500"
+                            "font-weight": 500
                         }
                     },
                     {
@@ -140,48 +147,49 @@ var TRIPODS = (function (mod) {
             jump_duration: 175
         },
         grid_max_dimensions: 700,
-        control_padding: 8, // (px) Used as input for later calculation. Result stored in mod.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
+        control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
         logging: false
     }
 
-    mod.ui_attributes = {
+    _this.ui_attributes = {
         cell_dimensions: 0, // Width and height of (square) SVG element
         control_padding: 0,
         landing_stroke_width: 0 // Original value for reference. Keep default as 0
     };
 
-    mod.init = function () {
+    _this.init = function () {
         function _extendConfig() { // Adds additional inheriting properties to config obj
             // foot2
-            mod.cfg.svg_elements.foot2 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1, mod.cfg.svg_elements.foot2);
-            mod.cfg.svg_elements.foot2.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1.attributes, mod.cfg.svg_elements.foot2.attributes);
+            _this.cfg.svg_elements.foot2 = _this.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot2);
+            _this.cfg.svg_elements.foot2.attributes = _this.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot2.attributes);
 
             // foot3
-            mod.cfg.svg_elements.foot3 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1, mod.cfg.svg_elements.foot3);
-            mod.cfg.svg_elements.foot3.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.foot1.attributes, mod.cfg.svg_elements.foot3.attributes);
+            _this.cfg.svg_elements.foot3 = _this.utils.extend({}, _this.cfg.svg_elements.foot1, _this.cfg.svg_elements.foot3);
+            _this.cfg.svg_elements.foot3.attributes = _this.utils.extend({}, _this.cfg.svg_elements.foot1.attributes, _this.cfg.svg_elements.foot3.attributes);
 
             // landing_foot2
-            mod.cfg.svg_elements.landing_foot2 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1, mod.cfg.svg_elements.landing_foot2);
-            mod.cfg.svg_elements.landing_foot2.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1.attributes, mod.cfg.svg_elements.landing_foot2.attributes);
+            _this.cfg.svg_elements.landing_foot2 = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot2);
+            _this.cfg.svg_elements.landing_foot2.attributes = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot2.attributes);
 
             // landing_foot3
-            mod.cfg.svg_elements.landing_foot3 = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1, mod.cfg.svg_elements.landing_foot3);
-            mod.cfg.svg_elements.landing_foot3.attributes = TRIPODS.utils.extend({}, mod.cfg.svg_elements.landing_foot1.attributes, mod.cfg.svg_elements.landing_foot3.attributes);
+            _this.cfg.svg_elements.landing_foot3 = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1, _this.cfg.svg_elements.landing_foot3);
+            _this.cfg.svg_elements.landing_foot3.attributes = _this.utils.extend({}, _this.cfg.svg_elements.landing_foot1.attributes, _this.cfg.svg_elements.landing_foot3.attributes);
 
-            mod.cfg.svg_elements.landing_foot1.classes.push("landing", "landing-1");
-            mod.cfg.svg_elements.landing_foot2.classes.push("landing", "landing-2");
-            mod.cfg.svg_elements.landing_foot3.classes.push("landing", "landing-3");
+            _this.cfg.svg_elements.landing_foot1.classes.push("landing", "landing-1");
+            _this.cfg.svg_elements.landing_foot2.classes.push("landing", "landing-2");
+            _this.cfg.svg_elements.landing_foot3.classes.push("landing", "landing-3");
 
             // Links elements to arrangement
-            mod.cfg.linking = [
-                mod.cfg.svg_elements.empty, // 0
-                mod.cfg.svg_elements.foot1, // 1
-                mod.cfg.svg_elements.foot2, // 2
-                mod.cfg.svg_elements.foot3, // 3
-                mod.cfg.svg_elements.block, // 4
-                mod.cfg.svg_elements.landing_foot1, // 5
-                mod.cfg.svg_elements.landing_foot2, // 6
-                mod.cfg.svg_elements.landing_foot3 // 7
+            _this.cfg.linking = [
+                _this.cfg.svg_elements.empty, // 0
+                _this.cfg.svg_elements.foot1, // 1
+                _this.cfg.svg_elements.foot2, // 2
+                _this.cfg.svg_elements.foot3, // 3
+                _this.cfg.svg_elements.block, // 4
+                _this.cfg.svg_elements.landing_foot1, // 5
+                _this.cfg.svg_elements.landing_foot2, // 6
+                _this.cfg.svg_elements.landing_foot3, // 7
+                _this.cfg.svg_elements.vortex // 8
             ]
         };
 
@@ -194,43 +202,42 @@ var TRIPODS = (function (mod) {
         _extendConfig();
         _initConfettiCanvas();
 
-        mod.utils.fadeOut(".blank-overlay", undefined, true, function () {
-            mod.utils.fadeIn(".screen-level-select", undefined, true);
-            const level_buttons_container = document.getElementById("level-buttons");
-            level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height
-            TRIPODS.events.addEventListeners();
+        _this.utils.fadeOut(".blank-overlay", undefined, true, function () {
+            _this.utils.fadeIn(".screen-level-select", undefined, true);
+            _this.events.addEventListeners();
+            _this.utils.handleOrientation();
         });
 
         const stored_moves = window.localStorage.getItem("TRIPODS_moves");
         if (stored_moves) {
-            mod.game_state.moves = stored_moves.split(",");
+            _this.game_state.moves = stored_moves.split(",");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
         let index;
         if (level) {
-            mod.game_state.level = level;
+            _this.game_state.level = level;
             index = level + 1;
         } else {
             index = 1;
         }
 
-        mod.addLevelSelect(index);
+        _this.addLevelSelect(index);
 
-        if (mod.cfg.logging) {
+        if (_this.cfg.logging) {
             document.querySelector(".log").innerHTML = "";
         }
 
-        if (mod.cfg.logging) mod.utils.log("Test log message");
+        if (_this.cfg.logging) _this.utils.log("Test log message");
     }
 
-    mod.addLevelSelect = function () {
+    _this.addLevelSelect = function () {
         const level_buttons_container = document.getElementById("level-buttons");
         const level_buttons = level_buttons_container.querySelectorAll("button");
 
-        mod.levels.forEach((_, i) => {
-            const moves = parseInt(TRIPODS.game_state.moves[i]);
-            const threshold = TRIPODS.levels[i][1]; // Threshold for ★★★ rating
+        _this.levels.forEach((_, i) => {
+            const moves = parseInt(_this.game_state.moves[i]);
+            const threshold = _this.levels[i][1]; // Threshold for ★★★ rating
             let rating;
 
             if (!isNaN(moves) && moves <= threshold) {
@@ -251,6 +258,6 @@ var TRIPODS = (function (mod) {
         });
     }
 
-    return mod;
+    return _this;
 
 }(TRIPODS || {}));

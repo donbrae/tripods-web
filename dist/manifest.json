@@ -1,6 +1,7 @@
 {
  "name": "Tripods",
  "display": "standalone",
+ "orientation": "portrait",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",

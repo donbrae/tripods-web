@@ -52,6 +52,13 @@
             </div>
         </div>
 
+        <div class="screen-lose full-screen hide">
+            <h2>{{ message }}</h2>
+            <div class="mt-2">
+                <button class="replay">Try again</button><button class="next-level">Next Level</button><button class="hame subtle">Hame</button>
+            </div>
+        </div>
+
         <div class="screen-level-select full-screen hide">
             <!-- https://maketext.io/ -->
             <svg class="screen-level-select-title" xmlns="http://www.w3.org/2000/svg"
@@ -82,14 +89,18 @@
             </svg>
 
             <p>Manoeuvre the tripod to the landing spots in as few moves as you can.</p>
-            <p>Tap the centre to pivot and the feet to jump.</p>
+            <p>Tap the centre to pivot and feet&nbsp;to&nbsp;jump.</p>
             <h2>Select a level:</h2>
             <div class="flex-grid" id="level-buttons">
             </div>
-            <!-- <div class="indicate-scroll"></div> -->
+            <footer>© Copyright Jamie Smith, 2013–2021. All rights reserved. <a href="#">Privacy&nbsp;policy</a>.</footer>
         </div>
 
         <div class="blank-overlay full-screen"></div>
+
+        <div class="screen-landscape full-screen hide">
+            <h2>This game works best in portrait orientation.</h2>
+        </div>
 
         <div class="container-game hide">
             <div class="container" id="container-grid">
