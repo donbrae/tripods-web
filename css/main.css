@@ -4,9 +4,9 @@ html {
 
 html,
 body {
-    touch-action: none;
+    /* touch-action: none;
     -webkit-user-select: none;
-    user-select: none;
+    user-select: none; */
 }
 
 body {
