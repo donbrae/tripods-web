@@ -178,6 +178,7 @@ TRIPODS.utils = (function (_module) {
     }
 
     _this.setLevelSelectGridHeight = function() {
+        console.log("setLevelSelectGridHeight()", Date.now());
         const level_buttons_container = document.getElementById("level-buttons");
         level_buttons_container.style.maxHeight = 0;
         level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y}px`; // Set level select grid max height

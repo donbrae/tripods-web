@@ -204,7 +204,6 @@ var TRIPODS = (function (_this) {
 
         _this.utils.fadeOut(".blank-overlay", undefined, true, function () {
             _this.utils.fadeIn(".screen-level-select", undefined, true);
-            _this.utils.setLevelSelectGridHeight();
             _this.events.addEventListeners();
             _this.utils.handleOrientation();
         });

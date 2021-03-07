@@ -62,7 +62,7 @@ TRIPODS.events = (function (_module) {
                     _module.utils.fadeOut(".screen-lose", 180);
 
                     setTimeout(() => {
-                        _module.utils.fadeIn(".screen-level-select", undefined, undefined, _module.utils.setLevelSelectGridHeight);
+                        _module.utils.fadeIn(".screen-level-select", undefined, _module.utils.setLevelSelectGridHeight);
                     }, 180);
                 });
                 buttonDisabledFalse(e.target);
@@ -94,6 +94,7 @@ TRIPODS.events = (function (_module) {
             }, false);
 
             function resize() {
+                console.log("resize()", Date.now());
                 _module.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 _module.game_state.getWinCoords(); // Recalculate landing spot coords
                 _module.game_state.getBlockerCoords(); // Recalculate blocker coords
@@ -108,7 +109,7 @@ TRIPODS.events = (function (_module) {
                     clearTimeout(resize_timeout);
                 }
 
-                resize_timeout = setTimeout(resize, 180);
+                resize_timeout = setTimeout(resize, 120);
             });
 
             _module.game_state.initialised = true; // Set initialised flag
