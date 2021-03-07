@@ -94,7 +94,6 @@ TRIPODS.events = (function (_module) {
             }, false);
 
             function resize() {
-                console.log("resize()", Date.now());
                 _module.mvt.getMeasurements(); // Recalculate UI measurements on window resize
                 _module.game_state.getWinCoords(); // Recalculate landing spot coords
                 _module.game_state.getBlockerCoords(); // Recalculate blocker coords

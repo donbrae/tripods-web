@@ -114,7 +114,6 @@ TRIPODS.mvt = (function (_module) {
 
         // Animate other foot
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-            console.log(foot.getAttribute("id"));
             if (foot.getAttribute("id") !== vortex_data.foot_id) {
                 const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
                 const foot_center = _module.utils.getCenterPoint(foot); // xy of foot centre point

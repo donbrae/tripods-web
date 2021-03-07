@@ -99,8 +99,6 @@ TRIPODS.level_builder = (function (_module) {
         setTimeout(function () {
             let moves = _module.game_state.moves_made.length;
 
-            console.log(previous_best);
-
             document.querySelector(".screen-win h2 span.moves").innerText = moves; // Print number of moves
 
             const threshold = _module.levels[_module.game_state.level][1]; // Threshold for ★★★ rating

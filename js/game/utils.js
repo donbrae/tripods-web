@@ -169,18 +169,16 @@ TRIPODS.utils = (function (_module) {
         const landscape = window.innerHeight < window.innerWidth;
         const max_width_portrait = 1024; // Landscape is fine on touch-enabled devices with at least this width (e.g. iPads Pro)
 
-        if (navigator.maxTouchPoints && landscape && window.innerWidth <= max_width_portrait) {
+        if (landscape && window.innerWidth <= max_width_portrait) {
             _this.fadeIn(".screen-landscape", 80);
-        } else if (navigator.maxTouchPoints) {
+        } else {
             _this.fadeOut(".screen-landscape", 80, true);
             _this.setLevelSelectGridHeight();
         }
     }
 
     _this.setLevelSelectGridHeight = function() {
-        console.log("setLevelSelectGridHeight()", Date.now());
         const level_buttons_container = document.getElementById("level-buttons");
-        console.log(document.querySelector("footer").getBoundingClientRect().height);
         level_buttons_container.style.maxHeight = 0;
         level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - document.querySelector("footer").getBoundingClientRect().height}px`; // Set level select grid max height
     }
