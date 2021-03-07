@@ -54,8 +54,7 @@ h2 {
 }
 
 button,
-h2,
-p {
+h2 {
     font-size: 14px;
 }
 
@@ -107,10 +106,8 @@ button {
 }
 
 @media (min-width: 375px) {
-
     button,
-    h2,
-    p {
+    h2 {
         font-size: 16px;
     }
 }
@@ -259,8 +256,8 @@ select:focus {
 }
 
 .container-game {
-    min-height: 500px;
-    width: 100%;
+    min-height: 100%;
+    /* width: 100%; */
     position: relative;
     margin: 0 auto;
     cursor: default;
@@ -341,7 +338,7 @@ svg.control:hover {
 .full-screen {
     min-height: 100%;
     width: 100%;
-    position: fixed;
+    position: absolute;
     z-index: 3000;
     background-color: #ffd1e0;
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
