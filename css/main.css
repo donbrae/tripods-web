@@ -4,9 +4,9 @@ html {
 
 html,
 body {
-    /* touch-action: none;
+    touch-action: none;
     -webkit-user-select: none;
-    user-select: none; */
+    user-select: none;
 }
 
 body {
@@ -54,7 +54,8 @@ h2 {
 }
 
 button,
-h2 {
+h2,
+p {
     font-size: 14px;
 }
 
@@ -106,8 +107,10 @@ button {
 }
 
 @media (min-width: 375px) {
+
     button,
-    h2 {
+    h2,
+    p {
         font-size: 16px;
     }
 }
