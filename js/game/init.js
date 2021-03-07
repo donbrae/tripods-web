@@ -134,17 +134,7 @@ var TRIPODS = (function (_this) {
             }
         },
         animation: {
-            default: {
-                // properties: ["opacity"], // array
-                // timing_function: "linear",
-                duration: 160 // milliseconds
-            },
-            pivot: {
-                // properties: ["opacity"], // array
-                // timing_function: "linear",
-                duration: 120
-            },
-            jump_duration: 175
+            jump_duration: 190
         },
         grid_max_dimensions: 700,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE

@@ -702,8 +702,8 @@ TRIPODS.mvt = (function (_module) {
             const translate_xy = _module.utils.getTranslateXY(foot);
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(1px)" },
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: "blur(3px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.0015}rem)` },
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
             ];
 
@@ -775,8 +775,8 @@ TRIPODS.mvt = (function (_module) {
             }
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0px)" },
-                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: "blur(2px)" }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" },
+                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
             ];
 
@@ -792,7 +792,7 @@ TRIPODS.mvt = (function (_module) {
 
             let keyframes = [
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway between initial and block
                 { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
             ];
 
@@ -801,7 +801,7 @@ TRIPODS.mvt = (function (_module) {
 
                     let keyframes = [
                         { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway between initial and block
                         { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
 
                     ];

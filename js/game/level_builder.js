@@ -120,7 +120,7 @@ TRIPODS.level_builder = (function (_module) {
             } else if (previous_best && moves > previous_best) {
                 document.querySelector(".screen-win h2 span.best").innerText = `(Your record is ${previous_best} moves.)`;
             } else if (!previous_best && moves <= threshold) { // Perfect score on first attempt
-                document.querySelector(".screen-win h2 span.best").innerText = `Well done!`;
+                document.querySelector(".screen-win h2 span.best").innerText = `Perfect!`;
             } else {
                 document.querySelector(".screen-win h2 span.best").innerText = "";
             }
