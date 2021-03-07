@@ -14,7 +14,7 @@ body {
     background-color: #ffd1e0;
     /* https://cssgradient.io/gradient-backgrounds */
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
-    font-size: 0.9em;
+    font-size: 13px;
     line-height: 1.4;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Open Sans, Helvetica Neue;
     -webkit-tap-highlight-color: transparent;
@@ -22,37 +22,16 @@ body {
 
 @media (min-width: 375px) {
     body {
-        font-size: 1em;
+        font-size: 14px;
     }
 }
 
 a {
-    color: #00e;
-}
-
-a:visited {
-    color: #551a8b;
+    color: inherit;
 }
 
 a:hover {
-    color: #06e;
-}
-
-select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    display: inline-block;
-    transition: opacity .1s ease-out;
-    line-height: 1.5;
-    background-color: #fff;
-    border: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' class='icon icon-tabler icon-tabler-caret-down' width='44' height='44' viewBox='0 0 24 24' stroke-width='1.5' stroke='%23333333' fill='%23333333' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M18 15l-6-6l-6 6h12' transform='rotate(180 12 12)' /%3E%3C/svg%3E");
-    /* https://yoksel.github.io/url-encoder/ */
-    background-repeat: no-repeat;
-    background-position: right 0.4em top 51%, 0 0;
-    background-size: 1em auto, 100%;
-    background-color: #f0f0f0;
+    color: #000;
 }
 
 h1,
@@ -63,7 +42,7 @@ h3 {
 }
 
 h1 {
-    font-size: 1.8em;
+    font-size: 20px;
     color: rgba(34, 34, 34, 0.75);
     text-align: center;
     margin: 0 auto;
@@ -76,7 +55,7 @@ h2 {
 
 button,
 h2 {
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
 .screen-win,
@@ -90,7 +69,7 @@ h2 {
 }
 
 .screen-win .rating {
-    font-size: 4rem;
+    font-size: 64px;
     text-shadow: 2px 2px 11px rgba(0, 0, 0, 0.18);
     color: #fffa8a;
 }
@@ -129,7 +108,7 @@ button {
 @media (min-width: 375px) {
     button,
     h2 {
-        font-size: 1rem;
+        font-size: 16px;
     }
 }
 
@@ -170,14 +149,6 @@ select:focus {
     box-shadow: 0 0 0px 3px #fe3a6b;
 }
 
-/* .indicate-scroll {
-    width: 100%;
-    height: 25px;
-    position: absolute;
-    margin-top: -25px;
-    background-image: linear-gradient(to bottom, #fff0 10%, #a8edea 100%);
-} */
-
 /* #level-buttons {
     display: flex;
     flex-wrap: wrap;
@@ -207,7 +178,6 @@ select:focus {
     margin: 0 auto;
     overflow: scroll;
     scrollbar-width: none;
-    /* Firefox */
 }
 
 .flex-grid::-webkit-scrollbar {
@@ -239,7 +209,7 @@ select:focus {
 
 @media (min-width: 384px) {
     .flex-grid-item .level {
-        font-size: 30px;
+        font-size: 24px;
     }
 
     .flex-grid-item .rating {
@@ -356,10 +326,6 @@ svg.control:hover {
     will-change: transform, filter;
 }
 
-.screen-level-select h1 {
-    font-size: 3em;
-}
-
 .screen-level-select p {
     padding: 0 44px;
     font-weight: 500;
@@ -412,7 +378,7 @@ svg.control:hover {
 }
 
 .log {
-    font-size: .8em;
+    font-size: 10px;
     color: #ccc;
 }
 
@@ -425,6 +391,21 @@ svg.control:hover {
     position: absolute;
     bottom: 0;
     height: 1px;
+}
+
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 0.5rem 0;
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+@media (min-width: 834px) {
+    footer {
+        font-size: 13px;
+    }
 }
 
 .mt-2 {
