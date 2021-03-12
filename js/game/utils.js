@@ -177,11 +177,12 @@ TRIPODS.utils = (function (_module) {
             _this.fadeIn(".screen-landscape", 80); // Show message
         } else {
             _this.fadeOut(".screen-landscape", 80, true); // Hide message
-            _this.setLevelSelectGridHeight();
 
             Array.prototype.forEach.call(document.querySelectorAll(".landscape-hidden"), screen => {
                 screen.classList.remove("landscape-hidden");
             });
+
+            _this.setLevelSelectGridHeight();
         }
     }
 
