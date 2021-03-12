@@ -164,16 +164,24 @@ TRIPODS.utils = (function (_module) {
             (navigator.maxTouchPoints && /Mac/.test(navigator.platform)); // iPad running 'desktop' Safari
     }
 
-    // When/if iOS supports `"orientation": "portrait"` in manifest file, we can remove this function
+    // When/if iOS and other browsers support `"orientation": "portrait"` in manifest file, we can remove this function
     _this.handleOrientation = function() {
         const landscape = window.innerHeight < window.innerWidth;
         const max_width_portrait = 1024; // Landscape is fine on touch-enabled devices with at least this width (e.g. iPads Pro)
 
         if (landscape && window.innerWidth <= max_width_portrait) {
-            _this.fadeIn(".screen-landscape", 80);
+            Array.prototype.forEach.call(document.querySelectorAll(".full-screen:not(.screen-landscape)"), screen => {
+                screen.classList.add("landscape-hidden");
+                document.querySelector(".container-game").classList.add("landscape-hidden");
+            });
+            _this.fadeIn(".screen-landscape", 80); // Show message
         } else {
-            _this.fadeOut(".screen-landscape", 80, true);
+            _this.fadeOut(".screen-landscape", 80, true); // Hide message
             _this.setLevelSelectGridHeight();
+
+            Array.prototype.forEach.call(document.querySelectorAll(".landscape-hidden"), screen => {
+                screen.classList.remove("landscape-hidden");
+            });
         }
     }
 

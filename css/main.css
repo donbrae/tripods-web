@@ -66,7 +66,7 @@ h2 {
 
 .screen-win .star {
     width: 49px;
-    filter: drop-shadow(2px 2px 11px rgba(0, 0, 0, 0.18));
+    filter: drop-shadow(2px 2px 11px rgba(0, 0, 0, 0.1));
 }
 
 .rating svg:not(:last-of-type) {
@@ -370,6 +370,10 @@ svg.control:hover {
 }
 
 .hide {
+    display: none;
+}
+
+.landscape-hidden {
     display: none;
 }
 
