@@ -98,18 +98,20 @@ TRIPODS.level_builder = (function (_module) {
     _this.showWinScreen = function (previous_best) {
         setTimeout(function () {
             let moves = _module.game_state.moves_made.length;
+            const star = _module.cfg.svg_elements.star;
+            const star_outline = _module.cfg.svg_elements.star_outline;
 
             document.querySelector(".screen-win h2 span.moves").innerText = moves; // Print number of moves
 
             const perfect = _module.levels[_module.game_state.level][1]; // Perfect, ★★★ rating
             let rating;
 
-            if (moves <= perfect) { // Check lower too in case someone finds a quicker path than I've been able to
-                rating = "★★★";
+            if (moves <= perfect) { // Check whether lower that perfect too in case someone finds a quicker path than I've been able to
+                rating = `${star}${star}${star}`;
             } else if (moves <= perfect * 2) {
-                rating = "★★☆";
+                rating = `${star}${star}${star_outline}`;
             } else if (moves) {
-                rating = "★☆☆";
+                rating = `${star}${star_outline}${star_outline}`;
             }
 
             document.querySelector(".screen-win .rating").innerHTML = rating; // Print rating

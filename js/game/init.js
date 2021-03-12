@@ -32,15 +32,6 @@ var TRIPODS = (function (_this) {
                 name: 'foot3',
                 id: 'foot3'
             },
-            // https://iconmonstr.com/weather-84-svg/
-            /*damager: {
-              name: 'damager',
-              shape: 'polygon',
-              attributes: {
-                points: '19.6659 3.625 33.8318 11.2178 33.8318 26.4035 19.6659 33.9963 5.5 26.4035 5.5 11.2178',
-                fill: '#955050'
-              }
-            },*/
             block: { // https://iconmonstr.com/cube-3-svg/
                 name: 'block',
                 shape: 'path',
@@ -131,7 +122,9 @@ var TRIPODS = (function (_this) {
                         }
                     }
                 ],
-            }
+            },
+            star: `<svg viewBox="0 0 201 190" class="star"><path id="Star" d="M100.5 5 L69.276 61.524 5.87 73.753 49.979 120.915 42.015 184.997 100.5 157.621 158.985 184.997 151.021 120.915 195.13 73.753 131.724 61.524 Z" fill="#fffa8a" stroke="#fffa8a" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/></svg>`, // via Pixelmator Pro
+            star_outline: `<svg viewBox="0 0 201 190" class="star"><path id="Star" d="M100.5 5 L69.276 61.524 5.87 73.753 49.979 120.915 42.015 184.997 100.5 157.621 158.985 184.997 151.021 120.915 195.13 73.753 131.724 61.524 Z" fill="none" stroke="#fffa8a" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/></svg>`
         },
         animation: {
             jump_duration: 190
