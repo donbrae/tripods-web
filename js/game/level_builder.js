@@ -101,12 +101,12 @@ TRIPODS.level_builder = (function (_module) {
 
             document.querySelector(".screen-win h2 span.moves").innerText = moves; // Print number of moves
 
-            const threshold = _module.levels[_module.game_state.level][1]; // Threshold for ★★★ rating
+            const perfect = _module.levels[_module.game_state.level][1]; // Perfect, ★★★ rating
             let rating;
 
-            if (moves <= threshold) {
+            if (moves <= perfect) { // Check lower too in case someone finds a quicker path than I've been able to
                 rating = "★★★";
-            } else if (moves <= threshold * 2) {
+            } else if (moves <= perfect * 2) {
                 rating = "★★☆";
             } else if (moves) {
                 rating = "★☆☆";
@@ -114,12 +114,13 @@ TRIPODS.level_builder = (function (_module) {
 
             document.querySelector(".screen-win .rating").innerHTML = rating; // Print rating
 
-            if (previous_best && moves < previous_best) { // Best previous moves
+            if (previous_best && moves < previous_best && moves > perfect) { // New high score, but not perfect
                 _module.game_state.moves[_this.level] = moves;
                 document.querySelector(".screen-win h2 span.best").innerText = "No bad: that’s a new personal record!";
             } else if (previous_best && moves > previous_best) {
                 document.querySelector(".screen-win h2 span.best").innerText = `(Your record is ${previous_best} moves.)`;
-            } else if (!previous_best && moves <= threshold) { // Perfect score on first attempt
+            } else if (moves <= perfect) { // Perfect score
+                _module.game_state.moves[_this.level] = moves;
                 document.querySelector(".screen-win h2 span.best").innerText = `Perfect!`;
             } else {
                 document.querySelector(".screen-win h2 span.best").innerText = "";
