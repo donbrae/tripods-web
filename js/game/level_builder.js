@@ -64,6 +64,7 @@ TRIPODS.level_builder = (function (_module) {
 
         setTimeout(() => {
             _module.utils.fadeOut(".screen-level-select", undefined, true); // On start
+            _module.utils.fadeOut(".screen-privacy-policy", undefined, true);
             _module.utils.fadeOut(".screen-win", undefined, true); // Level win
             _module.utils.fadeOut(".screen-lose", undefined, true); // Level lose
         }, 80);

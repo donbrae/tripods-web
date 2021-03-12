@@ -58,6 +58,7 @@ TRIPODS.events = (function (_module) {
                 e.target.disabled = true;
                 _module.level_builder.reset(function () {
                     _module.addLevelSelect();
+                    _module.utils.fadeOut(".screen-privacy-policy", 180, true);
                     _module.utils.fadeOut(".screen-win", 180);
                     _module.utils.fadeOut(".screen-lose", 180);
 
@@ -81,7 +82,13 @@ TRIPODS.events = (function (_module) {
             Array.prototype.forEach.call(start, el => {
                 el.addEventListener("click", launch, false);
             });
-            // }
+
+            document.getElementById("show-privacy-policy").addEventListener("click", (e) => {
+                _module.utils.fadeOut(".screen-level-select", undefined, true, () => {
+                    _module.utils.fadeIn(".screen-privacy-policy");
+                });
+                e.preventDefault();
+            }, false);
 
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
             let last_touch_end = 0;
@@ -110,6 +117,7 @@ TRIPODS.events = (function (_module) {
 
                 resize_timeout = setTimeout(resize, 120);
             });
+
 
             _module.game_state.initialised = true; // Set initialised flag
         }
