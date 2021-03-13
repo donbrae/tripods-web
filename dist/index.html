@@ -52,6 +52,13 @@
             </div>
         </div>
 
+        <div class="screen-lose full-screen hide">
+            <h2>{{ message }}</h2>
+            <div class="mt-2">
+                <button class="replay">Try again</button><button class="next-level">Next Level</button><button class="hame subtle">Hame</button>
+            </div>
+        </div>
+
         <div class="screen-level-select full-screen hide">
             <!-- https://maketext.io/ -->
             <svg class="screen-level-select-title" xmlns="http://www.w3.org/2000/svg"
@@ -81,15 +88,41 @@
                 </g>
             </svg>
 
-            <p>Manoeuvre the tripod to the landing spots in as few moves as you can.</p>
-            <p>Tap the centre to pivot and the feet to jump.</p>
+            <p>Manoeuvre the tripod to the landing spots in as few moves as possible.</p>
+            <p>Tap the centre to pivot and feet&nbsp;to&nbsp;jump.</p>
             <h2>Select a level:</h2>
             <div class="flex-grid" id="level-buttons">
             </div>
-            <!-- <div class="indicate-scroll"></div> -->
+            <footer>© Copyright Jamie Smith, 2013–2021. All rights reserved. <a href="#" id="show-privacy-policy">Privacy&nbsp;policy</a>.</footer>
         </div>
 
         <div class="blank-overlay full-screen"></div>
+
+        <div class="screen-privacy-policy full-screen hide">
+            <h1>Privacy policy</h1>
+
+            <p>This website and game (“Tripods”) is hosted on <a href="https://www.netlify.com" target="_blank">Netlify</a>. Netlify keeps server access logs for a maximum of 30 days. These logs include Personally Identifiable Information (PII) such as IP addresses. (Source: <a href="https://www.netlify.com/gdpr-ccpa" target="_blank">Netlify’s commitment to protect your data</a>.)</p>
+
+            <h2>Cookies</h2>
+
+            <p>This site does not use cookies.</p>
+
+            <h2>Analytics</h2>
+
+            <p>This site does not use third-party analytics. There are no in-game analytics.</p>
+
+            <h2>Other data</h2>
+
+            <p>A record of your ‘scores’ is stored in the browser on your device so that you can keep track of progress. I never send this data to any remote server so I have no idea what your scores are.</p>
+
+            <em>This policy was last updated on 12 March 2021.</em>
+
+            <button class="hame subtle mt-2 d-block m-center">Hame</button>
+        </div>
+
+        <div class="screen-landscape full-screen hide">
+            <h2>This game works best in portrait orientation.</h2>
+        </div>
 
         <div class="container-game hide">
             <div class="container" id="container-grid">
