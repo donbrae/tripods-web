@@ -1,11 +1,19 @@
 {
-    "name": "my-project",
+    "name": "tripods-web",
     "version": "1.0.0",
     "scripts": {
         "build": "sh build.sh"
     },
     "devDependencies": {
         "@babel/cli": "^7.13.10",
-        "@babel/core": "^7.13.10"
+        "@babel/core": "^7.13.10",
+        "@babel/plugin-transform-template-literals": "^7.13.0"
+    },
+    "babel": {
+        "comments": false,
+        "minified": true,
+        "plugins": [
+            "@babel/plugin-transform-template-literals"
+        ]
     }
 }
