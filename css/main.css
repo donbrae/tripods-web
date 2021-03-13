@@ -141,7 +141,8 @@ button.subtle {
 }
 
 button.subtle:hover,
-button.subtle:focus {
+button.subtle:active,
+button.subtle:focus-visible {
     background: rgba(255, 255, 255, 0.7);
 }
 

@@ -182,6 +182,12 @@ var TRIPODS = (function (_this) {
             canvas.confetti = canvas.confetti || confetti.create(canvas, { resize: true });
         }
 
+        if (!document.querySelector("body").animate) {
+            document.querySelector(".screen-landscape").innerHTML = "<h2>Sorry, Tripods requires a more modern browser in order to run.</h2>";
+            _this.utils.fadeIn(".screen-landscape");
+            return false;
+        }
+
         _extendConfig();
         _initConfettiCanvas();
 
