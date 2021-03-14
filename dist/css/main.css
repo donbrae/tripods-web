@@ -121,6 +121,10 @@ button {
     }
 }
 
+button:disabled.disabled {
+    opacity: 0.3;
+}
+
 button:hover,
 button:focus {
     background-position: right center;
@@ -131,7 +135,7 @@ button:focus {
     box-shadow: 0 0 0px 3px #f1f1f1;
 }
 
-button:active {
+button:active:not(:disabled) {
     transform: scale(0.97);
 }
 

@@ -224,6 +224,10 @@ var TRIPODS = (function (_this) {
         const level_buttons_container = document.getElementById("level-buttons");
         const level_buttons = level_buttons_container.querySelectorAll("button");
 
+        // Player must complete levels 1 and 2 (which have tutorials) before 'unlocking' the rest
+        const tutorial_1_complete = _this.game_state.moves[0];
+        const tutorial_2_complete = _this.game_state.moves[1];
+
         _this.levels.forEach((_, i) => {
             const moves = parseInt(_this.game_state.moves[i]);
             const threshold = _this.levels[i][1]; // Threshold for ★★★ rating
@@ -241,8 +245,16 @@ var TRIPODS = (function (_this) {
 
             if (level_buttons.length) {
                 level_buttons[i].querySelector(".rating").innerHTML = rating; // Add any update to rating
+                if (tutorial_1_complete && i === 1 || tutorial_1_complete && tutorial_2_complete) {
+                    level_buttons[i].disabled = false; // Make sure level button isn't disabled
+                    level_buttons[i].classList.remove("disabled");
+                } else if (i) { // All levels after >= 2 (index >= 1)
+                    level_buttons[i].disabled = true; // Disable level button
+                    level_buttons[i].classList.add("disabled");
+                }
             } else {
-                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start" data-level="${i}"><div class="level">${i + 1}</div><div class="rating">${rating}</div></button>`);
+                const disabled = !tutorial_1_complete && i || !tutorial_2_complete && i > 1 ? " disabled" : "";
+                level_buttons_container.insertAdjacentHTML("beforeend", `<button class="flex-grid-item subtle start${disabled}" data-level="${i}"${disabled}><div class="level">${i + 1}</div><div class="rating">${rating}</div></button>`);
             }
         });
     }
