@@ -98,8 +98,13 @@ var TRIPODS = (function (_this) {
 
         _this.ui_attributes.cell_dimensions = Math.round((window.innerWidth - window.innerWidth / 8) / _this.levels[_this.game_state.level][2].length); // Screen width - padding / number of cells in row
 
-        if (window.innerWidth > _this.cfg.grid_max_dimensions) {
+        const wide = window.innerWidth > _this.cfg.grid_max_dimensions;
+        const browser_not_tall_enough = _this.cfg.grid_max_dimensions > (window.innerHeight - (TRIPODS.cfg.grid_max_dimensions / 3));
+
+        if (wide && !browser_not_tall_enough) {
             _this.ui_attributes.cell_dimensions = Math.round((_this.cfg.grid_max_dimensions - 90) / _this.levels[_this.game_state.level][2].length); // Max grid width - fixed padding / number of cells in row
+        } else if (browser_not_tall_enough && window.innerWidth > window.innerHeight) {
+            _this.ui_attributes.cell_dimensions = Math.round((_this.cfg.grid_max_dimensions - (_this.cfg.grid_max_dimensions / 3)) / _this.levels[_this.game_state.level][2].length);
         }
 
         // Layer 0 (grid)

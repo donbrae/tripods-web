@@ -166,6 +166,11 @@ TRIPODS.utils = (function (_module) {
 
     // When/if iOS and other browsers support `"orientation": "portrait"` in manifest file, we can remove this function
     _this.handleOrientation = function() {
+
+        if (!navigator.maxTouchPoints) {
+            return false;
+        }
+
         const landscape = window.innerHeight < window.innerWidth;
         const max_width_portrait = 1024; // Landscape is fine on touch-enabled devices with at least this width (e.g. iPads Pro)
 
