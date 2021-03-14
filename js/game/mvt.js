@@ -780,7 +780,9 @@ TRIPODS.mvt = (function (_module) {
                 { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
             ];
 
-            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration * 1.5 }, callback)
+            const duration_additional = !x_shift_additional && !y_shift_additional ? 1 : (Math.abs(x_shift_additional + y_shift_additional) / foot_rect.width) * _module.cfg.animation.jump_duration * 0.3;
+
+            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration * 1.5 + duration_additional}, callback);
         };
 
         function jumpBlock(foot, x_shift, y_shift, callback) {
