@@ -185,7 +185,7 @@ var TRIPODS = (function (_this) {
         if (!document.querySelector("body").animate) {
             const screen_landscape = document.querySelector(".screen-landscape");
             screen_landscape.innerHTML = "<h2>Sorry, Tripods requires a more modern browser in order to run.</h2>";
-            screen_landscape.classList.remove("hide")
+            document.querySelector(".screen-landscape").classList.remove("hide");
             return false;
         }
 
