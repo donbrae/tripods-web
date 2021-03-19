@@ -2,6 +2,8 @@
 
 A puzzle game.
 
+© Copyright Jamie Smith, 2013–2021. All rights reserved.
+
 ## Local installation
 
 `npm install`
@@ -23,10 +25,9 @@ The publish directory on Netlify is `dist`.
 
 The following post-processing is handled by Netlify on deployment:
 
-* CSS: minify
-* JS: bundle
+* CSS: minification
+* JS: bundling
 
 ## Notes
 
 * Possible more sophisticated motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa.
-* https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
