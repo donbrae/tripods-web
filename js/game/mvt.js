@@ -671,10 +671,12 @@ TRIPODS.mvt = (function (_module) {
             startPivot(finishPivot); // If no block go pivot
         } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
+            _module.audio.play("block_collide", _module.cfg.animation.jump_duration * 0.12);
         } else if (vortex_collide_via_pivot) {
             _module.utils.fadeOutAndDisable(".info-panel > .hame");
             _module.utils.fadeOut("#pivitor");
             startPivot(finishPivot);
+            // > _module.audio.play("vortex_collide", _module.cfg.animation.jump_duration * 0.12);
             // pivot_check() will run animateVortex() etc.
         }
     }
@@ -781,8 +783,10 @@ TRIPODS.mvt = (function (_module) {
             ];
 
             const duration_additional = !x_shift_additional && !y_shift_additional ? 1 : (Math.abs(x_shift_additional + y_shift_additional) / foot_rect.width) * _module.cfg.animation.jump_duration * 0.3;
+            const duration = _module.cfg.animation.jump_duration * 1.5 + duration_additional;
 
-            _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration * 1.5 + duration_additional}, callback);
+            _module.utils.animate(foot, keyframes, { duration}, callback);
+            _module.audio.play("block_collide", duration * 0.5);
         };
 
         function jumpBlock(foot, x_shift, y_shift, callback) {
@@ -819,6 +823,7 @@ TRIPODS.mvt = (function (_module) {
                     });
                 }, 80);
             });
+            _module.audio.play("block_collide", _module.cfg.animation.jump_duration);
         }
 
         function jumpVortex(foot, x_shift, y_shift, callback) {
