@@ -112,6 +112,8 @@ TRIPODS.mvt = (function (_module) {
         ];
         _module.utils.animate(foot, keyframes, { duration: 400, easing: "ease-in" });
 
+        _module.sound.play("vortex");
+
         // Animate other foot
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
             if (foot.getAttribute("id") !== vortex_data.foot_id) {
@@ -671,7 +673,7 @@ TRIPODS.mvt = (function (_module) {
             startPivot(finishPivot); // If no block go pivot
         } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
-            _module.sound.play("block_collide", _module.cfg.animation.jump_duration * 0.12);
+            _module.sound.play("block_collide_pivot", _module.cfg.animation.jump_duration * 0.12);
         } else if (vortex_collide_via_pivot) {
             _module.utils.fadeOutAndDisable(".info-panel .hame");
             _module.utils.fadeOut("#sound", 100);
@@ -787,7 +789,7 @@ TRIPODS.mvt = (function (_module) {
             const duration = _module.cfg.animation.jump_duration * 1.5 + duration_additional;
 
             _module.utils.animate(foot, keyframes, { duration}, callback);
-            _module.sound.play("block_collide", duration * 0.5);
+            _module.sound.play("block_collide_boundary", duration * 0.5);
         };
 
         function jumpBlock(foot, x_shift, y_shift, callback) {
@@ -824,7 +826,7 @@ TRIPODS.mvt = (function (_module) {
                     });
                 }, 80);
             });
-            _module.sound.play("block_collide", _module.cfg.animation.jump_duration);
+            _module.sound.play("block_collide_jump", _module.cfg.animation.jump_duration);
         }
 
         function jumpVortex(foot, x_shift, y_shift, callback) {
@@ -965,6 +967,7 @@ TRIPODS.mvt = (function (_module) {
             });
         } else if (vortex_collide) { // Foot collided with a vortex
             jumpVortex(foot, x_shift, y_shift, () => {
+                _module.sound.play("land");
                 _module.utils.fadeOutAndDisable(".info-panel .hame");
                 _module.utils.fadeOut("#sound", 100);
                 animateVortex({
@@ -981,6 +984,7 @@ TRIPODS.mvt = (function (_module) {
                 _this.calculatePivotState();
                 _this.repositionPivot(true);
                 moveSuccess();
+                _module.sound.play("land");
                 _module.game_state.ignore_user_input = false;
             });
 
