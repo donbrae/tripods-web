@@ -192,7 +192,7 @@ var TRIPODS = (function (_this) {
 
         _extendConfig();
         _initConfettiCanvas();
-        _this.audio.init();
+        _this.sound.init();
 
         _this.utils.fadeOut(".blank-overlay", undefined, true, function () {
             _this.utils.fadeIn(".screen-level-select", undefined, true);

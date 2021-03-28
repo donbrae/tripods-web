@@ -138,7 +138,7 @@ TRIPODS.game_state = (function (_module) {
                 }, delay);
                 delay += 100;
             });
-            _module.audio.play("win", delay * 0.5);
+            _module.sound.play("win", delay * 0.5);
         }
 
         function removeWinEffect() {

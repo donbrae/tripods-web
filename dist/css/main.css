@@ -504,6 +504,7 @@ footer {
 .center {
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
 }
 
 @keyframes pulse-color {

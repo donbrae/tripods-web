@@ -1,10 +1,10 @@
-TRIPODS.audio = (function (_module) {
+TRIPODS.sound = (function (_module) {
 
     "use strict";
 
     const _this = {};
 
-    const folder = "./audio";
+    const folder = "./sound";
 
     const sounds = { // Howl objects
         block_collide: undefined,
