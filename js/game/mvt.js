@@ -111,7 +111,6 @@ TRIPODS.mvt = (function (_module) {
             { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(0)` },
         ];
         _module.utils.animate(foot, keyframes, { duration: 400, easing: "ease-in" });
-
         _module.sound.play("vortex");
 
         // Animate other foot
@@ -671,6 +670,7 @@ TRIPODS.mvt = (function (_module) {
 
         if (!block_collide_via_pivot && !vortex_collide_via_pivot) {
             startPivot(finishPivot); // If no block go pivot
+            _module.sound.play("pivot");
         } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
             _module.sound.play("block_collide_pivot", _module.cfg.animation.jump_duration * 0.12);
@@ -679,7 +679,7 @@ TRIPODS.mvt = (function (_module) {
             _module.utils.fadeOut("#sound", 100);
             _module.utils.fadeOut("#pivitor");
             startPivot(finishPivot);
-            // > _module.sound.play("vortex_collide", _module.cfg.animation.jump_duration * 0.12);
+            _module.sound.play("pivot");
             // pivot_check() will run animateVortex() etc.
         }
     }

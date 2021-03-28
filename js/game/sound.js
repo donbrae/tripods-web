@@ -8,6 +8,9 @@ TRIPODS.sound = (function (_module) {
     const sounds = {}; // Howl objects
 
     _this.init = function () {
+        sounds.pivot = new Howl({
+            src: [`${folder}/pivot.webm`, `${folder}/pivot.m4a`]
+        });
         sounds.block_collide_pivot = new Howl({
             src: [`${folder}/block-collide-pivot.webm`, `${folder}/block-collide-pivot.m4a`]
         });
