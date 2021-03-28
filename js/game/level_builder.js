@@ -30,6 +30,7 @@ TRIPODS.level_builder = (function (_module) {
                 foot.classList.remove("flash");
             });
 
+            Howler.volume(1);
             _module.game_state.ignore_user_input = false;
 
             if (_module.game_state.tutorial_running) {
