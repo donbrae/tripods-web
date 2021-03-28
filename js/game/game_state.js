@@ -150,6 +150,7 @@ TRIPODS.game_state = (function (_module) {
         _module.utils.fadeOut(".layer-active");
         _module.utils.fadeOut("#pivitor");
         _module.utils.fadeOutAndDisable(".info-panel .hame");
+        _module.utils.fadeOut("#sound", 100);
 
         addWinEffect();
 

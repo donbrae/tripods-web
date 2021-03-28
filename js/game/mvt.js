@@ -674,6 +674,7 @@ TRIPODS.mvt = (function (_module) {
             _module.sound.play("block_collide", _module.cfg.animation.jump_duration * 0.12);
         } else if (vortex_collide_via_pivot) {
             _module.utils.fadeOutAndDisable(".info-panel .hame");
+            _module.utils.fadeOut("#sound", 100);
             _module.utils.fadeOut("#pivitor");
             startPivot(finishPivot);
             // > _module.sound.play("vortex_collide", _module.cfg.animation.jump_duration * 0.12);
@@ -965,6 +966,7 @@ TRIPODS.mvt = (function (_module) {
         } else if (vortex_collide) { // Foot collided with a vortex
             jumpVortex(foot, x_shift, y_shift, () => {
                 _module.utils.fadeOutAndDisable(".info-panel .hame");
+                _module.utils.fadeOut("#sound", 100);
                 animateVortex({
                     foot_id: foot.getAttribute("id"), // ID of foot that has collided with vortex
                     x: move_to_x,

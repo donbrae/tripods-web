@@ -97,7 +97,14 @@ TRIPODS.events = (function (_module) {
 
             document.getElementById("sound").addEventListener("click", (e) => {
                 _module.game_state.sound = !_module.game_state.sound;
-                e.target.innerText = _module.game_state.sound ? "🔈" : "🔇";
+
+                if (_module.game_state.sound) {
+                    e.target.classList.add("sound-on");
+                    e.target.classList.remove("sound-off");
+                } else {
+                    e.target.classList.add("sound-off");
+                    e.target.classList.remove("sound-on");
+                }
                 window.localStorage.setItem("TRIPODS_sound", _module.game_state.sound);
             }, false);
 

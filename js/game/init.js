@@ -215,9 +215,9 @@ var TRIPODS = (function (_this) {
         }
 
         if (_this.game_state.sound) {
-            document.getElementById("sound").innerText = "🔈";
+            document.getElementById("sound").classList.add("sound-on");
         } else {
-            document.getElementById("sound").innerText = "🔇";
+            document.getElementById("sound").classList.add("sound-off");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));

@@ -73,6 +73,7 @@ TRIPODS.level_builder = (function (_module) {
             const hame = ".info-panel .hame";
             _module.utils.fadeIn(hame, 100);
             document.querySelector(hame).disabled = false;
+            _module.utils.fadeIn("#sound", 100);
 
             _module.utils.fadeIn(".container-game", undefined, () => {
                 _this.runLevel();
