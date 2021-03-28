@@ -12,7 +12,8 @@ TRIPODS.game_state = (function (_module) {
         vortex_center_coords: [],
         tutorial_running: false,
         element_tapped: "", // Selector of most recent element tapped
-        moves: [] // Record of best number of moves. Also stored in TRIPODS_moves in localStorage
+        moves: [], // Record of best number of moves. Also stored in TRIPODS_moves in localStorage
+        sound: undefined // Audio on/off (default set in cfg)
     };
 
     const moves_span = document.querySelector("h2.moves span");
@@ -148,7 +149,7 @@ TRIPODS.game_state = (function (_module) {
 
         _module.utils.fadeOut(".layer-active");
         _module.utils.fadeOut("#pivitor");
-        _module.utils.fadeOutAndDisable(".info-panel > .hame");
+        _module.utils.fadeOutAndDisable(".info-panel .hame");
 
         addWinEffect();
 

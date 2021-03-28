@@ -131,6 +131,7 @@ var TRIPODS = (function (_this) {
         },
         grid_max_dimensions: 700,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
+        sound: true,
         logging: false
     }
 
@@ -202,6 +203,21 @@ var TRIPODS = (function (_this) {
         const stored_moves = window.localStorage.getItem("TRIPODS_moves");
         if (stored_moves) {
             _this.game_state.moves = stored_moves.split(",");
+        }
+
+        const sound = window.localStorage.getItem("TRIPODS_sound");
+        if (sound && sound == "false") {
+            _this.game_state.sound = false;
+        } else if (sound && sound == "true") {
+            _this.game_state.sound = true;
+        } else {
+            _this.game_state.sound = _this.cfg.sound;
+        }
+
+        if (_this.game_state.sound) {
+            document.getElementById("sound").innerText = "🔈";
+        } else {
+            document.getElementById("sound").innerText = "🔇";
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));

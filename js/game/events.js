@@ -95,6 +95,12 @@ TRIPODS.events = (function (_module) {
                 e.preventDefault();
             }, false);
 
+            document.getElementById("sound").addEventListener("click", (e) => {
+                _module.game_state.sound = !_module.game_state.sound;
+                e.target.innerText = _module.game_state.sound ? "🔈" : "🔇";
+                window.localStorage.setItem("TRIPODS_sound", _module.game_state.sound);
+            }, false);
+
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
             let last_touch_end = 0;
             document.addEventListener("touchend", function (e) {

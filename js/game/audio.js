@@ -21,6 +21,11 @@ TRIPODS.audio = (function (_module) {
     };
 
     _this.play = function(sound, delay = 1) {
+
+        if (!_module.game_state.sound) {
+            return false;
+        }
+
         setTimeout(() => {
             sounds[sound].play();
         }, delay);

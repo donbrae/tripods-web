@@ -70,7 +70,7 @@ TRIPODS.level_builder = (function (_module) {
         }, 80);
 
         setTimeout(() => {
-            const hame = ".info-panel > .hame";
+            const hame = ".info-panel .hame";
             _module.utils.fadeIn(hame, 100);
             document.querySelector(hame).disabled = false;
 
