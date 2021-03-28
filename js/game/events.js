@@ -42,11 +42,7 @@ TRIPODS.events = (function (_module) {
                 _module.utils.fadeOut(".screen-lose", 1);
 
                 // Work around first-sound glitch
-                Howler.volume(0);
-                _module.sound.play("pivot");
-                _module.sound.play("block_collide_pivot");
-                _module.sound.play("block_collide_jump");
-                _module.sound.play("block_collide_boundary");
+                Howler.volume(0.01);
                 _module.sound.play("land");
 
                 window.localStorage.setItem("TRIPODS_level", _module.game_state.level);
