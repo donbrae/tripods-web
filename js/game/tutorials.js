@@ -3,8 +3,8 @@ TRIPODS.tutorials = (function (_module) {
         levels: []
     };
 
-    _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivitor", "#foot3"]; // Level 1
-    _this.levels[1] = ["#pivitor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivitor", "#pivitor", "#pivitor", "#foot1"]; // Level 2
+    _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivotor", "#foot3"]; // Level 1
+    _this.levels[1] = ["#pivotor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivotor", "#pivotor", "#pivotor", "#foot1"]; // Level 2
 
     _this.placeTutorialElement = function () {
 

@@ -145,10 +145,10 @@ TRIPODS.events = (function (_module) {
         }
 
         // Pivotor UI element
-        const pivitor = document.getElementById('pivitor');
-        if (pivitor) {
-            pivitor.addEventListener("touchend", _module.mvt.pivot, false); // Touch
-            pivitor.addEventListener("click", _module.mvt.pivot, false); // Mouse pointer
+        const pivotor = document.getElementById('pivotor');
+        if (pivotor) {
+            pivotor.addEventListener("touchend", _module.mvt.pivot, false); // Touch
+            pivotor.addEventListener("click", _module.mvt.pivot, false); // Mouse pointer
         }
 
         // Swipe

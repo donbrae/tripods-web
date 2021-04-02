@@ -46,7 +46,7 @@ var TRIPODS = (function (_this) {
                 }
             }
 
-            if (el.name === "pivitor") {
+            if (el.name === "pivotor") {
                 svg.style.filter = "opacity(0)"; // So pivot initial XY adjustment is hidden
             }
 
@@ -226,7 +226,7 @@ var TRIPODS = (function (_this) {
             }
         });
 
-        _addElement(_this.cfg.svg_elements.pivitor, layer_element, 0, 0); // Add pivitor
+        _addElement(_this.cfg.svg_elements.pivotor, layer_element, 0, 0); // Add pivotor
 
         if (_this.tutorials.levels[_this.game_state.level]) {
             _addElement(_this.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
@@ -256,7 +256,7 @@ var TRIPODS = (function (_this) {
                     if (svg.children[0].nodeName === "circle") {
                         svg.children[0].setAttribute("cx", _this.ui_attributes.cell_dimensions / 2);
                         svg.children[0].setAttribute("cy", _this.ui_attributes.cell_dimensions / 2);
-                        if (svg.id && svg.id === "pivitor") { // Pivotor
+                        if (svg.id && svg.id === "pivotor") { // Pivotor
                             svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 5);
                         } else if (svg.classList.contains("grid")) {
                             svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.45);

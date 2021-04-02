@@ -72,11 +72,11 @@ var TRIPODS = (function (_this) {
                 name: 'landing_foot3',
                 classes: [], // `classes` property requires at least a blank array
             },
-            pivitor: { // https://iconmonstr.com/redo-3-svg/
-                name: 'pivitor',
-                id: 'pivitor',
+            pivotor: { // https://iconmonstr.com/redo-3-svg/
+                name: 'pivotor',
+                id: 'pivotor',
                 shape: 'path',
-                classes: ['control', 'pivitor'],
+                classes: ['control', 'pivotor'],
                 viewBox: "-13 -14 50 50",
                 attributes: {
                     d: "M4.115 5.515c4.617-4.618 12.056-4.676 16.756-.195l2.129-2.258v7.938h-7.484l2.066-2.191c-2.819-2.706-7.297-2.676-10.074.1-2.992 2.993-2.664 7.684.188 10.319l-3.314 3.5c-4.716-4.226-5.257-12.223-.267-17.213z",

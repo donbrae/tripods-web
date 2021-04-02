@@ -380,7 +380,7 @@ svg.control:hover {
 }
 
 /* Janky on certain devices/browsers */
-#pivitor, .foot {
+#pivotor, .foot {
     will-change: transform, filter;
 }
 
