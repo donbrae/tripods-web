@@ -138,6 +138,23 @@ TRIPODS.mvt = (function (_module) {
         });
     }
 
+    function hideTutorialLabel() {
+        if (_module.game_state.tutorial_running) {
+
+            const animation = _module.tutorials.animate_tap;
+            const delay = animation.effect.getComputedTiming().delay;
+
+            if (animation.currentTime < delay) { // If 'Tap' label animation hasn't begun yet
+                animation.cancel();
+                _module.utils.fadeOut("#tap", 130); // Hide tutorial label
+            } else {
+                _module.utils.fadeOut("#tap", 130, undefined, () => {
+                    _module.tutorials.animate_tap.cancel();
+                }); // Hide tutorial label
+            }
+        }
+    }
+
     _this.getMeasurements = function () {
         if (!isNaN(_module.game_state.level)) {
             this.measurements.container_rect = document.getElementById("container-grid").getBoundingClientRect();
@@ -511,9 +528,7 @@ TRIPODS.mvt = (function (_module) {
         }
 
         _module.game_state.element_tapped = `#${e.currentTarget.id}`;
-
-        if (_module.game_state.tutorial_running)
-            _module.utils.fadeOut("#tap"); // Hide tutorial label
+        hideTutorialLabel();
 
         let pivot_foot_count = 0;
         const foot_move_data = [];
@@ -696,9 +711,7 @@ TRIPODS.mvt = (function (_module) {
         }
 
         _module.game_state.element_tapped = `#${e.currentTarget.id}`;
-
-        if (_module.game_state.tutorial_running)
-            _module.utils.fadeOut("#tap"); // Hide tutorial label
+        hideTutorialLabel();
 
         const cell_len = _module.ui_attributes.cell_dimensions;
         const foot = document.getElementById(e.currentTarget.id);

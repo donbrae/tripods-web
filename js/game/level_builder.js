@@ -88,6 +88,7 @@ TRIPODS.level_builder = (function (_module) {
         _module.game_state.level_end = false;
         _module.game_state.tutorial_running = false;
         _module.game_state.moves_made.length = 0; // Empty array
+        _module.tutorials.animate_tap = undefined;
         _module.game_state.element_tapped = "";
         _module.utils.fadeOut(".container-game", undefined, undefined, () => {
             Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {

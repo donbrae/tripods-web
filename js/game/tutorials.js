@@ -1,6 +1,7 @@
 TRIPODS.tutorials = (function (_module) {
     const _this = {
-        levels: []
+        levels: [],
+        animate_tap: undefined // Instance of Web Animations API `Animation` constructor
     };
 
     _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivotor", "#foot3"]; // Level 1
@@ -30,6 +31,15 @@ TRIPODS.tutorials = (function (_module) {
             label.style.top = `${top}px`;
 
             _module.utils.fadeIn("#tap"); // Show tutorial label
+
+            const keyframes = [
+                { transform: "translate(0,0)" },
+                { transform: `translate(0,-${_module.ui_attributes.cell_dimensions / 8}px)` },
+                { transform: "translate(0,0)" }
+            ];
+
+            _this.animate_tap = _module.utils.animate(document.getElementById("tap"), keyframes, { duration: 750, easing: "cubic-bezier(0.9, 1, 0.9, 1)", delay: 500, iterations: "Infinity" });
+
         } else {
             this.finish(); // Tutorial should now be complete
         }

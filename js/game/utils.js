@@ -102,6 +102,7 @@ TRIPODS.utils = (function (_module) {
             animation.onfinish = callback;
         }
 
+        return animation;
     }
 
     /**
