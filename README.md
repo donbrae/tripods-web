@@ -37,3 +37,7 @@ The following post-processing is handled by Netlify on deployment:
 ## Notes
 
 * Possible more sophisticated motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa.
+
+### Possible ‘hint’ icons:
+
+* https://iconmonstr.com/?s=hint

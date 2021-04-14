@@ -620,6 +620,28 @@ footer {
     }
 }
 
+.highlight-next-pivot {
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-linecap: round;
+    stroke-dasharray: 1 9;
+
+    animation-name: highlight-next-pivot;
+    animation-duration: 1.4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes highlight-next-pivot {
+    50% {
+        stroke-opacity: 0.5;
+    }
+
+    100% {
+        stroke-opacity: 1;
+    }
+}
+
 .swirl {
     animation: swirl 0.45s infinite linear;
 }
