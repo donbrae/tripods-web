@@ -112,6 +112,29 @@ TRIPODS.events = (function (_module) {
                 window.localStorage.setItem("TRIPODS_sound", _module.game_state.sound);
             }, false);
 
+            document.getElementById("guides").addEventListener("click", (e) => {
+                _module.game_state.guides = !_module.game_state.guides;
+
+                const pivotor = document.getElementById("pivotor");
+
+                if (_module.game_state.guides) {
+                    Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
+                        foot.classList.remove("hide-guide");
+                    });
+                    pivotor.classList.remove("hide-guide");
+                    e.target.classList.add("guides-on");
+                    e.target.classList.remove("guides-off");
+                } else {
+                    Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
+                        foot.classList.add("hide-guide");
+                    });
+                    pivotor.classList.add("hide-guide");
+                    e.target.classList.add("guides-off");
+                    e.target.classList.remove("guides-on");
+                }
+                window.localStorage.setItem("TRIPODS_guides", _module.game_state.guides);
+            }, false);
+
             // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
             let last_touch_end = 0;
             document.addEventListener("touchend", function (e) {

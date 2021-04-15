@@ -42,6 +42,13 @@ TRIPODS.level_builder = (function (_module) {
             if (_module.cfg.logging) _module.utils.log("Test log message");
         });
 
+        if (!_module.game_state.guides) {
+            Array.prototype.forEach.call(feet, function (el) {
+                el.classList.add("hide-guide");
+            });
+
+            document.getElementById("pivotor").classList.add("hide-guide");
+        }
     }
 
     _this.addUI = function () {
@@ -77,6 +84,7 @@ TRIPODS.level_builder = (function (_module) {
             _module.utils.fadeIn(hame, 100);
             document.querySelector(hame).disabled = false;
             _module.utils.fadeIn("#sound", 100);
+            _module.utils.fadeIn("#guides", 100);
 
             _module.utils.fadeIn(".container-game", undefined, () => {
                 _this.runLevel();

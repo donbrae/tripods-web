@@ -170,6 +170,24 @@ TRIPODS.mvt = (function (_module) {
         });
     }
 
+    // Hide any pivot indicators
+    function hideNextPivotIndicators() {
+        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
+            if (!el.classList.contains("will-pivot-fade")) {
+                el.classList.add("will-pivot-fade", "will-pivot-hide");
+            }
+        });
+    }
+
+    // Hide any hidden pivot indicators
+    function showNextPivotIndicators() {
+        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
+            if (el.classList.contains("will-pivot-hide")) {
+                el.classList.remove("will-pivot-fade", "will-pivot-hide");
+            }
+        });
+    }
+
     _this.getMeasurements = function () {
         if (!isNaN(_module.game_state.level)) {
             this.measurements.container_rect = document.getElementById("container-grid").getBoundingClientRect();
@@ -721,6 +739,7 @@ TRIPODS.mvt = (function (_module) {
             _module.game_state.level_end = true;
             _module.utils.fadeOutAndDisable(".info-panel .hame");
             _module.utils.fadeOut("#sound", 100);
+            _module.utils.fadeOut("#guides", 100);
             _module.utils.fadeOut("#pivotor");
             startPivot(finishPivot);
             _module.sound.play("pivot");
@@ -760,6 +779,8 @@ TRIPODS.mvt = (function (_module) {
 
         function jumpBoundary(foot, x_shift, y_shift, swipe_angle, callback) {
             _module.game_state.ignore_user_input = true;
+
+            _module.utils.fadeOut("#pivotor");
 
             const translate_xy = _module.utils.getTranslateXY(foot);
             let x_shift_additional = 0;
@@ -862,7 +883,6 @@ TRIPODS.mvt = (function (_module) {
                         duration: _module.cfg.animation.jump_duration,
                         delay: 10
                     }, () => {
-                        _module.utils.fadeIn("#pivotor");
                         if (typeof (callback) == "function") {
                             callback();
                         }
@@ -998,22 +1018,26 @@ TRIPODS.mvt = (function (_module) {
         block_collide = collided(move_to_x, move_to_y);
         vortex_collide = collided(move_to_x, move_to_y, _module.game_state.vortex_center_coords);
 
+        function postJumpFail() {
+            showNextPivotIndicators();
+            foot.style.zIndex = 1000;
+            _module.utils.fadeIn("#pivotor");
+            _module.game_state.ignore_user_input = false;
+        }
+
         if (boundary_check) { // Foot swiped off the board
-            jumpBoundary(foot, x_shift, y_shift, swipe_angle, () => {
-                foot.style.zIndex = 1000; // Reset z-index
-                _module.game_state.ignore_user_input = false;
-            });
+            hideNextPivotIndicators();
+            jumpBoundary(foot, x_shift, y_shift, swipe_angle, postJumpFail);
         } else if (block_collide) { // Foot collided with a block
-            jumpBlock(foot, x_shift, y_shift, () => {
-                foot.style.zIndex = 1000;
-                _module.game_state.ignore_user_input = false;
-            });
+            hideNextPivotIndicators();
+            jumpBlock(foot, x_shift, y_shift, postJumpFail);
         } else if (vortex_collide) { // Foot collided with a vortex
             clearNextPivotIndicators();
             jumpVortex(foot, x_shift, y_shift, () => {
                 _module.sound.play("land");
                 _module.utils.fadeOutAndDisable(".info-panel .hame");
                 _module.utils.fadeOut("#sound", 100);
+                _module.utils.fadeOut("#guides", 100);
                 _module.utils.fadeOut("#pivotor");
                 _module.game_state.level_end = true;
                 animateVortex({

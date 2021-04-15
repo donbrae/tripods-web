@@ -127,11 +127,12 @@ var TRIPODS = (function (_this) {
             star_outline: `<svg viewBox="0 0 201 190" class="star"><path id="Star" d="M100.5 5 L69.276 61.524 5.87 73.753 49.979 120.915 42.015 184.997 100.5 157.621 158.985 184.997 151.021 120.915 195.13 73.753 131.724 61.524 Z" fill="none" stroke="#fffa8a" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/></svg>`
         },
         animation: {
-            jump_duration: 210
+            jump_duration: 230
         },
         grid_max_dimensions: 700,
         control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
         sound: true,
+        guides: true, // Helpful indications in UI to show, for example, which feet will pivot next
         logging: false
     }
 
@@ -218,6 +219,21 @@ var TRIPODS = (function (_this) {
             document.getElementById("sound").classList.add("sound-on");
         } else {
             document.getElementById("sound").classList.add("sound-off");
+        }
+
+        const guides = window.localStorage.getItem("TRIPODS_guides");
+        if (guides && guides == "false") {
+            _this.game_state.guides = false;
+        } else if (guides && guides == "true") {
+            _this.game_state.guides = true;
+        } else {
+            _this.game_state.guides = _this.cfg.guides;
+        }
+
+        if (_this.game_state.guides) {
+            document.getElementById("guides").classList.add("guides-on");
+        } else {
+            document.getElementById("guides").classList.add("guides-off");
         }
 
         const level = parseInt(window.localStorage.getItem("TRIPODS_level"));
