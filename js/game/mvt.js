@@ -32,6 +32,11 @@ TRIPODS.mvt = (function (_module) {
     let block_collide;
     let vortex_collide;
 
+    let block_collide_via_pivot;
+    let vortex_collide_via_pivot;
+    let vortex_data;
+
+    const foot_move_data = [];
     let count_foot1;
     let count_foot2;
     let count_foot3;
@@ -40,7 +45,8 @@ TRIPODS.mvt = (function (_module) {
 
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift) {
-        const control_padding = _module.ui_attributes.control_padding;
+        const stroke_width = parseFloat(getComputedStyle(document.querySelector("#foot1 > circle"))["stroke-width"]);
+        const control_padding = _module.ui_attributes.control_padding - stroke_width;
         const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
         const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
@@ -91,6 +97,8 @@ TRIPODS.mvt = (function (_module) {
         _module.game_state.updateMoveCounter();
         _module.game_state.checkWin();
 
+        _this.getNextPivot();
+
         if (_module.game_state.tutorial_running && _module.tutorials.checkFollow())
             setTimeout(() => { // Delay to allow pivot to reposition
                 _module.tutorials.placeTutorialElement();
@@ -99,11 +107,11 @@ TRIPODS.mvt = (function (_module) {
             _module.tutorials.finish();
     }
 
-    function animateVortex(vortex_data, callback) {
+    function animateVortex(vortex, callback) {
 
         const blur = _module.ui_attributes.cell_dimensions * 0.001;
         // Animate foot that has collided with vortex
-        const foot = document.getElementById(vortex_data.foot_id);
+        const foot = document.getElementById(vortex.foot_id);
         foot.style["z-index"] = getComputedStyle(foot).zIndex - 1000;
         const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
         const keyframes = [
@@ -115,11 +123,11 @@ TRIPODS.mvt = (function (_module) {
 
         // Animate other foot
         Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-            if (foot.getAttribute("id") !== vortex_data.foot_id) {
+            if (foot.getAttribute("id") !== vortex.foot_id) {
                 const translate_xy = _module.utils.getTranslateXY(foot); // Get current relative position of foot
                 const foot_center = _module.utils.getCenterPoint(foot); // xy of foot centre point
-                const foot_vortex_shift_x = vortex_data.x - foot_center.x;
-                const foot_vortex_shift_y = vortex_data.y - foot_center.y;
+                const foot_vortex_shift_x = vortex.x - foot_center.x;
+                const foot_vortex_shift_y = vortex.y - foot_center.y;
                 const move_to_x = translate_xy.tX + foot_vortex_shift_x; // Number of px to shift x
                 const move_to_y = translate_xy.tY + foot_vortex_shift_y; // Number of px to shift y
 
@@ -153,6 +161,13 @@ TRIPODS.mvt = (function (_module) {
                 }); // Hide tutorial label
             }
         }
+    }
+
+    // Clear any pivot indicators
+    function clearNextPivotIndicators() {
+        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
+            el.classList.add("will-pivot-fade");
+        });
     }
 
     _this.getMeasurements = function () {
@@ -519,82 +534,7 @@ TRIPODS.mvt = (function (_module) {
         }, cb);
     }
 
-    // Pivot
-
-    _this.pivot = function (e) {
-
-        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
-            return false;
-        }
-
-        _module.game_state.element_tapped = `#${e.currentTarget.id}`;
-        hideTutorialLabel();
-
-        let pivot_foot_count = 0;
-        const foot_move_data = [];
-        let block_collide_via_pivot = false;
-        let vortex_collide_via_pivot = false;
-        let vortex_data;
-
-        function postPivot(foot, count) {
-            updatePivotCounter(foot, count);
-            pivot_foot_count++;
-        };
-
-        function finishPivot(foot_move) {
-            if (foot_move.move) {
-
-                const foot = document.getElementById(foot_move.foot);
-                const translate_xy = _module.utils.getTranslateXY(foot);
-
-                const keyframes = [
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
-                ];
-
-                _module.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
-
-            } else postPivot(foot_move.foot, foot_move.count);
-        };
-
-        function abortPivot(foot_move) {
-
-            if (foot_move.move) {
-
-                const foot = document.getElementById(foot_move.foot);
-                const translate_xy = _module.utils.getTranslateXY(foot);
-
-                const keyframes = [
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
-                ];
-
-                _module.utils.animate(foot, keyframes, { duration: 200 }, () => {
-                    pivot_foot_count++;
-                });
-
-            } else {
-                pivot_foot_count++;
-            }
-        };
-
-        function startPivot(callback) {
-            _module.game_state.ignore_user_input = true;
-
-            foot_move_data.forEach(item => {
-                // Amend count
-                if (item.count === 11) item.count = 0;
-                else item.count++;
-
-                if (typeof (callback) == "function") callback(item);
-            });
-        };
-
+    _this.getNextPivot = function () {
         /**
          * @param {String} foot - ID of element
          * @param {Number} count
@@ -660,6 +600,96 @@ TRIPODS.mvt = (function (_module) {
             }
         };
 
+        foot_move_data.length = 0;
+
+        block_collide_via_pivot = false;
+        vortex_collide_via_pivot = false;
+
+        // Which feet should move?
+        checkWhichFeetShouldPivot("foot1", count_foot1);
+        checkWhichFeetShouldPivot("foot2", count_foot2);
+        checkWhichFeetShouldPivot("foot3", count_foot3);
+
+        // Highlight feet that will pivot
+        foot_move_data.forEach(item => {
+            if (item.move) {
+                document.getElementById(item.foot).classList.remove("will-pivot-fade");
+            }
+        });
+    }
+
+    // Pivot
+
+    _this.pivot = function (e) {
+
+        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
+            return false;
+        }
+
+        _module.game_state.element_tapped = `#${e.currentTarget.id}`;
+        hideTutorialLabel();
+
+        let pivot_foot_count = 0;
+
+        function postPivot(foot, count) {
+            updatePivotCounter(foot, count);
+            pivot_foot_count++;
+        };
+
+        function finishPivot(foot_move) {
+            if (foot_move.move) {
+
+                const foot = document.getElementById(foot_move.foot);
+                const translate_xy = _module.utils.getTranslateXY(foot);
+
+                const keyframes = [
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
+                ];
+
+                _module.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
+
+            } else postPivot(foot_move.foot, foot_move.count);
+        };
+
+        function abortPivot(foot_move) {
+
+            if (foot_move.move) {
+
+                const foot = document.getElementById(foot_move.foot);
+                const translate_xy = _module.utils.getTranslateXY(foot);
+
+                const keyframes = [
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                    { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
+                ];
+
+                _module.utils.animate(foot, keyframes, { duration: 200 }, () => {
+                    pivot_foot_count++;
+                });
+
+            } else {
+                pivot_foot_count++;
+            }
+        };
+
+        function startPivot(callback) {
+            _module.game_state.ignore_user_input = true;
+
+            foot_move_data.forEach(item => {
+                // Amend count
+                if (item.count === 11) item.count = 0;
+                else item.count++;
+
+                if (typeof (callback) == "function") callback(item);
+            });
+        };
+
         if (_module.game_state.ignore_user_input) return false;
 
         const pivot_check = setInterval(function () { // Check for completion of pivot
@@ -680,14 +710,10 @@ TRIPODS.mvt = (function (_module) {
             }
         }, 25);
 
-        // Which feet should move?
-        checkWhichFeetShouldPivot("foot1", count_foot1);
-        checkWhichFeetShouldPivot("foot2", count_foot2);
-        checkWhichFeetShouldPivot("foot3", count_foot3);
-
         if (!block_collide_via_pivot && !vortex_collide_via_pivot) {
             startPivot(finishPivot); // If no block go pivot
             _module.sound.play("pivot");
+            clearNextPivotIndicators();
         } else if (block_collide_via_pivot) {
             startPivot(abortPivot); // Don't pivot
             _module.sound.play("block_collide_pivot", _module.cfg.animation.jump_duration * 0.12);
@@ -698,6 +724,7 @@ TRIPODS.mvt = (function (_module) {
             _module.utils.fadeOut("#pivotor");
             startPivot(finishPivot);
             _module.sound.play("pivot");
+            clearNextPivotIndicators();
             // pivot_check() will run animateVortex() etc.
         }
     }
@@ -982,6 +1009,7 @@ TRIPODS.mvt = (function (_module) {
                 _module.game_state.ignore_user_input = false;
             });
         } else if (vortex_collide) { // Foot collided with a vortex
+            clearNextPivotIndicators();
             jumpVortex(foot, x_shift, y_shift, () => {
                 _module.sound.play("land");
                 _module.utils.fadeOutAndDisable(".info-panel .hame");
@@ -997,6 +1025,7 @@ TRIPODS.mvt = (function (_module) {
                 });
             });
         } else { // OK to jump
+            clearNextPivotIndicators();
             jump(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
                 _this.calculatePivotState();

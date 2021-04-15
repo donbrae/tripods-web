@@ -216,6 +216,7 @@ var TRIPODS = (function (_this) {
                         }
 
                         _this.cfg.linking[square].attributes.fill = fill;
+                        _this.cfg.linking[square].attributes["stroke-width"] = `${_this.ui_attributes.cell_dimensions / 4.5}px`;
 
                         _addElement(_this.cfg.linking[square], layer_element, left, top);
                     }

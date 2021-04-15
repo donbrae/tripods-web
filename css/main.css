@@ -620,26 +620,15 @@ footer {
     }
 }
 
-.highlight-next-pivot {
-    stroke-width: 3;
+.will-pivot {
     stroke: #fff;
-    stroke-linecap: round;
-    stroke-dasharray: 1 9;
-
-    animation-name: highlight-next-pivot;
-    animation-duration: 1.4s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
+    /* `stroke-width` set in addElements() */
+    stroke-opacity: 0.15;
+    transition: stroke-opacity .25s linear;
 }
 
-@keyframes highlight-next-pivot {
-    50% {
-        stroke-opacity: 0.5;
-    }
-
-    100% {
-        stroke-opacity: 1;
-    }
+.will-pivot.will-pivot-fade {
+    stroke-opacity: 0;
 }
 
 .swirl {

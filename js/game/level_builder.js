@@ -17,20 +17,22 @@ TRIPODS.level_builder = (function (_module) {
         }
 
         _module.game_state.ignore_user_input = true;
-        let delay = 120;
-        Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-            setTimeout(function () {
-                foot.classList.add("flash");
-            }, delay);
-            delay += 120;
-        });
 
-        setTimeout(function () {
-            Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-                foot.classList.remove("flash");
-            });
-
+        // Highlight feet (alt.)
+        const feet = document.querySelectorAll(".foot");
+        let keyframes = [
+            { transform: "scale(1)" },
+            { transform: "scale(1.4)" },
+            { transform: "scale(1)" }
+        ];
+        const duration = 900;
+        const delay = 160;
+        const easing = "ease-out";
+        _module.utils.animate(feet[0], keyframes, { duration: duration, delay: delay, easing: easing });
+        _module.utils.animate(feet[1], keyframes, { duration: duration, delay: delay * 2, easing: easing });
+        _module.utils.animate(feet[2], keyframes, { duration: duration, delay: delay * 3, easing: easing }, () => {
             Howler.volume(1);
+            _module.mvt.getNextPivot();
             _module.game_state.ignore_user_input = false;
 
             if (_module.game_state.tutorial_running) {
@@ -38,7 +40,7 @@ TRIPODS.level_builder = (function (_module) {
             }
 
             if (_module.cfg.logging) _module.utils.log("Test log message");
-        }, 1220);
+        });
 
     }
 
