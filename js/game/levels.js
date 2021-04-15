@@ -1,14 +1,14 @@
 TRIPODS.levels = [
-    // [
-    //     ["#eda8ce", "#494949"], // Test
-    //     [],
-    //     [0, 0, 0, 6, 0, 0],
-    //     [0, 0, 0, 0, 0, 5],
-    //     [0, 0, 0, 6, 0, 0],
-    //     [0, 0, 2, 0, 0, 0],
-    //     [1, 0, 0, 0, 0, 0],
-    //     [0, 0, 3, 0, 0, 0]
-    // ],
+    [
+        ["#eda8ce", "#494949"], // Test
+        [],
+        [0, 0, 0, 6, 0, 0],
+        [0, 0, 0, 0, 0, 5],
+        [0, 0, 0, 6, 0, 0],
+        [0, 0, 2, 0, 0, 0],
+        [1, 0, 0, 0, 0, 0],
+        [0, 0, 3, 0, 0, 0]
+    ],
     // 1, 2, and 3 (feet) are required in all cases. If the feet have two colours (i.e. one of the feet is a different colour to the others), landing spots should be 5, 6 and 6. If the feet all have a different colour, landing spots should be 5, 6 and 7
     [
         ["#eda8ce", "#494949"], // Foot/landing spot colours [<foot1>, <foot2>, <foot3:optional>]

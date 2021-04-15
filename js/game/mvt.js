@@ -535,13 +535,11 @@ TRIPODS.mvt = (function (_module) {
         ];
 
         const cb = fade_in ? () => {
-            if (pivot_timeout !== undefined) {
-                clearTimeout(pivot_timeout);
-                pivot_timeout = undefined;
-            }
-
             pivot_timeout = setTimeout(() => {
                 if (!_module.game_state.level_end) {
+                    console.log("DERP");
+                    console.log(_module.game_state.ignore_user_input);
+                    _module.sound.play("pivot");
                     _module.utils.fadeIn("#pivotor");
                 }
             }, delay);
@@ -765,6 +763,8 @@ TRIPODS.mvt = (function (_module) {
         // Move the swiped foot (left and top arguments are the destination coords)
         function jump(foot, x_shift, y_shift, callback) {
             _module.game_state.ignore_user_input = true;
+
+            _module.utils.fadeOut("#pivotor");
 
             const translate_xy = _module.utils.getTranslateXY(foot);
 
@@ -1059,12 +1059,7 @@ TRIPODS.mvt = (function (_module) {
                 _module.game_state.ignore_user_input = false;
             });
 
-            if (pivot_timeout !== undefined) {
-                clearTimeout(pivot_timeout);
-                pivot_timeout = undefined;
-            }
-
-            _module.utils.fadeOut("#pivotor");
+            clearTimeout(pivot_timeout);
         }
     }
 
