@@ -537,8 +537,6 @@ TRIPODS.mvt = (function (_module) {
         const cb = fade_in ? () => {
             pivot_timeout = setTimeout(() => {
                 if (!_module.game_state.level_end) {
-                    console.log("DERP");
-                    console.log(_module.game_state.ignore_user_input);
                     _module.sound.play("pivot");
                     _module.utils.fadeIn("#pivotor");
                 }
@@ -1050,16 +1048,16 @@ TRIPODS.mvt = (function (_module) {
             });
         } else { // OK to jump
             clearNextPivotIndicators();
+            clearTimeout(pivot_timeout);
             jump(foot, x_shift, y_shift, () => {
                 foot.style.zIndex = 1000;
                 _this.calculatePivotState();
                 _this.repositionPivot(true);
                 moveSuccess();
+                clearTimeout(pivot_timeout);
                 _module.sound.play("land");
                 _module.game_state.ignore_user_input = false;
             });
-
-            clearTimeout(pivot_timeout);
         }
     }
 
