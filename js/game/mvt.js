@@ -537,7 +537,6 @@ TRIPODS.mvt = (function (_module) {
         const cb = fade_in ? () => {
             pivot_timeout = setTimeout(() => {
                 if (!_module.game_state.level_end) {
-                    _module.sound.play("pivot");
                     _module.utils.fadeIn("#pivotor");
                 }
             }, delay);
@@ -767,9 +766,9 @@ TRIPODS.mvt = (function (_module) {
             const translate_xy = _module.utils.getTranslateXY(foot);
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.0015}rem)` },
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))` },
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions / 500}rem) drop-shadow(${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 20}px rgba(0, 0, 0, 0.05))` }, // Halfway
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, callback);
@@ -842,9 +841,9 @@ TRIPODS.mvt = (function (_module) {
             }
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" },
-                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0)" } // Back to original position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" },
+                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem) drop-shadow(${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 20}px rgba(0, 0, 0, 0.05))` }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" } // Back to original position
             ];
 
             const duration_additional = !x_shift_additional && !y_shift_additional ? 1 : (Math.abs(x_shift_additional + y_shift_additional) / foot_rect.width) * _module.cfg.animation.jump_duration * 0.3;
@@ -862,18 +861,18 @@ TRIPODS.mvt = (function (_module) {
             const translate_xy = _module.utils.getTranslateXY(foot);
 
             let keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway between initial and block
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions / 500}rem) drop-shadow(${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 20}px rgba(0, 0, 0, 0.05))` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Block position
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
                 setTimeout(() => {
 
                     let keyframes = [
-                        { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.003}rem)` }, // Halfway between initial and block
-                        { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
+                        { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Block position
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions / 500}rem) drop-shadow(${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 20}px rgba(0, 0, 0, 0.05))` }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Initial
 
                     ];
 
@@ -898,9 +897,9 @@ TRIPODS.mvt = (function (_module) {
             const translate_xy = _module.utils.getTranslateXY(foot);
 
             let keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem)` }, // Halfway between initial and block
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0)" }, // Block position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.002}rem) drop-shadow(${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 6}px ${_module.ui_attributes.cell_dimensions / 20}px rgba(0, 0, 0, 0.05))` }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: "blur(0) drop-shadow(0 0 0 rgba(0, 0, 0, 0.15))" }, // Block position
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
