@@ -7,7 +7,7 @@ TRIPODS.game_state = (function (_module) {
         moves_made: [], // Selectors of moves successfully made this level
         ignore_user_input: false, // E.g. when foot move is being animated
         level: 0, // Also stored in TRIPODS_level in localStorage
-        level_end: false,
+        level_running: false,
         block_center_coords: [],
         vortex_center_coords: [],
         tutorial_running: false,
@@ -111,7 +111,7 @@ TRIPODS.game_state = (function (_module) {
 
     function onWin() { // Function to run on win
 
-        _this.level_end = true;
+        _this.level_running = false;
 
         // clearTimeout(_module.events.state.hold_interval); // If user is has pivotor held, stop repeated calls to pivot function
 

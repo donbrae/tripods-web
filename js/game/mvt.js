@@ -536,7 +536,7 @@ TRIPODS.mvt = (function (_module) {
 
         const cb = fade_in ? () => {
             pivot_timeout = setTimeout(() => {
-                if (!_module.game_state.level_end) {
+                if (_module.game_state.level_running) {
                     _module.utils.fadeIn("#pivotor");
                 }
             }, delay);
@@ -635,7 +635,7 @@ TRIPODS.mvt = (function (_module) {
 
     _this.pivot = function (e) {
 
-        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
+        if (_module.game_state.ignore_user_input || !_module.game_state.level_running) {
             return false;
         }
 
@@ -731,7 +731,7 @@ TRIPODS.mvt = (function (_module) {
             startPivot(abortPivot); // Don't pivot
             _module.sound.play("block_collide_pivot", _module.cfg.animation.jump_duration * 0.12);
         } else if (vortex_collide_via_pivot) {
-            _module.game_state.level_end = true;
+            _module.game_state.level_running = false;
             _module.utils.fadeOutAndDisable(".info-panel .hame");
             _module.utils.fadeOut("#sound", 100);
             _module.utils.fadeOut("#guides", 100);
@@ -747,7 +747,7 @@ TRIPODS.mvt = (function (_module) {
 
     _this.swipe = function (e) {
 
-        if (_module.game_state.ignore_user_input || _module.game_state.level_end) {
+        if (_module.game_state.ignore_user_input || !_module.game_state.level_running) {
             return false;
         }
 
@@ -1036,7 +1036,7 @@ TRIPODS.mvt = (function (_module) {
                 _module.utils.fadeOut("#sound", 100);
                 _module.utils.fadeOut("#guides", 100);
                 _module.utils.fadeOut("#pivotor");
-                _module.game_state.level_end = true;
+                _module.game_state.level_running = false;
                 animateVortex({
                     foot_id: foot.getAttribute("id"), // ID of foot that has collided with vortex
                     x: move_to_x,

@@ -16,6 +16,7 @@ TRIPODS.level_builder = (function (_module) {
             _module.game_state.tutorial_running = true;
         }
 
+        _module.game_state.level_running = true;
         _module.game_state.ignore_user_input = true;
 
         // Highlight feet (alt.)
@@ -31,6 +32,11 @@ TRIPODS.level_builder = (function (_module) {
         _module.utils.animate(feet[0], keyframes, { duration: duration, delay: delay, easing: easing });
         _module.utils.animate(feet[1], keyframes, { duration: duration, delay: delay * 2, easing: easing });
         _module.utils.animate(feet[2], keyframes, { duration: duration, delay: delay * 3, easing: easing }, () => {
+
+            if (!_module.game_state.level_running) { // Check whether game is still running
+                return false;
+            }
+
             Howler.volume(1);
             _module.mvt.getNextPivot();
             _module.game_state.ignore_user_input = false;
@@ -95,7 +101,7 @@ TRIPODS.level_builder = (function (_module) {
     _this.reset = function (callback) {
         _module.game_state.block_center_coords.length = 0; // Reset vortex data
         _module.game_state.vortex_center_coords.length = 0; // Reset block data
-        _module.game_state.level_end = false;
+        _module.game_state.level_running = false;
         _module.game_state.tutorial_running = false;
         _module.game_state.moves_made.length = 0; // Empty array
         _module.tutorials.animate_tap = undefined;
