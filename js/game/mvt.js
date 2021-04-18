@@ -5,6 +5,9 @@ TRIPODS.mvt = (function (_module) {
     "use strict";
 
     const _this = {
+        foot_move_data: [], // Data pertaining to feet, including whether they'll move on pivot
+        will_pivot: [], // Simple array IDs of feet that will pivot next
+        hide_stroke: [], // For failed jumps, IDs of feet that have strokes hidden
         measurements: {
             container_rect: undefined,
             cells_in_row: undefined,
@@ -39,7 +42,6 @@ TRIPODS.mvt = (function (_module) {
     let vortex_collide_via_pivot;
     let vortex_data;
 
-    const foot_move_data = [];
     let count_foot1;
     let count_foot2;
     let count_foot3;
@@ -48,8 +50,7 @@ TRIPODS.mvt = (function (_module) {
 
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift) {
-        const stroke_width = parseFloat(getComputedStyle(document.querySelector("#foot1 > circle"))["stroke-width"]);
-        const control_padding = _module.ui_attributes.control_padding - stroke_width;
+        const control_padding = _module.ui_attributes.control_padding - _module.ui_attributes.guide_stroke_width;
         const container_padding = parseFloat(document.getElementById("container-grid").style.padding);
         const foot_width_height = document.querySelector("#foot1 > :first-child").getBoundingClientRect().width;
 
@@ -168,7 +169,7 @@ TRIPODS.mvt = (function (_module) {
 
     // Clear any pivot indicators
     function clearNextPivotIndicators() {
-        foot_move_data.forEach(item => {
+        _this.foot_move_data.forEach(item => {
             if (item.move) {
                 const foot = document.getElementById(item.foot);
                 _module.utils.animate(foot, [
@@ -181,10 +182,11 @@ TRIPODS.mvt = (function (_module) {
 
     // Hide any pivot indicators
     function hideNextPivotIndicators() {
+        _this.hide_stroke.length = 0;
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
             const opacity = parseFloat(window.getComputedStyle(el).strokeOpacity);
             if (opacity) {
-                el.dataset.hideStroke = true;
+                _this.hide_stroke.push(el.getAttribute("id"));
                 _module.utils.animate(el, [
                     { strokeOpacity: parseFloat(window.getComputedStyle(el).strokeOpacity) },
                     { strokeOpacity: 0 }
@@ -196,8 +198,7 @@ TRIPODS.mvt = (function (_module) {
     // Hide any hidden pivot indicators
     function showNextPivotIndicators() {
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
-            if ("hideStroke" in el.dataset) {
-                delete el.dataset.hideStroke;
+            if (_this.hide_stroke.indexOf(el.getAttribute("id")) > -1) {
                 _module.utils.animate(el, [
                     { strokeOpacity: 0 },
                     { strokeOpacity: 0.15 }
@@ -601,7 +602,7 @@ TRIPODS.mvt = (function (_module) {
                     shift = { x: 0, y: foot_shift_y };
                 }
 
-                foot_move_data.push({
+                _this.foot_move_data.push({
                     foot: foot, // Element ID
                     move: true,
                     count: count,
@@ -628,7 +629,7 @@ TRIPODS.mvt = (function (_module) {
                     }
                 }
             } else if (foot_pivot_sequence[count] === null) { // If foot isn't to move this time
-                foot_move_data.push({
+                _this.foot_move_data.push({
                     foot: foot, // Element ID
                     move: false,
                     count: count
@@ -636,7 +637,7 @@ TRIPODS.mvt = (function (_module) {
             }
         };
 
-        foot_move_data.length = 0;
+        _this.foot_move_data.length = 0;
 
         block_collide_via_pivot = false;
         vortex_collide_via_pivot = false;
@@ -646,20 +647,25 @@ TRIPODS.mvt = (function (_module) {
         checkWhichFeetShouldPivot("foot2", count_foot2);
         checkWhichFeetShouldPivot("foot3", count_foot3);
 
-        const keyframes = [
-            { strokeOpacity: 0 },
-            { strokeOpacity: 0.28 },
-            { strokeOpacity: 0.15 },
-        ];
-
         // Highlight feet that will pivot
-        foot_move_data.forEach(item => {
+        _this.will_pivot.length = 0;
+        _this.foot_move_data.forEach(item => {
             const foot = document.getElementById(item.foot);
-            foot.classList.remove("will-pivot");
             if (item.move) {
-                foot.classList.add("will-pivot");
-                if (!foot.classList.contains("hide-guide")) {
-                    _module.utils.animate(foot, keyframes, { duration: 750, delay: 200 });
+                _this.will_pivot.push(item.foot); // Make note of which foot will pivot next
+                if (_module.game_state.guides) {
+
+                    _module.utils.animate(foot, [
+                        { strokeOpacity: 0 },
+                        { strokeOpacity: 0.2 },
+                        { strokeOpacity: 0.15 },
+                    ], { duration: 650, delay: 200 });
+
+                    _module.utils.animate(foot.querySelector("circle"), [
+                        { strokeWidth: `${_module.ui_attributes.guide_stroke_width}px` },
+                        { strokeWidth: `${_module.ui_attributes.guide_stroke_width * 1.3}px` },
+                        { strokeWidth: `${_module.ui_attributes.guide_stroke_width}px` },
+                    ], { duration: 650, delay: 200 });
                 }
             }
         });
@@ -728,7 +734,7 @@ TRIPODS.mvt = (function (_module) {
         function startPivot(callback) {
             _module.game_state.ignore_user_input = true;
 
-            foot_move_data.forEach(item => {
+            _this.foot_move_data.forEach(item => {
                 // Amend count
                 if (item.count === 11) item.count = 0;
                 else item.count++;

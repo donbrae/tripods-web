@@ -49,10 +49,6 @@ TRIPODS.level_builder = (function (_module) {
         });
 
         if (!_module.game_state.guides) {
-            Array.prototype.forEach.call(feet, function (el) {
-                el.classList.add("hide-guide");
-            });
-
             document.getElementById("pivotor").classList.add("hide-guide");
         }
     }

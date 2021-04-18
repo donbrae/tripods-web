@@ -192,6 +192,8 @@ var TRIPODS = (function (_this) {
         _this.levels[_this.game_state.level].forEach((row, i) => {
             if (i > 1) {
                 let left = 0;
+                const stroke_width = _this.ui_attributes.cell_dimensions / 4.8; // For pivot guides
+                _this.ui_attributes.guide_stroke_width = stroke_width;
                 row.forEach(square => {
                     if (
                         square === 1 || // Foot 1
@@ -216,7 +218,7 @@ var TRIPODS = (function (_this) {
                         }
 
                         _this.cfg.linking[square].attributes.fill = fill;
-                        _this.cfg.linking[square].attributes["stroke-width"] = `${_this.ui_attributes.cell_dimensions / 4.8}px`;
+                        _this.cfg.linking[square].attributes["stroke-width"] = `${stroke_width}px`;
 
                         _addElement(_this.cfg.linking[square], layer_element, left, top);
                     }

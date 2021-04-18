@@ -398,6 +398,8 @@ svg.control:hover {
 
 .foot {
     z-index: 1000;
+    stroke: #fff;
+    stroke-opacity: 0;
 }
 
 /* Janky on certain devices/browsers */
@@ -406,11 +408,10 @@ svg.control:hover {
 }
 
 #pivotor {
-    /* See also `.will-pivot` */
     transition: opacity .20s linear;
 }
 
-#pivotor.hide-guide, .fadeout {
+#pivotor.hide-guide {
     opacity: 0;
 }
 
@@ -648,18 +649,6 @@ footer {
     100% {
         transform: scale(1);
     }
-}
-
-.will-pivot {
-    stroke: #fff;
-    /* `stroke-width` set in addElements() */
-    stroke-opacity: 0.15;
-    transition: stroke-opacity .20s linear;
-}
-
-.will-pivot.will-pivot-fade,
-.will-pivot.hide-guide {
-    stroke-opacity: 0;
 }
 
 .swirl {

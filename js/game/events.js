@@ -117,10 +117,10 @@ TRIPODS.events = (function (_module) {
 
                 const pivotor = document.getElementById("pivotor");
 
-                if (_module.game_state.guides) {
+                if (_module.game_state.guides) { // Guides are to be shown
                     Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-                        foot.classList.remove("hide-guide");
-                        if (foot.classList.contains("will-pivot")) {
+                        if (_module.mvt.will_pivot.indexOf(foot.getAttribute("id")) > -1) {
+                            // Show guides on feet
                             _module.utils.animate(foot, [
                                 { strokeOpacity: 0 },
                                 { strokeOpacity: 0.15 }
@@ -132,10 +132,10 @@ TRIPODS.events = (function (_module) {
                     // Update button icon
                     e.target.classList.add("guides-on");
                     e.target.classList.remove("guides-off");
-                } else {
+                } else { // Guides are to be hidden
                     Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
-                        foot.classList.add("hide-guide");
-                        if (foot.classList.contains("will-pivot")) {
+                        if (_module.mvt.will_pivot.indexOf(foot.getAttribute("id")) > -1) {
+                            // Hide guides on feet
                             _module.utils.animate(foot, [
                                 { strokeOpacity: 0.15 },
                                 { strokeOpacity: 0 }

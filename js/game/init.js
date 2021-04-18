@@ -139,7 +139,8 @@ var TRIPODS = (function (_this) {
     _this.ui_attributes = {
         cell_dimensions: 0, // Width and height of (square) SVG element
         control_padding: 0,
-        landing_stroke_width: 0 // Original value for reference. Keep default as 0
+        landing_stroke_width: 0, // Original value for reference. Keep default as 0
+        guide_stroke_width: 0 // Pivot guides
     };
 
     _this.init = function () {
