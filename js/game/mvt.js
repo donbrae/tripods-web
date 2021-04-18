@@ -168,16 +168,27 @@ TRIPODS.mvt = (function (_module) {
 
     // Clear any pivot indicators
     function clearNextPivotIndicators() {
-        Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
-            el.classList.add("will-pivot-fade");
+        foot_move_data.forEach(item => {
+            if (item.move) {
+                const foot = document.getElementById(item.foot);
+                _module.utils.animate(foot, [
+                    { strokeOpacity: parseFloat(window.getComputedStyle(foot).strokeOpacity) },
+                    { strokeOpacity: 0 }
+                ], { duration: 200 });
+            }
         });
     }
 
     // Hide any pivot indicators
     function hideNextPivotIndicators() {
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
-            if (!el.classList.contains("will-pivot-fade")) {
-                el.classList.add("will-pivot-fade", "will-pivot-hide");
+            const opacity = parseFloat(window.getComputedStyle(el).strokeOpacity);
+            if (opacity) {
+                el.dataset.hideStroke = true;
+                _module.utils.animate(el, [
+                    { strokeOpacity: parseFloat(window.getComputedStyle(el).strokeOpacity) },
+                    { strokeOpacity: 0 }
+                ], { duration: 200 });
             }
         });
     }
@@ -185,8 +196,12 @@ TRIPODS.mvt = (function (_module) {
     // Hide any hidden pivot indicators
     function showNextPivotIndicators() {
         Array.prototype.forEach.call(document.getElementsByClassName("foot"), function (el) {
-            if (el.classList.contains("will-pivot-hide")) {
-                el.classList.remove("will-pivot-fade", "will-pivot-hide");
+            if ("hideStroke" in el.dataset) {
+                delete el.dataset.hideStroke;
+                _module.utils.animate(el, [
+                    { strokeOpacity: 0 },
+                    { strokeOpacity: 0.15 }
+                ], { duration: 200 });
             }
         });
     }
@@ -631,10 +646,21 @@ TRIPODS.mvt = (function (_module) {
         checkWhichFeetShouldPivot("foot2", count_foot2);
         checkWhichFeetShouldPivot("foot3", count_foot3);
 
+        const keyframes = [
+            { strokeOpacity: 0 },
+            { strokeOpacity: 0.28 },
+            { strokeOpacity: 0.15 },
+        ];
+
         // Highlight feet that will pivot
         foot_move_data.forEach(item => {
+            const foot = document.getElementById(item.foot);
+            foot.classList.remove("will-pivot");
             if (item.move) {
-                document.getElementById(item.foot).classList.remove("will-pivot-fade");
+                foot.classList.add("will-pivot");
+                if (!foot.classList.contains("hide-guide")) {
+                    _module.utils.animate(foot, keyframes, { duration: 750, delay: 200 });
+                }
             }
         });
     }

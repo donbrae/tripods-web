@@ -21,7 +21,7 @@ var TRIPODS = (function (_this) {
                 name: 'foot1',
                 id: 'foot1',
                 shape: 'circle',
-                classes: ['control', 'foot', 'will-pivot', 'will-pivot-fade'],
+                classes: ['control', 'foot'],
                 attributes: {} // fill, r, cx and cy set dynamically
             },
             foot2: { // Inherits from foot1

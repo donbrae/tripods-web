@@ -120,15 +120,30 @@ TRIPODS.events = (function (_module) {
                 if (_module.game_state.guides) {
                     Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
                         foot.classList.remove("hide-guide");
+                        if (foot.classList.contains("will-pivot")) {
+                            _module.utils.animate(foot, [
+                                { strokeOpacity: 0 },
+                                { strokeOpacity: 0.15 }
+                            ], { duration: 200 });
+                        }
                     });
-                    pivotor.classList.remove("hide-guide");
+                    pivotor.classList.remove("hide-guide"); // Opacity via CSS
+
+                    // Update button icon
                     e.target.classList.add("guides-on");
                     e.target.classList.remove("guides-off");
                 } else {
                     Array.prototype.forEach.call(document.querySelectorAll(".foot"), foot => {
                         foot.classList.add("hide-guide");
+                        if (foot.classList.contains("will-pivot")) {
+                            _module.utils.animate(foot, [
+                                { strokeOpacity: 0.15 },
+                                { strokeOpacity: 0 }
+                            ], { duration: 200 });
+                        }
                     });
                     pivotor.classList.add("hide-guide");
+
                     e.target.classList.add("guides-off");
                     e.target.classList.remove("guides-on");
                 }
