@@ -148,7 +148,9 @@ TRIPODS.game_state = (function (_module) {
             });
         }
 
-        _module.utils.fadeOut(".layer-active");
+        setTimeout(() => {
+            _module.utils.fadeOut(".layer-active");
+        }, 100);
         _module.utils.fadeOut("#pivotor");
         _module.utils.fadeOutAndDisable(".info-panel .hame");
         _module.utils.fadeOut("#sound", 100);
