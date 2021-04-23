@@ -12,6 +12,10 @@ TRIPODS.level_builder = (function (_module) {
         _module.game_state.getBlockerCoords();
         _module.game_state.getVortexCoords();
 
+        if (!_module.game_state.guides) {
+            document.getElementById("pivotor").classList.add("hide-guide");
+        }
+
         if (_module.tutorials.levels[_module.game_state.level]) {
             _module.game_state.tutorial_running = true;
         }
