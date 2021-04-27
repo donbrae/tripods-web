@@ -38,6 +38,17 @@ The following post-processing is handled by Netlify on deployment:
 
 * Possible more sophisticated motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa.
 
-### Possible ‘hint’ icons:
+### `clipPath`
 
-* https://iconmonstr.com/?s=hint
+Example (source: https://alexwlchan.net/2021/03/inner-outer-strokes-svg/#drawing-an-inner-stroke-with-clipping):
+
+```xml
+<svg class="control foot" id="foot1" style="top: 79px; left: 487px; width: 148px; height: 148px;">
+  <defs>
+    <clipPath id="insideCircleOnly">
+      <circle cx="74" cy="74" r="42.94736842105263"></circle>
+    </clipPath>
+  </defs>
+  <circle fill="#eda8ce" stroke-width="21.25px" cx="74" cy="74" r="42.94736842105263" clip-path="url(#insideCircleOnly)"></circle>
+</svg>
+```
