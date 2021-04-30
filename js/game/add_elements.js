@@ -70,12 +70,12 @@ var TRIPODS = (function (_this) {
         Array.prototype.forEach.call(elements, el => {
 
             // Amend SVG object
-            let side = parseFloat(getComputedStyle(el)["width"]);
-            let left = parseFloat(getComputedStyle(el)["left"]);
-            let top = parseFloat(getComputedStyle(el)["top"]);
+            const side = parseFloat(getComputedStyle(el)["width"]);
+            const left = parseFloat(getComputedStyle(el)["left"]);
+            const top = parseFloat(getComputedStyle(el)["top"]);
 
-            let new_side = side + _this.ui_attributes.control_padding * 2;
-            let shunt = (new_side - side) / 2;
+            const new_side = side + _this.ui_attributes.control_padding * 2;
+            const shunt = (new_side - side) / 2;
 
             el.style.width = `${new_side}px`;
             el.style.height = `${new_side}px`;
@@ -83,11 +83,21 @@ var TRIPODS = (function (_this) {
             el.style.left = `${left - shunt}px`;
 
             // Amend actual SVG shape
-            let shape_pos = parseFloat(el.querySelectorAll(":first-child")[0].getAttribute("cx"));
+            const circle = el.querySelector("circle");
+            const cx = circle ? parseFloat(circle.getAttribute("cx")) : null;
 
-            if (!isNaN(shape_pos)) {
-                el.querySelectorAll(":first-child")[0].setAttribute("cx", shape_pos + _this.ui_attributes.control_padding);
-                el.querySelectorAll(":first-child")[0].setAttribute("cy", shape_pos + _this.ui_attributes.control_padding);
+            if (cx && !isNaN(cx)) {
+                const c = cx + _this.ui_attributes.control_padding;
+                const circle = el.querySelector("circle");
+                circle.setAttribute("cx", c);
+                circle.setAttribute("cy", c);
+
+                const clipPath = el.querySelector("clipPath");
+                if (clipPath) {
+                    const circle = clipPath.querySelector("circle");
+                    circle.setAttribute("cx", c);
+                    circle.setAttribute("cy", c);
+                }
             }
         });
     }
@@ -257,16 +267,30 @@ var TRIPODS = (function (_this) {
                     svg.style.width = `${_this.ui_attributes.cell_dimensions}px`;
                     svg.style.height = `${_this.ui_attributes.cell_dimensions}px`;
                     if (svg.children[0].nodeName === "circle") {
-                        svg.children[0].setAttribute("cx", _this.ui_attributes.cell_dimensions / 2);
-                        svg.children[0].setAttribute("cy", _this.ui_attributes.cell_dimensions / 2);
-                        if (svg.id && svg.id === "pivotor") { // Pivotor
-                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 5);
-                        } else if (svg.classList.contains("grid")) {
-                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.45);
-                        } else {
-                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.375);
+                        const clipPath = svg.querySelector("clipPath");
+                        const c = _this.ui_attributes.cell_dimensions / 2;
+                        const r = _this.ui_attributes.cell_dimensions / 2.375;
+
+                        svg.children[0].setAttribute("cx", c);
+                        svg.children[0].setAttribute("cy", c);
+
+                        if (clipPath) {
+                            const circle = clipPath.querySelector("circle");
+                            circle.setAttribute("cx", c);
+                            circle.setAttribute("cy", c);
                         }
 
+                        if (svg.id && svg.id === "pivotor") { // Pivotor
+                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 5);
+                        } else if (svg.classList.contains("grid")) { // Grid
+                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.45);
+                        } else { // (Foot)
+                            svg.children[0].setAttribute("r", r);
+
+                            if (clipPath) {
+                                clipPath.querySelector("circle").setAttribute("r", r);
+                            }
+                        }
                     } else if (svg.children[0].nodeName === "rect") {
                         svg.children[0].setAttribute("width", _this.ui_attributes.cell_dimensions);
                         svg.children[0].setAttribute("height", _this.ui_attributes.cell_dimensions);

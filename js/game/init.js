@@ -22,7 +22,10 @@ var TRIPODS = (function (_this) {
                 id: 'foot1',
                 shape: 'circle',
                 classes: ['control', 'foot'],
-                attributes: {} // fill, r, cx and cy set dynamically
+                attributes: { // fill, r, cx and cy set dynamically
+                    "clip-path": "url(#hideOuterStroke)"
+                },
+                defs: `<clipPath id="hideOuterStroke"><circle cx="74" cy="74" r="10"></circle></clipPath>`
             },
             foot2: { // Inherits from foot1
                 name: 'foot2',
