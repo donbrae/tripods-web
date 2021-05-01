@@ -559,10 +559,9 @@ TRIPODS.mvt = (function (_module) {
         ];
 
         const cb = fade_in ? () => {
-            clearTimeout(pivot_timeout);
             pivot_timeout = setTimeout(() => {
                 if (_module.game_state.level_running) {
-                    _module.utils.fadeIn("#pivotor", 220);
+                    _module.utils.fadeIn("#pivotor", 180);
                 }
             }, delay);
         } : null;
@@ -1059,7 +1058,7 @@ TRIPODS.mvt = (function (_module) {
         function postJumpFail() {
             showNextPivotIndicators();
             foot.style.zIndex = 1000;
-            _module.utils.fadeIn("#pivotor", 220);
+            _module.utils.fadeIn("#pivotor", 180);
             _module.game_state.ignore_user_input = false;
         }
 
