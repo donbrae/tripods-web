@@ -559,6 +559,7 @@ TRIPODS.mvt = (function (_module) {
         ];
 
         const cb = fade_in ? () => {
+            clearTimeout(pivot_timeout);
             pivot_timeout = setTimeout(() => {
                 if (_module.game_state.level_running) {
                     _module.utils.fadeIn("#pivotor", 220);
