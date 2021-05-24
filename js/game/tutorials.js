@@ -1,7 +1,7 @@
 TRIPODS.tutorials = (function (_module) {
     const _this = {
         levels: [],
-        animate_tap: undefined // Instance of Web Animations API `Animation` constructor
+        tap_animate_vertical: undefined // Instance of Web Animations API `Animation` constructor
     };
 
     _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivotor", "#foot3"]; // Level 1
@@ -30,6 +30,7 @@ TRIPODS.tutorials = (function (_module) {
             label.style.left = `${left}px`;
             label.style.top = `${top}px`;
 
+            // > fadeIn clashing with tap_animate_vertical
             _module.utils.fadeIn("#tap"); // Show tutorial label
 
             const keyframes = [
@@ -38,7 +39,7 @@ TRIPODS.tutorials = (function (_module) {
                 { transform: "translate(0,0)" }
             ];
 
-            _this.animate_tap = _module.utils.animate(document.getElementById("tap"), keyframes, { duration: 750, easing: "cubic-bezier(0.9, 1, 0.9, 1)", delay: 500, iterations: "Infinity" });
+            _this.tap_animate_vertical = _module.utils.animate(document.getElementById("tap"), keyframes, { duration: 750, easing: "cubic-bezier(0.9, 1, 0.9, 1)", delay: 500, iterations: "Infinity" }); // Initiate 'veritcal' animation to highlight tap label
 
         } else {
             this.finish(); // Tutorial should now be complete

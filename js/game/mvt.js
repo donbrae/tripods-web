@@ -153,15 +153,19 @@ TRIPODS.mvt = (function (_module) {
     function hideTutorialLabel() {
         if (_module.game_state.tutorial_running) {
 
-            const animation = _module.tutorials.animate_tap;
+            const animation = _module.tutorials.tap_animate_vertical; // Vertical animation
             const delay = animation.effect.getComputedTiming().delay;
 
-            if (animation.currentTime < delay) { // If 'Tap' label animation hasn't begun yet
+            // console.log("hideTutorialLabel()", animation.currentTime, delay);
+
+            if (animation.currentTime && animation.currentTime < delay) { // If 'Tap' label fade-in animation hasn't begun yet
                 animation.cancel();
-                _module.utils.fadeOut("#tap", 130); // Hide tutorial label
+                // console.log("DERP");
+                _module.utils.fadeOut("#tap", 1); // Hide tutorial label
             } else {
+                // console.log("MERP");
                 _module.utils.fadeOut("#tap", 130, undefined, () => {
-                    _module.tutorials.animate_tap.cancel();
+                    animation.cancel();
                 }); // Hide tutorial label
             }
         }
