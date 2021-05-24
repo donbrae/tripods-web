@@ -57,3 +57,5 @@ setTimeout(() => {
 ```
 
 Functions to test: hideTutorialLabel(), placeTutorialElement(). #tap fadeIn in latter is clashing with fadeOut(s) in the former. Maybe put #tap fadeIn() and tap_animate_vertical (NB. tap_animate_vertical itself has delay!) within a setTimeout() and cancel the setTimeout() (and optionally _module.tutorials.tap_animate_vertical?) in hideTutorialLabel()?
+
+Or, maybe amend fadeIn() function to return animation object and assign that to a state variable (with slight delay) in placeTutorialElement() (see the fadeIn() call), which you can then cancel alongside tap_animate_vertical in hideTutorialLabel()?
