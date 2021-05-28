@@ -109,17 +109,20 @@ TRIPODS.utils = (function (_module) {
      * .hide should be set in CSS as `display: none;`. Used by fadeOut() to actually hide an element after its opacity has been set to 0
      * .opacity-0 should be set in CSS as `opacity: 0;`. Allows elements to be displayed, but invisible, in the UI before any JavaScript runs. For the purpose of, say, calculating object properties such as height and xy coordinates relative to the viewport
      */
-    _this.fadeIn = function (selector, duration = 180, callback) {
+    _this.fadeIn = function (selector, duration = 180, delay = 0, callback) {
         const element = document.querySelector(selector);
+        let animation = undefined;
 
         if (element) {
             element.classList.remove("hide", "opacity-0");
             element.style.filter = "opacity(0)"; // Make sure the element isn't visible before fade in (i.e. if it's opacity is 1)
-            _module.utils.animate(element, [
+            animation = _module.utils.animate(element, [
                 { filter: getComputedStyle(element).filter },
                 { filter: "opacity(1)" },
-            ], { duration: duration }, callback);
+            ], { duration: duration, delay: delay }, callback);
         }
+
+        return animation;
     }
 
     _this.fadeOut = function (selector, duration = 180, hide = false, callback) {

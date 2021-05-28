@@ -72,7 +72,7 @@ TRIPODS.events = (function (_module) {
 
                     setTimeout(() => {
                         document.querySelectorAll("#level-buttons button.start")[_module.game_state.level].classList.add("highlight");
-                        _module.utils.fadeIn(".screen-level-select", undefined, _module.utils.setLevelSelectGridHeight);
+                        _module.utils.fadeIn(".screen-level-select", undefined, undefined, _module.utils.setLevelSelectGridHeight);
                     }, 180);
                 });
                 buttonDisabledFalse(e.target);

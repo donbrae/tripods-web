@@ -153,20 +153,42 @@ TRIPODS.mvt = (function (_module) {
     function hideTutorialLabel() {
         if (_module.game_state.tutorial_running) {
 
-            const animation = _module.tutorials.tap_animate_vertical; // Vertical animation
-            const delay = animation.effect.getComputedTiming().delay;
+            // console.log("------------ hideTutorialLabel()");
 
-            // console.log("hideTutorialLabel()", animation.currentTime, delay);
+            const fadein = _module.tutorials.tutorial_fadein;
+            const delay = fadein ? fadein.effect.getComputedTiming().delay : null;
 
-            if (animation.currentTime && animation.currentTime < delay) { // If 'Tap' label fade-in animation hasn't begun yet
-                animation.cancel();
-                // console.log("DERP");
-                _module.utils.fadeOut("#tap", 1); // Hide tutorial label
-            } else {
-                // console.log("MERP");
+            const animate_vertical = _module.tutorials.tutorial_animate_vertical;
+
+            function reset() {
+                _module.tutorials.tutorial_fadein = undefined;
+                _module.tutorials.tutorial_animate_vertical = undefined;
+            }
+
+            if (fadein && fadein.currentTime < delay) { // If 'Tap' label fade-in animation hasn't begun yet
+                // console.log(fadein.currentTime, delay);
+                // console.log("cancel both tutorial animations");
+
+                fadein.cancel();
+                animate_vertical.cancel();
+                reset();
+            } else if (fadein && fadein.currentTime > delay) {
+                // console.log(fadein.currentTime, delay);
+                // console.log("fade out tutorial element and cancel vertical animation");
+                // console.log(fadein.currentTime, delay + _module.tutorials.tutorial_fadein_duration);
+                if (fadein.currentTime < delay + _module.tutorials.tutorial_fadein_duration && navigator.userAgent.toLowerCase().includes("applewebkit") && !navigator.userAgent.toLowerCase().includes("chrome")) { // If not fully faded in on Safari
+                    // console.log("cancel fadein");
+                    fadein.cancel(); // Cancel animation to avoid Safari flicker bug
+                }
+                // Fade-out tutorial label
                 _module.utils.fadeOut("#tap", 130, undefined, () => {
-                    animation.cancel();
-                }); // Hide tutorial label
+                    animate_vertical.cancel();
+                    reset();
+                });
+            } else {
+                // console.log("neither tutorial animation has been instatiated");
+                // console.log(_module.tutorials.tutorial_fadein);
+                // console.log(_module.tutorials.tutorial_animate_vertical);
             }
         }
     }

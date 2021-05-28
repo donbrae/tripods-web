@@ -88,7 +88,7 @@ TRIPODS.level_builder = (function (_module) {
             _module.utils.fadeIn("#sound", 100);
             _module.utils.fadeIn("#guides", 100);
 
-            _module.utils.fadeIn(".container-game", undefined, () => {
+            _module.utils.fadeIn(".container-game", undefined, undefined, () => {
                 _this.runLevel();
             });
         }, 300);
@@ -100,7 +100,8 @@ TRIPODS.level_builder = (function (_module) {
         _module.game_state.level_running = false;
         _module.game_state.tutorial_running = false;
         _module.game_state.moves_made.length = 0; // Empty array
-        _module.tutorials.tap_animate_vertical = undefined;
+        _module.tutorials.tutorial_animate_vertical = undefined;
+        _module.tutorials.tutorial_fadein = undefined;
         _module.game_state.element_tapped = "";
         _module.utils.fadeOut(".container-game", undefined, undefined, () => {
             Array.prototype.forEach.call(document.querySelectorAll(".layer"), function (el) {
@@ -158,7 +159,7 @@ TRIPODS.level_builder = (function (_module) {
 
     _this.showLoseScreen = function (message) {
         document.querySelector(".screen-lose > h2").innerHTML = message;
-        _module.utils.fadeIn(".screen-lose", undefined, () => {
+        _module.utils.fadeIn(".screen-lose", undefined, undefined, () => {
             _module.game_state.ignore_user_input = false;
         });
     }
