@@ -1,22 +1,24 @@
 TRIPODS.tutorials = (function (_module) {
     const _this = {
-        levels: [],
         tutorial_animate_vertical: undefined, // Instance of Web Animations API `Animation` constructor
-        tutorial_fadein: undefined, // Instance of Web Animations API `Animation` constructor (returned by utils.fadeIn())
-        tutorial_fadein_duration: 130
+        tutorial_fadein: undefined // Instance of Web Animations API `Animation` constructor (returned by utils.fadeIn())
     };
 
-    _this.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivotor", "#foot3"]; // Level 1
-    _this.levels[1] = ["#pivotor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivotor", "#pivotor", "#pivotor", "#foot1"]; // Level 2
+    _this.cfg = {
+        levels: []
+    }
+
+    _this.cfg.levels[0] = ["#foot1", "#foot3", "#foot1", "#pivotor", "#foot3"]; // Level 1
+    _this.cfg.levels[1] = ["#pivotor", "#foot3", "#foot1", "#foot2", "#foot1", "#pivotor", "#pivotor", "#pivotor", "#foot1"]; // Level 2
 
     _this.placeTutorialElement = function () {
 
-        if (_module.game_state.moves_made.length < _this.levels[_module.game_state.level].length) { // If number of moves made is fewer than number of moves in this level's tutorial
+        if (_module.game_state.moves_made.length < _this.cfg.levels[_module.game_state.level].length) { // If number of moves made is fewer than number of moves in this level's tutorial
             if (_module.game_state.ignore_user_input) {
                 return false;
             }
 
-            const element = document.querySelector(_this.levels[_module.game_state.level][_module.game_state.moves_made.length]);
+            const element = document.querySelector(_this.cfg.levels[_module.game_state.level][_module.game_state.moves_made.length]);
             const element_rect = element.getBoundingClientRect();
 
             const label = document.querySelector("#tap");
@@ -32,7 +34,7 @@ TRIPODS.tutorials = (function (_module) {
             label.style.left = `${left}px`;
             label.style.top = `${top}px`;
 
-            _this.tutorial_fadein = _module.utils.fadeIn("#tap", _this.tutorial_fadein_duration, 100); // Show tutorial label
+            _this.tutorial_fadein = _module.utils.fadeIn("#tap", 130, 100); // Show tutorial label
 
             const keyframes = [
                 { transform: "translate(0,0)" },
@@ -56,7 +58,7 @@ TRIPODS.tutorials = (function (_module) {
         }
 
         const last_move = _module.game_state.moves_made[_module.game_state.moves_made.length - 1];
-        const tutorial_step = _this.levels[_module.game_state.level][_module.game_state.moves_made.length - 1];
+        const tutorial_step = _this.cfg.levels[_module.game_state.level][_module.game_state.moves_made.length - 1];
 
         return last_move === tutorial_step;
     }

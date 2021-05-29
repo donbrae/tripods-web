@@ -241,7 +241,7 @@ var TRIPODS = (function (_this) {
 
         _addElement(_this.cfg.svg_elements.pivotor, layer_element, 0, 0); // Add pivotor
 
-        if (_this.tutorials.levels[_this.game_state.level]) {
+        if (_this.tutorials.cfg.levels[_this.game_state.level]) {
             _addElement(_this.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
             document.getElementById("tap").querySelector("text").innerHTML = "Tap";
         }
