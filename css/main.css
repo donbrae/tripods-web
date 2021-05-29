@@ -254,6 +254,7 @@ select:focus {
     margin: 0 auto;
     overflow: scroll;
     scrollbar-width: none;
+    touch-action: pan-y; /* Prevent pinch to zoom */
 }
 
 .flex-grid::focus-visible {
