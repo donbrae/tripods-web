@@ -254,6 +254,7 @@ select:focus {
     margin: 0 auto;
     overflow: scroll;
     scrollbar-width: none;
+    scroll-snap-type: y mandatory;
     touch-action: pan-y; /* Prevent pinch to zoom */
 }
 
@@ -267,6 +268,7 @@ select:focus {
 
 .flex-grid-item {
     position: relative;
+    scroll-snap-align: start;
     width: 23.5%;
     margin-top: 2%;
     font-size: 26px;
