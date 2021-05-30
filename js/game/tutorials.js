@@ -34,7 +34,7 @@ TRIPODS.tutorials = (function (_module) {
             label.style.left = `${left}px`;
             label.style.top = `${top}px`;
 
-            _this.tutorial_fadein = _module.utils.fadeIn("#tap", 130, 100); // Show tutorial label
+            _this.tutorial_fadein = _module.utils.fadeIn("#tap", 200, 100); // Show tutorial label
 
             const keyframes = [
                 { transform: "translate(0,0)" },
