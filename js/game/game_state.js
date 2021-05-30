@@ -143,6 +143,7 @@ TRIPODS.game_state = (function (_module) {
         }
 
         function removeWinEffect() {
+            confetti.reset();
             Array.prototype.forEach.call(document.querySelectorAll(".landing > :first-child"), el => {
                 el.classList.remove("rainbow");
             });

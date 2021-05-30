@@ -20,6 +20,7 @@ TRIPODS.events = (function (_module) {
             const next_level = document.querySelectorAll('.next-level'); // 'Next level' button
             const hame = document.querySelectorAll('.hame'); // 'Back to hame screen' button
 
+            // Enable button after delay
             function buttonDisabledFalse(btn) {
                 setTimeout(function () {
                     btn.disabled = false;
@@ -62,7 +63,6 @@ TRIPODS.events = (function (_module) {
                 e.target.disabled = true;
                 _module.level_builder.reset(function () {
                     _module.addLevelSelect();
-                    _module.utils.fadeOut(".screen-privacy-policy", 180, true);
                     _module.utils.fadeOut(".screen-win", 180);
                     _module.utils.fadeOut(".screen-lose", 180);
 
@@ -93,8 +93,19 @@ TRIPODS.events = (function (_module) {
             });
 
             document.getElementById("show-privacy-policy").addEventListener("click", (e) => {
+                e.target.disabled = true;
                 _module.utils.fadeOut(".screen-level-select", undefined, true, () => {
                     _module.utils.fadeIn(".screen-privacy-policy");
+                    e.target.disabled = false;
+                });
+                e.preventDefault();
+            }, false);
+
+            document.getElementById("hide-privacy-policy").addEventListener("click", (e) => {
+                e.target.disabled = true;
+                _module.utils.fadeOut(".screen-privacy-policy", undefined, true, () => {
+                    _module.utils.fadeIn(".screen-level-select");
+                    e.target.disabled = false;
                 });
                 e.preventDefault();
             }, false);
