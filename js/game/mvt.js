@@ -159,12 +159,12 @@ TRIPODS.mvt = (function (_module) {
             const animate_vertical = _module.tutorials.tutorial_animate_vertical;
 
             if (fadein && fadein.currentTime < delay) { // If 'Tap' label fade-in animation hasn't begun yet
-                console.log("cancel both tutorial animations");
+                // console.log("cancel both tutorial animations");
 
                 fadein.cancel();
                 animate_vertical.cancel();
             } else if (fadein && fadein.currentTime > delay) { // If 'Tap' table had faded in
-                console.log("pause fadein > start fadeout > cancel previous fadein");
+                // console.log("pause fadein > start fadeout > cancel previous fadein");
 
                 fadein.pause();
                 _module.utils.fadeOut("#tap", 130, undefined, () => { // Fade-out tutorial label
