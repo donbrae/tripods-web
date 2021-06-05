@@ -10,8 +10,7 @@ var TRIPODS = (function (_this) {
                 name: 'empty',
                 shape: 'circle',
                 classes: 'grid', // "grid" is a required class
-                attributes: { // r, cx and cy set dynamically
-                    'stroke-width': 1,
+                attributes: { // r, cx, cy and stroke-width set dynamically
                     'fill-opacity': 0,
                     stroke: '#fff'
                 }
