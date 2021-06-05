@@ -247,7 +247,7 @@ var TRIPODS = (function (_this) {
         }
 
         // Set grid area dimensions
-        let dimension = _this.ui_attributes.cell_dimensions * _this.levels[_this.game_state.level][2].length; // Grid height and width
+        const dimension = _this.ui_attributes.cell_dimensions * _this.levels[_this.game_state.level][2].length; // Grid height and width
 
         const container = document.getElementById("container-grid");
         container.style.width = `${dimension}px`;
@@ -260,16 +260,18 @@ var TRIPODS = (function (_this) {
             el.style.height = `${dimension}px`;
             Array.prototype.forEach.call(el.querySelectorAll("svg"), svg => {
 
+                const cell_width = _this.ui_attributes.cell_dimensions;
+
                 if (svg.id === "tap") {
-                    svg.style.width = `${_this.ui_attributes.cell_dimensions * 0.95}px`;
-                    svg.style.height = `${_this.ui_attributes.cell_dimensions * 0.6}px`;
+                    svg.style.width = `${cell_width * 0.95}px`;
+                    svg.style.height = `${cell_width * 0.6}px`;
                 } else {
-                    svg.style.width = `${_this.ui_attributes.cell_dimensions}px`;
-                    svg.style.height = `${_this.ui_attributes.cell_dimensions}px`;
+                    svg.style.width = `${cell_width}px`;
+                    svg.style.height = `${cell_width}px`;
                     if (svg.children[0].nodeName === "circle") {
                         const clipPath = svg.querySelector("clipPath");
-                        const c = _this.ui_attributes.cell_dimensions / 2;
-                        const r = _this.ui_attributes.cell_dimensions / 2.375;
+                        const c = cell_width / 2;
+                        const r = cell_width / 2.375;
 
                         svg.children[0].setAttribute("cx", c);
                         svg.children[0].setAttribute("cy", c);
@@ -281,10 +283,10 @@ var TRIPODS = (function (_this) {
                         }
 
                         if (svg.id && svg.id === "pivotor") { // Pivotor
-                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 5);
+                            svg.children[0].setAttribute("r", cell_width / 5);
                         } else if (svg.classList.contains("grid")) { // Grid
-                            svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.45);
-                            svg.children[0].setAttribute("stroke-width", _this.ui_attributes.cell_dimensions / 80);
+                            svg.children[0].setAttribute("r", cell_width / 2.45);
+                            svg.children[0].setAttribute("stroke-width", window.innerWidth > 414 ? dimension / 600 : dimension / 450 );
                         } else { // (Foot)
                             svg.children[0].setAttribute("r", r);
 
@@ -293,8 +295,8 @@ var TRIPODS = (function (_this) {
                             }
                         }
                     } else if (svg.children[0].nodeName === "rect") {
-                        svg.children[0].setAttribute("width", _this.ui_attributes.cell_dimensions);
-                        svg.children[0].setAttribute("height", _this.ui_attributes.cell_dimensions);
+                        svg.children[0].setAttribute("width", cell_width);
+                        svg.children[0].setAttribute("height", cell_width);
                     }
                 }
             });
