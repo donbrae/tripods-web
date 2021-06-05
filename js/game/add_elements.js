@@ -284,7 +284,7 @@ var TRIPODS = (function (_this) {
                             svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 5);
                         } else if (svg.classList.contains("grid")) { // Grid
                             svg.children[0].setAttribute("r", _this.ui_attributes.cell_dimensions / 2.45);
-                            svg.children[0].setAttribute("stroke-width", _this.ui_attributes.cell_dimensions / 100);
+                            svg.children[0].setAttribute("stroke-width", _this.ui_attributes.cell_dimensions / 80);
                         } else { // (Foot)
                             svg.children[0].setAttribute("r", r);
 
