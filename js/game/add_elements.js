@@ -248,6 +248,7 @@ var TRIPODS = (function (_this) {
 
         // Set grid area dimensions
         const dimension = _this.ui_attributes.cell_dimensions * _this.levels[_this.game_state.level][2].length; // Grid height and width
+        _this.ui_attributes.grid_dimensions = dimension; // Store in UI object
 
         const container = document.getElementById("container-grid");
         container.style.width = `${dimension}px`;

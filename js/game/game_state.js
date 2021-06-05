@@ -122,15 +122,15 @@ TRIPODS.game_state = (function (_module) {
                 setTimeout(function () {
                     el.querySelector(":first-child").classList.add("rainbow"); // SVG shape
 
-                    const cell_width = _module.ui_attributes.cell_dimensions;
+                    const grid_width = _module.ui_attributes.grid_dimensions;
 
                     if (window.confetti) {
                         confetti({
                             particleCount: 75,
-                            spread: 360,
+                            spread: grid_width > 414 ? grid_width / 1.7 : 220,
                             startVelocity: 20,
                             useWorker: true,
-                            scalar: cell_width < 75 ? 0.95 : cell_width / 90,
+                            scalar: grid_width > 414 ? grid_width / 600 : 0.85,
                             colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
                             disableForReducedMotion: true,
                             origin: {
