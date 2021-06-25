@@ -161,7 +161,7 @@ TRIPODS.events = (function (_module) {
                 window.localStorage.setItem("TRIPODS_guides", _module.game_state.guides);
             }, false);
 
-            // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198)
+            // Prevent double-tap-to-zoom (https://stackoverflow.com/a/38573198).
             let last_touch_end = 0;
             document.addEventListener("touchend", function (e) {
                 const now = (new Date()).getTime();
