@@ -171,6 +171,11 @@ TRIPODS.events = (function (_module) {
                 last_touch_end = now;
             }, false);
 
+            // Prevent pinch to zoom on Safari desktop (https://stackoverflow.com/a/49852737)
+            window.addEventListener('gesturestart', e => e.preventDefault());
+            window.addEventListener('gesturechange', e => e.preventDefault());
+            window.addEventListener('gestureend', e => e.preventDefault());
+
             function resize() {
                 _module.utils.handleOrientation();
                 _module.mvt.getMeasurements(); // Recalculate UI measurements on window resize
