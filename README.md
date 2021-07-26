@@ -4,9 +4,20 @@ A puzzle game.
 
 © Copyright Jamie Smith, 2013–2021. All rights reserved.
 
+# npm
+
+The only npm dependency is Babel, which is used to transform template literals to standard JS concatenation for ES5 compliance.
+
+The following post-processing is handled by Netlify on deployment:
+
+* CSS: minification
+* JS: bundling
+
 ## Local installation
 
-`npm install`
+`npm install` (for Babel only; see note above.)
+
+Run/develop in the browser locally via the file system, or any web server, e.g. `php -S localhost:8080`.
 
 ## Build
 
@@ -23,11 +34,6 @@ Test locally at ./dist/index.html.
 
 The publish directory on Netlify is `dist`.
 
-The following post-processing is handled by Netlify on deployment:
-
-* CSS: minification
-* JS: bundling
-
 ## Audio
 
 ### Convert wav to m4a and webm
@@ -37,21 +43,3 @@ The following post-processing is handled by Netlify on deployment:
 ## Notes
 
 * Possible more sophisticated motion blur effect: https://codepen.io/damianmuti/pen/MvYPPa.
-
-### Safari ‘Tap’ label flicker
-
-(Level 2.)
-
-```javascript
-var event = new Event('click');
-var delay = 750;
-document.getElementById("pivotor").dispatchEvent(event);
-
-setTimeout(() => {
-    document.getElementById("foot3").dispatchEvent(event);
-}, delay);
-
-setTimeout(() => {
-    document.getElementById("foot1").dispatchEvent(event);
-}, delay * 1.76);
-```
