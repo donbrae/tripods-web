@@ -2,7 +2,7 @@
 
 A puzzle game.
 
-© Copyright Jamie Smith, 2013–2021. All rights reserved.
+© Copyright Jamie Smith, 2013–2022. All rights reserved.
 
 # npm
 
