@@ -135,7 +135,7 @@ var TRIPODS = (function (_this) {
         control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
         sound: true,
         guides: true, // Helpful indications in UI to show, for example, which feet will pivot next
-        logging: true
+        logging: false
     }
 
     _this.ui_attributes = {

@@ -50,7 +50,6 @@ TRIPODS.level_builder = (function (_module) {
             }
         }, 1220);
 
-        if (_module.cfg.logging) _module.utils.log(`level=${_module.game_state.level + 1}`);
         _module.utils.sendStats(`function=runLevel&level=${_module.game_state.level + 1}`);
     }
 
@@ -156,7 +155,6 @@ TRIPODS.level_builder = (function (_module) {
             _module.utils.fadeOut(".container-game");
             _module.utils.fadeIn(".screen-win");
 
-            if (_module.cfg.logging) _module.utils.log(`level=${_module.game_state.level + 1}&moves=${moves}&perfect=${perfect}`);
             _module.utils.sendStats(`function=showWinScreen&level=${_module.game_state.level + 1}&moves=${moves}&perfect=${perfect}`);
         }, 500);
     }
