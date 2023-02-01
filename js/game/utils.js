@@ -201,6 +201,20 @@ TRIPODS.utils = (function (_module) {
         level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - document.querySelector("footer").getBoundingClientRect().height}px`; // Set level select grid max height
     }
 
+    _this.sendStats = function(querystring) {
+        fetch(`https://donbrae.co.uk/tripods-stats/write-log.php?${querystring}`).then(response => {
+            // Success
+            if (response.ok)
+                return response.json(); // Returns to then()
+
+            // Error
+            return Promise.reject(response); // Returns to catch()
+
+        }).then(json => { }).catch(error => {
+            console.warn(error);
+        });
+    }
+
     return _this;
 
 }(TRIPODS || {}));
