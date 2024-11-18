@@ -243,7 +243,7 @@ var TRIPODS = (function (_this) {
 
         if (_this.tutorials.cfg.levels[_this.game_state.level]) {
             _addElement(_this.cfg.svg_elements.tap, layer_element, 0, 0); // Add tutorial 'tap' element
-            document.getElementById("tap").querySelector("text").innerHTML = "Tap";
+            // document.getElementById("tap").querySelector("text").innerHTML = "Tap";
         }
 
         // Set grid area dimensions
