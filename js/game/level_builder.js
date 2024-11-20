@@ -88,7 +88,7 @@ TRIPODS.level_builder = (function (_module) {
             _module.utils.fadeIn("#sound", 100);
             _module.utils.fadeIn("#guides", 100);
 
-            _module.utils.fadeIn(".container-game", undefined, undefined, () => {
+            _module.utils.fadeIn(".container-game", 280, 180, () => {
                 _this.runLevel();
             });
         }, 300);

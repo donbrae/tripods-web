@@ -118,8 +118,8 @@ TRIPODS.utils = (function (_module) {
             element.style.filter = "opacity(0)"; // Make sure the element isn't visible before fade in (i.e. if it's opacity is 1)
             animation = _module.utils.animate(element, [
                 { filter: getComputedStyle(element).filter },
-                { filter: "opacity(1)" },
-            ], { duration: duration, delay: delay }, callback);
+                { filter: "opacity(1)" }
+            ], { duration: duration, easing: "ease-in", delay: delay }, callback);
         }
 
         return animation;
@@ -132,7 +132,7 @@ TRIPODS.utils = (function (_module) {
             _module.utils.animate(element, [
                 { filter: getComputedStyle(element).filter },
                 { filter: "opacity(0)" },
-            ], { duration: duration }, () => {
+            ], { duration: duration, easing: "ease-out"}, () => {
 
                 if (hide) {
                     element.classList.add("hide");
