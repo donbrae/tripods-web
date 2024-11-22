@@ -36,7 +36,7 @@ body {
 
 @media (min-width: 375px) {
     body {
-        font-size: 17px;
+        font-size: 16px;
     }
 }
 
@@ -104,6 +104,27 @@ h2 {
 
 svg.screen-level-select-title {
     max-width: 600px;
+}
+
+.ingame-title {
+    display: none;
+    margin: 0 auto;
+    padding: 2.5rem 0 1.8rem 0;
+    width: 247px;
+    height: auto;
+}
+
+@media (min-width: 321px) {
+    .ingame-title {
+       display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .ingame-title {
+        width: 300px;
+        padding: 3.1rem 0 2.2rem 0;
+    }
 }
 
 button {
@@ -365,13 +386,6 @@ select:focus {
     position: relative;
     margin: 0 auto;
     cursor: default;
-    padding-top: 60px;
-}
-
-@media (min-width: 375px) {
-    .container-game {
-        padding-top: 80px;
-    }
 }
 
 .container,

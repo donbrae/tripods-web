@@ -303,7 +303,9 @@ var TRIPODS = (function (_this) {
             });
         });
         Array.prototype.forEach.call(document.querySelector(".container-game").children, el => {
-            el.style.width = `${dimension}px`;
+            if (!el.classList.contains('ingame-title')) {
+                el.style.width = `${dimension}px`;
+            }
         });
 
         _addControlTouchPadding();
