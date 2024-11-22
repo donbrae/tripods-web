@@ -14,7 +14,8 @@ TRIPODS.game_state = (function (_module) {
         element_tapped: "", // Selector of most recent element tapped
         moves: [], // Record of best number of moves. Also stored in TRIPODS_moves in localStorage
         sound: undefined, // Boolean. Audio on/off (default set in cfg)
-        guides: undefined // Boolean. On-screen guidance (default set in cfg)
+        guides: undefined, // Boolean. On-screen guidance (default set in cfg)
+        color_scheme: undefined
     };
 
     const moves_span = document.querySelector("h2.moves span");
@@ -124,6 +125,10 @@ TRIPODS.game_state = (function (_module) {
 
                     const grid_width = _module.ui_attributes.grid_dimensions;
 
+                    const colors = _module.game_state.color_scheme === 'light'
+                        ? ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"]
+                        : ['#861b0f', '#a6a423', '#00891a', '#001ca4', '#822181', '#029799'];
+
                     if (window.confetti) {
                         confetti({
                             particleCount: 75,
@@ -131,7 +136,7 @@ TRIPODS.game_state = (function (_module) {
                             startVelocity: 20,
                             useWorker: true,
                             scalar: grid_width > 414 ? grid_width / 600 : 0.85,
-                            colors: ["#ff331c", "#fffc36", "#00f92f", "#002bfb", "#ff40fc", "#00fbfe"],
+                            colors: colors,
                             disableForReducedMotion: true,
                             origin: {
                                 x: _module.utils.getCenterPoint(el).x / window.innerWidth * 100 / 100,

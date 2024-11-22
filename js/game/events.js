@@ -214,6 +214,10 @@ TRIPODS.events = (function (_module) {
             });
         }
 
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            _module.game_state.color_scheme = event.matches ? "dark" : "light";
+        });
+
         // Tutorial indicator
         // const tap = document.getElementById('tap');
         // if (tap) {

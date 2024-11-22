@@ -241,6 +241,14 @@ var TRIPODS = (function (_this) {
         }
 
         if (_this.cfg.logging) _this.utils.log("init()");
+
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            _this.game_state.color_scheme = 'dark';
+        } else {
+            _this.game_state.color_scheme = 'light';
+        }
+
+        console.log(_this.game_state.color_scheme);
     }
 
     _this.addLevelSelect = function () {

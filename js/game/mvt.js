@@ -48,6 +48,18 @@ TRIPODS.mvt = (function (_module) {
 
     let pivot_timeout = undefined; // Don't show pivot during quick succession of jumps
 
+    function getJumpFilters() {
+        return _module.game_state.color_scheme === 'light' ?
+            [
+                `blur(0)`,
+                `blur(${_this.measurements.jump_blur})`,
+                `blur(0)`
+            ] : [
+                `blur(0) invert(1)`,
+                `blur(${_this.measurements.jump_blur}) invert(1)`,
+                `blur(0) invert(1)`
+            ];
+    }
     // Foot hits one of the four walls
     function boundaryIntersected(x_shift, y_shift) {
         const control_padding = _module.ui_attributes.control_padding - _module.ui_attributes.guide_stroke_width;
@@ -135,10 +147,21 @@ TRIPODS.mvt = (function (_module) {
                 const move_to_x = translate_xy.tX + foot_vortex_shift_x; // Number of px to shift x
                 const move_to_y = translate_xy.tY + foot_vortex_shift_y; // Number of px to shift y
 
+                const filters = _module.game_state.color_scheme === 'light' ?
+                    [
+                        `blur(${blur}rem)`,
+                        `blur(${blur}rem)`,
+                        `blur(0)`
+                    ] : [
+                        `blur(${blur}rem) invert(1)`,
+                        `blur(${blur}rem) invert(1)`,
+                        `blur(0) invert(1)`
+                    ];
+
                 const keyframes = [
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: `blur(${blur}rem)` }, // Current position of foot
-                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0.7)`, filter: `blur(${blur}rem)` },
-                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0)`, filter: `blur(0)` }
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: filters[0] }, // Current position of foot
+                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0.7)`, filter: filters[1]},
+                    { transform: `translate(${move_to_x}px,${move_to_y}px) scale(0)`, filter: filters[2] }
                 ];
 
                 _module.utils.animate(foot, keyframes, { duration: 600, easing: "ease-in" }, () => {
@@ -703,11 +726,20 @@ TRIPODS.mvt = (function (_module) {
                 const foot = document.getElementById(foot_move.foot);
                 const translate_xy = _module.utils.getTranslateXY(foot);
 
+                const filters = _module.game_state.color_scheme === 'light' ?
+                    [
+                        `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)`,
+                        `blur(0)`
+                    ] : [
+                        `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem) invert(1)`,
+                        `blur(0) invert(1)`
+                    ];
+
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px) `, filter: filters[0] }, // Destination
                     { transform: `translate(${translate_xy.tX + foot_move.shift.x * 1.06}px,${translate_xy.tY + foot_move.shift.y * 1.06}px)` }, // Overswing
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: "blur(0)" }, // Destination
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x}px,${translate_xy.tY + foot_move.shift.y}px)`, filter: filters[1] }, // Destination
                 ];
 
                 _module.utils.animate(foot, keyframes, { duration: 250 }, () => { postPivot(foot_move.foot, foot_move.count); });
@@ -722,12 +754,22 @@ TRIPODS.mvt = (function (_module) {
                 const foot = document.getElementById(foot_move.foot);
                 const translate_xy = _module.utils.getTranslateXY(foot);
 
+                const filters = _module.game_state.color_scheme === 'light' ?
+                    [
+                        `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)`,
+                        `blur(0)`
+                    ] : [
+
+                        `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem) invert(1)`,
+                        `blur(0) invert(1)`
+                    ];
+
                 const keyframes = [
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
-                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: `blur(${_module.ui_attributes.cell_dimensions * 0.001}rem)` }, // Hit block
+                    { transform: `translate(${translate_xy.tX + foot_move.shift.x / 4}px,${translate_xy.tY + foot_move.shift.y / 4}px)`, filter: filters[0] }, // Hit block
                     { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)` }, // Initial
                     { transform: `translate(${translate_xy.tX - foot_move.shift.x / 8}px,${translate_xy.tY - foot_move.shift.y / 8}px)` }, // Overswing
-                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: "blur(0)" } // Initial
+                    { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[1] } // Initial
                 ];
 
                 _module.utils.animate(foot, keyframes, { duration: 200 }, () => {
@@ -812,11 +854,12 @@ TRIPODS.mvt = (function (_module) {
             _module.utils.fadeOut("#pivotor");
 
             const translate_xy = _module.utils.getTranslateXY(foot);
+            const filters = getJumpFilters();
 
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0)` },
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_this.measurements.jump_blur})` }, // Halfway
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: `blur(0)` }
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[0] },
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: filters[1] }, // Halfway
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: filters[2] }
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, callback);
@@ -888,10 +931,12 @@ TRIPODS.mvt = (function (_module) {
 
             }
 
+            const filters = getJumpFilters();
+
             const keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0)` },
-                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: `blur(${_this.measurements.jump_blur})` }, // Halfway
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: `blur(0)` } // Back to original position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[0] },
+                { transform: `translate(${translate_xy.tX + x_shift / 2 + x_shift_additional}px,${translate_xy.tY + y_shift / 2 + y_shift_additional}px) scale(1.5)`, filter: filters[1] }, // Halfway
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px) scale(1)`, filter: filters[2] } // Back to original position
             ];
 
             const duration_additional = !x_shift_additional && !y_shift_additional ? 1 : (Math.abs(x_shift_additional + y_shift_additional) / foot_rect.width) * _module.cfg.animation.jump_duration * 0.3;
@@ -907,20 +952,32 @@ TRIPODS.mvt = (function (_module) {
             _module.utils.fadeOut("#pivotor");
 
             const translate_xy = _module.utils.getTranslateXY(foot);
+            const filters = getJumpFilters();
 
             let keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_this.measurements.jump_blur})` }, // Halfway between initial and block
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: `blur(0)` }, // Block position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[0] }, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: filters[1] }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: filters[2] }, // Block position
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
                 setTimeout(() => {
 
+                    const filters = _module.game_state.color_scheme === 'light' ?
+                        [
+                            `blur(0)`,
+                            `blur(${_this.measurements.jump_blur})`,
+                            `blur(0)`
+                        ] : [
+                            `blur(0) invert(1)`,
+                            `blur(${_this.measurements.jump_blur}) invert(1)`,
+                            `blur(0) invert(1)`
+                        ];
+
                     let keyframes = [
-                        { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: `blur(0)` }, // Block position
-                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_this.measurements.jump_blur})` }, // Halfway between initial and block
-                        { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0)` }, // Initial
+                        { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: filters[0] }, // Block position
+                        { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: filters[1] }, // Halfway between initial and block
+                        { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[2] }, // Initial
 
                     ];
 
@@ -943,11 +1000,12 @@ TRIPODS.mvt = (function (_module) {
             _module.utils.fadeOut("#pivotor");
 
             const translate_xy = _module.utils.getTranslateXY(foot);
+            const filters = getJumpFilters();
 
             let keyframes = [
-                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: `blur(0)` }, // Initial
-                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: `blur(${_this.measurements.jump_blur})` }, // Halfway between initial and block
-                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: `blur(0)` }, // Block position
+                { transform: `translate(${translate_xy.tX}px,${translate_xy.tY}px)`, filter: filters[0] }, // Initial
+                { transform: `translate(${translate_xy.tX + x_shift / 2}px,${translate_xy.tY + y_shift / 2}px) scale(1.8)`, filter: filters[1] }, // Halfway between initial and block
+                { transform: `translate(${translate_xy.tX + x_shift}px,${translate_xy.tY + y_shift}px) scale(1)`, filter: filters[2] }, // Block position
             ];
 
             _module.utils.animate(foot, keyframes, { duration: _module.cfg.animation.jump_duration }, () => {
