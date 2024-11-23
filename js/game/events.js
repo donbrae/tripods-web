@@ -194,6 +194,14 @@ TRIPODS.events = (function (_module) {
                 resize_timeout = setTimeout(resize, 120);
             });
 
+            const level_buttons = document.getElementById("level-buttons");
+            level_buttons.addEventListener("scroll", () => {
+                if (_module.utils.isScrolledToBottom(level_buttons) && _module.utils.isVisible("footer")) {
+                    _module.utils.fadeOut("footer", undefined, true);
+                } else if (!_module.utils.isVisible("footer")) {
+                    _module.utils.fadeIn("footer", 180);
+                }
+            });
 
             _module.game_state.initialised = true; // Set initialised flag
         }

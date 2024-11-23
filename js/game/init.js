@@ -247,8 +247,6 @@ var TRIPODS = (function (_this) {
         } else {
             _this.game_state.color_scheme = 'light';
         }
-
-        console.log(_this.game_state.color_scheme);
     }
 
     _this.addLevelSelect = function () {

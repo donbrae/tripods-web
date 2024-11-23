@@ -195,10 +195,24 @@ TRIPODS.utils = (function (_module) {
         }
     }
 
+    _this.isScrolledToBottom = function(element, threshold = 0) {
+        const scrollTop = element.scrollTop;
+        const scrollHeight = element.scrollHeight;
+        const clientHeight = element.clientHeight;
+
+        // Check if we're at the bottom (within threshold)
+        return scrollHeight - Math.round(scrollTop + clientHeight) <= threshold;
+    }
+
     _this.setLevelSelectGridHeight = function() {
         const level_buttons_container = document.getElementById("level-buttons");
         level_buttons_container.style.maxHeight = 0;
-        level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - document.querySelector("footer").getBoundingClientRect().height}px`; // Set level select grid max height
+        level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - 10}px`; // Set level select grid max height
+    }
+
+    _this.isVisible = function(selector) {
+        const el = document.querySelector(selector);
+        return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
     }
 
 //     _this.sendStats = function(querystring) {

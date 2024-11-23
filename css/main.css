@@ -290,10 +290,6 @@ select:focus {
     box-shadow: 0 0 0px 3px #fe3a6b;
 }
 
-#level-buttons {
-
-}
-
 .flex-grid {
     display: flex;
     flex-wrap: wrap;
@@ -578,10 +574,13 @@ footer {
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 1rem 0 1.2rem 0;
+    padding: .4rem 0;
+    line-height: 1.5;
     font-size: 11px;
-    color: rgba(0, 0, 0, 0.43);
-    background-color: #a8edea;
+    color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(168, 237, 234, 0.56);
+    -webkit-backdrop-filter: saturate(130%) blur(4px);
+    backdrop-filter: saturate(130%) blur(4px);
 }
 
 @media (min-width: 834px) {
@@ -719,7 +718,7 @@ footer {
     }
 
     footer {
-        background-color: #115855;
+        background-color: rgba(17, 88, 85, 0.52);
     }
 
     body, h1, h2, .full-screen, footer, button.subtle {
