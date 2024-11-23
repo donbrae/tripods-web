@@ -446,6 +446,7 @@ svg.control:hover {
     z-index: 1000;
     stroke: #fff;
     stroke-opacity: 0;
+    filter: invert(0) !important;
 }
 
 /* Janky on certain devices/browsers */
@@ -577,7 +578,7 @@ footer {
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: 1rem 0;
+    padding: 1rem 0 1.2rem 0;
     font-size: 11px;
     color: rgba(0, 0, 0, 0.43);
     background-color: #a8edea;
@@ -714,7 +715,7 @@ footer {
 @media (prefers-color-scheme: dark) {
     body, .full-screen:not(.screen-privacy-policy) {
         background-image: linear-gradient(to top, #115855 10%, #450017 100%);
-        background-color: #115855;
+        background-color: #450017;
     }
 
     footer {
@@ -726,15 +727,15 @@ footer {
     }
 
     button.subtle {
-        background-color: rgba(0, 0, 0, 0.09);
+        background-color: rgba(0, 0, 0, 0.31);
     }
 
     button.subtle:hover, button.subtle:active, button.subtle:focus-visible {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.5);
     }
 
     button.subtle.highlight {
-        border-color: #626262;
+        border-color: rgba(172, 172, 172, 0.76);
     }
 
     button.sound-on {
@@ -778,11 +779,11 @@ footer {
     }
 
     .foot {
-        filter: invert(1);
+        filter: invert(1) !important;
     }
 
     .landing {
-        filter: invert(1) brightness(1.3);
+        filter: invert(1) brightness(1.2);
     }
 
     #tap path:first-of-type {
