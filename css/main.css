@@ -140,7 +140,7 @@ button {
     display: inline-block;
     border: none;
     margin: 0;
-    padding: 0.4rem 0.8rem;
+    padding: .4rem 1.2rem;
     text-decoration: none;
     background-image: linear-gradient(120deg, #f073fe 0, #f53851 50%, #f073fe 100%);
     background-size: 200% auto;
@@ -153,6 +153,15 @@ button {
         transform 150ms ease;
     -webkit-appearance: none;
     -moz-appearance: none;
+}
+
+.flex-grid button {
+    padding: .4rem .8rem;
+}
+
+button.button-icon {
+    padding-left: 1.4rem;
+    padding-right: 1.4rem;
 }
 
 @media (min-width: 375px) {
@@ -515,6 +524,8 @@ svg.control:hover {
 
 .screen-privacy-policy p {
     margin-top: 0;
+    text-wrap: stable;
+    hyphens: auto;
 }
 
 @media (min-width: 834px) {
@@ -715,6 +726,10 @@ footer {
     body, .full-screen:not(.screen-privacy-policy) {
         background-image: linear-gradient(to top, #115855 10%, #450017 100%);
         background-color: #450017;
+    }
+
+    .full-screen.screen-landscape {
+        background: #450017;
     }
 
     footer {
