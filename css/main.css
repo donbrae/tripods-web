@@ -574,13 +574,13 @@ footer {
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: .4rem 0;
+    padding: .7rem 0 1.2rem 0;
     line-height: 1.5;
     font-size: 11px;
-    color: rgba(0, 0, 0, 0.4);
-    background-color: rgba(168, 237, 234, 0.56);
-    -webkit-backdrop-filter: saturate(130%) blur(4px);
-    backdrop-filter: saturate(130%) blur(4px);
+    color: rgba(0, 0, 0, 0.63);
+    background-color: rgba(168, 237, 234, 0.62);
+    -webkit-backdrop-filter: saturate(130%) blur(5px);
+    backdrop-filter: saturate(130%) blur(5px);
 }
 
 @media (min-width: 834px) {
@@ -718,7 +718,7 @@ footer {
     }
 
     footer {
-        background-color: rgba(17, 88, 85, 0.52);
+        background-color: rgba(17, 88, 85, 0.69);
     }
 
     body, h1, h2, .full-screen, footer, button.subtle {

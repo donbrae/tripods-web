@@ -198,9 +198,9 @@ TRIPODS.events = (function (_module) {
             level_buttons.addEventListener("scroll", () => {
                 if (_module.utils.isScrolledToBottom(level_buttons) && _module.utils.isVisible("footer")) {
                     _module.utils.fadeOut("footer", undefined, true);
-                } else if (!_module.utils.isVisible("footer")) {
+                } /* else if (!_module.utils.isVisible("footer")) {
                     _module.utils.fadeIn("footer", 180);
-                }
+                } */
             });
 
             _module.game_state.initialised = true; // Set initialised flag
