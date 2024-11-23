@@ -574,7 +574,7 @@ footer {
     width: 100%;
     position: absolute;
     bottom: 0;
-    padding: .7rem 0 1.2rem 0;
+    padding: .6rem 0 1.4rem 0;
     line-height: 1.5;
     font-size: 11px;
     color: rgba(0, 0, 0, 0.63);
@@ -719,10 +719,11 @@ footer {
 
     footer {
         background-color: rgba(17, 88, 85, 0.69);
+        color: rgba(172, 172, 172, 0.76);
     }
 
     body, h1, h2, .full-screen, footer, button.subtle {
-        color: rgba(172, 172, 172, 0.76);
+        color: rgba(233, 233, 233, 0.76);
     }
 
     button.subtle {
