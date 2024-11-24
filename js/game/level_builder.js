@@ -5,6 +5,7 @@ TRIPODS.level_builder = (function (_module) {
     const _this = {};
 
     _this.runLevel = function () {
+        document.querySelector('body').classList.add('game-running');
         _module.mvt.repositionPivot(true, 1000);
         _module.mvt.getMeasurements(); // Set UI measurements
         _module.mvt.calculatePivotState();

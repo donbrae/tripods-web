@@ -109,7 +109,7 @@ var TRIPODS = (function (_this) {
         _this.ui_attributes.cell_dimensions = Math.round((window.innerWidth - window.innerWidth / 8) / _this.levels[_this.game_state.level][2].length); // Screen width - padding / number of cells in row
 
         const wide = window.innerWidth > _this.cfg.grid_max_dimensions;
-        const browser_not_tall_enough = _this.cfg.grid_max_dimensions > (window.innerHeight - (_this.cfg.grid_max_dimensions / 3));
+        const browser_not_tall_enough = _this.cfg.grid_max_dimensions > (window.innerHeight + 30 - (_this.cfg.grid_max_dimensions / 3));
 
         if (wide && !browser_not_tall_enough) {
             _this.ui_attributes.cell_dimensions = Math.round((_this.cfg.grid_max_dimensions - 90) / _this.levels[_this.game_state.level][2].length); // Max grid width - fixed padding / number of cells in row

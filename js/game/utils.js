@@ -216,7 +216,7 @@ TRIPODS.utils = (function (_module) {
             document.querySelector("footer").classList.remove("relative");
         }
 
-        if (document.querySelector("footer").classList.contains('relative')) {
+        if (document.querySelector("footer").classList.contains('relative') && !_this.isVisible("footer")) {
             _this.fadeIn("footer", 80);
         }
     }

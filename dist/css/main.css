@@ -32,6 +32,11 @@ body {
     line-height: 1.4;
     text-wrap: balance;
     -webkit-tap-highlight-color: transparent;
+    height: 100%;
+}
+
+body.game-running {
+  overflow: hidden;
 }
 
 @media (min-width: 375px) {
@@ -129,8 +134,8 @@ svg.screen-level-select-title {
 
 @media (min-width: 768px) {
     .ingame-title {
-        width: 300px;
-        padding: 3.1rem 0 2.2rem 0;
+        width: 260px;
+        padding: 2.2rem 0 1.2rem 0;
     }
 }
 
@@ -794,8 +799,12 @@ footer {
         filter: brightness(0.9);
     }
 
-    button:not(.subtle), .screen-win .rating {
-        filter: brightness(0.7);
+    .screen-win .rating {
+        filter: brightness(0.8);
+    }
+
+    button:not(.subtle) {
+        background-blend-mode: multiply;
     }
 
     .vortex {
