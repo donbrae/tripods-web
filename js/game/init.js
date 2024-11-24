@@ -185,12 +185,11 @@ var TRIPODS = (function (_this) {
         _initConfettiCanvas();
         _this.sound.init();
 
-        _this.utils.fadeOut(".blank-overlay", undefined, true, function () {
-            _this.utils.fadeIn(".screen-level-select", undefined, undefined, function() {
-                _this.utils.setLevelSelectGridHeight();
-            });
+        _this.utils.fadeIn(".screen-level-select", undefined, undefined, function() {
+            _this.utils.setLevelSelectGridHeight();
             _this.events.addEventListeners();
             _this.utils.handleOrientation();
+            _this.utils.fadeOut(".blank-overlay", 600, true);
         });
 
         const stored_moves = window.localStorage.getItem("TRIPODS_moves");
