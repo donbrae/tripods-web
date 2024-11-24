@@ -215,6 +215,22 @@ TRIPODS.utils = (function (_module) {
         return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
     }
 
+    _this.invertElements = function(selector) {
+        document.querySelectorAll(selector).forEach(el => {
+            const color_scheme = _module.game_state.color_scheme;
+
+            if (color_scheme === "light") {
+                _module.utils.animate(el, [
+                    { filter: "invert(0)" }
+                ], { duration: 0 });
+            } else {
+                _module.utils.animate(el, [
+                    { filter: "invert(1)" }
+                ], { duration: 0 });
+            }
+        });
+    }
+
 //     _this.sendStats = function(querystring) {
 //         fetch(`https://donbrae.co.uk/tripods-stats/write-log.php?${querystring}`).then(response => {
 //             // Success

@@ -451,7 +451,6 @@ svg.control:hover {
     z-index: 1000;
     stroke: #fff;
     stroke-opacity: 0;
-    filter: invert(0) !important;
 }
 
 /* Janky on certain devices/browsers */
@@ -791,10 +790,6 @@ footer {
 
     .pivotor {
       opacity: .5;
-    }
-
-    .foot {
-        filter: invert(1) !important;
     }
 
     .landing {

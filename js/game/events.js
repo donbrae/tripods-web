@@ -203,6 +203,11 @@ TRIPODS.events = (function (_module) {
                 }
             });
 
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                _module.game_state.color_scheme = event.matches ? "dark" : "light";
+                _module.utils.invertElements(".foot");
+            });
+
             _module.game_state.initialised = true; // Set initialised flag
         }
 
@@ -221,10 +226,6 @@ TRIPODS.events = (function (_module) {
                 foot.addEventListener("click", _module.mvt.swipe, false);
             });
         }
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-            _module.game_state.color_scheme = event.matches ? "dark" : "light";
-        });
 
         // Tutorial indicator
         // const tap = document.getElementById('tap');
