@@ -196,7 +196,7 @@ TRIPODS.events = (function (_module) {
 
             const level_buttons = document.getElementById("level-buttons");
             level_buttons.addEventListener("scroll", () => {
-                if (_module.utils.isScrolledToBottom(level_buttons) && _module.utils.isVisible("footer")) {
+                if (_module.utils.isScrolledToBottom(level_buttons) && _module.utils.isVisible("footer") && !(Math.round(window.innerHeight - document.getElementById("level-buttons").getBoundingClientRect().bottom - _module.cfg.level_buttons_container_spacing_bottom))) {
                     _module.utils.fadeOut("footer", undefined, true);
                 } else if (!_module.utils.isVisible("footer") && !_module.utils.isScrolledToBottom(level_buttons, 3)) {
                     _module.utils.fadeIn("footer", 180);

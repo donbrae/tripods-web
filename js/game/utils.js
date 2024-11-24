@@ -206,8 +206,19 @@ TRIPODS.utils = (function (_module) {
 
     _this.setLevelSelectGridHeight = function() {
         const level_buttons_container = document.getElementById("level-buttons");
+
         level_buttons_container.style.maxHeight = 0;
-        level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - 17}px`; // Set level select grid max height
+        level_buttons_container.style.maxHeight = `${window.innerHeight - level_buttons_container.getBoundingClientRect().y - _module.cfg.level_buttons_container_spacing_bottom}px`; // Set level select grid max height
+
+        if (Math.round(window.innerHeight - document.getElementById("level-buttons").getBoundingClientRect().bottom - _module.cfg.level_buttons_container_spacing_bottom)) {
+            document.querySelector("footer").classList.add("relative");
+        } else {
+            document.querySelector("footer").classList.remove("relative");
+        }
+
+        if (!_this.isVisible("footer")) {
+            _this.fadeIn("footer", 80);
+        }
     }
 
     _this.isVisible = function(selector) {

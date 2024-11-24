@@ -588,9 +588,18 @@ footer {
     line-height: 1.5;
     font-size: 11px;
     color: rgba(0, 0, 0, 0.63);
-    background-color: rgba(168, 237, 234, 0.62);
-    -webkit-backdrop-filter: saturate(130%) blur(5px);
-    backdrop-filter: saturate(130%) blur(5px);
+}
+
+@media ((max-width: 779px) and (max-aspect-ratio: 11/10)) { /* This media query is just approximate */
+    footer:not(.relative) {
+        background-color: rgba(168, 237, 234, 0.62);
+        -webkit-backdrop-filter: saturate(130%) blur(5px);
+        backdrop-filter: saturate(130%) blur(5px);
+    }
+
+    footer.relative {
+        position: relative;
+    }
 }
 
 @media (min-width: 834px) {

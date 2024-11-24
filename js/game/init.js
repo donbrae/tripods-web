@@ -117,7 +117,8 @@ var TRIPODS = (function (_this) {
             jump_duration: 230
         },
         grid_max_dimensions: 700,
-        control_padding: 8, // (px) Used as input for later calculation. Result stored in _this.ui_attributes.control_padding. The default value here is round about what it should be for an iPhone 5/SE
+        control_padding: 8, // (px) Used as input for later calculation. Result stored in `_this.ui_attributes.control_padding`. The default value here is round about what it should be for an iPhone 5/SE
+        level_buttons_container_spacing_bottom: 17, // To prevent home indicator overlapping bottom of level select grid
         sound: true,
         guides: true, // Helpful indications in UI to show, for example, which feet will pivot next
         logging: false
