@@ -602,6 +602,12 @@ footer {
     }
 }
 
+@media ((max-width: 779px) and (max-aspect-ratio: 11/10) and (prefers-color-scheme: dark)) {
+    footer:not(.relative) {
+        background-color: rgba(17, 88, 85, 0.69);
+    }
+}
+
 @media (min-width: 834px) {
     footer {
         font-size: 13px;
@@ -741,7 +747,6 @@ footer {
     }
 
     footer {
-        background-color: rgba(17, 88, 85, 0.69);
         color: rgba(172, 172, 172, 0.76);
     }
 
