@@ -87,7 +87,14 @@ h2 {
 .screen-lose h2 {
     text-align: center;
     margin-top: 130px;
-    cursor: default;
+}
+
+h1, h2, p, footer {
+  cursor: default;
+}
+
+.screen-privacy-policy h1, .screen-privacy-policy h2, .screen-privacy-policy p {
+  cursor: text;
 }
 
 .screen-win .star {
@@ -173,7 +180,7 @@ button.button-icon {
 
     button,
     h2 {
-        font-size: 16px;
+        font-size: 15px;
     }
 }
 
@@ -509,8 +516,13 @@ svg.control:hover {
     margin: 0 auto;
     max-width: 570px;
     position: relative;
-    -webkit-user-select: text;
-    user-select: text;
+}
+
+.screen-privacy-policy h1,
+.screen-privacy-policy h2,
+.screen-privacy-policy p {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .screen-privacy-policy h1,
