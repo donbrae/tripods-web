@@ -242,19 +242,19 @@ TRIPODS.utils = (function (_module) {
         });
     }
 
-//     _this.sendStats = function(querystring) {
-//         fetch(`https://donbrae.co.uk/tripods-stats/write-log.php?${querystring}`).then(response => {
-//             // Success
-//             if (response.ok)
-//                 return response.json(); // Returns to then()
-//
-//             // Error
-//             return Promise.reject(response); // Returns to catch()
-//
-//         }).then(json => { }).catch(error => {
-//             console.warn(error);
-//         });
-//     }
+    _this.sendStats = function(querystring) {
+        fetch(`https://donbrae.co.uk/tripods-stats/write-log.php?${querystring}`).then(response => {
+            // Success
+            if (response.ok)
+                return response.json(); // Returns to then()
+
+            // Error
+            return Promise.reject(response); // Returns to catch()
+
+        }).then(json => { }).catch(error => {
+            console.warn(error);
+        });
+    }
 
     return _this;
 
