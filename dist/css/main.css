@@ -30,9 +30,12 @@ body {
     background-image: linear-gradient(to top, #a8edea 10%, #ffd1e0 100%);
     font-size: 13px;
     line-height: 1.4;
-    text-wrap: balance;
     -webkit-tap-highlight-color: transparent;
     height: 100%;
+}
+
+p, footer {
+  text-wrap: balance;
 }
 
 body.game-running {
